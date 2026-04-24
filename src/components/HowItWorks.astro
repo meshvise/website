@@ -1,0 +1,82 @@
+---
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const content = lang === 'fr' ? {
+  title: 'Mise en service',
+  subtitle: 'De l\'installation au premier tableau de bord en trois étapes.',
+  steps: [
+    {
+      number: '1',
+      title: 'Installation',
+      desc: 'Déploiement en une commande sur un serveur Windows ou Linux. Aucune configuration réseau spécifique requise.',
+      detail: 'Windows, Linux, macOS',
+    },
+    {
+      number: '2',
+      title: 'Raccordement',
+      desc: 'Déclaration des équipements par adresse IP. Wiregrid identifie automatiquement les points de mesure disponibles.',
+      detail: 'Modbus TCP, OPC-UA, BACnet',
+    },
+    {
+      number: '3',
+      title: 'Exploitation',
+      desc: 'Les données remontent en temps réel. La base PostgreSQL est directement accessible depuis Power BI, Grafana ou Excel.',
+      detail: 'Connexion directe, sans export',
+    },
+  ],
+} : {
+  title: 'Commissioning',
+  subtitle: 'From installation to first dashboard in three steps.',
+  steps: [
+    {
+      number: '1',
+      title: 'Installation',
+      desc: 'Single-command deployment on a Windows or Linux server. No specific network configuration required.',
+      detail: 'Windows, Linux, macOS',
+    },
+    {
+      number: '2',
+      title: 'Connection',
+      desc: 'Equipment declaration by IP address. Wiregrid automatically identifies available data points.',
+      detail: 'Modbus TCP, OPC-UA, BACnet',
+    },
+    {
+      number: '3',
+      title: 'Operation',
+      desc: 'Data flows in real time. The PostgreSQL database is directly accessible from Power BI, Grafana or Excel.',
+      detail: 'Direct connection, no export',
+    },
+  ],
+};
+---
+
+<section class="py-20 px-6 bg-surface">
+  <div class="mx-auto max-w-5xl">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-semibold">{content.title}</h2>
+      <p class="mt-3 text-muted text-lg">{content.subtitle}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+      <!-- Connecting line (desktop) -->
+      <div class="hidden md:block absolute top-12 left-[16.6%] right-[16.6%] h-px bg-border"></div>
+
+      {content.steps.map((step) => (
+        <div class="relative text-center">
+          <div class="mx-auto w-12 h-12 rounded-full bg-brand text-bg flex items-center justify-center text-xl font-semibold mb-6 relative z-10 ring-4 ring-surface">
+            {step.number}
+          </div>
+          <h3 class="text-xl font-semibold mb-3">{step.title}</h3>
+          <p class="text-muted leading-relaxed mb-3">{step.desc}</p>
+          <span class="inline-block text-xs font-mono text-brand bg-brand/10 px-3 py-1 rounded-full">{step.detail}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

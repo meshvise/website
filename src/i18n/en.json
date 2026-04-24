@@ -1,0 +1,88 @@
+{
+  "nav": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "blog": "Blog",
+    "demo": "Online demo",
+    "download": "Download"
+  },
+  "hero": {
+    "title": "Industrial supervision accessible to every company.",
+    "subtitle": "Wiregrid centralizes data from PLCs, sensors and meters into an open database, immediately usable in Power BI, Grafana or Excel.",
+    "cta_demo": "Access the demo",
+    "cta_download": "Download for free"
+  },
+  "values": {
+    "title": "A different approach to supervision",
+    "simple_title": "Immediate deployment",
+    "simple_desc": "Wiregrid installs in minutes on a standard server. No dedicated infrastructure, no prior integration work. The platform is operational from day one.",
+    "open_title": "Natively accessible data",
+    "open_desc": "All measurements are stored in PostgreSQL, a global standard. Connecting Power BI, Grafana, Excel or any analytics tool requires no development, no export, no middleware.",
+    "affordable_title": "A proportionate investment",
+    "affordable_desc": "No per-tag licensing, no five-figure entry cost. A free version allows validating the need before any commitment. Moving to production comes at a predictable price."
+  },
+  "features": {
+    "title": "Platform capabilities",
+    "drivers_title": "Multi-protocol acquisition",
+    "drivers_desc": "Native support for Modbus TCP, OPC-UA and BACnet/IP. Compatible with Siemens, Schneider Electric, Wago, ABB and most field equipment.",
+    "live_title": "Real-time visualization",
+    "live_desc": "Web-based supervision interface accessible from any browser. Live values, operating states and performance indicators, with write capability on controllable points.",
+    "wiresheet_title": "Visual programmable logic",
+    "wiresheet_desc": "Graphical function block editor for creating automations: PID control, conditional sequences, timers, calculations. No programming skills required.",
+    "historian_title": "Archiving and trends",
+    "historian_desc": "Automatic recording of all measurements in TimescaleDB. History lookup, trend charts and on-demand data export.",
+    "integrations_title": "Native BI integration",
+    "integrations_desc": "The PostgreSQL database enables direct connection from Power BI, Grafana, Metabase or Excel. Business teams build their own dashboards without IT involvement.",
+    "alarms_title": "Alarm management",
+    "alarms_desc": "Per-point threshold configuration. Notifications on overrun, fault or drift. Complete event log for traceability and quality monitoring."
+  },
+  "demo": {
+    "title": "Explore the interface",
+    "desc": "The demo environment replicates an industrial site with simulated equipment: air handling units, energy meters and temperature probes.",
+    "cta": "Access the demo"
+  },
+  "pricing": {
+    "title": "Pricing",
+    "free": "Discovery",
+    "pro": "Production",
+    "free_desc": "Evaluation and pilot sites",
+    "pro_desc": "Real-world operation",
+    "tags": "Data points",
+    "tags_free": "50",
+    "tags_pro": "Unlimited",
+    "projects": "Sites",
+    "projects_free": "1",
+    "projects_pro": "Unlimited",
+    "historian": "Data retention",
+    "historian_free": "7 days",
+    "historian_pro": "Unlimited",
+    "protocols": "Protocols",
+    "protocols_free": "Modbus TCP",
+    "protocols_pro": "Modbus TCP, OPC-UA, BACnet/IP",
+    "support": "Technical support",
+    "support_free": "Online documentation",
+    "support_pro": "Dedicated assistance (email and video call)",
+    "price_free": "Free",
+    "price_pro": "On request",
+    "cta_free": "Download",
+    "cta_pro": "Request a quote"
+  },
+  "tech": {
+    "title": "Underlying technologies"
+  },
+  "waitlist": {
+    "title": "Receive upcoming information",
+    "desc": "Product news, updates and invitations to early testing phases.",
+    "placeholder": "Professional email address",
+    "cta": "Subscribe",
+    "success": "Subscription confirmed."
+  },
+  "footer": {
+    "product": "Product",
+    "resources": "Resources",
+    "documentation": "Documentation",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "made_in": "Designed and built in France"
+  }
+}

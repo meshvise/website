@@ -1,0 +1,88 @@
+{
+  "nav": {
+    "features": "Fonctionnalités",
+    "pricing": "Tarifs",
+    "blog": "Blog",
+    "demo": "Démo en ligne",
+    "download": "Télécharger"
+  },
+  "hero": {
+    "title": "La supervision industrielle accessible à toutes les entreprises.",
+    "subtitle": "Wiregrid centralise les données de vos automates, capteurs et compteurs dans une base ouverte, exploitable immédiatement dans Power BI, Grafana ou Excel.",
+    "cta_demo": "Accéder à la démo",
+    "cta_download": "Télécharger gratuitement"
+  },
+  "values": {
+    "title": "Une approche différente de la supervision",
+    "simple_title": "Déploiement immédiat",
+    "simple_desc": "Wiregrid s'installe en quelques minutes sur un serveur standard. Aucune infrastructure dédiée, aucune prestation d'intégration préalable. L'outil est opérationnel dès le premier jour.",
+    "open_title": "Données accessibles nativement",
+    "open_desc": "Toutes les mesures sont stockées dans PostgreSQL, un standard mondial. La connexion avec Power BI, Grafana, Excel ou tout outil d'analyse se fait sans développement, sans export, sans intermédiaire.",
+    "affordable_title": "Un investissement proportionné",
+    "affordable_desc": "Pas de licence par tag, pas de coût d'entrée à cinq chiffres. Une version gratuite permet de valider le besoin avant tout engagement. Le passage en production se fait à un tarif prévisible."
+  },
+  "features": {
+    "title": "Capacités de la plateforme",
+    "drivers_title": "Acquisition multi-protocoles",
+    "drivers_desc": "Prise en charge native de Modbus TCP, OPC-UA et BACnet/IP. Compatible avec les automates Siemens, Schneider Electric, Wago, ABB et la plupart des équipements de terrain.",
+    "live_title": "Visualisation temps réel",
+    "live_desc": "Interface web de supervision accessible depuis tout navigateur. Affichage des valeurs en cours, états de fonctionnement et indicateurs de performance, avec possibilité d'écriture sur les points commandables.",
+    "wiresheet_title": "Logique programmable visuelle",
+    "wiresheet_desc": "Éditeur graphique de blocs fonctionnels pour créer des automatismes : régulation PID, séquences conditionnelles, temporisations, calculs. Aucune compétence en programmation requise.",
+    "historian_title": "Archivage et tendances",
+    "historian_desc": "Enregistrement automatique de toutes les mesures dans TimescaleDB. Consultation des historiques, courbes de tendance et export des données à la demande.",
+    "integrations_title": "Intégration BI native",
+    "integrations_desc": "La base PostgreSQL permet une connexion directe depuis Power BI, Grafana, Metabase ou Excel. Les équipes métier construisent leurs propres tableaux de bord sans solliciter l'IT.",
+    "alarms_title": "Gestion des alarmes",
+    "alarms_desc": "Configuration de seuils par point de mesure. Notification en cas de dépassement, défaut ou dérive. Journal complet des événements pour la traçabilité et le suivi qualité."
+  },
+  "demo": {
+    "title": "Découvrir l'interface",
+    "desc": "L'environnement de démonstration reproduit un site industriel avec des équipements simulés : centrales de traitement d'air, compteurs d'énergie et sondes de température.",
+    "cta": "Accéder à la démo"
+  },
+  "pricing": {
+    "title": "Grille tarifaire",
+    "free": "Découverte",
+    "pro": "Production",
+    "free_desc": "Évaluation et sites pilotes",
+    "pro_desc": "Exploitation en conditions réelles",
+    "tags": "Points de mesure",
+    "tags_free": "50",
+    "tags_pro": "Illimité",
+    "projects": "Sites",
+    "projects_free": "1",
+    "projects_pro": "Illimité",
+    "historian": "Rétention des données",
+    "historian_free": "7 jours",
+    "historian_pro": "Illimitée",
+    "protocols": "Protocoles",
+    "protocols_free": "Modbus TCP",
+    "protocols_pro": "Modbus TCP, OPC-UA, BACnet/IP",
+    "support": "Support technique",
+    "support_free": "Documentation en ligne",
+    "support_pro": "Assistance dédiée (email et visioconférence)",
+    "price_free": "Gratuit",
+    "price_pro": "Sur demande",
+    "cta_free": "Télécharger",
+    "cta_pro": "Demander un devis"
+  },
+  "tech": {
+    "title": "Technologies sous-jacentes"
+  },
+  "waitlist": {
+    "title": "Recevoir les prochaines informations",
+    "desc": "Actualités produit, mises à jour et invitations aux phases de test anticipé.",
+    "placeholder": "Adresse email professionnelle",
+    "cta": "S'inscrire",
+    "success": "Inscription confirmée."
+  },
+  "footer": {
+    "product": "Produit",
+    "resources": "Ressources",
+    "documentation": "Documentation",
+    "contact": "Contact",
+    "rights": "Tous droits réservés.",
+    "made_in": "Conçu et développé en France"
+  }
+}

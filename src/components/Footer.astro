@@ -1,0 +1,56 @@
+---
+import Logo from './Logo.astro';
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<footer class="border-t border-border bg-surface mt-24">
+  <div class="mx-auto max-w-6xl px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- Brand -->
+      <div class="md:col-span-2">
+        <a href={`/${lang}/`} class="flex items-center gap-2 text-brand mb-4">
+          <Logo class="w-5 h-5" />
+          <span class="font-semibold tracking-tight text-text">wiregrid</span>
+        </a>
+        <p class="text-muted text-sm max-w-sm">
+          {lang === 'fr'
+            ? 'Centralisation et exploitation des données industrielles. Supervision, archivage, intégration BI.'
+            : 'Industrial data centralization and operation. Supervision, archiving, BI integration.'}
+        </p>
+      </div>
+
+      <!-- Product -->
+      <div>
+        <h4 class="text-sm font-semibold text-text mb-3">{t(lang, 'footer.product')}</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href={`/${lang}/#features`} class="text-muted hover:text-text transition-colors">{t(lang, 'nav.features')}</a></li>
+          <li><a href={`/${lang}/#pricing`} class="text-muted hover:text-text transition-colors">{t(lang, 'nav.pricing')}</a></li>
+          <li><a href="http://localhost:8000" target="_blank" rel="noopener" class="text-muted hover:text-text transition-colors">{t(lang, 'nav.demo')}</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <h4 class="text-sm font-semibold text-text mb-3">{t(lang, 'footer.resources')}</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#" class="text-muted hover:text-text transition-colors">{t(lang, 'footer.documentation')}</a></li>
+          <li><a href="mailto:bruno.crespo74@gmail.com" class="text-muted hover:text-text transition-colors">{t(lang, 'footer.contact')}</a></li>
+          <li>
+            <a href="https://www.linkedin.com/in/bruno-crespo" target="_blank" rel="noopener" class="text-muted hover:text-text transition-colors">LinkedIn</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted">
+      <p>&copy; {new Date().getFullYear()} Wiregrid. {t(lang, 'footer.rights')}</p>
+      <p>{t(lang, 'footer.made_in')}</p>
+    </div>
+  </div>
+</footer>

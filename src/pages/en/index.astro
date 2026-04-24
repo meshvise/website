@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import TrustBar from '../../components/TrustBar.astro';
+import Problem from '../../components/Problem.astro';
+import ValuePillars from '../../components/ValuePillars.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import Features from '../../components/Features.astro';
+import Pricing from '../../components/Pricing.astro';
+import Waitlist from '../../components/Waitlist.astro';
+
+const lang = 'en' as const;
+---
+
+<Base
+  lang={lang}
+  title="Wiregrid — Industrial Supervision | Data accessible in Power BI, Grafana, Excel"
+  description="Supervision platform that centralizes PLC and meter data into an open database, usable in Power BI, Grafana or Excel. Free version available."
+>
+  <Hero lang={lang} />
+  <TrustBar lang={lang} />
+  <Problem lang={lang} />
+  <ValuePillars lang={lang} />
+  <HowItWorks lang={lang} />
+  <Features lang={lang} />
+  <Pricing lang={lang} />
+  <Waitlist lang={lang} />
+</Base>

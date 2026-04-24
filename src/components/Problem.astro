@@ -1,0 +1,74 @@
+---
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const content = lang === 'fr' ? {
+  title: 'Les constats du terrain',
+  problems: [
+    {
+      icon: `<svg class="w-6 h-6 text-error" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>`,
+      text: 'Les données de production restent cloisonnées dans chaque automate. La consolidation passe par des relevés manuels ou des fichiers Excel non connectés.',
+    },
+    {
+      icon: `<svg class="w-6 h-6 text-error" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>`,
+      text: 'Les plateformes SCADA et MES traditionnelles représentent des investissements de plusieurs dizaines de milliers d\'euros, avec des délais de déploiement de plusieurs mois.',
+    },
+    {
+      icon: `<svg class="w-6 h-6 text-error" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>`,
+      text: 'Les données sont souvent enfermées dans des formats propriétaires, rendant l\'analyse dans des outils standards comme Power BI ou Excel complexe voire impossible.',
+    },
+  ],
+  solution_title: 'Wiregrid apporte une réponse concrète.',
+  solution_desc: 'Une plateforme de supervision légère qui s\'interconnecte avec les équipements existants et rend les données exploitables immédiatement.',
+} : {
+  title: 'Field observations',
+  problems: [
+    {
+      icon: `<svg class="w-6 h-6 text-error" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>`,
+      text: 'Production data remains siloed in each PLC. Consolidation relies on manual readings or disconnected Excel files.',
+    },
+    {
+      icon: `<svg class="w-6 h-6 text-error" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>`,
+      text: 'Traditional SCADA and MES platforms require investments of tens of thousands of euros, with deployment timelines of several months.',
+    },
+    {
+      icon: `<svg class="w-6 h-6 text-error" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>`,
+      text: 'Data is often locked in proprietary formats, making analysis in standard tools like Power BI or Excel complex or even impossible.',
+    },
+  ],
+  solution_title: 'Wiregrid provides a concrete answer.',
+  solution_desc: 'A lightweight supervision platform that interfaces with existing equipment and makes data immediately actionable.',
+};
+---
+
+<section class="py-20 px-6">
+  <div class="mx-auto max-w-3xl">
+    <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12">{content.title}</h2>
+
+    <div class="space-y-5">
+      {content.problems.map((p) => (
+        <div class="flex items-start gap-4 p-5 rounded-md border border-error/20 bg-error/5">
+          <div class="flex-shrink-0 mt-0.5">
+            <Fragment set:html={p.icon} />
+          </div>
+          <p class="text-muted-strong leading-relaxed">{p.text}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-12 text-center">
+      <div class="inline-flex items-center gap-2 mb-3">
+        <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+        </svg>
+        <h3 class="text-2xl font-semibold text-success">{content.solution_title}</h3>
+      </div>
+      <p class="text-muted-strong text-lg max-w-xl mx-auto">{content.solution_desc}</p>
+    </div>
+  </div>
+</section>

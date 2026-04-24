@@ -1,0 +1,64 @@
+---
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const rows = [
+  { key: 'tags' },
+  { key: 'projects' },
+  { key: 'historian' },
+  { key: 'protocols' },
+  { key: 'support' },
+];
+---
+
+<section id="pricing" class="py-20 px-6 bg-surface">
+  <div class="mx-auto max-w-4xl">
+    <h2 class="text-3xl md:text-4xl font-semibold text-center mb-16">{t(lang, 'pricing.title')}</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Free -->
+      <div class="border border-border rounded-md p-8 bg-bg">
+        <h3 class="text-2xl font-semibold">{t(lang, 'pricing.free')}</h3>
+        <p class="text-muted mt-2 text-sm">{t(lang, 'pricing.free_desc')}</p>
+        <p class="mt-6 text-4xl font-semibold text-brand">{t(lang, 'pricing.price_free')}</p>
+        <ul class="mt-8 space-y-4 text-sm">
+          {rows.map((r) => (
+            <li class="flex justify-between border-b border-border pb-3">
+              <span class="text-muted">{t(lang, `pricing.${r.key}`)}</span>
+              <span class="font-mono">{t(lang, `pricing.${r.key}_free`)}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="mt-8">
+          <a href="#waitlist" class="btn btn-outline w-full justify-center">{t(lang, 'pricing.cta_free')}</a>
+        </div>
+      </div>
+
+      <!-- Pro -->
+      <div class="border-2 border-brand rounded-md p-8 bg-bg relative">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand text-bg text-xs font-semibold px-3 py-1 rounded-sm">
+          {lang === 'fr' ? 'Production' : 'Production'}
+        </div>
+        <h3 class="text-2xl font-semibold">{t(lang, 'pricing.pro')}</h3>
+        <p class="text-muted mt-2 text-sm">{t(lang, 'pricing.pro_desc')}</p>
+        <p class="mt-6 text-4xl font-semibold text-brand">{t(lang, 'pricing.price_pro')}</p>
+        <ul class="mt-8 space-y-4 text-sm">
+          {rows.map((r) => (
+            <li class="flex justify-between border-b border-border pb-3">
+              <span class="text-muted">{t(lang, `pricing.${r.key}`)}</span>
+              <span class="font-mono text-brand">{t(lang, `pricing.${r.key}_pro`)}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="mt-8">
+          <a href="mailto:bruno.crespo74@gmail.com" class="btn btn-primary w-full justify-center">{t(lang, 'pricing.cta_pro')}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
