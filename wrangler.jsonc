@@ -13,5 +13,9 @@
   },
   "compatibility_flags": [
     "nodejs_compat"
+  ],
+  "routes": [
+    { "pattern": "wiregrid.fr", "custom_domain": true },
+    { "pattern": "www.wiregrid.fr", "custom_domain": true }
   ]
 }
