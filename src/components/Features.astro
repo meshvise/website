@@ -7,139 +7,88 @@ interface Props {
 
 const { lang } = Astro.props;
 
-const wsFrame = `<span class="text-muted">// GET wss://demo.wiregrid.fr/ws/live</span>
-{<span class="text-brand">"point_id"</span>: 124, <span class="text-brand">"path"</span>: <span class="text-warning">"AHU1/SupplyTemp"</span>, <span class="text-brand">"value"</span>: 22.41, <span class="text-brand">"quality"</span>: <span class="text-warning">"good"</span>, <span class="text-brand">"ts"</span>: <span class="text-warning">"2026-04-28T13:42:18.142Z"</span>}
-{<span class="text-brand">"point_id"</span>: 124, <span class="text-brand">"path"</span>: <span class="text-warning">"AHU1/SupplyTemp"</span>, <span class="text-brand">"value"</span>: 22.43, <span class="text-brand">"quality"</span>: <span class="text-warning">"good"</span>, <span class="text-brand">"ts"</span>: <span class="text-warning">"2026-04-28T13:42:18.391Z"</span>}`;
+// Alternating rows à la understory: text-left / visual-right, then reversed.
+// Each "visual" is a small artifact (SQL, payload, log, table) that grounds
+// the claim in something a reader can actually read.
 
-const hypertable = `<span class="text-brand">CREATE TABLE</span> point_history (
-  ts        <span class="text-warning">TIMESTAMPTZ</span> <span class="text-brand">NOT NULL</span>,
-  point_id  <span class="text-warning">BIGINT</span>      <span class="text-brand">NOT NULL</span>,
-  value     <span class="text-warning">DOUBLE PRECISION</span> <span class="text-brand">NOT NULL</span>,
-  quality   <span class="text-warning">TEXT</span>        <span class="text-brand">NOT NULL DEFAULT</span> <span class="text-warning">'good'</span>
-);
-<span class="text-brand">SELECT</span> create_hypertable(<span class="text-warning">'point_history'</span>, by_range(<span class="text-warning">'ts'</span>));`;
+const wsFrame = `<span style="color:#94A3B8;">// GET wss://demo.wiregrid.fr/ws/live</span>
+{<span style="color:#22D3EE;">"point_id"</span>: 124, <span style="color:#22D3EE;">"path"</span>: <span style="color:#FCD34D;">"AHU1/SupplyTemp"</span>, <span style="color:#22D3EE;">"value"</span>: 22.41, <span style="color:#22D3EE;">"ts"</span>: <span style="color:#FCD34D;">"2026-04-28T13:42:18Z"</span>}
+{<span style="color:#22D3EE;">"point_id"</span>: 124, <span style="color:#22D3EE;">"path"</span>: <span style="color:#FCD34D;">"AHU1/SupplyTemp"</span>, <span style="color:#22D3EE;">"value"</span>: 22.43, <span style="color:#22D3EE;">"ts"</span>: <span style="color:#FCD34D;">"2026-04-28T13:42:18Z"</span>}`;
 
-const revisionsLog = `<span class="text-brand">#43</span>  <span class="text-text">AHU1: setpoint 21 → 22 °C</span>      <span class="text-muted">bcrespo · 14:02 · deployed</span>
-<span class="text-brand">#42</span>  <span class="text-text">+ alarm: Boiler1/FlueTemp &gt; 280</span>  <span class="text-muted">bcrespo · 11:48 · deployed</span>
-<span class="text-brand">#41</span>  <span class="text-text">Tank1: deadband 0.1 → 0.2 %</span>     <span class="text-muted">jdupont · 10:13 · revert</span>
-<span class="text-brand">#40</span>  <span class="text-text">+ machine: Pompe Recirculation P1</span>  <span class="text-muted">bcrespo · 09:55</span>`;
+const sqlSnippet = `<span style="color:#94A3B8;">-- Average power per machine, 24 h, ready for Power BI</span>
+<span style="color:#22D3EE;">SELECT</span> m.name, <span style="color:#22D3EE;">time_bucket</span>(<span style="color:#FCD34D;">'15 min'</span>, ts) <span style="color:#22D3EE;">AS</span> bucket,
+       <span style="color:#22D3EE;">avg</span>(value) <span style="color:#22D3EE;">AS</span> avg_kw
+<span style="color:#22D3EE;">FROM</span>   point_history
+<span style="color:#22D3EE;">JOIN</span>   machine_points USING (point_id)
+<span style="color:#22D3EE;">WHERE</span>  ts <span style="color:#22D3EE;">&gt;</span> <span style="color:#22D3EE;">now</span>() <span style="color:#22D3EE;">-</span> <span style="color:#FCD34D;">interval '24h'</span>
+<span style="color:#22D3EE;">GROUP BY</span> m.name, bucket;`;
 
-const endpoints = `<span class="text-brand">GET </span>  /py/v1/drivers           <span class="text-muted">  list + filter, JSON envelope</span>
-<span class="text-brand">GET </span>  /py/v1/points/live       <span class="text-muted">  snapshot of every live tag</span>
-<span class="text-brand">POST</span>  /py/v1/points/{id}/write <span class="text-muted">  write a setpoint (RBAC-checked)</span>
-<span class="text-brand">GET </span>  /api/v1/*                <span class="text-muted">  alias for legacy integrations</span>
-<span class="text-brand">WS  </span>  /ws/live                 <span class="text-muted">  Redis pub/sub forwarder, &lt;5 ms</span>
-<span class="text-brand">SQL </span>  postgres://…:5432/wiregrid <span class="text-muted">  read-only role for BI tools</span>`;
+const revisionLog = `<span style="color:#22D3EE;">#43</span>  <span style="color:#F8FAFC;">AHU1: setpoint 21 → 22 °C</span>     <span style="color:#94A3B8;">bcrespo · deployed</span>
+<span style="color:#22D3EE;">#42</span>  <span style="color:#F8FAFC;">+ alarm: Boiler1/FlueTemp&gt;280</span> <span style="color:#94A3B8;">bcrespo · deployed</span>
+<span style="color:#22D3EE;">#41</span>  <span style="color:#F8FAFC;">Tank1: deadband 0.1 → 0.2</span>     <span style="color:#94A3B8;">jdupont · revert</span>
+<span style="color:#22D3EE;">#40</span>  <span style="color:#F8FAFC;">+ machine: Pump P1</span>            <span style="color:#94A3B8;">bcrespo</span>`;
 
-const alarmRows = [
-  { sev: 'warning', sevClass: 'text-warning', cond: 'AHU1/SupplyTemp > 23.5 °C', db: '1.0', delay: '0s', group: '—' },
-  { sev: 'critical', sevClass: 'text-error', cond: 'AHU1/SupplyTemp > 35.0 °C', db: '1.0', delay: '5s', group: 'Operations' },
-  { sev: 'warning', sevClass: 'text-warning', cond: 'Plant1/Tank1/Level < 38.0 %', db: '2.0', delay: '0s', group: '—' },
+const features = [
+  { id: 'open_data',   reverse: false, snippet: sqlSnippet,   snippet_label: 'sql · time_bucket' },
+  { id: 'live',        reverse: true,  snippet: wsFrame,      snippet_label: 'ws · /ws/live' },
+  { id: 'versioning',  reverse: false, snippet: revisionLog,  snippet_label: 'revisions · log' },
 ];
 ---
 
-<section id="features" class="section">
+<section id="features" class="px-6 py-24 md:py-32">
   <div class="mx-auto max-w-6xl">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-10">
-      <div class="lg:col-span-5">
-        <div class="section-eyebrow">04 · Capacités livrées</div>
-        <h2 class="section-title">{t(lang, 'features.title')}</h2>
-      </div>
-      <p class="lg:col-span-7 section-lede mt-2 lg:mt-8">{t(lang, 'features.subtitle')}</p>
+    <div class="text-center max-w-2xl mx-auto mb-20">
+      <div class="section-eyebrow justify-center">{t(lang, 'features.eyebrow')}</div>
+      <h2 class="section-title">{t(lang, 'features.title')}</h2>
+      <p class="section-lede mx-auto">{t(lang, 'features.subtitle')}</p>
     </div>
 
-    <div class="border border-border rounded-md divide-y divide-border bg-surface">
-      <article class="grid grid-cols-1 md:grid-cols-12 gap-4 px-5 py-5">
-        <div class="md:col-span-4 flex items-baseline gap-2.5">
-          <span class="text-[10px] font-mono text-brand uppercase tracking-wider">live</span>
-          <h3 class="font-semibold text-text">{t(lang, 'features.drivers.title')}</h3>
-        </div>
-        <p class="md:col-span-8 text-sm text-muted-strong leading-relaxed" set:html={t(lang, 'features.drivers.desc_html')} />
-      </article>
+    <div class="space-y-24 md:space-y-32">
+      {features.map((f) => (
+        <div class={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center ${f.reverse ? 'lg:[&>*:first-child]:order-2' : ''}`}>
+          <div class="lg:col-span-5">
+            <h3 class="text-2xl md:text-3xl font-semibold tracking-tight leading-tight mb-5">
+              <span set:html={t(lang, `features.${f.id}.title_html`)} />
+            </h3>
+            <p class="text-[16px] text-muted-strong leading-[1.65]" set:html={t(lang, `features.${f.id}.desc_html`)} />
+            <ul class="mt-6 space-y-2.5 text-[14.5px] text-muted-strong">
+              {[1, 2, 3].map((n) => (
+                <li class="flex items-start gap-2.5">
+                  <svg class="w-4 h-4 mt-1 text-brand shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true">
+                    <polyline points="3 8 7 12 13 4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span set:html={t(lang, `features.${f.id}.bullet_${n}_html`)} />
+                </li>
+              ))}
+            </ul>
+          </div>
 
-      <article class="grid grid-cols-1 md:grid-cols-12 gap-4 px-5 py-5">
-        <div class="md:col-span-4 flex items-baseline gap-2.5">
-          <span class="text-[10px] font-mono text-brand uppercase tracking-wider">live</span>
-          <h3 class="font-semibold text-text">{t(lang, 'features.live.title')}</h3>
-        </div>
-        <div class="md:col-span-8">
-          <p class="text-sm text-muted-strong leading-relaxed mb-3" set:html={t(lang, 'features.live.desc_html')} />
-          <pre class="font-mono text-[11.5px] leading-relaxed bg-bg border border-border rounded-sm p-3 overflow-x-auto text-muted-strong"><Fragment set:html={wsFrame} /></pre>
-        </div>
-      </article>
-
-      <article class="grid grid-cols-1 md:grid-cols-12 gap-4 px-5 py-5">
-        <div class="md:col-span-4 flex items-baseline gap-2.5">
-          <span class="text-[10px] font-mono text-brand uppercase tracking-wider">live</span>
-          <h3 class="font-semibold text-text">{t(lang, 'features.historian.title')}</h3>
-        </div>
-        <div class="md:col-span-8">
-          <p class="text-sm text-muted-strong leading-relaxed mb-3" set:html={t(lang, 'features.historian.desc_html')} />
-          <pre class="font-mono text-[11.5px] leading-relaxed bg-bg border border-border rounded-sm p-3 overflow-x-auto text-muted-strong"><Fragment set:html={hypertable} /></pre>
-        </div>
-      </article>
-
-      <article class="grid grid-cols-1 md:grid-cols-12 gap-4 px-5 py-5">
-        <div class="md:col-span-4 flex items-baseline gap-2.5">
-          <span class="text-[10px] font-mono text-brand uppercase tracking-wider">live</span>
-          <h3 class="font-semibold text-text">{t(lang, 'features.alarms.title')}</h3>
-        </div>
-        <div class="md:col-span-8">
-          <p class="text-sm text-muted-strong leading-relaxed mb-3" set:html={t(lang, 'features.alarms.desc_html')} />
-          <div class="font-mono text-[11.5px] bg-bg border border-border rounded-sm overflow-hidden">
-            <div class="grid grid-cols-[78px_1fr_44px_44px_auto] gap-x-3 px-3 py-1.5 border-b border-border bg-surface-hi/50 text-[10px] uppercase tracking-wider text-muted">
-              <span>severity</span><span>condition</span><span>db</span><span>delay</span><span>group</span>
-            </div>
-            {alarmRows.map((r) => (
-              <div class="grid grid-cols-[78px_1fr_44px_44px_auto] gap-x-3 px-3 py-1 text-muted-strong">
-                <span class={r.sevClass}>{r.sev}</span>
-                <span>{r.cond}</span>
-                <span>{r.db}</span>
-                <span>{r.delay}</span>
-                <span>{r.group}</span>
+          <div class="lg:col-span-7">
+            <div class="rounded-lg overflow-hidden ring-1 ring-slate-900/5 shadow-xl shadow-slate-900/10" style="background:#0F172A;">
+              <div class="px-3 py-1.5 border-b flex items-center justify-between text-[11px] font-mono" style="background:#273449;border-color:#334155;color:#94A3B8;">
+                <span>{f.snippet_label}</span>
+                <span style="color:#22D3EE;">demo.wiregrid.fr</span>
               </div>
-            ))}
+              <pre class="p-4 overflow-x-auto font-mono text-[12.5px] leading-[1.65] whitespace-pre" style="color:#CBD5E1;"><Fragment set:html={f.snippet} /></pre>
+            </div>
           </div>
         </div>
-      </article>
+      ))}
+    </div>
 
-      <article class="grid grid-cols-1 md:grid-cols-12 gap-4 px-5 py-5">
-        <div class="md:col-span-4 flex items-baseline gap-2.5">
-          <span class="text-[10px] font-mono text-brand uppercase tracking-wider">live</span>
-          <h3 class="font-semibold text-text">{t(lang, 'features.revisions.title')}</h3>
-        </div>
-        <div class="md:col-span-8">
-          <p class="text-sm text-muted-strong leading-relaxed mb-3" set:html={t(lang, 'features.revisions.desc_html')} />
-          <pre class="font-mono text-[11.5px] leading-[1.7] bg-bg border border-border rounded-sm p-3 overflow-x-auto text-muted-strong"><Fragment set:html={revisionsLog} /></pre>
-        </div>
-      </article>
-
-      <article class="grid grid-cols-1 md:grid-cols-12 gap-4 px-5 py-5">
-        <div class="md:col-span-4 flex items-baseline gap-2.5">
-          <span class="text-[10px] font-mono text-brand uppercase tracking-wider">live</span>
-          <h3 class="font-semibold text-text">{t(lang, 'features.integrations.title')}</h3>
-        </div>
-        <div class="md:col-span-8">
-          <p class="text-sm text-muted-strong leading-relaxed mb-3" set:html={t(lang, 'features.integrations.desc_html')} />
-          <pre class="font-mono text-[11.5px] leading-[1.7] bg-bg border border-border rounded-sm p-3 overflow-x-auto text-muted-strong"><Fragment set:html={endpoints} /></pre>
-        </div>
-      </article>
-
-      <article class="grid grid-cols-1 md:grid-cols-12 gap-4 px-5 py-5">
-        <div class="md:col-span-4 flex items-baseline gap-2.5">
-          <span class="text-[10px] font-mono text-brand uppercase tracking-wider">live</span>
-          <h3 class="font-semibold text-text">{t(lang, 'features.multitenant.title')}</h3>
-        </div>
-        <p class="md:col-span-8 text-sm text-muted-strong leading-relaxed" set:html={t(lang, 'features.multitenant.desc_html')} />
-      </article>
-
-      <article class="grid grid-cols-1 md:grid-cols-12 gap-4 px-5 py-5">
-        <div class="md:col-span-4 flex items-baseline gap-2.5">
-          <span class="text-[10px] font-mono text-warning uppercase tracking-wider">Q3 26</span>
-          <h3 class="font-semibold text-text">{t(lang, 'features.wiresheet.title')}</h3>
-        </div>
-        <p class="md:col-span-8 text-sm text-muted-strong leading-relaxed" set:html={t(lang, 'features.wiresheet.desc_html')} />
-      </article>
+    <!-- Secondary feature grid for the "supporting" capabilities. -->
+    <div class="mt-24 md:mt-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {(['drivers', 'alarms', 'historian', 'integrations', 'multitenant', 'wiresheet'] as const).map((id) => (
+        <article class="rounded-lg border border-border bg-surface p-6 hover:border-brand/40 transition-colors">
+          <div class="flex items-center gap-2 mb-3">
+            <h4 class="font-semibold text-text">{t(lang, `features.${id}.title`)}</h4>
+            {id === 'wiresheet' && (
+              <span class="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded text-warning bg-warning/10 border border-warning/30">Q3 26</span>
+            )}
+          </div>
+          <p class="text-[14px] text-muted-strong leading-relaxed" set:html={t(lang, `features.${id}.desc_html`)} />
+        </article>
+      ))}
     </div>
   </div>
 </section>

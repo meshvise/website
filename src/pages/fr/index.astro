@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
+import Stats from '../../components/Stats.astro';
 import Comparison from '../../components/Comparison.astro';
 import HowItWorks from '../../components/HowItWorks.astro';
 import Features from '../../components/Features.astro';
@@ -14,9 +15,10 @@ const lang = 'fr' as const;
 <Base
   lang={lang}
   title="Wiregrid — Supervision SCADA sans tag-pricing | Données dans Power BI"
-  description="Plateforme de supervision industrielle web. Lit vos automates Modbus TCP, OPC-UA et BACnet, écrit dans PostgreSQL standard, exploitable directement dans Power BI, Grafana et Excel. Sans licence par tag, auto-hébergeable, version gratuite."
+  description="Plateforme de supervision industrielle web. Lit vos automates Modbus TCP, OPC-UA et BACnet, écrit dans PostgreSQL standard, exploitable directement dans Power BI, Grafana et Excel. Pas de licence par tag, auto-hébergeable, version gratuite."
 >
   <Hero lang={lang} />
+  <Stats lang={lang} />
   <Comparison lang={lang} />
   <HowItWorks lang={lang} />
   <Features lang={lang} />

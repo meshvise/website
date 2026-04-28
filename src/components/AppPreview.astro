@@ -8,6 +8,9 @@ interface Props {
 
 const { lang, compact = false } = Astro.props;
 
+// Self-contained dark window: hardcoded colors so this stays dark even
+// on the light marketing page. Mirrors apps/spa/src/style.css tokens
+// (#0F172A, #1E293B, #06B6D4) — the visitor sees the actual product UI.
 const points = [
   { id: 'ahu1_st',     path: 'AHU1/SupplyTemp',     unit: '°C', dyn: 'sine', base: 22.4, amp: 1.8, period: 11 },
   { id: 'ahu1_rt',     path: 'AHU1/ReturnTemp',     unit: '°C', dyn: 'sine', base: 24.1, amp: 1.4, period: 13 },
@@ -21,66 +24,67 @@ const points = [
 
 <figure
   id="app-preview"
-  class={`relative rounded-md border border-border bg-bg overflow-hidden ${compact ? '' : 'mx-auto max-w-5xl'}`}
+  class={`relative rounded-xl shadow-2xl shadow-slate-900/15 ring-1 ring-slate-900/5 overflow-hidden ${compact ? '' : 'mx-auto max-w-5xl'}`}
+  style="background:#0F172A;color:#F8FAFC;"
   role="img"
   aria-label={t(lang, 'app_preview.aria_label')}
 >
-  <div class="bg-surface-hi/80 px-3 py-2 border-b border-border flex items-center gap-2">
+  <div class="px-3 py-2 border-b flex items-center gap-2" style="background:#273449;border-color:#334155;">
     <div class="flex gap-1" aria-hidden="true">
-      <span class="w-2 h-2 rounded-full bg-error/60"></span>
-      <span class="w-2 h-2 rounded-full bg-warning/60"></span>
-      <span class="w-2 h-2 rounded-full bg-success/60"></span>
+      <span class="w-2 h-2 rounded-full" style="background:rgb(239 68 68 / 0.6);"></span>
+      <span class="w-2 h-2 rounded-full" style="background:rgb(245 158 11 / 0.6);"></span>
+      <span class="w-2 h-2 rounded-full" style="background:rgb(16 185 129 / 0.6);"></span>
     </div>
-    <span class="text-[11px] text-muted font-mono ml-2">demo.wiregrid.fr</span>
-    <span class="ml-auto flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-brand">
+    <span class="text-[11px] font-mono ml-2" style="color:#94A3B8;">demo.wiregrid.fr</span>
+    <span class="ml-auto flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider" style="color:#22D3EE;">
       <span class="relative flex h-1.5 w-1.5">
-        <span class="absolute inline-flex h-full w-full rounded-full bg-brand opacity-75 ws-pulse" aria-hidden="true"></span>
-        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand"></span>
+        <span class="absolute inline-flex h-full w-full rounded-full ws-pulse" style="background:#22D3EE;opacity:0.75;" aria-hidden="true"></span>
+        <span class="relative inline-flex rounded-full h-1.5 w-1.5" style="background:#22D3EE;"></span>
       </span>
       live · ws
     </span>
   </div>
 
   <div class="grid grid-cols-[160px_1fr] min-h-[380px]">
-    <aside class="border-r border-border bg-surface px-2.5 py-3 flex flex-col gap-0.5 text-[12px]">
-      <div class="text-[9px] uppercase tracking-[0.12em] text-muted px-2 mb-2 font-mono">{t(lang, 'app_preview.nav.section')}</div>
-      <a class="px-2 py-1 rounded-sm text-muted">{t(lang, 'app_preview.nav.overview')}</a>
-      <a class="px-2 py-1 rounded-sm text-muted flex items-center justify-between">
+    <aside class="border-r px-2.5 py-3 flex flex-col gap-0.5 text-[12px]" style="background:#1E293B;border-color:#334155;">
+      <div class="text-[9px] uppercase tracking-[0.12em] px-2 mb-2 font-mono" style="color:#94A3B8;">{t(lang, 'app_preview.nav.section')}</div>
+      <a class="px-2 py-1 rounded text-[#94A3B8]">{t(lang, 'app_preview.nav.overview')}</a>
+      <a class="px-2 py-1 rounded text-[#94A3B8] flex items-center justify-between">
         <span>{t(lang, 'app_preview.nav.drivers')}</span>
         <span class="text-[10px] font-mono opacity-60">10</span>
       </a>
-      <a class="px-2 py-1 rounded-sm text-muted flex items-center justify-between">
+      <a class="px-2 py-1 rounded text-[#94A3B8] flex items-center justify-between">
         <span>{t(lang, 'app_preview.nav.machines')}</span>
         <span class="text-[10px] font-mono opacity-60">13</span>
       </a>
-      <a class="px-2 py-1 rounded-sm bg-brand/10 text-brand font-medium flex items-center justify-between">
+      <a class="px-2 py-1 rounded font-medium flex items-center justify-between" style="background:rgb(6 182 212 / 0.1);color:#22D3EE;">
         <span>{t(lang, 'app_preview.nav.live')}</span>
         <span class="text-[10px] font-mono opacity-80">52</span>
       </a>
-      <a class="px-2 py-1 rounded-sm text-muted flex items-center justify-between">
+      <a class="px-2 py-1 rounded text-[#94A3B8] flex items-center justify-between">
         <span>{t(lang, 'app_preview.nav.alarms')}</span>
-        <span class="text-[10px] font-mono text-warning/80">3</span>
+        <span class="text-[10px] font-mono" style="color:rgb(245 158 11 / 0.8);">3</span>
       </a>
-      <a class="px-2 py-1 rounded-sm text-muted">{t(lang, 'app_preview.nav.revisions')}</a>
+      <a class="px-2 py-1 rounded text-[#94A3B8]">{t(lang, 'app_preview.nav.revisions')}</a>
 
-      <div class="mt-auto pt-3 px-1.5 border-t border-border text-[10px] font-mono text-muted">
+      <div class="mt-auto pt-3 px-1.5 border-t text-[10px] font-mono" style="border-color:#334155;color:#94A3B8;">
         <div class="flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-brand"></span>
+          <span class="w-1.5 h-1.5 rounded-full" style="background:#22D3EE;"></span>
           <span>{t(lang, 'app_preview.deployed_rev')}</span>
-          <span class="text-brand">#42</span>
+          <span style="color:#22D3EE;">#42</span>
         </div>
       </div>
     </aside>
 
     <div class="px-4 py-3 overflow-hidden">
       <div class="flex items-center justify-between mb-2.5">
-        <h3 class="text-[12px] font-semibold tracking-tight">{t(lang, 'app_preview.title')}</h3>
-        <span class="text-[10px] font-mono text-muted" id="ap-status">↻ 0.4s</span>
+        <h3 class="text-[12px] font-semibold tracking-tight" style="color:#F8FAFC;">{t(lang, 'app_preview.title')}</h3>
+        <span class="text-[10px] font-mono" id="ap-status" style="color:#94A3B8;">↻ 0.4s</span>
       </div>
 
       <table class="w-full text-[12px] font-mono border-collapse">
         <thead>
-          <tr class="text-[9px] text-muted uppercase tracking-wider border-b border-border">
+          <tr class="text-[9px] uppercase tracking-wider border-b" style="color:#94A3B8;border-color:#334155;">
             <th class="text-left py-1.5 pr-3 font-medium">{t(lang, 'app_preview.col.path')}</th>
             <th class="text-right py-1.5 px-3 font-medium">{t(lang, 'app_preview.col.value')}</th>
             <th class="text-left py-1.5 px-2 font-medium">{t(lang, 'app_preview.col.unit')}</th>
@@ -89,14 +93,14 @@ const points = [
         </thead>
         <tbody>
           {points.map((p) => (
-            <tr class="border-b border-border/50 last:border-0" data-point={p.id}>
-              <td class="py-1.5 pr-3 truncate text-muted-strong">{p.path}</td>
-              <td class={`py-1.5 px-3 text-right tabular-nums ${p.accent ? 'text-brand font-semibold' : 'text-text'}`}>
+            <tr class="border-b last:border-0" data-point={p.id} style="border-color:rgb(51 65 85 / 0.5);">
+              <td class="py-1.5 pr-3 truncate" style="color:#CBD5E1;">{p.path}</td>
+              <td class="py-1.5 px-3 text-right tabular-nums" style={`color:${p.accent ? '#22D3EE' : '#F8FAFC'};font-weight:${p.accent ? '600' : '400'};`}>
                 <span class="ap-val">{p.base.toFixed(p.unit === '%' ? 0 : 1)}</span>
               </td>
-              <td class="py-1.5 px-2 text-muted text-[11px]">{p.unit}</td>
+              <td class="py-1.5 px-2 text-[11px]" style="color:#94A3B8;">{p.unit}</td>
               <td class="py-1.5 pl-3 hidden sm:table-cell">
-                <svg class="ap-spark mx-auto block w-20 h-4 text-brand/70" viewBox="0 0 80 16" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+                <svg class="ap-spark mx-auto block w-20 h-4" viewBox="0 0 80 16" fill="none" stroke="rgb(34 211 238 / 0.7)" stroke-width="1.25" aria-hidden="true">
                   <polyline class="ap-spark-line" points="" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
               </td>
@@ -163,9 +167,7 @@ const points = [
           buf.shift();
           buf.push(val);
           const valEl = row.querySelector('.ap-val');
-          if (valEl) {
-            valEl.textContent = val.toFixed(1);
-          }
+          if (valEl) valEl.textContent = val.toFixed(1);
           const line = row.querySelector('.ap-spark-line');
           if (line) {
             const mm = minMax.get(p.id);

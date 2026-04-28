@@ -1,0 +1,36 @@
+---
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// Numbers come from the actual seed (apps/gateway-py/scripts/seed.py)
+// and runtime measurements — verifiable on demo.wiregrid.fr.
+const stats = [
+  { id: 'drivers',  value: '10',     unit: '' },
+  { id: 'points',   value: '52',     unit: '' },
+  { id: 'latency',  value: '1-2',    unit: 'ms' },
+  { id: 'tag_cost', value: '0',      unit: '€' },
+];
+---
+
+<section class="px-6 py-20 md:py-28 border-t border-border/60" style="background:var(--color-bg-alt);">
+  <div class="mx-auto max-w-6xl">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-y-10 md:gap-x-10">
+      {stats.map((s) => (
+        <div>
+          <div class="flex items-baseline gap-1.5">
+            <span class="text-5xl md:text-6xl font-semibold tracking-[-0.04em] text-text tabular-nums">{s.value}</span>
+            {s.unit && <span class="text-2xl md:text-3xl font-medium text-muted">{s.unit}</span>}
+          </div>
+          <p class="mt-3 text-sm text-muted-strong leading-relaxed max-w-[18ch]">
+            {t(lang, `stats.${s.id}`)}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
