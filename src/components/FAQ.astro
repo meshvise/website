@@ -9,22 +9,33 @@ interface Props {
 const { lang } = Astro.props;
 ---
 
-<section id="faq" class="section">
+<section id="faq" class="px-6 py-24 md:py-32 border-t border-border/60" style="background:var(--color-bg-alt);">
   <div class="mx-auto max-w-3xl">
-    <div class="mb-8">
-      <div class="section-eyebrow">07 · FAQ</div>
+    <div class="text-center mb-14">
+      <div class="section-eyebrow justify-center">{t(lang, 'faq.eyebrow')}</div>
       <h2 class="section-title">{t(lang, 'faq.title')}</h2>
-      <p class="section-lede">{t(lang, 'faq.subtitle')}</p>
+      <p class="section-lede mx-auto">{t(lang, 'faq.subtitle')}</p>
     </div>
 
-    <div class="border border-border rounded-md divide-y divide-border bg-surface">
+    <div class="bg-surface rounded-lg border border-border divide-y divide-border overflow-hidden">
       {FAQ_KEYS.map((key) => (
         <details class="group">
-          <summary class="flex items-start gap-3 cursor-pointer list-none px-5 py-3.5 hover:bg-surface-hi/40 transition-colors">
-            <span class="font-mono text-brand text-[11px] mt-1 shrink-0 group-open:rotate-90 transition-transform inline-block">▸</span>
-            <span class="flex-1 font-medium text-text text-sm">{t(lang, `faq.${key}.q`)}</span>
+          <summary class="flex items-start gap-4 cursor-pointer list-none px-6 py-5 hover:bg-bg-alt/40 transition-colors">
+            <svg
+              class="w-4 h-4 mt-[3px] shrink-0 text-muted-strong group-open:text-brand group-open:rotate-45 transition-all"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <line x1="8" y1="3" x2="8" y2="13"/>
+              <line x1="3" y1="8" x2="13" y2="8"/>
+            </svg>
+            <span class="flex-1 font-medium text-text text-[16px]">{t(lang, `faq.${key}.q`)}</span>
           </summary>
-          <div class="px-5 pb-4 pl-12 text-sm text-muted-strong leading-relaxed">
+          <div class="px-6 pb-5 pl-14 text-[15px] text-muted-strong leading-[1.65]">
             <div set:html={t(lang, `faq.${key}.a_html`)} />
           </div>
         </details>

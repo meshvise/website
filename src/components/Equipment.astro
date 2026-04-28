@@ -12,13 +12,13 @@ const protocols = [
     id: 'modbus',
     title: 'Modbus TCP',
     spec: 'TCP/502',
-    refs: ['Schneider M340', 'Schneider M580', 'Siemens S7-1500 (Modbus FB)', 'ABB AC500', 'Wago 750-89x', 'Phoenix Contact ILC', 'Rockwell ControlLogix (gw)'],
+    refs: ['Schneider M340', 'Schneider M580', 'Siemens S7-1500', 'ABB AC500', 'Wago 750-89x', 'Phoenix Contact ILC'],
   },
   {
     id: 'opcua',
     title: 'OPC-UA',
     spec: 'IEC 62541',
-    refs: ['Siemens S7-1500 (natif)', 'Schneider M580 OPC-UA', 'Beckhoff TwinCAT', 'B&R X20', 'KEPServerEX (gw)'],
+    refs: ['Siemens S7-1500 (natif)', 'Schneider M580', 'Beckhoff TwinCAT', 'B&R X20', 'KEPServerEX'],
   },
   {
     id: 'bacnet',
@@ -29,32 +29,25 @@ const protocols = [
 ];
 ---
 
-<section id="equipment" class="section">
+<section id="equipment" class="px-6 py-24 md:py-32 border-t border-border/60" style="background:var(--color-bg-alt);">
   <div class="mx-auto max-w-6xl">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-10">
-      <div class="lg:col-span-5">
-        <div class="section-eyebrow">05 · Compatibilité</div>
-        <h2 class="section-title">{t(lang, 'equipment.title')}</h2>
-      </div>
-      <p class="lg:col-span-7 section-lede mt-2 lg:mt-8">{t(lang, 'equipment.subtitle')}</p>
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <div class="section-eyebrow justify-center">{t(lang, 'equipment.eyebrow')}</div>
+      <h2 class="section-title">{t(lang, 'equipment.title')}</h2>
+      <p class="section-lede mx-auto">{t(lang, 'equipment.subtitle')}</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border rounded-md overflow-hidden">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       {protocols.map((p) => (
-        <div class="bg-surface px-5 py-5">
-          <div class="flex items-baseline justify-between mb-4">
-            <div class="flex items-center gap-2">
-              <span class="px-1.5 py-0.5 rounded-sm bg-brand/10 text-brand font-mono text-[10px] uppercase tracking-wider border border-brand/30">
-                {p.id}
-              </span>
-              <span class="font-semibold text-text">{p.title}</span>
-            </div>
-            <span class="font-mono text-[10px] text-muted">{p.spec}</span>
+        <div class="bg-surface rounded-lg border border-border p-7">
+          <div class="flex items-baseline justify-between mb-5">
+            <h3 class="font-semibold text-lg">{p.title}</h3>
+            <span class="font-mono text-[11px] text-muted">{p.spec}</span>
           </div>
-          <ul class="space-y-1.5 font-mono text-[12.5px]">
+          <ul class="space-y-2 font-mono text-[13.5px]">
             {p.refs.map((r) => (
               <li class="text-muted-strong flex items-start gap-2">
-                <span class="text-brand/60 select-none">·</span>
+                <span class="text-brand select-none">·</span>
                 <span>{r}</span>
               </li>
             ))}
@@ -63,6 +56,6 @@ const protocols = [
       ))}
     </div>
 
-    <p class="mt-5 text-sm text-muted-strong leading-relaxed max-w-3xl">{t(lang, 'equipment.note')}</p>
+    <p class="mt-8 text-[14px] text-muted-strong leading-relaxed max-w-3xl mx-auto text-center">{t(lang, 'equipment.note')}</p>
   </div>
 </section>

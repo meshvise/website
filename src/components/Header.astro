@@ -13,47 +13,52 @@ const alternateUrl = getAlternateUrl(Astro.url, alternateLang);
 const switchLanguageLabel = t(lang, 'a11y.switch_language').replace('{lang}', alternateLangLabel);
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 border-b border-border bg-bg/85 backdrop-blur-md">
-  <div class="mx-auto max-w-6xl flex items-center justify-between px-6 h-14">
+<header class="sticky top-0 z-50 bg-bg/85 backdrop-blur-md border-b border-border/60">
+  <div class="mx-auto max-w-6xl flex items-center justify-between px-6 h-16">
     <a
       href={`/${lang}/`}
-      class="flex items-center gap-2 text-brand hover:text-brand-hover transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand rounded-sm"
+      class="flex items-center gap-2 text-text hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand rounded-sm"
       aria-label="Wiregrid"
     >
-      <Logo class="w-5 h-5" />
-      <span class="font-semibold text-[15px] tracking-[-0.01em] text-text">wiregrid</span>
+      <Logo class="w-5 h-5 text-brand" />
+      <span class="font-semibold text-[16px] tracking-tight">wiregrid</span>
     </a>
 
-    <nav class="hidden md:flex items-center gap-7" aria-label="Primary">
-      <a href={`/${lang}/#comparison`} class="nav-link">{t(lang, 'nav.comparison')}</a>
+    <nav class="hidden md:flex items-center gap-8" aria-label="Primary">
       <a href={`/${lang}/#features`} class="nav-link">{t(lang, 'nav.features')}</a>
+      <a href={`/${lang}/#comparison`} class="nav-link">{t(lang, 'nav.comparison')}</a>
       <a href={`/${lang}/#pricing`} class="nav-link">{t(lang, 'nav.pricing')}</a>
       <a href={`/${lang}/#faq`} class="nav-link">{t(lang, 'nav.faq')}</a>
-      <span class="w-px h-4 bg-border" aria-hidden="true"></span>
+    </nav>
+
+    <div class="hidden md:flex items-center gap-3">
       <a
         href={alternateUrl}
         hreflang={alternateLang}
         lang={alternateLang}
         aria-label={switchLanguageLabel}
-        class="text-muted hover:text-text transition-colors uppercase font-mono text-[11px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+        class="text-muted-strong hover:text-text transition-colors uppercase font-mono text-[11px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
       >
         {alternateLang}
       </a>
       <a href="https://demo.wiregrid.fr" target="_blank" rel="noopener" class="btn btn-primary">
         {t(lang, 'nav.demo')}
+        <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M6 3l5 5-5 5" stroke-linecap="round"/>
+        </svg>
       </a>
-    </nav>
+    </div>
 
     <button
       id="mobile-menu-btn"
       type="button"
-      class="md:hidden text-muted hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand rounded-sm"
+      class="md:hidden text-muted-strong hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand rounded-sm"
       aria-label={t(lang, 'a11y.open_menu')}
       aria-expanded="false"
       aria-controls="mobile-menu"
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-        <path stroke-linecap="square" d="M4 7h16M4 12h16M4 17h16"/>
+        <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/>
       </svg>
     </button>
   </div>
@@ -63,8 +68,8 @@ const switchLanguageLabel = t(lang, 'a11y.switch_language').replace('{lang}', al
     class="hidden md:hidden border-t border-border px-6 py-4 flex-col gap-3 text-sm bg-bg"
     aria-label="Mobile primary"
   >
-    <a href={`/${lang}/#comparison`} class="nav-link">{t(lang, 'nav.comparison')}</a>
     <a href={`/${lang}/#features`} class="nav-link">{t(lang, 'nav.features')}</a>
+    <a href={`/${lang}/#comparison`} class="nav-link">{t(lang, 'nav.comparison')}</a>
     <a href={`/${lang}/#pricing`} class="nav-link">{t(lang, 'nav.pricing')}</a>
     <a href={`/${lang}/#faq`} class="nav-link">{t(lang, 'nav.faq')}</a>
     <a
@@ -72,11 +77,11 @@ const switchLanguageLabel = t(lang, 'a11y.switch_language').replace('{lang}', al
       hreflang={alternateLang}
       lang={alternateLang}
       aria-label={switchLanguageLabel}
-      class="text-muted hover:text-text uppercase font-mono text-xs"
+      class="text-muted-strong hover:text-text uppercase font-mono text-xs"
     >
       {alternateLang}
     </a>
-    <a href="https://demo.wiregrid.fr" target="_blank" rel="noopener" class="btn btn-primary text-center">
+    <a href="https://demo.wiregrid.fr" target="_blank" rel="noopener" class="btn btn-primary text-center justify-center">
       {t(lang, 'nav.demo')}
     </a>
   </nav>
