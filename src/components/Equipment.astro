@@ -1,0 +1,68 @@
+---
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// Equipment lists are claims about *protocol* compatibility (Modbus TCP /
+// OPC-UA / BACnet are open standards). Specific brands work via these
+// standards; "validation" means a project-specific I/O test, not a
+// promise that every PLC firmware ever shipped is on the happy path.
+const protocols = [
+  {
+    id: 'modbus',
+    title: 'Modbus TCP',
+    spec: 'TCP/502',
+    brands: ['Schneider M340 / M580', 'Siemens S7-1500 (Modbus FB)', 'ABB AC500', 'Wago 750', 'Phoenix Contact ILC', 'Rockwell ControlLogix (gateway)'],
+  },
+  {
+    id: 'opcua',
+    title: 'OPC-UA',
+    spec: 'IEC 62541',
+    brands: ['Siemens S7-1500 (natif)', 'Schneider M580 OPC-UA', 'B&R X20', 'Beckhoff TwinCAT', 'KEPServerEX (gateway)'],
+  },
+  {
+    id: 'bacnet',
+    title: 'BACnet/IP',
+    spec: 'ASHRAE 135',
+    brands: ['Distech ECY', 'Honeywell WEBs', 'Trend IQ4', 'Siemens Desigo', 'JCI Metasys (BACnet/IP)'],
+  },
+];
+---
+
+<section id="equipment" class="px-6 py-20 border-t border-border">
+  <div class="mx-auto max-w-5xl">
+    <div class="max-w-2xl">
+      <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">
+        {t(lang, 'equipment.title')}
+      </h2>
+      <p class="mt-4 text-muted-strong leading-relaxed">{t(lang, 'equipment.subtitle')}</p>
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+      {protocols.map((p) => (
+        <div class="rounded-md border border-border bg-surface p-6">
+          <div class="flex items-baseline justify-between mb-4">
+            <h3 class="font-semibold text-text">{p.title}</h3>
+            <span class="text-[10px] font-mono uppercase text-muted">{p.spec}</span>
+          </div>
+          <ul class="space-y-2 text-sm">
+            {p.brands.map((b) => (
+              <li class="text-muted-strong flex items-start gap-2">
+                <span class="text-brand mt-1">·</span>
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-8 text-sm text-muted leading-relaxed max-w-3xl">
+      {t(lang, 'equipment.note')}
+    </p>
+  </div>
+</section>

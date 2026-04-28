@@ -2,13 +2,13 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { FAQ_KEYS } from '../i18n/faq-keys';
 import { t, type Lang } from '../i18n';
 
 interface Props {
   title: string;
   description: string;
   lang: Lang;
-  /** Optional OG image override (path absolute from site root). Defaults to /og-image.svg. */
   ogImage?: string;
 }
 
@@ -24,9 +24,82 @@ const canonicalUrl = `${SITE_ORIGIN}${currentPath}`;
 const alternateUrl = `${SITE_ORIGIN}${alternatePath}`;
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${SITE_ORIGIN}${ogImage}`;
 
-// Open Graph locale: BCP 47 language tag mapped to OG locale format.
 const ogLocale = lang === 'fr' ? 'fr_FR' : 'en_US';
 const ogLocaleAlternate = alternateLang === 'fr' ? 'fr_FR' : 'en_US';
+
+// Strip HTML tags for JSON-LD plain-text answers (no markup allowed there).
+const stripHtml = (s: string) =>
+  s.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+
+const organizationLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Wiregrid',
+  url: SITE_ORIGIN,
+  logo: `${SITE_ORIGIN}/favicon.svg`,
+  description,
+  email: 'contact@wiregrid.fr',
+  sameAs: ['https://www.linkedin.com/in/bruno-crespo'],
+};
+
+const softwareLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Wiregrid',
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'SCADA / Industrial Supervision',
+  operatingSystem: 'Linux, Windows, macOS (Docker)',
+  description,
+  url: SITE_ORIGIN,
+  inLanguage: ['fr', 'en'],
+  softwareVersion: '0.1.0',
+  offers: [
+    {
+      '@type': 'Offer',
+      name: lang === 'fr' ? 'Découverte' : 'Discovery',
+      price: '0',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      url: 'https://demo.wiregrid.fr',
+      description:
+        lang === 'fr'
+          ? 'Self-host gratuit jusqu’à 50 points, Modbus TCP, 7 jours d’historique.'
+          : 'Free self-host up to 50 points, Modbus TCP, 7-day history.',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Production',
+      price: '990',
+      priceCurrency: 'EUR',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '990',
+        priceCurrency: 'EUR',
+        billingDuration: 'P1Y',
+        unitText: 'YEAR',
+      },
+      availability: 'https://schema.org/InStock',
+      url: `${SITE_ORIGIN}/${lang}/#pricing`,
+      description:
+        lang === 'fr'
+          ? 'Points illimités, Modbus + OPC-UA + BACnet, historian illimité, support email + visio.'
+          : 'Unlimited points, Modbus + OPC-UA + BACnet, unlimited historian, email + video support.',
+    },
+  ],
+};
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQ_KEYS.map((key) => ({
+    '@type': 'Question',
+    name: t(lang, `faq.${key}.q`),
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: stripHtml(t(lang, `faq.${key}.a_html`)),
+    },
+  })),
+};
 ---
 
 <!DOCTYPE html>
@@ -38,26 +111,22 @@ const ogLocaleAlternate = alternateLang === 'fr' ? 'fr_FR' : 'en_US';
     <title>{title}</title>
     <meta name="description" content={description} />
 
-    <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Theme -->
     <meta name="theme-color" content="#0F172A" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#06B6D4" media="(prefers-color-scheme: light)" />
     <meta name="color-scheme" content="dark" />
 
-    <!-- Canonical + alternates -->
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang={lang} href={canonicalUrl} />
     <link rel="alternate" hreflang={alternateLang} href={alternateUrl} />
     <link rel="alternate" hreflang="x-default" href={`${SITE_ORIGIN}/`} />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="WireGrid" />
+    <meta property="og:site_name" content="Wiregrid" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -68,14 +137,19 @@ const ogLocaleAlternate = alternateLang === 'fr' ? 'fr_FR' : 'en_US';
     <meta property="og:locale" content={ogLocale} />
     <meta property="og:locale:alternate" content={ogLocaleAlternate} />
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <!-- Robots: index + follow + max-image-preview large for richer SERP cards -->
     <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <!-- Schema.org structured data — feeds Google rich results AND
+         AI search citations (Perplexity, ChatGPT, Claude). FAQPage in
+         particular gets re-quoted verbatim in answer engines. -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(softwareLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
   </head>
   <body class="bg-bg text-text antialiased">
     <a
