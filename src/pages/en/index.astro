@@ -1,26 +1,26 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
-import TrustBar from '../../components/TrustBar.astro';
-import Problem from '../../components/Problem.astro';
-import ValuePillars from '../../components/ValuePillars.astro';
+import Comparison from '../../components/Comparison.astro';
 import HowItWorks from '../../components/HowItWorks.astro';
 import Features from '../../components/Features.astro';
+import Equipment from '../../components/Equipment.astro';
 import Pricing from '../../components/Pricing.astro';
+import FAQ from '../../components/FAQ.astro';
 
 const lang = 'en' as const;
 ---
 
 <Base
   lang={lang}
-  title="Wiregrid — Industrial Supervision | Data accessible in Power BI, Grafana, Excel"
-  description="Supervision platform that centralizes PLC and meter data into an open database, usable in Power BI, Grafana or Excel. Free version available."
+  title="Wiregrid — SCADA supervision without tag pricing | Data in Power BI"
+  description="Web-based industrial supervision platform. Reads Modbus TCP, OPC-UA and BACnet PLCs, writes to standard PostgreSQL, queryable directly from Power BI, Grafana and Excel. No per-tag licensing, self-hostable, free tier."
 >
   <Hero lang={lang} />
-  <TrustBar lang={lang} />
-  <Problem lang={lang} />
-  <ValuePillars lang={lang} />
+  <Comparison lang={lang} />
   <HowItWorks lang={lang} />
   <Features lang={lang} />
+  <Equipment lang={lang} />
   <Pricing lang={lang} />
+  <FAQ lang={lang} />
 </Base>

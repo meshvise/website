@@ -1,76 +1,245 @@
 {
   "nav": {
     "features": "Features",
+    "comparison": "Comparison",
     "pricing": "Pricing",
+    "faq": "FAQ",
+    "demo": "Live demo",
     "blog": "Blog",
-    "demo": "Online demo",
     "download": "Download"
   },
   "hero": {
-    "title": "Industrial supervision accessible to every company.",
-    "subtitle": "Wiregrid centralizes data from PLCs, sensors and meters into an open database, immediately usable in Power BI, Grafana or Excel.",
-    "cta_demo": "Access the demo",
-    "cta_download": "Download for free",
-    "eyebrow": "Industrial supervision platform",
+    "eyebrow": "SCADA supervision · Open data",
+    "title_html": "Industrial supervision <span class=\"text-brand\">without tag pricing</span>, with your data <span class=\"text-brand\">in Power BI</span>.",
+    "subtitle": "Wiregrid reads your Modbus TCP, OPC-UA and BACnet PLCs, writes every measurement into a standard PostgreSQL database, and makes it directly queryable from Power BI, Grafana or Excel — no export, no middleware, no per-tag licensing.",
+    "bullet_1": "Zero per-point licensing",
+    "bullet_2": "Data lives in standard SQL",
+    "bullet_3": "Self-hosted, up in 2 minutes",
+    "cta_demo": "Try the live demo",
+    "cta_pricing": "See pricing",
+    "cta_note": "Public demo, no sign-up. Auth and data residency available when self-hosted.",
     "screenshot_caption": "Interface preview — coming soon"
   },
-  "values": {
-    "title": "A different approach to supervision",
-    "simple_title": "Immediate deployment",
-    "simple_desc": "Wiregrid installs in minutes on a standard server. No dedicated infrastructure, no prior integration work. The platform is operational from day one.",
-    "open_title": "Natively accessible data",
-    "open_desc": "All measurements are stored in PostgreSQL, a global standard. Connecting Power BI, Grafana, Excel or any analytics tool requires no development, no export, no middleware.",
-    "affordable_title": "A proportionate investment",
-    "affordable_desc": "No per-tag licensing, no five-figure entry cost. A free version allows validating the need before any commitment. Moving to production comes at a predictable price."
+  "app_preview": {
+    "aria_label": "Wiregrid interface preview: live points table",
+    "title": "Live points",
+    "last_update": "Updated 0.4 s ago",
+    "deployed_rev": "Deployed",
+    "nav": {
+      "section": "Project",
+      "overview": "Overview",
+      "drivers": "Drivers",
+      "machines": "Machines",
+      "live": "Live points",
+      "alarms": "Alarms",
+      "revisions": "Revisions"
+    },
+    "col": {
+      "path": "Path",
+      "value": "Value",
+      "unit": "Unit",
+      "age": "Age",
+      "trend": "Trend"
+    }
+  },
+  "comparison": {
+    "title": "Why not Niagara or Ignition?",
+    "subtitle": "Wiregrid does not try to replace Niagara N4 on a 5,000-point site with a full wiresheet and mature HMI builder. It targets the cases where you mostly pay for tags, on features that PostgreSQL + Power BI already do better.",
+    "col": {
+      "criterion": "Criterion"
+    },
+    "criterion": {
+      "tag_pricing": "Per-tag pricing",
+      "data_storage": "Data storage",
+      "bi_connector": "Power BI access",
+      "self_host": "Self-hosting",
+      "config_versioning": "Config versioning",
+      "web_native": "Web-native UI",
+      "protocols": "Supported protocols",
+      "startup_cost": "Startup cost"
+    },
+    "value": {
+      "no": "None",
+      "yes_5": "≈ €5 / tag / year",
+      "yes_lite": "Edge limits / Maker quota",
+      "yes_pro": "Per-device modules",
+      "pg": "PostgreSQL + Timescale",
+      "proprio": "Proprietary format",
+      "native": "Direct connection",
+      "export": "CSV export / connector",
+      "odbc": "Paid ODBC module",
+      "docker": "docker compose up",
+      "jvm": "JVM + station",
+      "cloud": "SaaS only",
+      "git": "Built-in commit / diff / revert",
+      "manual": "Manual backup",
+      "yes": "Yes",
+      "partial": "Partial (Workplace)",
+      "p3": "3 (Modbus, OPC-UA, BACnet)",
+      "p20": "20+",
+      "p15": "15+",
+      "free": "Free (50 points)",
+      "5k": "≈ €5,000 / station",
+      "4k": "≈ $4,500 / server",
+      "quote": "On request"
+    },
+    "disclaimer": "Public information observed in April 2026. Niagara, Ignition and EcoStruxure are trademarks of their respective owners (Tridium, Inductive Automation, Schneider Electric). Factual comparison, not contractual."
+  },
+  "how": {
+    "title": "From install to first dashboard, in three steps",
+    "subtitle": "No mandatory integration services. You can do it yourself on a Sunday evening, or ask us for a hand.",
+    "1_install": {
+      "title": "Install",
+      "desc": "Single Docker command on a VPS, an industrial mini-PC or a Raspberry Pi 4. The image bundles gateway-py, PostgreSQL 16 + TimescaleDB, Redis and the UI. No JVM, no license to activate."
+    },
+    "2_configure": {
+      "title": "Connect",
+      "desc": "Declare your PLCs by IP and port. Wiregrid lists the exposed points, you organise them into machines and tags (site, building, function…), wire threshold alarms with deadband and delay. Every change is versioned — a bad deploy reverts in one click."
+    },
+    "3_operate": {
+      "title": "Operate",
+      "desc": "Values stream over WebSocket into the UI (1–2 ms latency). In parallel, your PostgreSQL database is open for direct read from Power BI, Grafana, Metabase or Excel — your BI teams build dashboards without waiting for industrial IT."
+    }
   },
   "features": {
-    "title": "Platform capabilities",
-    "drivers_title": "Multi-protocol acquisition",
-    "drivers_desc": "Native support for Modbus TCP, OPC-UA and BACnet/IP. Compatible with Siemens, Schneider Electric, Wago, ABB and most field equipment.",
-    "live_title": "Real-time visualization",
-    "live_desc": "Web-based supervision interface accessible from any browser. Live values, operating states and performance indicators, with write capability on controllable points.",
-    "wiresheet_title": "Visual programmable logic",
-    "wiresheet_desc": "Graphical function block editor for creating automations: PID control, conditional sequences, timers, calculations. No programming skills required.",
-    "historian_title": "Archiving and trends",
-    "historian_desc": "Automatic recording of all measurements in TimescaleDB. History lookup, trend charts and on-demand data export.",
-    "integrations_title": "Native BI integration",
-    "integrations_desc": "The PostgreSQL database enables direct connection from Power BI, Grafana, Metabase or Excel. Business teams build their own dashboards without IT involvement.",
-    "alarms_title": "Alarm management",
-    "alarms_desc": "Per-point threshold configuration. Notifications on overrun, fault or drift. Complete event log for traceability and quality monitoring."
+    "title": "Capabilities shipping today",
+    "subtitle": "What the public demo actually does, not a roadmap. The wiresheet (visual programmable logic, Niagara-style) is in progress and lands in Q3 2026.",
+    "status": {
+      "roadmap": "Q3 2026"
+    },
+    "drivers": {
+      "title": "Multi-protocol acquisition",
+      "desc": "Modbus TCP, OPC-UA and BACnet/IP in a single install. Each driver runs in its own asyncio task with independent polling per device and automatic reconnection. The demo bundles 10 drivers across the three protocols."
+    },
+    "live": {
+      "title": "Live points over WebSocket",
+      "desc": "Direct push from Redis to the browser via /ws/live. Typical latency 1–2 ms. Falls back to 1 s polling with exponential reconnect when the WS drops. Read and write supported on commandable points."
+    },
+    "historian": {
+      "title": "TimescaleDB historian",
+      "desc": "All values are written to a TimescaleDB hypertable chunked by day. Per-point on_change with deadband or fixed-interval mode. Configurable retention, queryable in standard SQL or via time_bucket() for downsampling."
+    },
+    "alarms": {
+      "title": "Operational alarms",
+      "desc": "High/low conditions with threshold, deadband and delay. Severities info / warning / critical, state machine normal → active → acknowledged → cleared. Email notifications via user groups. Full event log for ISO traceability."
+    },
+    "revisions": {
+      "title": "Git-style versioning",
+      "desc": "Every config change (driver, point, machine, alarm, tag…) goes into a revision. Diff between two revisions, single-transaction revert to a past state, runtime hot-reload via pg_notify. You test on the working copy, you deploy when it's ready."
+    },
+    "integrations": {
+      "title": "Open API + direct SQL access",
+      "desc": "REST on /py/v1/{drivers,machines,points,alarms,revisions}, /api/v1 alias for legacy integrations. WebSocket /ws/live for push. And most importantly: Postgres open on the internal network — Power BI connects via ODBC without going through us."
+    },
+    "multitenant": {
+      "title": "Multi-project / multi-site",
+      "desc": "Project_id scoping on every entity. Ideal to manage several buildings or several customers from a single instance. The demo signup flow clones a complete project (10 drivers / 13 machines / 18 alarms) in under a second."
+    },
+    "wiresheet": {
+      "title": "Visual programmable logic",
+      "desc": "Niagara N4-style functional block editor: math, comparison, timer, schedule, latch, ramp, PID. The execution engine is already in the runtime — the Vue Flow editor lands in Q3 2026."
+    }
   },
-  "demo": {
-    "title": "Explore the interface",
-    "desc": "The demo environment replicates an industrial site with simulated equipment: air handling units, energy meters and temperature probes.",
-    "cta": "Access the demo"
+  "equipment": {
+    "title": "PLC and instrument compatibility",
+    "subtitle": "Wiregrid speaks 3 open protocols, which covers nearly every industrial PLC out there. The brands below have been tested or are compatible via the standard protocol spec.",
+    "note": "Any device speaking Modbus TCP, OPC-UA or BACnet/IP is compatible — the list above is representative, not exhaustive. For a specific PLC with old firmware, plan a half-day validation session. Modbus RTU over RS-485 needs a TCP gateway (Moxa, USR-TCP232 or equivalent)."
   },
   "pricing": {
-    "title": "Pricing",
-    "free": "Discovery",
-    "pro": "Production",
-    "free_desc": "Evaluation and pilot sites",
-    "pro_desc": "Real-world operation",
-    "tags": "Data points",
-    "tags_free": "50",
-    "tags_pro": "Unlimited",
-    "projects": "Sites",
-    "projects_free": "1",
-    "projects_pro": "Unlimited",
-    "historian": "Data retention",
-    "historian_free": "7 days",
-    "historian_pro": "Unlimited",
-    "protocols": "Protocols",
-    "protocols_free": "Modbus TCP",
-    "protocols_pro": "Modbus TCP, OPC-UA, BACnet/IP",
-    "support": "Technical support",
-    "support_free": "Online documentation",
-    "support_pro": "Dedicated assistance (email and video call)",
-    "price_free": "Free",
-    "price_pro": "On request",
-    "cta_free": "Download",
-    "cta_pro": "Request a quote"
+    "title": "Simple, surprise-free pricing",
+    "subtitle": "Free tier up to 50 points to evaluate or cover a small site. Beyond that, a flat annual fee — no per-tag licensing, no hidden runtime cost.",
+    "recommended": "Production",
+    "footnote": "Prices excl. VAT, billed annually. 12-month commitment. You stay the owner of your data and your instance — Wiregrid has no access to your PostgreSQL.",
+    "free": {
+      "name": "Discovery",
+      "tagline": "Evaluation, pilot sites, small installations.",
+      "price": "€0",
+      "period": "/ forever",
+      "price_note": "Self-hosted, no sign-up.",
+      "cta": "Launch the demo"
+    },
+    "pro": {
+      "name": "Production",
+      "tagline": "Real operation, multi-building, BI integration.",
+      "price": "€990",
+      "period": "/ year",
+      "price_note": "Per instance, unlimited points.",
+      "cta": "Request a quote"
+    },
+    "feature": {
+      "points_50": "Up to 50 points",
+      "points_unlimited": "Unlimited points",
+      "protocols_modbus": "Modbus TCP",
+      "protocols_all": "Modbus TCP + OPC-UA + BACnet/IP",
+      "historian_7d": "7-day historian",
+      "historian_unlimited": "Unlimited historian (configurable retention)",
+      "alarms": "Threshold alarms",
+      "alarms_notifications": "Alarms + email notifications + groups",
+      "api_open": "REST API + direct SQL access",
+      "support_docs": "Online documentation",
+      "support_dedicated": "Email support + video calls",
+      "priority_roadmap": "Roadmap influence"
+    }
   },
-  "tech": {
-    "title": "Underlying technologies"
+  "faq": {
+    "title": "Questions we get",
+    "subtitle": "If yours isn't here, drop us a line at contact@wiregrid.fr — we reply within one business day.",
+    "difference_niagara": {
+      "q": "What's the actual difference vs Niagara N4?",
+      "a_html": "Niagara is more mature, with a huge feature set — full wiresheet, HMI builder, JACE ecosystem. Wiregrid is smaller, more modern (pure web, no JVM station), and most importantly without <strong>tag pricing</strong>: the ~€5/tag/year you pay on Niagara, you don't pay with us. Wiregrid fits when you have 50–500 points, not 5,000, and you want your data in Power BI."
+    },
+    "compatible_plc": {
+      "q": "Compatible with my Schneider M340 / Siemens S7-1500 / other PLC?",
+      "a_html": "If your PLC speaks <strong>Modbus TCP</strong> (most Schneider, ABB, Wago, Phoenix Contact), <strong>OPC-UA</strong> (Siemens S7-1500 natively, Beckhoff TwinCAT, B&amp;R) or <strong>BACnet/IP</strong> (Distech, Honeywell, Trend, JCI), yes. For Modbus RTU over serial, plan a TCP gateway like Moxa. See the <a href=\"#equipment\" class=\"text-brand hover:underline\">Equipment section</a>."
+    },
+    "data_format": {
+      "q": "What format is the data stored in?",
+      "a_html": "Configuration in standard PostgreSQL tables (drivers, points, machines, alarms…). Value history in a <strong>TimescaleDB hypertable</strong> <code class=\"font-mono text-xs\">point_history(ts, point_id, value, quality)</code>, chunked by day. Everything is queryable in plain SQL, no proprietary dialect."
+    },
+    "powerbi": {
+      "q": "How do I connect Power BI?",
+      "a_html": "Power BI Desktop &gt; Get Data &gt; PostgreSQL. You enter your Wiregrid server's IP (port 5432), a read-only user, and you see the tables. No proprietary connector to install, no extra license to buy."
+    },
+    "self_host": {
+      "q": "Is it SaaS or self-hosted?",
+      "a_html": "Self-hosted. <code class=\"font-mono text-xs\">docker compose up -d</code> on any server — your data stays with you. The online demo runs on a public environment but it's a demonstration, not a production offer. A managed SaaS option will follow demand."
+    },
+    "minimum_hardware": {
+      "q": "Minimum hardware?",
+      "a_html": "2 vCPU, 4 GB RAM, 20 GB disk are enough for ~500 points with 30 days of history. Runs on an industrial mini-PC, a Raspberry Pi 4 or a €5/month Hetzner VPS. The demo currently runs on a €4/month nano."
+    },
+    "security": {
+      "q": "How secure is it?",
+      "a_html": "JWT auth (UI) or API key (integrations). Postgres and Redis bind to localhost, never exposed on the internet. If you put the gateway behind a reverse proxy (Caddy, Nginx, Cloudflare Tunnel), you get automatic TLS. Zero outbound calls to Wiregrid in self-hosted mode."
+    },
+    "safety_sil": {
+      "q": "Can I run functional safety (SIL) on it?",
+      "a_html": "<strong>No</strong>, and never will. Wiregrid is a <em>supervision</em> and historian platform, not a critical control system. Your safety interlocks must stay in your certified PLC. Wiregrid reads, alarms, archives — it doesn't decide on your behalf."
+    },
+    "open_source": {
+      "q": "Is it open source?",
+      "a_html": "Not publicly yet. The license will be decided at public release (candidate: AGPL-3.0 or source-available). In the meantime: all your data is in <strong>your</strong> PostgreSQL in standard SQL, so even if Wiregrid disappeared tomorrow, you keep your data and your history usable with any other tool."
+    },
+    "company_disappears": {
+      "q": "What if you shut down tomorrow?",
+      "a_html": "Your data lives in a standard PostgreSQL on your server. Your Power BI dashboards keep working. For acquisition, you replace Wiregrid with any other platform speaking Modbus / OPC-UA / BACnet — the equipment-wiring work is done once, not for the lifetime of the vendor."
+    },
+    "multi_site": {
+      "q": "What about multi-site supervision?",
+      "a_html": "Today: multi-project on a single instance (great for multi-building setups within one group). For multi-site with edge gateways at each location plus a consolidating central, that's on the Q4 2026 roadmap."
+    },
+    "wiresheet_status": {
+      "q": "When does the wiresheet (visual logic) ship?",
+      "a_html": "The execution engine is already in the runtime. The Vue Flow editor (block palette, drag-drop, links) is targeted for <strong>Q3 2026</strong>. In the meantime, you can write complex alarm rules and trigger actions through email notifications."
+    },
+    "support": {
+      "q": "What does support look like?",
+      "a_html": "Discovery plan: online documentation and public GitHub issues. Production plan: email with a 1-business-day response SLA, video calls on request, direct access to the lead developer."
+    },
+    "trial": {
+      "q": "How long do I need to seriously try it?",
+      "a_html": "The online demo works as an instant POC (60 seconds of clicking around). For a trial on your own equipment, plan 1–2 hours to wire up a PLC and see your real points. Past that, the Discovery plan (50 points free) already covers a complete small site."
+    }
   },
   "footer": {
     "product": "Product",
@@ -79,10 +248,10 @@
     "contact": "Contact",
     "rights": "All rights reserved.",
     "made_in": "Designed and built in France",
-    "tagline": "Industrial data centralization and operation. Supervision, archiving, BI integration."
+    "tagline": "Open web SCADA. Your Modbus / OPC-UA / BACnet PLCs, your data in standard Postgres, directly queryable from Power BI."
   },
   "meta": {
-    "og_image_alt": "WireGrid — Industrial supervision platform"
+    "og_image_alt": "Wiregrid — SCADA supervision without tag pricing"
   },
   "a11y": {
     "skip_to_content": "Skip to content",

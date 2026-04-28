@@ -76,7 +76,9 @@ describe('Contact mailto goes to the right address', () => {
       const mailtos = html[lang].match(/mailto:([^"'\s<>]+)/g) ?? [];
       expect(mailtos.length).toBeGreaterThan(0);
       for (const mailto of mailtos) {
-        expect(mailto).toBe('mailto:contact@wiregrid.fr');
+        // Allow ?subject=... and similar URL params, just check the address.
+        const addr = mailto.replace(/^mailto:/, '').split('?')[0];
+        expect(addr).toBe('contact@wiregrid.fr');
       }
     });
   }
