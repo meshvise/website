@@ -17,5 +17,36 @@
   "routes": [
     { "pattern": "wiregrid.fr", "custom_domain": true },
     { "pattern": "www.wiregrid.fr", "custom_domain": true }
-  ]
+  ],
+
+  // Trial license bindings (Vague 5).
+  // - TRIAL_DEDUPE: KV used for email dedupe (key `email:<lower>`, TTL 30d)
+  //   and per-IP 24h throttle (key `ip:<addr>`, TTL 24h). 1 namespace, 2 key
+  //   prefixes, simpler ops than maintaining two namespaces.
+  // - TRIAL_RATE_LIMITER: native Cloudflare Rate Limiting binding for the
+  //   short-window spam shield (3 req per 60s per IP). Native simple
+  //   bindings only support period=10 or period=60, so the longer 24h
+  //   policy from ADR-0006 is implemented in TRIAL_DEDUPE above.
+  // IDs are placeholders until Bruno provisions the resources. Local
+  // `wrangler dev` uses preview_id; CI/prod uses id. Replace before deploy.
+  "kv_namespaces": [
+    {
+      "binding": "TRIAL_DEDUPE",
+      "id": "REPLACE_WITH_PROD_KV_ID",
+      "preview_id": "REPLACE_WITH_PREVIEW_KV_ID"
+    }
+  ],
+  "unsafe": {
+    "bindings": [
+      {
+        "name": "TRIAL_RATE_LIMITER",
+        "type": "ratelimit",
+        "namespace_id": "1001",
+        "simple": {
+          "limit": 3,
+          "period": 60
+        }
+      }
+    ]
+  }
 }
