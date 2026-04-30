@@ -39,41 +39,43 @@ Spec figée: `c:/Users/bruno/Desktop/Dev/wiregrid-lead/docs/adr/0006-trial-licen
 
 **Worker `src/worker.js` route `POST /api/trial`**
 
-- [ ] Verify Turnstile token via `https://challenges.cloudflare.com/turnstile/v0/siteverify`
-- [ ] Rate-limit IP via Workers Rate Limiting binding `TRIAL_RATE_LIMITER` (3 req/24h par IP)
-- [ ] KV dedupe `trial_dedupe:<email>` avec TTL 30j (refus si présent)
-- [ ] Sign JWT Ed25519 selon ADR 0006 § 8 (`tier: "trial"`, `iss: "wiregrid-trial-signer"`, `exp = iat + 7*24*3600`, limits + features par défaut, `binding: null`)
-- [ ] Write KV dedupe entry
-- [ ] Schedule 3 emails Resend: welcome immédiat (license.jwt en pièce jointe + docker-compose.yml + commande d'install + lien doc), reminder à `iat + 144h` (24h avant fin), post-mortem à `iat + 170h` (= H+2 post-exp)
-- [ ] Réponse JSON `{ "ok": true }` au formulaire pour afficher l'écran de succès
+- [x] Verify Turnstile token via `https://challenges.cloudflare.com/turnstile/v0/siteverify`
+- [x] Rate-limit IP via Workers Rate Limiting binding `TRIAL_RATE_LIMITER` (3 req/60s natif) + KV `ip:<addr>` 24h (3 req/24h, complète l'ADR puisque le binding natif limite period à 10|60s)
+- [x] KV dedupe `email:<lower>` avec TTL 30j (refus si présent)
+- [x] Sign JWT Ed25519 selon ADR 0006 § 8 (`tier: "trial"`, `iss: "wiregrid-trial-signer"`, `exp = iat + 7*24*3600`, limits + features par défaut, `binding: null`)
+- [x] Write KV dedupe entry (rollback en cas d'échec welcome)
+- [x] Schedule 3 emails Resend: welcome immédiat (license.jwt en pièce jointe + docker-compose.yml + commande d'install + lien doc), reminder à `iat + 144h` (24h avant fin), post-mortem à `iat + 170h` (= H+2 post-exp)
+- [x] Réponse JSON `{ "ok": true }` au formulaire pour afficher l'écran de succès
 
 **Bindings et secrets**
 
-- [ ] `wrangler.jsonc`: KV namespace `TRIAL_DEDUPE`, Rate Limiting `TRIAL_RATE_LIMITER`
+- [x] `wrangler.jsonc`: KV namespace `TRIAL_DEDUPE`, Rate Limiting `TRIAL_RATE_LIMITER` (IDs placeholders, à remplacer par Bruno après provisioning)
+- [ ] Bruno: provisionner KV namespace + Rate Limiting binding via `wrangler kv namespace create TRIAL_DEDUPE` (preview + prod) puis remplacer les IDs placeholders dans `wrangler.jsonc`
 - [ ] Bruno: `wrangler secret put TRIAL_SIGNING_KEY` (Ed25519 PEM, fourni depuis Bitwarden après génération côté wiregrid)
 - [ ] Bruno: `wrangler secret put RESEND_API_KEY`
 - [ ] Bruno: `wrangler secret put TURNSTILE_SECRET_KEY`
-- [ ] Bruno: récupérer le siteKey Turnstile public et le câbler dans `trial.astro`
+- [ ] Bruno: récupérer le siteKey Turnstile public et le poser via env var build `PUBLIC_TURNSTILE_SITE_KEY` (sinon le widget tourne avec la clé de test always-pass)
+- [ ] Bruno (option) : `wrangler secret put RESEND_FROM_EMAIL` (sinon fallback `Wiregrid <onboarding@resend.dev>`), `CALENDLY_URL`, `DOCS_INSTALL_URL`
 
 **Templates email**
 
-- [ ] `src/emails/welcome.{ts,html,txt}` (FR + EN selon la langue détectée du formulaire): license.jwt en pièce jointe, docker-compose.yml minimal inline, commande d'install, lien doc
-- [ ] `src/emails/reminder.{ts,html,txt}` (FR + EN): "Plus que 24h sur votre essai. Pour passer en production: [calendly]"
-- [ ] `src/emails/post_mortem.{ts,html,txt}` (FR + EN): "Votre essai est terminé. Discutons ? [calendly]"
-- [ ] Sobre, pas de promesses fonctionnelles, pas de noms de concurrents, pas d'em-dashes
+- [x] `src/emails/welcome.js` (FR + EN selon la langue détectée du formulaire): license.jwt en pièce jointe, docker-compose.yml en pièce jointe, commande d'install, lien doc
+- [x] `src/emails/reminder.js` (FR + EN): "Plus que 24h sur votre essai. Pour passer en production: [calendly]"
+- [x] `src/emails/post-mortem.js` (FR + EN): "Votre essai est terminé. Discutons ? [calendly]"
+- [x] Sobre, pas de promesses fonctionnelles, pas de noms de concurrents, pas d'em-dashes (asserté en test)
 
 **Tests vitest**
 
-- [ ] Parsing du body JSON `/api/trial` (champs requis, formats)
-- [ ] Rejet sans Turnstile token
-- [ ] Rejet sur dedupe KV
-- [ ] Rejet rate-limit (4e requête)
-- [ ] Génération JWT: claims attendus, signature valide avec une clé de test
+- [x] Parsing du body JSON `/api/trial` (champs requis, formats)
+- [x] Rejet sans Turnstile token
+- [x] Rejet sur dedupe KV
+- [x] Rejet rate-limit (4e requête)
+- [x] Génération JWT: claims attendus, signature valide avec une clé de test
 - [x] Smoke build static via `built-html.test.ts` étendu pour la nouvelle page trial
 
-**CRL endpoint (optionnel, pas urgent)**
+**CRL endpoint**
 
-- [ ] `src/pages/crl.json.ts` retourne `{ "revoked": [], "version": 1 }`. Sera consommé par les déploiements production une fois les premières licences prod émises.
+- [x] `src/pages/crl.json.ts` retourne `{ "revoked": [], "version": 1 }`. Sera consommé par les déploiements production une fois les premières licences prod émises.
 
 ---
 
