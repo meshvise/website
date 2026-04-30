@@ -1,21 +1,28 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
-# Encourage AI crawlers explicitly — both Google's AI overviews and
-# the indexing crawlers used by Perplexity / ChatGPT / Claude.
+# Encourage AI crawlers explicitly. Both Google's AI overviews and the
+# indexing crawlers used by Perplexity / ChatGPT / Claude pick up from
+# llms.txt + the rendered HTML.
 User-agent: Googlebot
 Allow: /
+Disallow: /api/
 
 User-agent: GPTBot
 Allow: /
+Disallow: /api/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /api/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /api/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /api/
 
 Sitemap: https://wiregrid.fr/sitemap-index.xml

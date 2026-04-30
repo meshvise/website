@@ -136,7 +136,13 @@ export async function handleTrialRequest(request, env, deps = {}) {
   const calendlyUrl = env.CALENDLY_URL || DEFAULTS.calendlyUrl;
   const docsUrl = env.DOCS_INSTALL_URL || DEFAULTS.docsUrl;
 
-  const welcome = renderWelcomeEmail({ lang, name, jwt, docsUrl });
+  const welcome = renderWelcomeEmail({
+    lang,
+    name,
+    jwt,
+    docsUrl,
+    imageTag: env.WIREGRID_IMAGE_TAG,
+  });
   const welcomeRes = await sendResend({
     apiKey: env.RESEND_API_KEY,
     from: fromEmail,

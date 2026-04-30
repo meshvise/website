@@ -1,10 +1,15 @@
 // Minimal docker-compose.yml shipped to trial users as an attachment.
 // Three services: postgres (with TimescaleDB), redis, gateway-py. The
-// gateway-py image tag is read from an env var so we can rev it without
-// regenerating outstanding licences. license.jwt is read-only mounted
-// from the same folder where the user saved the email attachments.
+// gateway-py image tag is parameterised via WIREGRID_IMAGE_TAG (Worker
+// var, default DEFAULT_IMAGE_TAG below) so dev-Claude wiregrid can pin
+// new ghcr releases without touching the vitrine repo. license.jwt is
+// read-only mounted from the same folder where the user saved the
+// email attachments.
 
-export const DOCKER_COMPOSE_YML = `# Wiregrid trial stack: quickstart docker-compose.yml
+export const DEFAULT_IMAGE_TAG = 'v0.1.0';
+
+export function buildDockerComposeYml({ imageTag = DEFAULT_IMAGE_TAG } = {}) {
+  return `# Wiregrid trial stack: quickstart docker-compose.yml
 # Save license.jwt next to this file, then run:
 #   docker compose up -d
 # After ~30 seconds, open http://localhost:8001 (admin@wiregrid.local / wiregrid).
@@ -30,7 +35,7 @@ services:
     restart: unless-stopped
 
   gateway-py:
-    image: ghcr.io/tatex74/wiregrid-gateway-py:latest
+    image: ghcr.io/tatex74/wiregrid-gateway-py:${imageTag}
     restart: unless-stopped
     depends_on:
       postgres:
@@ -49,3 +54,8 @@ services:
 volumes:
   pgdata:
 `;
+}
+
+// Backwards-compat: existing callers can still import a default-tag
+// string. Tests assert on this so dev-mode keeps working without env.
+export const DOCKER_COMPOSE_YML = buildDockerComposeYml();

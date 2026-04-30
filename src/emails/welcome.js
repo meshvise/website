@@ -2,7 +2,7 @@
 // license.jwt as attachment + docker-compose.yml + the install command.
 // FR / EN switched on the lang the form submitted with.
 
-import { DOCKER_COMPOSE_YML } from './docker-compose.js';
+import { buildDockerComposeYml } from './docker-compose.js';
 
 const COPY = {
   fr: {
@@ -47,7 +47,7 @@ const COPY = {
   },
 };
 
-export function renderWelcomeEmail({ lang, name, jwt, docsUrl = 'https://wiregrid.fr' }) {
+export function renderWelcomeEmail({ lang, name, jwt, docsUrl = 'https://wiregrid.fr', imageTag }) {
   const c = COPY[lang === 'en' ? 'en' : 'fr'];
   const greeting = c.greeting(name);
   const stepsHtml = c.steps.map((s) => `<li>${s}</li>`).join('');
@@ -80,7 +80,7 @@ export function renderWelcomeEmail({ lang, name, jwt, docsUrl = 'https://wiregri
     },
     {
       filename: 'docker-compose.yml',
-      content: base64Encode(DOCKER_COMPOSE_YML),
+      content: base64Encode(buildDockerComposeYml({ imageTag })),
       content_type: 'text/yaml',
     },
   ];

@@ -10,7 +10,7 @@ import { describe, it, expect } from 'vitest';
 import { renderWelcomeEmail } from '../../src/emails/welcome.js';
 import { renderReminderEmail } from '../../src/emails/reminder.js';
 import { renderPostMortemEmail } from '../../src/emails/post-mortem.js';
-import { DOCKER_COMPOSE_YML } from '../../src/emails/docker-compose.js';
+import { DOCKER_COMPOSE_YML, buildDockerComposeYml, DEFAULT_IMAGE_TAG } from '../../src/emails/docker-compose.js';
 
 const FORBIDDEN_NAMES = ['Niagara', 'Ignition', 'EcoStruxure', 'Tridium', 'Inductive Automation', 'Workbench', 'JACE'];
 const EM_DASH = '—';
@@ -109,5 +109,29 @@ describe('docker-compose.yml string', () => {
 
   it('has no em-dashes', () => {
     expect(DOCKER_COMPOSE_YML).not.toContain(EM_DASH);
+  });
+
+  it('uses DEFAULT_IMAGE_TAG when no override is passed', () => {
+    expect(DOCKER_COMPOSE_YML).toContain(`ghcr.io/tatex74/wiregrid-gateway-py:${DEFAULT_IMAGE_TAG}`);
+  });
+
+  it('substitutes the image tag when buildDockerComposeYml is called explicitly', () => {
+    const yml = buildDockerComposeYml({ imageTag: 'v0.42.7' });
+    expect(yml).toContain('ghcr.io/tatex74/wiregrid-gateway-py:v0.42.7');
+    expect(yml).not.toContain(`ghcr.io/tatex74/wiregrid-gateway-py:${DEFAULT_IMAGE_TAG}`);
+  });
+
+  it('falls back to the default when imageTag is undefined', () => {
+    const yml = buildDockerComposeYml();
+    expect(yml).toContain(`ghcr.io/tatex74/wiregrid-gateway-py:${DEFAULT_IMAGE_TAG}`);
+  });
+});
+
+describe('renderWelcomeEmail with image tag override', () => {
+  it('passes the imageTag through to the docker-compose attachment', () => {
+    const r = renderWelcomeEmail({ lang: 'en', name: 'A', jwt: 'a.b.c', imageTag: 'v9.9.9' });
+    const compose = r.attachments[1];
+    const decoded = Buffer.from(compose.content, 'base64').toString('utf-8');
+    expect(decoded).toContain('ghcr.io/tatex74/wiregrid-gateway-py:v9.9.9');
   });
 });
