@@ -7,86 +7,112 @@ interface Props {
 
 const { lang } = Astro.props;
 
-// Alternating rows à la understory: text-left / visual-right, then reversed.
-// Each "visual" is a small artifact (SQL, payload, log, table) that grounds
-// the claim in something a reader can actually read.
-
-const wsFrame = `<span style="color:#94A3B8;">// GET wss://demo.wiregrid.fr/ws/live</span>
-{<span style="color:#22D3EE;">"point_id"</span>: 124, <span style="color:#22D3EE;">"path"</span>: <span style="color:#FCD34D;">"AHU1/SupplyTemp"</span>, <span style="color:#22D3EE;">"value"</span>: 22.41, <span style="color:#22D3EE;">"ts"</span>: <span style="color:#FCD34D;">"2026-04-28T13:42:18Z"</span>}
-{<span style="color:#22D3EE;">"point_id"</span>: 124, <span style="color:#22D3EE;">"path"</span>: <span style="color:#FCD34D;">"AHU1/SupplyTemp"</span>, <span style="color:#22D3EE;">"value"</span>: 22.43, <span style="color:#22D3EE;">"ts"</span>: <span style="color:#FCD34D;">"2026-04-28T13:42:18Z"</span>}`;
-
-const sqlSnippet = `<span style="color:#94A3B8;">-- Average power per machine, 24 h, ready for Power BI</span>
-<span style="color:#22D3EE;">SELECT</span> m.name, <span style="color:#22D3EE;">time_bucket</span>(<span style="color:#FCD34D;">'15 min'</span>, ts) <span style="color:#22D3EE;">AS</span> bucket,
-       <span style="color:#22D3EE;">avg</span>(value) <span style="color:#22D3EE;">AS</span> avg_kw
-<span style="color:#22D3EE;">FROM</span>   point_history
-<span style="color:#22D3EE;">JOIN</span>   machine_points USING (point_id)
-<span style="color:#22D3EE;">WHERE</span>  ts <span style="color:#22D3EE;">&gt;</span> <span style="color:#22D3EE;">now</span>() <span style="color:#22D3EE;">-</span> <span style="color:#FCD34D;">interval '24h'</span>
-<span style="color:#22D3EE;">GROUP BY</span> m.name, bucket;`;
-
-const revisionLog = `<span style="color:#22D3EE;">#43</span>  <span style="color:#F8FAFC;">AHU1: setpoint 21 → 22 °C</span>     <span style="color:#94A3B8;">bcrespo · deployed</span>
-<span style="color:#22D3EE;">#42</span>  <span style="color:#F8FAFC;">+ alarm: Boiler1/FlueTemp&gt;280</span> <span style="color:#94A3B8;">bcrespo · deployed</span>
-<span style="color:#22D3EE;">#41</span>  <span style="color:#F8FAFC;">Tank1: deadband 0.1 → 0.2</span>     <span style="color:#94A3B8;">jdupont · revert</span>
-<span style="color:#22D3EE;">#40</span>  <span style="color:#F8FAFC;">+ machine: Pump P1</span>            <span style="color:#94A3B8;">bcrespo</span>`;
-
-const features = [
-  { id: 'open_data',   reverse: false, snippet: sqlSnippet,   snippet_label: 'sql · time_bucket' },
-  { id: 'live',        reverse: true,  snippet: wsFrame,      snippet_label: 'ws · /ws/live' },
-  { id: 'versioning',  reverse: false, snippet: revisionLog,  snippet_label: 'revisions · log' },
+const cards = [
+  { id: 'acquisition', icon: 'protocol' },
+  { id: 'historian',   icon: 'history' },
+  { id: 'alarms',      icon: 'bell' },
+  { id: 'wiresheet',   icon: 'flow', wiresheetMock: true },
+  { id: 'open_data',   icon: 'plug' },
 ];
 ---
 
-<section id="features" class="px-6 py-24 md:py-32">
+<section id="features" class="px-6 py-24 md:py-32 border-t border-border/60" style="background:var(--color-bg-alt);">
   <div class="mx-auto max-w-6xl">
-    <div class="text-center max-w-2xl mx-auto mb-20">
+    <div class="text-center max-w-2xl mx-auto mb-16">
       <div class="section-eyebrow justify-center">{t(lang, 'features.eyebrow')}</div>
       <h2 class="section-title">{t(lang, 'features.title')}</h2>
       <p class="section-lede mx-auto">{t(lang, 'features.subtitle')}</p>
     </div>
 
-    <div class="space-y-24 md:space-y-32">
-      {features.map((f) => (
-        <div class={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center ${f.reverse ? 'lg:[&>*:first-child]:order-2' : ''}`}>
-          <div class="lg:col-span-5">
-            <h3 class="text-2xl md:text-3xl font-semibold tracking-tight leading-tight mb-5">
-              <span set:html={t(lang, `features.${f.id}.title_html`)} />
-            </h3>
-            <p class="text-[16px] text-muted-strong leading-[1.65]" set:html={t(lang, `features.${f.id}.desc_html`)} />
-            <ul class="mt-6 space-y-2.5 text-[14.5px] text-muted-strong">
-              {[1, 2, 3].map((n) => (
-                <li class="flex items-start gap-2.5">
-                  <svg class="w-4 h-4 mt-1 text-brand shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true">
-                    <polyline points="3 8 7 12 13 4" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <span set:html={t(lang, `features.${f.id}.bullet_${n}_html`)} />
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div class="lg:col-span-7">
-            <div class="rounded-lg overflow-hidden ring-1 ring-slate-900/5 shadow-xl shadow-slate-900/10" style="background:#0F172A;">
-              <div class="px-3 py-1.5 border-b flex items-center justify-between text-[11px] font-mono" style="background:#273449;border-color:#334155;color:#94A3B8;">
-                <span>{f.snippet_label}</span>
-                <span style="color:#22D3EE;">demo.wiregrid.fr</span>
-              </div>
-              <pre class="p-4 overflow-x-auto font-mono text-[12.5px] leading-[1.65] whitespace-pre" style="color:#CBD5E1;"><Fragment set:html={f.snippet} /></pre>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {cards.map((card) => (
+        <article class="bg-surface rounded-lg border border-border p-6 flex flex-col">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-md bg-brand-soft text-brand flex items-center justify-center shrink-0">
+              {card.icon === 'protocol' && (
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <path d="M8 6h13M8 12h13M8 18h13" stroke-linecap="round"/>
+                  <circle cx="3.5" cy="6" r="1.5"/><circle cx="3.5" cy="12" r="1.5"/><circle cx="3.5" cy="18" r="1.5"/>
+                </svg>
+              )}
+              {card.icon === 'history' && (
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <path d="M3 12a9 9 0 1 0 9-9" stroke-linecap="round"/>
+                  <path d="M3 4v5h5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              )}
+              {card.icon === 'tag' && (
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <path d="M3 12V4h8l10 10-8 8-10-10z" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/>
+                </svg>
+              )}
+              {card.icon === 'bell' && (
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10 21a2 2 0 0 0 4 0" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              )}
+              {card.icon === 'flow' && (
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <rect x="2" y="4" width="6" height="5" rx="1"/>
+                  <rect x="2" y="15" width="6" height="5" rx="1"/>
+                  <rect x="16" y="9.5" width="6" height="5" rx="1"/>
+                  <path d="M8 6.5h4a2 2 0 0 1 2 2v3m-6 6h4a2 2 0 0 0 2-2v-3" stroke-linecap="round"/>
+                </svg>
+              )}
+              {card.icon === 'plug' && (
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <path d="M9 2v4M15 2v4M6 6h12v6a6 6 0 0 1-12 0V6zM12 18v4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              )}
             </div>
+            <h3 class="font-semibold text-text">{t(lang, `features.${card.id}.title`)}</h3>
           </div>
-        </div>
-      ))}
-    </div>
 
-    <!-- Secondary feature grid for the "supporting" capabilities. -->
-    <div class="mt-24 md:mt-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {(['drivers', 'alarms', 'historian', 'integrations', 'multitenant', 'wiresheet'] as const).map((id) => (
-        <article class="rounded-lg border border-border bg-surface p-6 hover:border-brand/40 transition-colors">
-          <div class="flex items-center gap-2 mb-3">
-            <h4 class="font-semibold text-text">{t(lang, `features.${id}.title`)}</h4>
-            {id === 'wiresheet' && (
-              <span class="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded text-warning bg-warning/10 border border-warning/30">Q3 26</span>
-            )}
-          </div>
-          <p class="text-[14px] text-muted-strong leading-relaxed" set:html={t(lang, `features.${id}.desc_html`)} />
+          <p class="text-[14px] text-muted-strong leading-relaxed flex-1" set:html={t(lang, `features.${card.id}.desc_html`)} />
+
+          {card.wiresheetMock && (
+            <!-- Mini wiresheet mock: DeltaT = SupplyTemp − ReturnTemp.
+                 Static SVG, no animation, light enough for a card. -->
+            <div class="mt-5 rounded-md border border-border bg-bg p-4">
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[10px] font-mono uppercase tracking-wider text-muted">{t(lang, 'features.wiresheet.mock_label')}</span>
+                <span class="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded text-warning bg-warning/10 border border-warning/30">Q3 26</span>
+              </div>
+              <svg viewBox="0 0 360 140" class="w-full h-auto" fill="none" aria-hidden="true">
+                <!-- Wires drawn first, square-routed (no curves), so they read like a P&ID schematic. -->
+                <g stroke="#06B6D4" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+                  <path d="M128 28 H148 V64 H158" />
+                  <path d="M128 112 H148 V76 H158" />
+                  <path d="M230 70 H260" />
+                </g>
+                <!-- Pin junctions (small filled circles at each connection point). -->
+                <g fill="#06B6D4">
+                  <circle cx="128" cy="28" r="2.5" />
+                  <circle cx="128" cy="112" r="2.5" />
+                  <circle cx="158" cy="64" r="2.5" />
+                  <circle cx="158" cy="76" r="2.5" />
+                  <circle cx="230" cy="70" r="2.5" />
+                  <circle cx="260" cy="70" r="2.5" />
+                </g>
+                <!-- Input blocks (top + bottom) -->
+                <rect x="8"  y="14" width="120" height="28" rx="4" fill="#FFFFFF" stroke="#D1D1CC" stroke-width="1" />
+                <rect x="8"  y="98" width="120" height="28" rx="4" fill="#FFFFFF" stroke="#D1D1CC" stroke-width="1" />
+                <!-- Operation block (subtract) — brand-tinted -->
+                <rect x="158" y="56" width="72"  height="28" rx="4" fill="#ECFEFF" stroke="#06B6D4" stroke-width="1.25" />
+                <!-- Output block (DeltaT) -->
+                <rect x="260" y="56" width="92"  height="28" rx="4" fill="#FFFFFF" stroke="#475569" stroke-width="1.25" />
+                <!-- Labels — monospace, centered in each block. -->
+                <g font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" fill="#0F172A" text-anchor="middle">
+                  <text x="68"  y="32">AHU1/SupplyTemp</text>
+                  <text x="68"  y="116">AHU1/ReturnTemp</text>
+                  <text x="306" y="74">DeltaT  °C</text>
+                </g>
+                <text x="194" y="74" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11.5" font-weight="600" fill="#0891B2" text-anchor="middle">subtract</text>
+              </svg>
+            </div>
+          )}
         </article>
       ))}
     </div>

@@ -66,9 +66,6 @@ const tiers = [
               <span class={`text-sm font-mono ${tier.highlight ? 'opacity-70' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.period`)}</span>
             </div>
             <p class={`mt-2 text-[12.5px] font-mono ${tier.highlight ? 'opacity-65' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.price_note`)}</p>
-            {tier.id === 'pro' && (
-              <p class="mt-3 text-[12.5px] leading-relaxed" style="color:#22D3EE;" set:html={t(lang, 'pricing.pro.anchor_html')} />
-            )}
           </div>
 
           <ul class="mt-6 space-y-3 text-[14px]">

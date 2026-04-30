@@ -1,10 +1,9 @@
 /**
- * Single source of truth for the FAQ list. Used both by the FAQ.astro
- * component (rendering) and Base.astro (FAQPage JSON-LD schema). Keep
- * the order here aligned with the user-facing reading flow.
+ * Single source of truth for the FAQ list. Used by FAQ.astro to render
+ * and by Base.astro to emit the FAQPage JSON-LD schema. Order = reading
+ * flow on the page.
  */
 export const FAQ_KEYS = [
-  'difference_niagara',
   'compatible_plc',
   'data_format',
   'powerbi',
@@ -12,7 +11,6 @@ export const FAQ_KEYS = [
   'minimum_hardware',
   'security',
   'safety_sil',
-  'open_source',
   'company_disappears',
   'multi_site',
   'wiresheet_status',
