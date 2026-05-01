@@ -145,3 +145,35 @@ describe('Landing pages link to the trial page', () => {
     });
   }
 });
+
+describe('Pricing section renders 3 tiers per ADR-0008', () => {
+  for (const lang of ['fr', 'en'] as const) {
+    function pricingSection(): string {
+      const m = html[lang].match(/<section id="pricing"[\s\S]*?<\/section>/);
+      if (!m) throw new Error(`pricing section not found in ${lang}`);
+      return m[0];
+    }
+
+    it(`${lang} pricing has exactly 3 tier cards`, () => {
+      const section = pricingSection();
+      const cardHeads = section.match(/<h3 class="text-xl/g) ?? [];
+      expect(cardHeads).toHaveLength(3);
+    });
+
+    it(`${lang} pricing wires the 3 expected CTAs (demo / trial / standard mailto)`, () => {
+      const section = pricingSection();
+      expect(section).toContain('href="https://demo.wiregrid.fr"');
+      expect(section).toContain(`href="/${lang}/trial/"`);
+      expect(section).toContain('href="mailto:contact@wiregrid.fr?subject=Wiregrid%20Standard"');
+    });
+
+    it(`${lang} pricing no longer references the obsolete free-forever 50-points tier`, () => {
+      // ADR-0008 explicitly rejected a permanent self-host free tier.
+      // Make sure the old "Discovery / 50 points / forever" copy is gone.
+      const section = pricingSection();
+      expect(section).not.toMatch(/Discovery|Découverte/);
+      expect(section).not.toMatch(/50 points/);
+      expect(section).not.toMatch(/forever|pour toujours/);
+    });
+  }
+});

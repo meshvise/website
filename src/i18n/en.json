@@ -105,39 +105,51 @@
   },
   "pricing": {
     "eyebrow": "Pricing",
-    "title": "Two tiers. No per-tag pricing.",
-    "subtitle": "The Discovery plan covers a complete small site: 50 points already covers most single-building setups. Beyond that, a flat annual fee.",
+    "title": "Three doors. One paid tier.",
+    "subtitle": "The online demo for a quick look. The 7-day trial to wire up your real PLCs. The Standard tier when you go to production. No per-tag pricing, no hidden runtime licence.",
     "recommended": "Recommended",
-    "footnote": "Prices excl. VAT, billed annually. 12-month commitment. You stay the owner of your data and your instance.",
-    "free": {
-      "name": "Discovery",
-      "tagline": "Evaluation, pilot sites, small installations.",
+    "footnote": "Standard: prices excl. VAT, billed annually, renews at €990/year. You stay the owner of your data and your instance, hosted on your infrastructure.",
+    "demo": {
+      "name": "Online demo",
+      "tagline": "See the product in 60 seconds, no install.",
       "price": "€0",
-      "period": "/ forever",
-      "price_note": "self-hosted, no sign-up",
+      "period": "one-off",
+      "price_note": "no sign-up, no credit card",
       "cta": "See the demo"
     },
-    "pro": {
-      "name": "Production",
-      "tagline": "Real operation, multi-building, BI integration.",
+    "trial": {
+      "name": "7-day trial",
+      "tagline": "Wire up your real PLCs, validate in real conditions.",
+      "price": "€0",
+      "period": "/ 7 days",
+      "price_note": "licence by email, read-only on expiration",
+      "cta": "Try on my infra"
+    },
+    "standard": {
+      "name": "Standard",
+      "tagline": "Real operation, no functional limit.",
       "price": "€990",
       "period": "/ year",
-      "price_note": "per instance, unlimited points",
-      "cta": "Try 7 days on my infra"
+      "price_note": "per instance, updates included",
+      "cta": "Get in touch"
     },
     "feature": {
-      "points_50": "Up to 50 points",
-      "points_unlimited": "Unlimited points",
-      "protocols_modbus": "Modbus TCP",
-      "protocols_all": "Modbus TCP + OPC-UA + BACnet/IP",
-      "historian_7d": "7-day historian",
-      "historian_unlimited": "Unlimited historian, configurable retention",
-      "alarms": "Threshold alarms",
-      "alarms_notifications": "Alarms + email notifications + groups",
-      "api_open": "REST API + direct SQL access",
-      "support_docs": "Online documentation",
-      "support_dedicated": "Email + video call support",
-      "priority_roadmap": "Roadmap influence"
+      "demo_no_install": "Preview without installing",
+      "demo_simulated": "Simulated industrial-site data",
+      "demo_quick_look": "60 seconds of clicking around",
+      "demo_no_signup": "No sign-up required",
+      "trial_full_app": "Full app on your infrastructure",
+      "trial_limits": "5 drivers · 15 machines · 500 points",
+      "trial_protocols": "Modbus TCP + OPC-UA + BACnet/IP",
+      "trial_features": "All product features",
+      "trial_duration": "7 days then read-only, data preserved",
+      "standard_unlimited": "Unlimited points and machines in practice",
+      "standard_protocols": "Modbus TCP + OPC-UA + BACnet/IP",
+      "standard_features": "Historian, alarms, wiresheet, SQL access, API",
+      "standard_install": "One instance per licence, on your infrastructure",
+      "standard_updates": "Updates included for the year",
+      "standard_support": "Email support at <code>contact@wiregrid.fr</code>",
+      "standard_renewal": "Annual renewal at €990/year"
     }
   },
   "faq": {
@@ -190,7 +202,11 @@
     },
     "trial": {
       "q": "How long do I need to seriously try it?",
-      "a_html": "Three doors depending on your need. The online demo works as an instant POC (60 seconds of clicking around). The <a href=\"/en/trial/\" class=\"text-brand hover:underline\">7-day trial</a> gives you the full app on your infra, with your PLCs, to validate in real conditions. Beyond that, you switch to a yearly production licence."
+      "a_html": "Three doors depending on your need. The online demo works as an instant POC (60 seconds of clicking around). The <a href=\"/en/trial/\" class=\"text-brand hover:underline\">7-day trial</a> gives you the full app on your infra, with your PLCs, to validate in real conditions. Beyond that, you switch to a yearly Standard licence (€990)."
+    },
+    "demo_vs_trial": {
+      "q": "What's the difference between the online demo and the 7-day trial?",
+      "a_html": "The <a href=\"https://demo.wiregrid.fr\" class=\"text-brand hover:underline\">online demo</a> is public, runs on our server with simulated industrial-site data. You click around, see the UI, close the tab. No sign-up, nothing to install. Best for a first look. The <a href=\"/en/trial/\" class=\"text-brand hover:underline\">7-day trial</a>, on the other hand, gives you the full app on your own infrastructure. You fill a form, receive a <code>license.jwt</code> and a <code>docker-compose.yml</code> by email, run <code>docker compose up -d</code> on your server, wire up your real PLCs. That's the serious evaluation before purchase."
     },
     "trial_what_happens": {
       "q": "How does the 7-day trial work?",

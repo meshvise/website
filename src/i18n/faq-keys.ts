@@ -16,6 +16,7 @@ export const FAQ_KEYS = [
   'wiresheet_status',
   'support',
   'trial',
+  'demo_vs_trial',
   'trial_what_happens',
   'trial_end',
 ] as const;

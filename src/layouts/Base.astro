@@ -56,19 +56,31 @@ const softwareLd = {
   offers: [
     {
       '@type': 'Offer',
-      name: lang === 'fr' ? 'Découverte' : 'Discovery',
+      name: lang === 'fr' ? 'Démo en ligne' : 'Online demo',
       price: '0',
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
       url: 'https://demo.wiregrid.fr',
       description:
         lang === 'fr'
-          ? 'Self-host gratuit jusqu’à 50 points, Modbus TCP, 7 jours d’historique.'
-          : 'Free self-host up to 50 points, Modbus TCP, 7-day history.',
+          ? 'Démo publique en ligne, données simulées, sans installation, sans inscription.'
+          : 'Public online demo, simulated data, no installation, no sign-up.',
     },
     {
       '@type': 'Offer',
-      name: 'Production',
+      name: lang === 'fr' ? 'Essai 7 jours' : '7-day trial',
+      price: '0',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      url: `${SITE_ORIGIN}/${lang}/trial/`,
+      description:
+        lang === 'fr'
+          ? "L'app complète sur votre infrastructure pendant 7 jours, limites 5 drivers / 15 machines / 500 points, toutes fonctionnalités. Lecture seule à expiration."
+          : 'Full app on your infrastructure for 7 days, limits 5 drivers / 15 machines / 500 points, all features. Read-only on expiration.',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Standard',
       price: '990',
       priceCurrency: 'EUR',
       priceSpecification: {
@@ -82,8 +94,8 @@ const softwareLd = {
       url: `${SITE_ORIGIN}/${lang}/#pricing`,
       description:
         lang === 'fr'
-          ? 'Points illimités, Modbus + OPC-UA + BACnet, historian illimité, support email + visio.'
-          : 'Unlimited points, Modbus + OPC-UA + BACnet, unlimited historian, email + video support.',
+          ? 'Points et machines illimités en pratique, tous protocoles (Modbus + OPC-UA + BACnet), tous features, mises à jour incluses, support email. Une instance par licence.'
+          : 'Unlimited points and machines in practice, all protocols (Modbus + OPC-UA + BACnet), all features, updates included, email support. One instance per licence.',
     },
   ],
 };

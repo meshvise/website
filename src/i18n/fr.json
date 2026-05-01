@@ -105,39 +105,51 @@
   },
   "pricing": {
     "eyebrow": "Tarifs",
-    "title": "Deux paliers. Pas de tarification par tag.",
-    "subtitle": "Le plan Découverte couvre un petit site complet : 50 points, c'est déjà la majorité des sites mono-bâtiment. Au-delà, un forfait annuel plat.",
+    "title": "Trois portes. Un seul tier payant.",
+    "subtitle": "La démo en ligne pour cliquer une fois. L'essai 7 jours pour câbler vos automates. Le tier Standard pour passer en exploitation. Pas de tarification par tag, pas de licence runtime cachée.",
     "recommended": "Recommandé",
-    "footnote": "Tarifs HT, facturés annuellement. Engagement 12 mois. Vous restez propriétaire de vos données et de votre instance.",
-    "free": {
-      "name": "Découverte",
-      "tagline": "Évaluation, sites pilotes, petites installations.",
+    "footnote": "Standard : tarifs HT, facturation annuelle, renouvellement 990 € / an. Vous restez propriétaire de vos données et de votre instance, hébergement chez vous.",
+    "demo": {
+      "name": "Démo en ligne",
+      "tagline": "Survoler le produit en 60 secondes, sans rien installer.",
       "price": "0 €",
-      "period": "/ pour toujours",
-      "price_note": "self-host, pas d'inscription",
+      "period": "ponctuel",
+      "price_note": "pas d'inscription, pas de carte bancaire",
       "cta": "Voir la démo"
     },
-    "pro": {
-      "name": "Production",
-      "tagline": "Exploitation réelle, multi-bâtiments, intégration BI.",
+    "trial": {
+      "name": "Essai 7 jours",
+      "tagline": "Câbler vos vrais automates, valider en conditions réelles.",
+      "price": "0 €",
+      "period": "/ 7 jours",
+      "price_note": "licence par email, lecture seule à expiration",
+      "cta": "Essayer sur mon infra"
+    },
+    "standard": {
+      "name": "Standard",
+      "tagline": "Exploitation réelle, sans limite fonctionnelle.",
       "price": "990 €",
       "period": "/ an",
-      "price_note": "par instance, points illimités",
-      "cta": "Essayer 7 jours sur mon infra"
+      "price_note": "par instance, mises à jour incluses",
+      "cta": "Nous contacter"
     },
     "feature": {
-      "points_50": "Jusqu'à 50 points",
-      "points_unlimited": "Points illimités",
-      "protocols_modbus": "Modbus TCP",
-      "protocols_all": "Modbus TCP + OPC-UA + BACnet/IP",
-      "historian_7d": "Historian 7 jours",
-      "historian_unlimited": "Historian illimité, rétention configurable",
-      "alarms": "Alarmes par seuil",
-      "alarms_notifications": "Alarmes + notifications email + groupes",
-      "api_open": "API REST + accès SQL direct",
-      "support_docs": "Documentation en ligne",
-      "support_dedicated": "Support email + visio",
-      "priority_roadmap": "Influence sur la roadmap"
+      "demo_no_install": "Aperçu sans installation",
+      "demo_simulated": "Données simulées d'un site industriel",
+      "demo_quick_look": "60 secondes pour cliquer partout",
+      "demo_no_signup": "Pas d'inscription requise",
+      "trial_full_app": "L'app complète sur votre infra",
+      "trial_limits": "5 drivers · 15 machines · 500 points",
+      "trial_protocols": "Modbus TCP + OPC-UA + BACnet/IP",
+      "trial_features": "Toutes les fonctionnalités produit",
+      "trial_duration": "7 jours puis lecture seule, données conservées",
+      "standard_unlimited": "Points et machines illimités en pratique",
+      "standard_protocols": "Modbus TCP + OPC-UA + BACnet/IP",
+      "standard_features": "Historian, alarmes, wiresheet, accès SQL, API",
+      "standard_install": "Une instance par licence, sur votre infra",
+      "standard_updates": "Mises à jour incluses pendant l'année",
+      "standard_support": "Support email à <code>contact@wiregrid.fr</code>",
+      "standard_renewal": "Renouvellement annuel à 990 € / an"
     }
   },
   "faq": {
@@ -190,7 +202,11 @@
     },
     "trial": {
       "q": "Combien de temps pour tester sérieusement ?",
-      "a_html": "Trois portes d'entrée selon votre besoin. La démo en ligne sert de POC instantané (60 secondes pour cliquer partout). L'<a href=\"/fr/trial/\" class=\"text-brand hover:underline\">essai 7 jours</a> vous donne l'app complète à installer sur votre infra, avec vos automates, pour valider en conditions réelles. Au-delà, on bascule sur une licence production annuelle."
+      "a_html": "Trois portes d'entrée selon votre besoin. La démo en ligne sert de POC instantané (60 secondes pour cliquer partout). L'<a href=\"/fr/trial/\" class=\"text-brand hover:underline\">essai 7 jours</a> vous donne l'app complète à installer sur votre infra, avec vos automates, pour valider en conditions réelles. Au-delà, on bascule sur une licence Standard annuelle (990 €)."
+    },
+    "demo_vs_trial": {
+      "q": "Quelle différence entre la démo en ligne et l'essai 7 jours ?",
+      "a_html": "La <a href=\"https://demo.wiregrid.fr\" class=\"text-brand hover:underline\">démo en ligne</a> est publique, tourne sur notre serveur avec des données simulées d'un site industriel. Vous cliquez où vous voulez, vous voyez l'UI, vous fermez l'onglet. Pas d'inscription, rien à installer. Idéal pour vous faire une première idée. L'<a href=\"/fr/trial/\" class=\"text-brand hover:underline\">essai 7 jours</a>, lui, vous donne l'app complète sur votre infra. Vous remplissez un formulaire, vous recevez un <code>license.jwt</code> et un <code>docker-compose.yml</code> par email, vous lancez <code>docker compose up -d</code> sur votre serveur, vous branchez vos vrais automates. C'est l'évaluation sérieuse avant achat."
     },
     "trial_what_happens": {
       "q": "Comment se passe l'essai 7 jours ?",
