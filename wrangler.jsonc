@@ -27,13 +27,13 @@
   //   short-window spam shield (3 req per 60s per IP). Native simple
   //   bindings only support period=10 or period=60, so the longer 24h
   //   policy from ADR-0006 is implemented in TRIAL_DEDUPE above.
-  // IDs are placeholders until Bruno provisions the resources. Local
-  // `wrangler dev` uses preview_id; CI/prod uses id. Replace before deploy.
+  // Provisionnés 2026-05-01 (Bruno) : prod + preview namespaces séparés.
+  // Local `wrangler dev` utilise preview_id; CI/prod utilise id.
   "kv_namespaces": [
     {
       "binding": "TRIAL_DEDUPE",
-      "id": "REPLACE_WITH_PROD_KV_ID",
-      "preview_id": "REPLACE_WITH_PREVIEW_KV_ID"
+      "id": "95b49039ec094b7ba4058a96b2f33e5d",
+      "preview_id": "1cdc2a868fe44f7989d75e3d13f0f7c8"
     }
   ],
   "unsafe": {
