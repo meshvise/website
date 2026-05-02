@@ -40,7 +40,7 @@
       "role": "Maintenance / facility manager",
       "context": "You run one or several buildings: factory, head office, logistics site.",
       "pain": "Classic supervision platforms charge per tag. With 200 points the budget explodes and your data sleeps in a proprietary format.",
-      "fit": "Flat annual fee, no per-tag pricing. Your points show up in Power BI without an IT budget request."
+      "fit": "Flat annual fee, all points included. Your data flows into Power BI over standard ODBC, no extra IT dependency."
     },
     "p2": {
       "role": "Building / SCADA integrator",
@@ -90,7 +90,7 @@
     },
     "open_data": {
       "title": "Direct data access",
-      "desc_html": "Power BI, Grafana, Metabase, Excel or <code>psql</code>: ODBC connection without a proprietary connector. Your BI teams build dashboards without waiting for industrial IT."
+      "desc_html": "Power BI, Grafana, Metabase, Excel or <code>psql</code>: native <code>ODBC PostgreSQL</code> compatibility. Your BI teams build dashboards directly, no extra IT dependency."
     }
   },
   "lifecycle": {
@@ -137,7 +137,7 @@
   "pricing": {
     "eyebrow": "Pricing",
     "title": "Three doors. One paid tier.",
-    "subtitle": "The online demo for a quick look. The 7-day trial to wire up your real PLCs. The Standard tier when you go to production. No per-tag pricing, no hidden runtime licence.",
+    "subtitle": "The online demo for a quick look. The 7-day trial to wire up your real PLCs. The Standard tier when you go to production. All points included in the Standard licence, no hidden runtime fee.",
     "recommended": "Recommended",
     "footnote": "Standard: prices excl. VAT, billed annually, renews at €990/year. You stay the owner of your data and your instance, hosted on your infrastructure.",
     "demo": {
@@ -197,7 +197,7 @@
     },
     "powerbi": {
       "q": "How do I connect Power BI?",
-      "a_html": "Power BI Desktop &gt; Get Data &gt; PostgreSQL. You enter your Wiregrid server's IP, a read-only user, and you see the tables. No proprietary connector to install."
+      "a_html": "Power BI Desktop &gt; Get Data &gt; PostgreSQL. You enter your Wiregrid server's IP, a read-only user, and you see the tables. Native connection, exactly like any standard PostgreSQL database."
     },
     "self_host": {
       "q": "Is it SaaS or self-hosted?",
@@ -312,7 +312,7 @@
     },
     "mission": {
       "heading": "The mission",
-      "body_html": "Wiregrid started from a simple observation: industrial supervision is too expensive, too closed, too dependent on foreign vendors. We are building a French alternative, open on SQL data, predictable on budget, compliant by design. No tag-pricing, no proprietary cloud, no surprise at renewal."
+      "body_html": "Wiregrid started from a simple observation: industrial supervision is too expensive, too closed, too dependent on foreign vendors. We are building a French alternative, open on SQL data, with predictable pricing and compliance by design. All points included in the Standard licence, no foreign cloud: one price at renewal, set once and for all."
     },
     "values": {
       "heading": "Values",
@@ -367,7 +367,7 @@
     "contact": "Contact",
     "rights": "All rights reserved.",
     "made_in": "Designed in France",
-    "tagline": "A web SCADA platform that reads your PLCs, historises, organises and alerts. Your data stays open to your tools.",
+    "tagline": "A web SCADA platform that reads your PLCs, historises, organises and alerts. Data accessible via standard PostgreSQL ODBC.",
     "newsletter_title": "Quarterly newsletter",
     "newsletter_desc": "Roadmap, integrator stories, releases. Four sends a year, no more.",
     "newsletter_placeholder": "you@company.com",
@@ -375,7 +375,7 @@
     "newsletter_aria": "Subscribe to the Wiregrid newsletter"
   },
   "meta": {
-    "og_image_alt": "Wiregrid · Web SCADA without tag pricing"
+    "og_image_alt": "Wiregrid · Web SCADA, flat fee, data on your premises"
   },
   "a11y": {
     "skip_to_content": "Skip to content",

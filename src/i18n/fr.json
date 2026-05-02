@@ -40,7 +40,7 @@
       "role": "Responsable maintenance / facility manager",
       "context": "Vous gérez un ou plusieurs bâtiments : usine, siège, site logistique.",
       "pain": "Les supervisions classiques facturent par tag. À 200 points, le budget explose et vos données dorment dans un format propriétaire.",
-      "fit": "Forfait annuel plat sans tag-pricing. Vos points remontent dans Power BI sans demander une rallonge à l'IT."
+      "fit": "Forfait annuel plat avec tous les points inclus. Vos données remontent dans Power BI par connexion ODBC, sans dépendance IT-industrielle supplémentaire."
     },
     "p2": {
       "role": "Intégrateur GTB / SCADA",
@@ -90,7 +90,7 @@
     },
     "open_data": {
       "title": "Accès direct aux données",
-      "desc_html": "Power BI, Grafana, Metabase, Excel ou <code>psql</code> : connexion ODBC sans connecteur propriétaire. Vos équipes BI construisent leurs dashboards sans attendre l'IT industrielle."
+      "desc_html": "Power BI, Grafana, Metabase, Excel ou <code>psql</code> : compatibilité native <code>ODBC PostgreSQL</code>. Vos équipes BI construisent leurs dashboards directement, sans dépendance IT-industrielle."
     }
   },
   "lifecycle": {
@@ -137,7 +137,7 @@
   "pricing": {
     "eyebrow": "Tarifs",
     "title": "Trois portes. Un seul tier payant.",
-    "subtitle": "La démo en ligne pour cliquer une fois. L'essai 7 jours pour câbler vos automates. Le tier Standard pour passer en exploitation. Pas de tarification par tag, pas de licence runtime cachée.",
+    "subtitle": "La démo en ligne pour cliquer une fois. L'essai 7 jours pour câbler vos automates. Le tier Standard pour passer en exploitation. Tous les points inclus dans la licence Standard, sans surcoût runtime.",
     "recommended": "Recommandé",
     "footnote": "Standard : tarifs HT, facturation annuelle, renouvellement 990 € / an. Vous restez propriétaire de vos données et de votre instance, hébergement chez vous.",
     "demo": {
@@ -197,7 +197,7 @@
     },
     "powerbi": {
       "q": "Comment je connecte Power BI ?",
-      "a_html": "Power BI Desktop &gt; Obtenir des données &gt; PostgreSQL. Vous renseignez l'IP de votre serveur Wiregrid, un user en lecture seule, et vous voyez les tables. Aucun connecteur propriétaire à installer."
+      "a_html": "Power BI Desktop &gt; Obtenir des données &gt; PostgreSQL. Vous renseignez l'IP de votre serveur Wiregrid, un user en lecture seule, et vous voyez les tables. Connexion native, comme pour n'importe quelle base PostgreSQL standard."
     },
     "self_host": {
       "q": "C'est en SaaS ou self-hosted ?",
@@ -312,7 +312,7 @@
     },
     "mission": {
       "heading": "La mission",
-      "body_html": "Wiregrid est née d'un constat simple : la supervision industrielle est trop chère, trop fermée, trop dépendante de l'étranger. Nous construisons une alternative française, ouverte sur les données SQL, prévisible sur le budget, conforme par design. Pas de tag-pricing, pas de cloud propriétaire, pas de surprise au renouvellement."
+      "body_html": "Wiregrid est née d'un constat simple : la supervision industrielle est trop chère, trop fermée, trop dépendante de l'étranger. Nous construisons une alternative française, ouverte sur les données SQL, avec un pricing prévisible et une conformité par design. Tous les points inclus dans la licence Standard, pas de cloud étranger : un prix au renouvellement, posé une fois pour toutes."
     },
     "values": {
       "heading": "Les valeurs",
@@ -367,7 +367,7 @@
     "contact": "Contact",
     "rights": "Tous droits réservés.",
     "made_in": "Conçu en France",
-    "tagline": "Une supervision SCADA web qui lit vos automates, historise, organise et alerte. Vos données restent ouvertes à vos outils.",
+    "tagline": "Une supervision SCADA web qui lit vos automates, historise, organise et alerte. Données accessibles en PostgreSQL standard via ODBC.",
     "newsletter_title": "Newsletter trimestrielle",
     "newsletter_desc": "Roadmap, retours d'expérience d'intégrateurs, nouveautés. 4 envois par an, pas plus.",
     "newsletter_placeholder": "vous@société.fr",
@@ -375,7 +375,7 @@
     "newsletter_aria": "S'abonner à la newsletter Wiregrid"
   },
   "meta": {
-    "og_image_alt": "Wiregrid · Supervision SCADA web sans tag-pricing"
+    "og_image_alt": "Wiregrid · Supervision SCADA, forfait fixe, données chez vous"
   },
   "a11y": {
     "skip_to_content": "Aller au contenu",
