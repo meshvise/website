@@ -109,6 +109,28 @@
       }
     }
   },
+  "sovereignty": {
+    "eyebrow": "Souveraineté & conformité",
+    "title": "Vos données chez vous, sous votre droit.",
+    "subtitle": "Wiregrid s'inscrit dans une logique de souveraineté technique et juridique. Ce que vous installez, ce sont vos données, dans votre infrastructure, soumises à votre droit.",
+    "hosting": {
+      "title": "Hébergement chez vous, par vous",
+      "body_html": "Aucune télémétrie, aucun phone-home, aucune donnée client sur notre infrastructure. Compatible <strong>air-gap</strong> pour les sites coupés d'internet."
+    },
+    "gdpr": {
+      "title": "Conforme RGPD by design",
+      "body_html": "Aucune donnée personnelle ne quitte votre instance par défaut. <strong>DPA fourni</strong> au contrat Standard, registre des traitements simplifié."
+    },
+    "law": {
+      "title": "Droit français, juridiction Paris",
+      "body_html": "Données et support soumis au droit français. Contrat en français, juridiction Paris. Pas de clause d'arbitrage off-shore."
+    },
+    "no_cloud": {
+      "title": "Pas de Cloud Act, pas de cloud étranger",
+      "body_html": "Aucune dépendance fournisseur cloud étranger côté production. Hors d'atteinte de l'extra-territorialité USA et des injonctions tierces."
+    },
+    "attribution_html": "Société française enregistrée à <strong>&lt;VILLE — À COMPLÉTER PAR BRUNO&gt;</strong>."
+  },
   "pricing": {
     "eyebrow": "Tarifs",
     "title": "Trois portes. Un seul tier payant.",

@@ -109,6 +109,28 @@
       }
     }
   },
+  "sovereignty": {
+    "eyebrow": "Sovereignty & compliance",
+    "title": "Your data on your premises, under your jurisdiction.",
+    "subtitle": "Wiregrid follows a sovereignty-first design. What you install is your data, in your infrastructure, under your jurisdiction.",
+    "hosting": {
+      "title": "Hosted by you, on your premises",
+      "body_html": "No telemetry, no phone-home, no customer data on our infrastructure. <strong>Air-gap compatible</strong> for industrial sites disconnected from the internet."
+    },
+    "gdpr": {
+      "title": "GDPR compliant by design",
+      "body_html": "No personal data leaves your instance by default. <strong>DPA provided</strong> with the Standard contract, simplified record of processing activities."
+    },
+    "law": {
+      "title": "French law, courts in Paris",
+      "body_html": "Data and support under French law. French-language contract, jurisdiction in Paris. No offshore arbitration clause."
+    },
+    "no_cloud": {
+      "title": "No US Cloud Act, no foreign cloud",
+      "body_html": "No foreign cloud-vendor dependency on the production path. Out of reach of US extra-territorial reach and third-party injunctions."
+    },
+    "attribution_html": "French company registered in <strong>&lt;CITY — TO BE FILLED BY BRUNO&gt;</strong>."
+  },
   "pricing": {
     "eyebrow": "Pricing",
     "title": "Three doors. One paid tier.",
