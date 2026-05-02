@@ -203,6 +203,14 @@
       "q": "Is it SaaS or self-hosted?",
       "a_html": "Self-hosted. Your data never leaves your network. The online demo runs on a public environment but it's a demo, not a production offer."
     },
+    "sovereignty_data": {
+      "q": "Does my data stay in France?",
+      "a_html": "Yes, by design. Wiregrid is self-hosted: your instance runs on the infrastructure you choose, in France if that's what you pick. We do not store any customer data on our infrastructure. No telemetry leaves your network, no phone-home, no foreign cloud dependency. <strong>Air-gap compatible</strong> for sites disconnected from the internet."
+    },
+    "gdpr_compliance": {
+      "q": "Is Wiregrid GDPR compliant?",
+      "a_html": "Yes. Wiregrid is GDPR compliant by design: no personal data leaves your instance by default. For the Standard plan we provide a <strong>DPA</strong> (Data Processing Agreement) with the contract. Data and support under French law, jurisdiction in Paris."
+    },
     "minimum_hardware": {
       "q": "Minimum hardware?",
       "a_html": "2 vCPU, 4 GB RAM, 20 GB disk are enough for ~500 points with 30 days of history. Runs on an industrial mini-PC, a Raspberry Pi 4 or a €5/month VPS."
@@ -210,6 +218,10 @@
     "security": {
       "q": "How secure is it?",
       "a_html": "JWT auth (UI) or API key (integrations). Postgres and Redis bind to localhost, never exposed. Behind a reverse-proxy (Caddy, Nginx, Cloudflare Tunnel) you get automatic TLS."
+    },
+    "code_audit": {
+      "q": "Can I audit the source code?",
+      "a_html": "On request for Standard customers, read access to the source code under <strong>NDA</strong>. This option exists for specific compliance needs: security audits, regulatory validation, due diligence. Outside an NDA, the code remains closed under our proprietary licence. Contact: <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a>."
     },
     "safety_sil": {
       "q": "Can I run functional safety (SIL) on it?",
@@ -229,7 +241,11 @@
     },
     "support": {
       "q": "What does support look like?",
-      "a_html": "Discovery plan: public documentation + best-effort email to <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a>. Production plan: email with a 1-business-day response SLA, video calls on request, direct access to the lead developer."
+      "a_html": "Discovery plan: public documentation + best-effort email to <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a>. Standard plan: email with a <strong>1-business-day</strong> response SLA (French public holidays excluded), video calls on request, direct access to the lead developer."
+    },
+    "support_language": {
+      "q": "Is support in French?",
+      "a_html": "Yes. Email support at <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a> is handled by a French team, with a 1-business-day SLA for Standard customers. Public documentation is available in French and English. Tickets in English are handled by the same team."
     },
     "trial": {
       "q": "How long do I need to seriously try it?",

@@ -203,6 +203,14 @@
       "q": "C'est en SaaS ou self-hosted ?",
       "a_html": "Self-hosted. Vos données ne quittent jamais votre réseau. La démo en ligne tourne sur un environnement public mais c'est une démo, pas une offre de prod."
     },
+    "sovereignty_data": {
+      "q": "Mes données restent-elles en France ?",
+      "a_html": "Oui, par construction. Wiregrid est self-hosted : votre instance tourne sur l'infrastructure que vous choisissez, en France si c'est ce que vous décidez. Nous ne stockons aucune donnée client sur notre infrastructure. Aucune télémétrie ne sort de votre réseau, aucun phone-home, aucune dépendance cloud étranger. Compatible <strong>air-gap</strong> pour les sites coupés d'internet."
+    },
+    "gdpr_compliance": {
+      "q": "Wiregrid est-il conforme RGPD ?",
+      "a_html": "Oui. Wiregrid est conçu RGPD by design : aucune donnée personnelle ne quitte votre instance par défaut. Pour le plan Standard, nous fournissons un <strong>DPA</strong> (Data Processing Agreement) au contrat. Données et support soumis au droit français, juridiction Paris."
+    },
     "minimum_hardware": {
       "q": "Quel matériel minimum ?",
       "a_html": "2 vCPU, 4 Go RAM, 20 Go disque suffisent pour ~500 points avec 30 jours d'historique. Tient sur un mini-PC d'usine, un Raspberry Pi 4 ou un VPS à 5 €/mois."
@@ -210,6 +218,10 @@
     "security": {
       "q": "Comment c'est sécurisé ?",
       "a_html": "Auth par JWT (UI) ou API key (intégrations). Postgres et Redis bind sur localhost, jamais exposés. Si vous mettez la gateway derrière un reverse-proxy (Caddy, Nginx, Cloudflare Tunnel), vous avez TLS automatique."
+    },
+    "code_audit": {
+      "q": "Puis-je auditer le code source ?",
+      "a_html": "Sur demande pour les clients Standard, accès en lecture au code source sous <strong>NDA</strong>. Cette possibilité existe pour les exigences de conformité spécifiques : audit sécurité, validation réglementaire, due diligence. Hors NDA, le code reste fermé conformément à notre licence propriétaire. Contact : <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a>."
     },
     "safety_sil": {
       "q": "Je peux faire de la sécurité fonctionnelle (SIL) avec ?",
@@ -229,7 +241,11 @@
     },
     "support": {
       "q": "À quoi ressemble le support ?",
-      "a_html": "Plan Découverte : documentation publique + email best-effort à <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a>. Plan Production : email avec engagement de réponse sous 24 h ouvrées, visio sur demande, accès direct au développeur principal."
+      "a_html": "Plan Découverte : documentation publique + email best-effort à <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a>. Plan Standard : email avec engagement de réponse sous <strong>24 h ouvrées</strong> (jours fériés français exclus), visio sur demande, accès direct au développeur principal."
+    },
+    "support_language": {
+      "q": "Le support est-il en français ?",
+      "a_html": "Oui. Le support email à <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a> est assuré par une équipe française, sous 24 h ouvrées pour les clients Standard. La documentation publique est en français et en anglais. Les tickets en anglais sont aussi traités par la même équipe."
     },
     "trial": {
       "q": "Combien de temps pour tester sérieusement ?",
