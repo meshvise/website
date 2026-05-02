@@ -2,8 +2,11 @@
   "nav": {
     "personas": "For whom",
     "features": "Capabilities",
+    "sovereignty": "Sovereignty",
     "pricing": "Pricing",
     "faq": "FAQ",
+    "about": "About",
+    "trial": "7-day trial",
     "demo": "See the demo"
   },
   "hero": {
@@ -293,6 +296,69 @@
       "body_html": "We sent an email to <strong class=\"font-mono\">{email}</strong> with your licence and the install command. If nothing arrives within 5 minutes (spam included), write to <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a>.",
       "back": "Back to home"
     }
+  },
+  "about": {
+    "meta": {
+      "title": "About · Wiregrid",
+      "description": "Wiregrid is a French industrial supervision platform: flat fee, data on your premises, support in French. Company, mission, values, contacts."
+    },
+    "eyebrow": "About",
+    "title": "A French industrial supervision platform.",
+    "subtitle": "Wiregrid is building a French alternative to tag-priced supervisions and foreign SaaS. Your data on your premises, our support in France, contract under French law.",
+    "founder": {
+      "heading": "The founder",
+      "name": "<TO BE FILLED BY BRUNO: first + last name>",
+      "bio_html": "<TO BE FILLED BY BRUNO: 3 to 5 lines of short bio. Relevant background (industrial, IT, automation), why Wiregrid, what drives the project.>"
+    },
+    "mission": {
+      "heading": "The mission",
+      "body_html": "Wiregrid started from a simple observation: industrial supervision is too expensive, too closed, too dependent on foreign vendors. We are building a French alternative, open on SQL data, predictable on budget, compliant by design. No tag-pricing, no proprietary cloud, no surprise at renewal."
+    },
+    "values": {
+      "heading": "Values",
+      "v1_html": "<strong>Sovereignty.</strong> Your data on your server, your keys on your desk. No telemetry, no phone-home.",
+      "v2_html": "<strong>Transparency.</strong> Public roadmap, posted pricing, readable French-language EULA. What is not shipped is announced as such.",
+      "v3_html": "<strong>Pragmatism.</strong> We ship what works today. We announce what's coming with a date. We don't promise a universal SCADA."
+    },
+    "timeline": {
+      "heading": "Milestones",
+      "t1": {
+        "date": "2026 Q2",
+        "body_html": "First production-ready release of Wiregrid 1.0. Modbus / OPC-UA / BACnet acquisition, TimescaleDB historian, operational alarms, direct SQL access."
+      },
+      "t2": {
+        "date": "2026 Q3",
+        "body_html": "Visual wiresheet editor (block palette, drag-drop, links). The execution engine already runs, the editor lands."
+      },
+      "t3": {
+        "date": "2026 Q4",
+        "body_html": "Multi-site supervision with edge gateways and a consolidating central instance. Scope reserved for multi-licence contracts."
+      }
+    },
+    "coords": {
+      "heading": "Contacts",
+      "company": {
+        "label": "Company",
+        "value_html": "<TO BE FILLED BY BRUNO: official registered name>"
+      },
+      "address": {
+        "label": "Address",
+        "value_html": "<TO BE FILLED BY BRUNO: official postal address>"
+      },
+      "siren": {
+        "label": "SIREN",
+        "value_html": "<TO BE FILLED BY BRUNO: 9 digits>"
+      },
+      "contact": {
+        "label": "Contact",
+        "value_html": "<a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a>"
+      },
+      "support": {
+        "label": "Support",
+        "value_html": "Email with a <strong>1-business-day</strong> response SLA (French public holidays excluded) for Standard customers."
+      }
+    },
+    "back": "Back to home"
   },
   "footer": {
     "product": "Product",
