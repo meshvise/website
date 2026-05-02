@@ -31,13 +31,22 @@ const ogLocaleAlternate = alternateLang === 'fr' ? 'fr_FR' : 'en_US';
 const stripHtml = (s: string) =>
   s.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
 
+// Organization-level description is independent of the per-page meta
+// description (which changes by route). This one anchors the
+// sovereignty + flat-fee positioning consistently for AI search
+// engines that re-quote schema.org Organization data.
+const organizationDescription =
+  lang === 'fr'
+    ? 'Plateforme française de supervision industrielle SCADA. Forfait annuel fixe, données chez vous en PostgreSQL standard, support en français. Hébergement self-hosted, conforme RGPD by design, droit français, sans dépendance Cloud Act.'
+    : 'French industrial supervision (SCADA) platform. Flat annual licence, data on your premises in standard PostgreSQL, French support. Self-hosted, GDPR compliant by design, French jurisdiction, no Cloud Act exposure.';
+
 const organizationLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Wiregrid',
   url: SITE_ORIGIN,
   logo: `${SITE_ORIGIN}/favicon.svg`,
-  description,
+  description: organizationDescription,
   email: 'contact@wiregrid.fr',
   sameAs: ['https://www.linkedin.com/in/bruno-crespo'],
 };
@@ -94,8 +103,8 @@ const softwareLd = {
       url: `${SITE_ORIGIN}/${lang}/#pricing`,
       description:
         lang === 'fr'
-          ? 'Points et machines illimités en pratique, tous protocoles (Modbus + OPC-UA + BACnet), tous features, mises à jour incluses, support email. Une instance par licence.'
-          : 'Unlimited points and machines in practice, all protocols (Modbus + OPC-UA + BACnet), all features, updates included, email support. One instance per licence.',
+          ? 'Points et machines illimités en pratique, tous protocoles (Modbus + OPC-UA + BACnet), toutes fonctionnalités, mises à jour incluses, support email avec engagement 24 h ouvrées (jours fériés FR exclus), audit code sous NDA disponible sur demande. Une instance par licence, déploiement Docker en 4 h.'
+          : 'Unlimited points and machines in practice, all protocols (Modbus + OPC-UA + BACnet), all features, updates included, email support with a 1-business-day SLA (FR public holidays excluded), source-code audit under NDA on request. One instance per licence, Docker deployment in 4 h.',
     },
   ],
 };

@@ -1,7 +1,7 @@
 {
-  "name": "WireGrid",
-  "short_name": "WireGrid",
-  "description": "Industrial supervision platform — open data, no tag-pricing",
+  "name": "Wiregrid",
+  "short_name": "Wiregrid",
+  "description": "French industrial supervision platform. Flat fee, data on your premises, all points included.",
   "start_url": "/",
   "display": "browser",
   "background_color": "#0F172A",
