@@ -383,7 +383,7 @@
     "compat": "Compatibilité",
     "contact": "Contact",
     "rights": "Tous droits réservés.",
-    "made_in": "Conçu en France",
+    "france_line_html": "Société française. Données françaises. Tech française. <strong>&lt;RAISON SOCIALE — À COMPLÉTER PAR BRUNO&gt;</strong> à <strong>&lt;VILLE — À COMPLÉTER PAR BRUNO&gt;</strong>.",
     "tagline": "Une supervision SCADA web qui lit vos automates, historise, organise et alerte. Données accessibles en PostgreSQL standard via ODBC.",
     "newsletter_title": "Newsletter trimestrielle",
     "newsletter_desc": "Roadmap, retours d'expérience d'intégrateurs, nouveautés. 4 envois par an, pas plus.",

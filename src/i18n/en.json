@@ -383,7 +383,7 @@
     "compat": "Compatibility",
     "contact": "Contact",
     "rights": "All rights reserved.",
-    "made_in": "Designed in France",
+    "france_line_html": "French company. French data. French tech. <strong>&lt;COMPANY NAME — TO BE FILLED BY BRUNO&gt;</strong> in <strong>&lt;CITY — TO BE FILLED BY BRUNO&gt;</strong>.",
     "tagline": "A web SCADA platform that reads your PLCs, historises, organises and alerts. Data accessible via standard PostgreSQL ODBC.",
     "newsletter_title": "Quarterly newsletter",
     "newsletter_desc": "Roadmap, integrator stories, releases. Four sends a year, no more.",
