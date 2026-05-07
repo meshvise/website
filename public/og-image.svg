@@ -30,7 +30,7 @@
       <rect x="0" y="0" width="48" height="48" rx="6" fill="url(#brand)"/>
       <path d="M12 18 L18 30 L24 14 L30 30 L36 18" stroke="#0F172A" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
-    <text x="64" y="32" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="34" fill="#F8FAFC" letter-spacing="-0.5">wiregrid</text>
+    <text x="64" y="32" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="34" fill="#F8FAFC" letter-spacing="-0.5">meshvise</text>
   </g>
   <text x="80" y="320" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="64" fill="#F8FAFC" letter-spacing="-1.5">
     <tspan x="80" dy="0">Modern industrial</tspan>
@@ -41,6 +41,8 @@
     <tspan x="80" dy="36">All points included. Free 7-day trial.</tspan>
   </text>
   <g transform="translate(960 480)" font-family="JetBrains Mono, ui-monospace, monospace" font-size="16" fill="#06B6D4">
-    <text x="0" y="0">wiregrid.fr</text>
+    <text x="0" y="0">meshvise.com</text>
   </g>
 </svg>
+
+

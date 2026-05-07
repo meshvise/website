@@ -27,7 +27,7 @@ function assertCleanCopy(rendered: { subject: string; html: string; text: string
 describe('renderWelcomeEmail', () => {
   it('returns a French subject + body when lang=fr', () => {
     const r = renderWelcomeEmail({ lang: 'fr', name: 'Bruno', jwt: 'a.b.c', docsUrl: 'https://docs/' });
-    expect(r.subject).toMatch(/essai Wiregrid/i);
+    expect(r.subject).toMatch(/essai Meshvise/i);
     expect(r.html).toContain('Bonjour');
     expect(r.text).toContain('Bonjour');
     assertCleanCopy(r);
@@ -35,7 +35,7 @@ describe('renderWelcomeEmail', () => {
 
   it('returns an English subject + body when lang=en', () => {
     const r = renderWelcomeEmail({ lang: 'en', name: 'Bruno', jwt: 'a.b.c', docsUrl: 'https://docs/' });
-    expect(r.subject).toMatch(/Wiregrid 7-day trial/i);
+    expect(r.subject).toMatch(/Meshvise 7-day trial/i);
     expect(r.html).toContain('Hi');
     assertCleanCopy(r);
   });
@@ -87,7 +87,7 @@ describe('renderReminderEmail', () => {
 describe('renderPostMortemEmail', () => {
   it('returns the post-mortem subject in FR', () => {
     const r = renderPostMortemEmail({ lang: 'fr', name: 'A', calendlyUrl: 'https://cal/x' });
-    expect(r.subject).toMatch(/essai Wiregrid est terminé/i);
+    expect(r.subject).toMatch(/essai Meshvise est terminé/i);
     expect(r.html).toContain('https://cal/x');
     assertCleanCopy(r);
   });
@@ -103,7 +103,7 @@ describe('renderPostMortemEmail', () => {
 describe('docker-compose.yml string', () => {
   it('mentions the gateway-py image and the license mount', () => {
     expect(DOCKER_COMPOSE_YML).toContain('gateway-py');
-    expect(DOCKER_COMPOSE_YML).toContain('/etc/wiregrid/license.jwt');
+    expect(DOCKER_COMPOSE_YML).toContain('/etc/meshvise/license.jwt');
     expect(DOCKER_COMPOSE_YML).toContain('docker compose up -d');
   });
 
@@ -112,18 +112,18 @@ describe('docker-compose.yml string', () => {
   });
 
   it('uses DEFAULT_IMAGE_TAG when no override is passed', () => {
-    expect(DOCKER_COMPOSE_YML).toContain(`ghcr.io/tatex74/wiregrid-gateway-py:${DEFAULT_IMAGE_TAG}`);
+    expect(DOCKER_COMPOSE_YML).toContain(`ghcr.io/meshvise/meshvise-gateway-py:${DEFAULT_IMAGE_TAG}`);
   });
 
   it('substitutes the image tag when buildDockerComposeYml is called explicitly', () => {
     const yml = buildDockerComposeYml({ imageTag: 'v0.42.7' });
-    expect(yml).toContain('ghcr.io/tatex74/wiregrid-gateway-py:v0.42.7');
-    expect(yml).not.toContain(`ghcr.io/tatex74/wiregrid-gateway-py:${DEFAULT_IMAGE_TAG}`);
+    expect(yml).toContain('ghcr.io/meshvise/meshvise-gateway-py:v0.42.7');
+    expect(yml).not.toContain(`ghcr.io/meshvise/meshvise-gateway-py:${DEFAULT_IMAGE_TAG}`);
   });
 
   it('falls back to the default when imageTag is undefined', () => {
     const yml = buildDockerComposeYml();
-    expect(yml).toContain(`ghcr.io/tatex74/wiregrid-gateway-py:${DEFAULT_IMAGE_TAG}`);
+    expect(yml).toContain(`ghcr.io/meshvise/meshvise-gateway-py:${DEFAULT_IMAGE_TAG}`);
   });
 });
 
@@ -132,6 +132,7 @@ describe('renderWelcomeEmail with image tag override', () => {
     const r = renderWelcomeEmail({ lang: 'en', name: 'A', jwt: 'a.b.c', imageTag: 'v9.9.9' });
     const compose = r.attachments[1];
     const decoded = Buffer.from(compose.content, 'base64').toString('utf-8');
-    expect(decoded).toContain('ghcr.io/tatex74/wiregrid-gateway-py:v9.9.9');
+    expect(decoded).toContain('ghcr.io/meshvise/meshvise-gateway-py:v9.9.9');
   });
 });
+

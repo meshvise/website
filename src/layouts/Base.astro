@@ -14,7 +14,7 @@ interface Props {
 
 const { title, description, lang, ogImage = '/og-image.svg' } = Astro.props;
 
-const SITE_ORIGIN = 'https://wiregrid.fr';
+const SITE_ORIGIN = 'https://meshvise.com';
 const alternateLang: Lang = lang === 'fr' ? 'en' : 'fr';
 const currentPath = Astro.url.pathname;
 const alternatePath =
@@ -43,18 +43,18 @@ const organizationDescription =
 const organizationLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Wiregrid',
+  name: 'Meshvise',
   url: SITE_ORIGIN,
   logo: `${SITE_ORIGIN}/favicon.svg`,
   description: organizationDescription,
-  email: 'contact@wiregrid.fr',
+  email: 'contact@meshvise.com',
   sameAs: ['https://www.linkedin.com/in/bruno-crespo'],
 };
 
 const softwareLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'Wiregrid',
+  name: 'Meshvise',
   applicationCategory: 'BusinessApplication',
   applicationSubCategory: 'SCADA / Industrial Supervision',
   operatingSystem: 'Linux, Windows, macOS (Docker)',
@@ -69,7 +69,7 @@ const softwareLd = {
       price: '0',
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
-      url: 'https://demo.wiregrid.fr',
+      url: 'https://app.meshvise.com',
       description:
         lang === 'fr'
           ? 'Démo publique en ligne, données simulées, sans installation, sans inscription.'
@@ -147,7 +147,7 @@ const faqLd = {
     <link rel="alternate" hreflang="x-default" href={`${SITE_ORIGIN}/`} />
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Wiregrid" />
+    <meta property="og:site_name" content="Meshvise" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -186,3 +186,5 @@ const faqLd = {
     <Footer lang={lang} />
   </body>
 </html>
+
+

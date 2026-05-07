@@ -1,10 +1,10 @@
-# WireGrid — Vitrine
+# Meshvise — Vitrine
 
-Landing page for WireGrid ([demo.wiregrid.fr](https://demo.wiregrid.fr)), served from [wiregrid.fr](https://wiregrid.fr).
+Landing page for Meshvise ([app.meshvise.com](https://app.meshvise.com)), served from [meshvise.com](https://meshvise.com).
 
 Built with [Astro 6](https://astro.build/), served as static assets by a [Cloudflare Worker](https://developers.cloudflare.com/workers/).
 
-The form on the landing page posts to the Laravel app at `https://demo.wiregrid.fr/api/demo-request` to provision a demo project (handled by the [wiregrid](https://github.com/tatex74/wiregrid) repo).
+The form on the landing page posts to the Laravel app at `https://app.meshvise.com/api/demo-request` to provision a demo project (handled by the [meshvise](https://github.com/meshvise/meshvise) repo).
 
 ## Branches
 
@@ -41,3 +41,5 @@ src/
 ```
 
 i18n : all user-facing strings live in `src/i18n/{en,fr}.json`, accessed via `t(lang, 'key')`. Default lang is `fr`.
+
+

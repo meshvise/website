@@ -3,10 +3,10 @@
 
 const COPY = {
   fr: {
-    subject: 'Votre essai Wiregrid est terminé',
+    subject: 'Votre essai Meshvise est terminé',
     greeting: (name) => (name ? `Bonjour ${name},` : 'Bonjour,'),
     intro: 'Votre essai s\'est terminé il y a quelques heures. L\'app est maintenant en lecture seule sur votre installation : vos données et votre configuration restent accessibles, mais les écritures sont bloquées.',
-    body: 'Quoi que vous ayez décidé, ça nous intéresse. Si Wiregrid colle à votre besoin, on bascule sur une licence de production en 5 minutes. Si ça ne colle pas, dites-nous ce qui a manqué : c\'est précieux pour la suite.',
+    body: 'Quoi que vous ayez décidé, ça nous intéresse. Si Meshvise colle à votre besoin, on bascule sur une licence de production en 5 minutes. Si ça ne colle pas, dites-nous ce qui a manqué : c\'est précieux pour la suite.',
     cta_book: 'Échanger 15 minutes',
     cta_email: 'Ou répondez simplement à cet email avec ce que vous avez retenu.',
     next_steps_title: 'Si vous voulez passer en production',
@@ -15,13 +15,13 @@ const COPY = {
       'Migration de votre install d\'essai sans perte : on génère une licence permanente, vous redémarrez la stack, c\'est tout.',
       'Engagement 12 mois. Vos données restent chez vous, sur votre serveur.',
     ],
-    signoff: 'Bruno · Wiregrid',
+    signoff: 'Bruno · Meshvise',
   },
   en: {
-    subject: 'Your Wiregrid trial has ended',
+    subject: 'Your Meshvise trial has ended',
     greeting: (name) => (name ? `Hi ${name},` : 'Hi,'),
     intro: 'Your trial ended a couple of hours ago. The app on your install is now read-only: your data and configuration stay accessible, writes are blocked.',
-    body: 'Whatever you decided, we\'d like to hear from you. If Wiregrid fits your need, we can switch you to a production licence in 5 minutes. If it doesn\'t, tell us what was missing. That input shapes what we build next.',
+    body: 'Whatever you decided, we\'d like to hear from you. If Meshvise fits your need, we can switch you to a production licence in 5 minutes. If it doesn\'t, tell us what was missing. That input shapes what we build next.',
     cta_book: 'Chat for 15 minutes',
     cta_email: 'Or just reply to this email with what stuck with you.',
     next_steps_title: 'If you want to move to production',
@@ -30,7 +30,7 @@ const COPY = {
       'Migrate from your trial install with no data loss: we issue a permanent licence, you restart the stack, done.',
       '12-month commitment. Your data stays on your server, in your hands.',
     ],
-    signoff: 'Bruno · Wiregrid',
+    signoff: 'Bruno · Meshvise',
   },
 };
 
@@ -82,3 +82,4 @@ function escapeHtml(s) {
 function escapeAttr(s) {
   return escapeHtml(s).replaceAll('"', '&quot;');
 }
+

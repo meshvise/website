@@ -10,7 +10,7 @@
  * Light-mode marketing site. The product (apps/spa) stays dark mode;
  * the AppPreview below shows the real dark UI as a window-on-paper, the
  * same pattern Linear / Vercel / Stripe use on their light marketing
- * pages. Brand accent stays the WireGrid cyan #06B6D4 to keep
+ * pages. Brand accent stays the Meshvise cyan #06B6D4 to keep
  * recognition between vitrine and product.
  */
 @theme {
@@ -209,3 +209,4 @@ h1 { font-weight: 600; }
   text-decoration: underline;
   text-underline-offset: 4px;
 }
+

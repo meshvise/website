@@ -48,12 +48,13 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy
 
-      - name: Smoke test wiregrid.fr
+      - name: Smoke test meshvise.com
         run: |
           sleep 10
-          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 https://wiregrid.fr)
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 https://meshvise.com)
           if [ "$HTTP_CODE" -lt 200 ] || [ "$HTTP_CODE" -ge 400 ]; then
             echo "❌ Smoke test failed: got HTTP $HTTP_CODE"
             exit 1
           fi
           echo "✅ Smoke test passed (HTTP $HTTP_CODE)"
+

@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "wiregrid-vitrine",
+  "name": "meshvise-vitrine",
   "compatibility_date": "2026-04-23",
   "main": "src/worker.js",
   "observability": {
@@ -15,8 +15,8 @@
     "nodejs_compat"
   ],
   "routes": [
-    { "pattern": "wiregrid.fr", "custom_domain": true },
-    { "pattern": "www.wiregrid.fr", "custom_domain": true }
+    { "pattern": "meshvise.com", "custom_domain": true },
+    { "pattern": "www.meshvise.com", "custom_domain": true }
   ],
 
   // Trial license bindings (Vague 5).
@@ -50,3 +50,5 @@
     ]
   }
 }
+
+

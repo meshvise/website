@@ -23,10 +23,10 @@ const REMINDER_OFFSET_S = 144 * 3600;
 const POST_MORTEM_OFFSET_S = 170 * 3600;
 
 const DEFAULTS = {
-  fromEmail: 'Wiregrid <onboarding@resend.dev>',
-  replyTo: 'contact@wiregrid.fr',
-  calendlyUrl: 'https://wiregrid.fr',
-  docsUrl: 'https://wiregrid.fr',
+  fromEmail: 'Meshvise <onboarding@resend.dev>',
+  replyTo: 'contact@meshvise.com',
+  calendlyUrl: 'https://meshvise.com',
+  docsUrl: 'https://meshvise.com',
 };
 
 export async function handleTrialRequest(request, env, deps = {}) {
@@ -106,7 +106,7 @@ export async function handleTrialRequest(request, env, deps = {}) {
   // 7. Sign JWT. Refuse if signing key is missing (don't issue placeholders).
   if (!env.TRIAL_SIGNING_KEY) {
     console.error('handleTrialRequest: TRIAL_SIGNING_KEY missing, cannot sign');
-    return serverError('signer-unavailable', 'License signer is unavailable. Please write to contact@wiregrid.fr.');
+    return serverError('signer-unavailable', 'License signer is unavailable. Please write to contact@meshvise.com.');
   }
   let jwt;
   try {
@@ -121,7 +121,7 @@ export async function handleTrialRequest(request, env, deps = {}) {
     jwt = await signJwt(privateKey, claims);
   } catch (err) {
     console.error('handleTrialRequest: signing failed', err);
-    return serverError('signer-error', 'License signing failed. Please write to contact@wiregrid.fr.');
+    return serverError('signer-error', 'License signing failed. Please write to contact@meshvise.com.');
   }
   // Re-derive iat/exp the same way buildTrialClaims did so we don't have
   // to round-trip through the JWT to get the timestamps for scheduling.
@@ -141,7 +141,7 @@ export async function handleTrialRequest(request, env, deps = {}) {
     name,
     jwt,
     docsUrl,
-    imageTag: env.WIREGRID_IMAGE_TAG,
+    imageTag: env.MESHVISE_IMAGE_TAG,
   });
   const welcomeRes = await sendResend({
     apiKey: env.RESEND_API_KEY,
@@ -159,7 +159,7 @@ export async function handleTrialRequest(request, env, deps = {}) {
     // Real Resend error: roll back so the user can retry.
     await rollbackEmailDedupe(env.TRIAL_DEDUPE, email);
     console.error('handleTrialRequest: welcome send failed', welcomeRes);
-    return serverError('email-failed', 'Could not send the welcome email. Please write to contact@wiregrid.fr.');
+    return serverError('email-failed', 'Could not send the welcome email. Please write to contact@meshvise.com.');
   }
   if (welcomeRes.code === 'no-api-key') {
     // Per ADR-0006 dev-mode: log + return 200 so we can E2E-test the
@@ -206,3 +206,5 @@ export async function handleTrialRequest(request, env, deps = {}) {
 
   return jsonResponse({ ok: true });
 }
+
+

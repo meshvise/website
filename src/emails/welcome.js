@@ -6,14 +6,14 @@ import { buildDockerComposeYml } from './docker-compose.js';
 
 const COPY = {
   fr: {
-    subject: 'Votre essai Wiregrid 7 jours · licence + install',
+    subject: 'Votre essai Meshvise 7 jours · licence + install',
     greeting: (name) => (name ? `Bonjour ${name},` : 'Bonjour,'),
-    intro: 'Voici votre licence d\'essai Wiregrid, valide 7 jours. Tout ce dont vous avez besoin pour démarrer est en pièce jointe de cet email.',
+    intro: 'Voici votre licence d\'essai Meshvise, valide 7 jours. Tout ce dont vous avez besoin pour démarrer est en pièce jointe de cet email.',
     steps_title: 'Démarrer en 3 minutes',
     steps: [
       'Téléchargez les deux pièces jointes (<strong>license.jwt</strong> et <strong>docker-compose.yml</strong>) dans un même dossier.',
       'Dans ce dossier, lancez <code>docker compose up -d</code> depuis votre terminal.',
-      'Patientez 30 secondes puis ouvrez <a href="http://localhost:8001">http://localhost:8001</a> · login <code>admin@wiregrid.local</code> / <code>wiregrid</code>.',
+      'Patientez 30 secondes puis ouvrez <a href="http://localhost:8001">http://localhost:8001</a> · login <code>admin@meshvise.local</code> / <code>meshvise</code>.',
     ],
     docs_link_text: 'Documentation d\'installation complète',
     limits_title: 'Limites de cet essai',
@@ -23,17 +23,17 @@ const COPY = {
       'Durée : 7 jours. À l\'expiration, l\'app passe en lecture seule, vos données restent vôtres.',
     ],
     next: 'On vous écrira dans 6 jours pour faire le point. Si vous avez la moindre question d\'ici là, répondez à cet email.',
-    signoff: 'Bruno · Wiregrid',
+    signoff: 'Bruno · Meshvise',
   },
   en: {
-    subject: 'Your Wiregrid 7-day trial · licence + install',
+    subject: 'Your Meshvise 7-day trial · licence + install',
     greeting: (name) => (name ? `Hi ${name},` : 'Hi,'),
-    intro: 'Here is your Wiregrid trial licence, valid for 7 days. Everything you need to get started is attached to this email.',
+    intro: 'Here is your Meshvise trial licence, valid for 7 days. Everything you need to get started is attached to this email.',
     steps_title: 'Up and running in 3 minutes',
     steps: [
       'Download the two attachments (<strong>license.jwt</strong> and <strong>docker-compose.yml</strong>) into a single folder.',
       'In that folder, run <code>docker compose up -d</code> from your terminal.',
-      'Wait 30 seconds, then open <a href="http://localhost:8001">http://localhost:8001</a> · login <code>admin@wiregrid.local</code> / <code>wiregrid</code>.',
+      'Wait 30 seconds, then open <a href="http://localhost:8001">http://localhost:8001</a> · login <code>admin@meshvise.local</code> / <code>meshvise</code>.',
     ],
     docs_link_text: 'Full install documentation',
     limits_title: 'Trial limits',
@@ -43,11 +43,11 @@ const COPY = {
       'Duration: 7 days. On expiration, the app switches to read-only and your data stays yours.',
     ],
     next: 'We\'ll write again in 6 days to check in. If you have any question before that, just reply to this email.',
-    signoff: 'Bruno · Wiregrid',
+    signoff: 'Bruno · Meshvise',
   },
 };
 
-export function renderWelcomeEmail({ lang, name, jwt, docsUrl = 'https://wiregrid.fr', imageTag }) {
+export function renderWelcomeEmail({ lang, name, jwt, docsUrl = 'https://meshvise.com', imageTag }) {
   const c = COPY[lang === 'en' ? 'en' : 'fr'];
   const greeting = c.greeting(name);
   const stepsHtml = c.steps.map((s) => `<li>${s}</li>`).join('');
@@ -134,3 +134,5 @@ function base64Encode(input) {
   for (let i = 0; i < input.length; i += 1) bin += String.fromCharCode(input[i]);
   return btoa(bin);
 }
+
+

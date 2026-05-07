@@ -4,7 +4,7 @@
  *   *               → env.ASSETS.fetch (static site from ./dist)
  *
  * Same-origin form POST, so no CORS / OPTIONS handling needed. The
- * trial form lives on https://wiregrid.fr/<lang>/trial/ and posts to
+ * trial form lives on https://meshvise.com/<lang>/trial/ and posts to
  * /api/trial on the same origin.
  */
 
@@ -25,3 +25,4 @@ export default {
     return env.ASSETS.fetch(request);
   },
 };
+

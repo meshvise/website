@@ -54,7 +54,7 @@ export function buildTrialClaims({ email, name, company, now, jti }) {
   const iat = Math.floor(now / 1000);
   const exp = iat + TRIAL_DURATION_S;
   return {
-    iss: 'wiregrid-trial-signer',
+    iss: 'meshvise-trial-signer',
     sub: `trial:${email}`,
     jti,
     tier: 'trial',
@@ -89,3 +89,4 @@ export const TRIAL_DEFAULTS = {
   limits: TRIAL_LIMITS,
   features: TRIAL_FEATURES,
 };
+

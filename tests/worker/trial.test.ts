@@ -73,7 +73,7 @@ function makeFetch(opts: { turnstile?: 'pass' | 'fail'; resend?: 'ok' | 'fail' |
 }
 
 function buildRequest(body: Record<string, unknown>, headers: Record<string, string> = {}) {
-  return new Request('https://wiregrid.fr/api/trial', {
+  return new Request('https://meshvise.com/api/trial', {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -91,7 +91,7 @@ function baseEnv(overrides: Partial<Record<string, unknown>> = {}) {
     TRIAL_SIGNING_KEY: SIGNING_PEM,
     TURNSTILE_SECRET_KEY: 'turnstile-secret',
     RESEND_API_KEY: 'resend-key',
-    RESEND_FROM_EMAIL: 'test@wiregrid.fr',
+    RESEND_FROM_EMAIL: 'test@meshvise.com',
     ...overrides,
   };
 }
@@ -167,7 +167,7 @@ describe('handleTrialRequest — happy path', () => {
     // Claims sanity
     const claims = JSON.parse(new TextDecoder().decode(base64UrlDecode(payloadB64)));
     expect(claims.tier).toBe('trial');
-    expect(claims.iss).toBe('wiregrid-trial-signer');
+    expect(claims.iss).toBe('meshvise-trial-signer');
     expect(claims.sub).toBe('trial:bruno@example.com');
     expect(claims.exp - claims.iat).toBe(7 * 24 * 3600);
     expect(claims.binding).toBeNull();
@@ -179,7 +179,7 @@ describe('handleTrialRequest — input validation', () => {
   it('rejects malformed JSON', async () => {
     const env = baseEnv();
     const { fn: fetchImpl } = makeFetch();
-    const req = new Request('https://wiregrid.fr/api/trial', {
+    const req = new Request('https://meshvise.com/api/trial', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: '{not-json',
@@ -341,3 +341,5 @@ describe('handleTrialRequest — partial failures', () => {
     expect(res.status).toBe(200);
   });
 });
+
+

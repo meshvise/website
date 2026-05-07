@@ -11,14 +11,14 @@
   },
   "hero": {
     "title_html": "Modern industrial supervision. <span class=\"text-brand\">Flat fee, data on your turf.</span>",
-    "subtitle_html": "Wiregrid reads your PLCs over <code>Modbus TCP</code>, <code>OPC-UA</code> and <code>BACnet/IP</code>. All measurements in standard PostgreSQL, accessible to Power BI, Grafana or Excel. One yearly licence includes everything: protocols, unlimited points, updates, support.",
+    "subtitle_html": "Meshvise reads your PLCs over <code>Modbus TCP</code>, <code>OPC-UA</code> and <code>BACnet/IP</code>. All measurements in standard PostgreSQL, accessible to Power BI, Grafana or Excel. One yearly licence includes everything: protocols, unlimited points, updates, support.",
     "cta_trial": "Try 7 days on my infra",
     "cta_demo": "See the live demo",
     "cta_note_html": "€990/year per site. 7-day trial, no credit card. Public demo without sign-up for an immediate look.",
     "preview_label": "UI preview · simulated values (real WebSocket push in the actual demo)"
   },
   "app_preview": {
-    "aria_label": "Wiregrid interface preview: live points table",
+    "aria_label": "Meshvise interface preview: live points table",
     "title": "Live points",
     "deployed_rev": "deployed",
     "nav": {
@@ -35,7 +35,7 @@
   "personas": {
     "eyebrow": "For whom",
     "title": "Four roles. One product.",
-    "subtitle": "Wiregrid is built for industrial and commercial sites of 50 to 500 points. If your day-to-day looks like one of these four, we should probably talk.",
+    "subtitle": "Meshvise is built for industrial and commercial sites of 50 to 500 points. If your day-to-day looks like one of these four, we should probably talk.",
     "p1": {
       "role": "Maintenance / facility manager",
       "context": "You run one or several buildings: factory, head office, logistics site.",
@@ -69,7 +69,7 @@
   },
   "features": {
     "eyebrow": "Capabilities",
-    "title": "Five things Wiregrid does, and one it never will.",
+    "title": "Five things Meshvise does, and one it never will.",
     "subtitle": "Everything below runs in the public demo today. The only piece in progress is the visual wiresheet editor (Q3 2026). The execution engine itself already runs.",
     "acquisition": {
       "title": "Multi-protocol acquisition",
@@ -115,12 +115,12 @@
       "unit": "Unit",
       "trend": "Trend"
     },
-    "attribution_html": "Indicative visualisation. Live data from Wiregrid via <strong>standard ODBC PostgreSQL</strong>. No proprietary connector to install."
+    "attribution_html": "Indicative visualisation. Live data from Meshvise via <strong>standard ODBC PostgreSQL</strong>. No proprietary connector to install."
   },
   "lifecycle": {
     "eyebrow": "Organisation & versioning",
-    "title": "Your sites evolve. Wiregrid evolves with them.",
-    "subtitle": "A new machine in Building 2, a reorganisation by business function, an event to understand in hindsight. Wiregrid keeps up without breaking what you've already built.",
+    "title": "Your sites evolve. Meshvise evolves with them.",
+    "subtitle": "A new machine in Building 2, a reorganisation by business function, an event to understand in hindsight. Meshvise keeps up without breaking what you've already built.",
     "tags": {
       "title": "Tag once. Find anywhere.",
       "body_html": "Your equipment doesn't live in silos. You tag it once: by site, by building, by business function, by criticality. Then you slice your views however you want: all HVAC equipment, all critical meters, everything in Building B.<br/><br/>When you add a unit to Building B next month, it automatically appears in every view that concerns it, because it carries the right tags. Nothing to reconfigure.",
@@ -139,7 +139,7 @@
   "sovereignty": {
     "eyebrow": "Sovereignty & compliance",
     "title": "Your data on your premises, under your jurisdiction.",
-    "subtitle": "Wiregrid follows a sovereignty-first design. What you install is your data, in your infrastructure, under your jurisdiction.",
+    "subtitle": "Meshvise follows a sovereignty-first design. What you install is your data, in your infrastructure, under your jurisdiction.",
     "hosting": {
       "title": "Hosted by you, on your premises",
       "body_html": "No telemetry, no phone-home, no customer data on our infrastructure. <strong>Air-gap compatible</strong> for industrial sites disconnected from the internet."
@@ -213,7 +213,7 @@
   "faq": {
     "eyebrow": "FAQ",
     "title": "The questions we get.",
-    "subtitle": "If yours isn't here, drop us a line at contact@wiregrid.fr. Reply within one business day.",
+    "subtitle": "If yours isn't here, drop us a line at contact@meshvise.com. Reply within one business day.",
     "compatible_plc": {
       "q": "Compatible with my Schneider M340 / Siemens S7-1500 / other PLC?",
       "a_html": "If your PLC speaks <code>Modbus TCP</code>, <code>OPC-UA</code> or <code>BACnet/IP</code>, yes. For Modbus RTU over serial, plan a TCP gateway. See the <a href=\"#features\" class=\"text-brand hover:underline\">Capabilities section</a>."
@@ -224,7 +224,7 @@
     },
     "powerbi": {
       "q": "How do I connect Power BI?",
-      "a_html": "Power BI Desktop &gt; Get Data &gt; PostgreSQL. You enter your Wiregrid server's IP, a read-only user, and you see the tables. Native connection, exactly like any standard PostgreSQL database."
+      "a_html": "Power BI Desktop &gt; Get Data &gt; PostgreSQL. You enter your Meshvise server's IP, a read-only user, and you see the tables. Native connection, exactly like any standard PostgreSQL database."
     },
     "self_host": {
       "q": "Is it SaaS or self-hosted?",
@@ -232,11 +232,11 @@
     },
     "sovereignty_data": {
       "q": "Does my data stay in France?",
-      "a_html": "Yes, by design. Wiregrid is self-hosted: your instance runs on the infrastructure you choose, in France if that's what you pick. We do not store any customer data on our infrastructure. No telemetry leaves your network, no phone-home, no foreign cloud dependency. <strong>Air-gap compatible</strong> for sites disconnected from the internet."
+      "a_html": "Yes, by design. Meshvise is self-hosted: your instance runs on the infrastructure you choose, in France if that's what you pick. We do not store any customer data on our infrastructure. No telemetry leaves your network, no phone-home, no foreign cloud dependency. <strong>Air-gap compatible</strong> for sites disconnected from the internet."
     },
     "gdpr_compliance": {
-      "q": "Is Wiregrid GDPR compliant?",
-      "a_html": "Yes. Wiregrid is GDPR compliant by design: no personal data leaves your instance by default. For the Standard plan we provide a <strong>DPA</strong> (Data Processing Agreement) with the contract. Data and support under French law, jurisdiction in Paris."
+      "q": "Is Meshvise GDPR compliant?",
+      "a_html": "Yes. Meshvise is GDPR compliant by design: no personal data leaves your instance by default. For the Standard plan we provide a <strong>DPA</strong> (Data Processing Agreement) with the contract. Data and support under French law, jurisdiction in Paris."
     },
     "minimum_hardware": {
       "q": "Minimum hardware?",
@@ -248,15 +248,15 @@
     },
     "code_audit": {
       "q": "Can I audit the source code?",
-      "a_html": "On request for Standard customers, read access to the source code under <strong>NDA</strong>. This option exists for specific compliance needs: security audits, regulatory validation, due diligence. Outside an NDA, the code remains closed under our proprietary licence. Contact: <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a>."
+      "a_html": "On request for Standard customers, read access to the source code under <strong>NDA</strong>. This option exists for specific compliance needs: security audits, regulatory validation, due diligence. Outside an NDA, the code remains closed under our proprietary licence. Contact: <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>."
     },
     "safety_sil": {
       "q": "Can I run functional safety (SIL) on it?",
-      "a_html": "<strong>No</strong>, and never will. Wiregrid supervises and historises. Your safety interlocks must stay in your certified PLC."
+      "a_html": "<strong>No</strong>, and never will. Meshvise supervises and historises. Your safety interlocks must stay in your certified PLC."
     },
     "company_disappears": {
       "q": "What if you shut down tomorrow?",
-      "a_html": "Fair question, and the main reason Wiregrid stores everything in standard SQL. Concretely: your <code>postgres</code> runs on your server. Your Power BI dashboards keep working. For acquisition, you replace Wiregrid with any other platform speaking Modbus / OPC-UA / BACnet."
+      "a_html": "Fair question, and the main reason Meshvise stores everything in standard SQL. Concretely: your <code>postgres</code> runs on your server. Your Power BI dashboards keep working. For acquisition, you replace Meshvise with any other platform speaking Modbus / OPC-UA / BACnet."
     },
     "multi_site": {
       "q": "What about distant multi-site supervision?",
@@ -268,11 +268,11 @@
     },
     "support": {
       "q": "What does support look like?",
-      "a_html": "Discovery plan: public documentation + best-effort email to <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a>. Standard plan: email with a <strong>1-business-day</strong> response SLA (French public holidays excluded), video calls on request, direct access to the lead developer."
+      "a_html": "Discovery plan: public documentation + best-effort email to <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>. Standard plan: email with a <strong>1-business-day</strong> response SLA (French public holidays excluded), video calls on request, direct access to the lead developer."
     },
     "support_language": {
       "q": "Is support in French?",
-      "a_html": "Yes. Email support at <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a> is handled by a French team, with a 1-business-day SLA for Standard customers. Public documentation is available in French and English. Tickets in English are handled by the same team."
+      "a_html": "Yes. Email support at <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a> is handled by a French team, with a 1-business-day SLA for Standard customers. Public documentation is available in French and English. Tickets in English are handled by the same team."
     },
     "trial": {
       "q": "How long do I need to seriously try it?",
@@ -280,7 +280,7 @@
     },
     "demo_vs_trial": {
       "q": "What's the difference between the online demo and the 7-day trial?",
-      "a_html": "The <a href=\"https://demo.wiregrid.fr\" class=\"text-brand hover:underline\">online demo</a> is public, runs on our server with simulated industrial-site data. You click around, see the UI, close the tab. No sign-up, nothing to install. Best for a first look. The <a href=\"/en/trial/\" class=\"text-brand hover:underline\">7-day trial</a>, on the other hand, gives you the full app on your own infrastructure. You fill a form, receive a <code>license.jwt</code> and a <code>docker-compose.yml</code> by email, run <code>docker compose up -d</code> on your server, wire up your real PLCs. That's the serious evaluation before purchase."
+      "a_html": "The <a href=\"https://app.meshvise.com\" class=\"text-brand hover:underline\">online demo</a> is public, runs on our server with simulated industrial-site data. You click around, see the UI, close the tab. No sign-up, nothing to install. Best for a first look. The <a href=\"/en/trial/\" class=\"text-brand hover:underline\">7-day trial</a>, on the other hand, gives you the full app on your own infrastructure. You fill a form, receive a <code>license.jwt</code> and a <code>docker-compose.yml</code> by email, run <code>docker compose up -d</code> on your server, wire up your real PLCs. That's the serious evaluation before purchase."
     },
     "trial_what_happens": {
       "q": "How does the 7-day trial work?",
@@ -288,7 +288,7 @@
     },
     "trial_end": {
       "q": "What happens to my install when the 7 days are up?",
-      "a_html": "The app switches to read-only. You keep access to your historised data, you can export your configuration and historian. Writes (adding a point, editing an alarm, deploying a revision) are blocked until you activate a production licence. Nothing is deleted, nothing is volatile. To extend, write to contact@wiregrid.fr."
+      "a_html": "The app switches to read-only. You keep access to your historised data, you can export your configuration and historian. Writes (adding a point, editing an alarm, deploying a revision) are blocked until you activate a production licence. Nothing is deleted, nothing is volatile. To extend, write to contact@meshvise.com."
     }
   },
   "final_cta": {
@@ -301,11 +301,11 @@
   },
   "trial": {
     "meta": {
-      "title": "7-day trial · Wiregrid",
-      "description": "Get a 7-day trial licence by email, run Wiregrid on your own infra with your PLCs, validate in real conditions. No credit card, no auto-renewal."
+      "title": "7-day trial · Meshvise",
+      "description": "Get a 7-day trial licence by email, run Meshvise on your own infra with your PLCs, validate in real conditions. No credit card, no auto-renewal."
     },
     "eyebrow": "7-day trial",
-    "title": "Wiregrid on your infra. 7 days. No sign-up.",
+    "title": "Meshvise on your infra. 7 days. No sign-up.",
     "subtitle_html": "Fill in this form, receive by email your licence and a ready-to-use <code>docker-compose.yml</code>. Run <code>docker compose up -d</code> on your server, wire up your PLCs, validate in real conditions.",
     "form": {
       "name_label": "Name",
@@ -318,10 +318,10 @@
       "use_case_placeholder": "What kind of site, how many points, which PLCs...",
       "submit": "Send my trial licence",
       "submitting": "Sending...",
-      "error_generic": "Something went wrong. Try again or write to contact@wiregrid.fr.",
+      "error_generic": "Something went wrong. Try again or write to contact@meshvise.com.",
       "error_turnstile": "Please complete the anti-bot challenge before submitting.",
-      "error_rate_limit": "You already requested a licence recently. Try again in 24 hours or write to contact@wiregrid.fr.",
-      "error_dedupe": "A licence has already been issued for this address in the last 30 days. Check your inbox (spam included) or write to contact@wiregrid.fr."
+      "error_rate_limit": "You already requested a licence recently. Try again in 24 hours or write to contact@meshvise.com.",
+      "error_dedupe": "A licence has already been issued for this address in the last 30 days. Check your inbox (spam included) or write to contact@meshvise.com."
     },
     "disclaimer": {
       "limits_html": "Trial licence limits: 5 drivers, 15 machines, 500 points, full feature set (acquisition, historian, alarms, wiresheet, SQL access).",
@@ -336,26 +336,26 @@
     },
     "success": {
       "title": "Check your inbox",
-      "body_html": "We sent an email to <strong class=\"font-mono\">{email}</strong> with your licence and the install command. If nothing arrives within 5 minutes (spam included), write to <a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a>.",
+      "body_html": "We sent an email to <strong class=\"font-mono\">{email}</strong> with your licence and the install command. If nothing arrives within 5 minutes (spam included), write to <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>.",
       "back": "Back to home"
     }
   },
   "about": {
     "meta": {
-      "title": "About · Wiregrid",
-      "description": "Wiregrid is a French industrial supervision platform: flat fee, data on your premises, support in French. Company, mission, values, contacts."
+      "title": "About · Meshvise",
+      "description": "Meshvise is a French industrial supervision platform: flat fee, data on your premises, support in French. Company, mission, values, contacts."
     },
     "eyebrow": "About",
     "title": "A French industrial supervision platform.",
-    "subtitle": "Wiregrid is building a French alternative to tag-priced supervisions and foreign SaaS. Your data on your premises, our support in France, contract under French law.",
+    "subtitle": "Meshvise is building a French alternative to tag-priced supervisions and foreign SaaS. Your data on your premises, our support in France, contract under French law.",
     "founder": {
       "heading": "The founder",
       "name": "<TO BE FILLED BY BRUNO: first + last name>",
-      "bio_html": "<TO BE FILLED BY BRUNO: 3 to 5 lines of short bio. Relevant background (industrial, IT, automation), why Wiregrid, what drives the project.>"
+      "bio_html": "<TO BE FILLED BY BRUNO: 3 to 5 lines of short bio. Relevant background (industrial, IT, automation), why Meshvise, what drives the project.>"
     },
     "mission": {
       "heading": "The mission",
-      "body_html": "Wiregrid started from a simple observation: industrial supervision is too expensive, too closed, too dependent on foreign vendors. We are building a French alternative, open on SQL data, with predictable pricing and compliance by design. All points included in the Standard licence, no foreign cloud: one price at renewal, set once and for all."
+      "body_html": "Meshvise started from a simple observation: industrial supervision is too expensive, too closed, too dependent on foreign vendors. We are building a French alternative, open on SQL data, with predictable pricing and compliance by design. All points included in the Standard licence, no foreign cloud: one price at renewal, set once and for all."
     },
     "values": {
       "heading": "Values",
@@ -367,7 +367,7 @@
       "heading": "Milestones",
       "t1": {
         "date": "2026 Q2",
-        "body_html": "First production-ready release of Wiregrid 1.0. Modbus / OPC-UA / BACnet acquisition, TimescaleDB historian, operational alarms, direct SQL access."
+        "body_html": "First production-ready release of Meshvise 1.0. Modbus / OPC-UA / BACnet acquisition, TimescaleDB historian, operational alarms, direct SQL access."
       },
       "t2": {
         "date": "2026 Q3",
@@ -394,7 +394,7 @@
       },
       "contact": {
         "label": "Contact",
-        "value_html": "<a href=\"mailto:contact@wiregrid.fr\" class=\"text-brand hover:underline\">contact@wiregrid.fr</a>"
+        "value_html": "<a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>"
       },
       "support": {
         "label": "Support",
@@ -409,7 +409,7 @@
     "compat": "Compatibility",
     "contact": "Contact",
     "rights": "All rights reserved.",
-    "legal_box_html": "Wiregrid by <strong>&lt;COMPANY NAME : TO BE FILLED BY BRUNO&gt;</strong>, French company registered in <strong>&lt;CITY : TO BE FILLED BY BRUNO&gt;</strong>. SIREN <strong>&lt;NUMBER : TO BE FILLED BY BRUNO&gt;</strong>.",
+    "legal_box_html": "Meshvise by <strong>&lt;COMPANY NAME : TO BE FILLED BY BRUNO&gt;</strong>, French company registered in <strong>&lt;CITY : TO BE FILLED BY BRUNO&gt;</strong>. SIREN <strong>&lt;NUMBER : TO BE FILLED BY BRUNO&gt;</strong>.",
     "continuity_link": "What if you shut down tomorrow? The honest answer lives in the FAQ.",
     "tech_line": "French data. French tech.",
     "tagline": "A web SCADA platform that reads your PLCs, historises, organises and alerts. Data accessible via standard PostgreSQL ODBC.",
@@ -417,10 +417,10 @@
     "newsletter_desc": "Roadmap, integrator stories, releases. Four sends a year, no more.",
     "newsletter_placeholder": "you@company.com",
     "newsletter_cta": "Subscribe",
-    "newsletter_aria": "Subscribe to the Wiregrid newsletter"
+    "newsletter_aria": "Subscribe to the Meshvise newsletter"
   },
   "meta": {
-    "og_image_alt": "Wiregrid · Web SCADA, flat fee, data on your premises"
+    "og_image_alt": "Meshvise · Web SCADA, flat fee, data on your premises"
   },
   "a11y": {
     "skip_to_content": "Skip to content",
@@ -429,3 +429,5 @@
     "switch_language": "Switch to {lang}"
   }
 }
+
+

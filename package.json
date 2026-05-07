@@ -1,5 +1,5 @@
 {
-  "name": "vitrine-wiregrid",
+  "name": "vitrine-meshvise",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -25,3 +25,4 @@
     "wrangler": "^4.85.0"
   }
 }
+

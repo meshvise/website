@@ -25,4 +25,5 @@ User-agent: Google-Extended
 Allow: /
 Disallow: /api/
 
-Sitemap: https://wiregrid.fr/sitemap-index.xml
+Sitemap: https://meshvise.com/sitemap-index.xml
+

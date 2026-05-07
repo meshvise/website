@@ -40,7 +40,7 @@ describe('buildTrialClaims', () => {
       jti: 'fixed-jti',
     });
     expect(claims).toEqual({
-      iss: 'wiregrid-trial-signer',
+      iss: 'meshvise-trial-signer',
       sub: 'trial:demo@example.com',
       jti: 'fixed-jti',
       tier: 'trial',
@@ -125,3 +125,4 @@ describe('importEd25519PrivateKey edge cases', () => {
     ).rejects.toThrow();
   });
 });
+

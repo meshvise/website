@@ -1,6 +1,6 @@
 {
-  "name": "Wiregrid",
-  "short_name": "Wiregrid",
+  "name": "Meshvise",
+  "short_name": "Meshvise",
   "description": "French industrial supervision platform. Flat fee, data on your premises, all points included.",
   "start_url": "/",
   "display": "browser",
@@ -15,3 +15,4 @@
     }
   ]
 }
+

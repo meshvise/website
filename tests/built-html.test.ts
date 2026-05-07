@@ -82,8 +82,8 @@ describe('No prod-breaking hardcoded URLs', () => {
 
 describe('Demo CTAs point to the live app', () => {
   for (const lang of ['fr', 'en'] as const) {
-    it(`${lang} contains at least one https://demo.wiregrid.fr link`, () => {
-      const matches = html[lang].match(/https:\/\/demo\.wiregrid\.fr/g) ?? [];
+    it(`${lang} contains at least one https://app.meshvise.com link`, () => {
+      const matches = html[lang].match(/https:\/\/app\.meshvise\.com/g) ?? [];
       expect(matches.length).toBeGreaterThanOrEqual(1);
     });
   }
@@ -91,13 +91,13 @@ describe('Demo CTAs point to the live app', () => {
 
 describe('Contact mailto goes to the right address', () => {
   for (const lang of ['fr', 'en'] as const) {
-    it(`${lang} mailto links use contact@wiregrid.fr`, () => {
+    it(`${lang} mailto links use contact@meshvise.com`, () => {
       const mailtos = html[lang].match(/mailto:([^"'\s<>]+)/g) ?? [];
       expect(mailtos.length).toBeGreaterThan(0);
       for (const mailto of mailtos) {
         // Allow ?subject=... and similar URL params, just check the address.
         const addr = mailto.replace(/^mailto:/, '').split('?')[0];
-        expect(addr).toBe('contact@wiregrid.fr');
+        expect(addr).toBe('contact@meshvise.com');
       }
     });
   }
@@ -228,12 +228,12 @@ describe('FAQ has the four B2B-compliance entries from 2026-05-02 brief § 5', (
       // pulled straight from the entry copy.
       if (lang === 'fr') {
         expect(html[lang]).toMatch(/Mes données restent-elles en France/);
-        expect(html[lang]).toMatch(/Wiregrid est-il conforme RGPD/);
+        expect(html[lang]).toMatch(/Meshvise est-il conforme RGPD/);
         expect(html[lang]).toMatch(/Le support est-il en français/);
         expect(html[lang]).toMatch(/Puis-je auditer le code source/);
       } else {
         expect(html[lang]).toMatch(/Does my data stay in France/);
-        expect(html[lang]).toMatch(/Is Wiregrid GDPR compliant/);
+        expect(html[lang]).toMatch(/Is Meshvise GDPR compliant/);
         expect(html[lang]).toMatch(/Is support in French/);
         expect(html[lang]).toMatch(/Can I audit the source code/);
       }
@@ -356,9 +356,9 @@ describe('Pricing section renders 3 tiers per ADR-0008', () => {
 
     it(`${lang} pricing wires the 3 expected CTAs (demo / trial / standard mailto)`, () => {
       const section = pricingSection();
-      expect(section).toContain('href="https://demo.wiregrid.fr"');
+      expect(section).toContain('href="https://app.meshvise.com"');
       expect(section).toContain(`href="/${lang}/trial/"`);
-      expect(section).toContain('href="mailto:contact@wiregrid.fr?subject=Wiregrid%20Standard"');
+      expect(section).toContain('href="mailto:contact@meshvise.com?subject=Meshvise%20Standard"');
     });
 
     it(`${lang} pricing Standard tier carries the legal anchor + continuity link`, () => {
@@ -383,3 +383,5 @@ describe('Pricing section renders 3 tiers per ADR-0008', () => {
     });
   }
 });
+
+

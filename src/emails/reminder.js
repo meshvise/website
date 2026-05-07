@@ -3,24 +3,24 @@
 
 const COPY = {
   fr: {
-    subject: 'Plus que 24 heures sur votre essai Wiregrid',
+    subject: 'Plus que 24 heures sur votre essai Meshvise',
     greeting: (name) => (name ? `Bonjour ${name},` : 'Bonjour,'),
-    intro: 'Petit rappel : votre essai Wiregrid expire dans 24 heures.',
+    intro: 'Petit rappel : votre essai Meshvise expire dans 24 heures.',
     body: 'Si vous voulez prolonger en production ou simplement échanger sur ce que vous avez vu, prenez 30 minutes dans mon agenda.',
     cta: 'Réserver un créneau',
     fallback: 'Si vous préférez l\'écrit, répondez simplement à cet email.',
     after: 'À l\'expiration, l\'app passera en lecture seule. Vos données restent accessibles, l\'export reste actif. Rien ne sera supprimé.',
-    signoff: 'Bruno · Wiregrid',
+    signoff: 'Bruno · Meshvise',
   },
   en: {
-    subject: 'Less than 24 hours left on your Wiregrid trial',
+    subject: 'Less than 24 hours left on your Meshvise trial',
     greeting: (name) => (name ? `Hi ${name},` : 'Hi,'),
-    intro: 'Quick reminder: your Wiregrid trial expires in 24 hours.',
+    intro: 'Quick reminder: your Meshvise trial expires in 24 hours.',
     body: 'If you want to move to production or just chat about what you saw, grab 30 minutes on my calendar.',
     cta: 'Book a slot',
     fallback: 'If you prefer writing, just reply to this email.',
     after: 'On expiration, the app will switch to read-only. Your data stays accessible, export stays active. Nothing gets deleted.',
-    signoff: 'Bruno · Wiregrid',
+    signoff: 'Bruno · Meshvise',
   },
 };
 
@@ -67,3 +67,4 @@ function escapeHtml(s) {
 function escapeAttr(s) {
   return escapeHtml(s).replaceAll('"', '&quot;');
 }
+
