@@ -1,75 +1,95 @@
-# Wiregrid
+# Meshvise
 
-> Industrial supervision (SCADA) platform built around two principles: no per-tag pricing, and data stored in a standard PostgreSQL database directly queryable from Power BI, Grafana or Excel.
+> French industrial supervision (SCADA) platform: flat annual licence, customer-hosted, data in standard PostgreSQL queryable from Power BI, Grafana or Excel. French company, French law, GDPR by design, no Cloud Act exposure.
 
-Wiregrid acquires data from industrial PLCs over Modbus TCP, OPC-UA and BACnet/IP, exposes it live (sub-100 ms WebSocket push) and archives it into a TimescaleDB hypertable. Built for small-to-mid industrial sites (50–500 measurement points) where Niagara N4 and Ignition are too expensive and SaaS-only platforms are unacceptable for data residency.
+Meshvise acquires data from industrial PLCs over Modbus TCP, OPC-UA and BACnet/IP, exposes it live (sub-100 ms WebSocket push) and archives it into a TimescaleDB hypertable. Built for small-to-mid industrial and commercial sites (50 to 500 measurement points) where legacy tag-priced SCADA platforms are too expensive and SaaS-only platforms are unacceptable for data residency.
 
-## What Wiregrid is
+## What Meshvise is
 
 - A web-based SCADA / IIoT supervision platform.
-- Self-hosted via Docker Compose (single command).
+- Self-hosted via Docker Compose (single command). Docker deployment in 4 hours, first point read in 30 minutes.
 - Backend: Python 3.12 + FastAPI + asyncpg + SQLAlchemy 2 (async).
 - Database: PostgreSQL 16 + TimescaleDB.
 - Frontend: Vue 3 + Vite + Tailwind v4 + Pinia (single-page app).
 - Real-time: Redis pub/sub forwarded to browser via WebSocket.
 
-## What Wiregrid is not
+## What Meshvise is not
 
-- Not a safety / SIL-rated control system. Use a certified PLC for interlocks. Wiregrid only supervises, alarms, archives.
-- Not (yet) a wiresheet visual logic editor. The execution engine ships, the Vue Flow editor lands Q3 2026.
+- Not a safety / SIL-rated control system. Use a certified PLC for interlocks. Meshvise only supervises, alarms, archives.
+- Not (yet) a wiresheet visual logic editor. The execution engine ships, the visual editor lands Q3 2026.
 - Not a full HMI builder. No drag-drop screen designer (planned later).
 
-## Capabilities shipped today (April 2026)
+## Capabilities shipped today
 
 - Multi-protocol acquisition: Modbus TCP, OPC-UA, BACnet/IP.
 - Live points (read + write) over WebSocket, polling fallback.
 - TimescaleDB historian with per-point on_change deadband or fixed interval.
 - Operational alarms: high/low thresholds with deadband and delay, severities (info/warning/critical), notification email groups, full event log.
-- Git-style config versioning: every change goes into a revision. Diff between two revisions, single-transaction revert. Hot-reload via pg_notify.
-- Open API: REST on /py/v1/{drivers,machines,points,alarms,revisions} and WebSocket /ws/live. Direct SQL access to PostgreSQL — Power BI connects via ODBC without a vendor connector.
+- Tag-based organisation: equipment is tagged once (site, building, function, criticality), views are filtered or composed from those tags. Adding new equipment with the right tags makes it appear automatically in every relevant view.
+- Git-style config versioning: every change goes into a revision. Diff between two revisions, single-transaction revert, audit trail of who changed what when. Hot-reload via pg_notify.
+- Direct data access: REST API on /py/v1/{drivers,machines,points,alarms,revisions} and WebSocket /ws/live. Native ODBC PostgreSQL connection: Power BI, Grafana, Metabase, Excel connect directly to the database.
 - Multi-project / multi-tenant: project_id scoping on every entity.
 
-## Differentiators vs Niagara N4 / Ignition / EcoStruxure
+## Sovereignty and compliance
 
-- Zero per-tag pricing. Niagara charges roughly €5/tag/year; Ignition's free tier ("Maker") has quota limits; EcoStruxure has per-device modules. Wiregrid Production tier is a flat €990/year for unlimited points on one instance.
-- Data in standard PostgreSQL + TimescaleDB. No proprietary historian format. Power BI / Grafana / Metabase / Excel connect directly to your database — no export, no middleware, no licensed connector.
-- Self-hosted by default. Your data never leaves your network. Runs on a Raspberry Pi 4, an industrial mini-PC, or a €5/month VPS. No JVM, no station application.
-- Versioned config with one-click revert. SCADA platforms traditionally rely on manual backup; Wiregrid commits changes like a git repository and lets you roll back to any deployed revision in a single transaction.
+- Hosted by the customer, on customer infrastructure. No telemetry, no phone-home, no customer data on Meshvise infrastructure. Air-gap compatible for sites disconnected from the internet.
+- GDPR compliant by design: no personal data leaves the customer instance by default. DPA provided with the Standard contract.
+- French law, French-language contract, jurisdiction in Paris. No offshore arbitration clause.
+- No US Cloud Act, no extra-territorial reach, no foreign cloud-vendor dependency on the production path.
+
+## Differentiators vs legacy SCADA platforms
+
+- Flat-fee licence: Standard tier is €990/year per site for unlimited points, machines, drivers, users, and features. Tag-priced suites typically scale linearly with site size and add per-protocol modules.
+- Data in standard PostgreSQL + TimescaleDB. No proprietary historian format. Power BI, Grafana, Metabase, Excel connect via standard ODBC. No export step, no middleware.
+- Self-hosted by default. Customer data never leaves the customer network. Runs on a Raspberry Pi 4, an industrial mini-PC, or a 5 EUR/month VPS. No JVM, no station application.
+- Versioned configuration with one-click revert. Industrial supervision platforms traditionally rely on manual backup. Meshvise commits changes like a git repository and lets the customer roll back to any deployed revision in a single transaction.
 
 ## Hardware footprint
 
 - Minimum: 2 vCPU, 4 GB RAM, 20 GB disk.
 - Tested on: Hetzner CX22, Raspberry Pi 4, industrial mini-PCs.
-- Demo runs on a €4/month nano VPS.
+- Demo runs on a 4 EUR/month nano VPS.
 
-## Pricing
+## Pricing (three doors, one paid tier per ADR-0008)
 
-- Discovery: €0/forever, up to 50 points, Modbus TCP only, 7-day historian, online docs support.
-- Production: €990/year (excl. VAT), unlimited points, all 3 protocols, unlimited historian, email + video support.
-- 12-month commitment. Self-hosted — Wiregrid has no access to your PostgreSQL.
+- Online demo: 0 EUR, public, on app.meshvise.com. No install, no sign-up. Simulated industrial-site dataset (10 drivers, 13 machines, 18 alarms). 60 seconds to click around.
+- 7-day trial: 0 EUR, via the meshvise.com/<lang>/trial/ form. Full app on the customer infrastructure, limits 5 drivers / 15 machines / 500 points, all features. After 7 days the app switches to read-only, customer data and configuration stay accessible.
+- Standard: 990 EUR/year per site (excl. VAT). Unlimited points, machines, drivers, users, features. All protocols (Modbus TCP + OPC-UA + BACnet/IP). Updates included. Email support at contact@meshvise.com with a 1-business-day SLA (French public holidays excluded). Source-code audit under NDA on request. One instance per licence.
 
-## Live demo and signup
+There is no Discovery permanent self-host tier. The online demo plays that role for evaluation; the trial plays it for in-conditions validation.
 
-- Online demo: https://demo.wiregrid.fr (no signup, public, read-only-ish — you can edit but data resets periodically).
-- Signup flow generates a private project clone in under a second (10 drivers, 13 machines, 18 alarms, 60 machine points pre-seeded).
+## How to evaluate
 
-## Open source
+Three doors depending on the prospect's need:
 
-Not publicly yet. Candidate licenses at public release: AGPL-3.0 or source-available. In the meantime, all customer data is in standard SQL on the customer's own server — no lock-in even pre-OSS.
+- Online demo: https://app.meshvise.com (no signup, public, simulated industrial-site data). 60 seconds to click around and see the UI.
+- 7-day trial on the customer's infrastructure: https://meshvise.com/fr/trial/ (or https://meshvise.com/en/trial/). Fill the form, receive a license.jwt + docker-compose.yml by email, run `docker compose up -d` on the customer's server, wire real PLCs, validate in real conditions.
+- Standard production: contact contact@meshvise.com for a quote and a permanent licence tied to the customer's project_id.
+
+## Distribution and licensing
+
+Closed-source commercial product. The full backend ships as a compiled Docker image on ghcr.io. Licence enforcement uses Ed25519-signed JWT licences (offline verification, no phone-home, air-gap-safe). Customer data lives entirely on the customer's PostgreSQL on the customer's server. The standard SQL data format means there is no vendor lock-in even though the platform itself is closed source.
+
+Source-code audit available under NDA for Standard customers, on request, for compliance needs (security audit, regulatory validation, due diligence).
 
 ## Project status
 
-Phases 1–6 complete (April 2026): Laravel-to-Python backend migration done, demo on Cloudflare Pages live, Hetzner-hosted interactive demo decommissioned. Wiresheet UI port (recovered from the deleted Laravel codebase) targeted for Q3 2026.
+Production-ready as of Q2 2026. Wiresheet visual editor targeted for Q3 2026. Distant multi-site supervision with edge gateways and a consolidating central instance targeted for Q4 2026.
 
 ## Contact
 
-contact@wiregrid.fr
+contact@meshvise.com
 
 ## Useful links
 
-- Marketing site: https://wiregrid.fr
-- Live demo: https://demo.wiregrid.fr
-- Pricing: https://wiregrid.fr/fr/#pricing
-- FAQ: https://wiregrid.fr/fr/#faq
-- Comparison vs Niagara/Ignition/EcoStruxure: https://wiregrid.fr/fr/#comparison
-- Equipment compatibility: https://wiregrid.fr/fr/#equipment
+- Marketing site: https://meshvise.com
+- Live demo: https://app.meshvise.com
+- 7-day trial form (FR): https://meshvise.com/fr/trial/
+- 7-day trial form (EN): https://meshvise.com/en/trial/
+- Pricing: https://meshvise.com/fr/#pricing
+- Sovereignty section: https://meshvise.com/fr/#sovereignty
+- About page (FR): https://meshvise.com/fr/about/
+- About page (EN): https://meshvise.com/en/about/
+- FAQ: https://meshvise.com/fr/#faq
+
+

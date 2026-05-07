@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://wiregrid.fr',
+  site: 'https://meshvise.com',
   integrations: [
     sitemap({
       i18n: {
@@ -18,3 +18,4 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 });
+

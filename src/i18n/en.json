@@ -1,22 +1,24 @@
 {
   "nav": {
-    "comparison": "Comparison",
+    "personas": "For whom",
     "features": "Capabilities",
+    "sovereignty": "Sovereignty",
     "pricing": "Pricing",
     "faq": "FAQ",
+    "about": "About",
+    "trial": "7-day trial",
     "demo": "See the demo"
   },
   "hero": {
-    "badge_html": "Visual wiresheet shipping Q3 2026",
-    "title_html": "Finally, SCADA supervision <span class=\"text-brand\">without tag pricing</span>.",
-    "subtitle_html": "Wiregrid reads your PLCs over <code>Modbus TCP</code>, <code>OPC-UA</code> and <code>BACnet/IP</code>, and writes every measurement into a <code>PostgreSQL</code> database that Power BI, Grafana or Excel read directly. No per-tag licensing. No proprietary connector.",
-    "cta_demo": "See the demo",
-    "cta_shell_aria": "Copy the docker compose up -d command",
-    "cta_note_html": "Public demo, no sign-up. Auth and data residency available the moment you self-host.",
-    "preview_label": "Live demo · simulated values (real WebSocket push in the actual demo)"
+    "title_html": "Modern industrial supervision. <span class=\"text-brand\">Flat fee, data on your turf.</span>",
+    "subtitle_html": "Meshvise reads your PLCs over <code>Modbus TCP</code>, <code>OPC-UA</code> and <code>BACnet/IP</code>. All measurements in standard PostgreSQL, accessible to Power BI, Grafana or Excel. One yearly licence includes everything: protocols, unlimited points, updates, support.",
+    "cta_trial": "Try 7 days on my infra",
+    "cta_demo": "See the live demo",
+    "cta_note_html": "€990/year per site. 7-day trial, no credit card. Public demo without sign-up for an immediate look.",
+    "preview_label": "UI preview · simulated values (real WebSocket push in the actual demo)"
   },
   "app_preview": {
-    "aria_label": "Wiregrid interface preview: live points table",
+    "aria_label": "Meshvise interface preview: live points table",
     "title": "Live points",
     "deployed_rev": "deployed",
     "nav": {
@@ -30,223 +32,376 @@
     },
     "col": { "path": "Path", "value": "Value", "unit": "Unit", "trend": "Trend" }
   },
+  "personas": {
+    "eyebrow": "For whom",
+    "title": "Four roles. One product.",
+    "subtitle": "Meshvise is built for industrial and commercial sites of 50 to 500 points. If your day-to-day looks like one of these four, we should probably talk.",
+    "p1": {
+      "role": "Maintenance / facility manager",
+      "context": "You run one or several buildings: factory, head office, logistics site.",
+      "pain": "Classic supervision platforms charge per tag. With 200 points the budget explodes and your data sleeps in a proprietary format.",
+      "fit": "Flat annual fee, all points included. Your data flows into Power BI over standard ODBC, no extra IT dependency."
+    },
+    "p2": {
+      "role": "Building / SCADA integrator",
+      "context": "You install and operate supervision systems for industrial or commercial customers.",
+      "pain": "Your margins are eaten by vendor licensing. Your customers ask hard questions about data lock-in.",
+      "fit": "One annual licence covers the whole site. Customers stay owners of their database. You sell expertise, not tags."
+    },
+    "p3": {
+      "role": "Energy / efficiency manager",
+      "context": "You track consumption across a site or a fleet, you have to deliver ISO 50001 reports or carbon footprints.",
+      "pain": "Modbus meters are right there, but pulling them into Power BI requires a connector budget or custom development.",
+      "fit": "Native Modbus / OPC-UA reads, configurable historian, direct SQL views for your energy dashboards."
+    },
+    "p4": {
+      "role": "Technical director / Industrial CIO",
+      "context": "You consolidate supervision across multiple sites, decide on licence renewals, hold the line on budget and compliance.",
+      "pain": "Each per-plant licence reaches €10k to €50k a year. Budget is unpredictable, data scattered across vendors, GDPR audit slow at every renewal.",
+      "fit": "Flat €990/year per site, data in your Postgres, GDPR compliant by design, support within one business day. Source-code audit under NDA available for specific compliance needs. Predictable budget over 5 years."
+    }
+  },
   "stats": {
     "drivers": "drivers across Modbus / OPC-UA / BACnet in the demo",
     "points": "live points at 1 Hz, sub-100 ms",
-    "latency": "WebSocket latency between Redis and the browser",
-    "tag_cost": "per tag — no asterisk, no condition"
-  },
-  "comparison": {
-    "eyebrow": "Comparison",
-    "title": "Compare row by row, not in marketing slides.",
-    "subtitle": "Wiregrid is not a Niagara N4 replacement on a 5,000-point site with full wiresheet and a mature HMI builder. It targets the cases where you mostly pay for tags, on features that PostgreSQL + Power BI already do better.",
-    "col": { "criterion": "Criterion" },
-    "criterion": {
-      "tag_pricing": "Per-tag pricing",
-      "data_storage": "Data storage",
-      "bi_connector": "Power BI access",
-      "self_host": "Self-hosting",
-      "config_versioning": "Config versioning",
-      "protocols": "Protocols",
-      "startup_cost": "Startup cost"
-    },
-    "value": {
-      "no": "None",
-      "yes_5": "≈ €5/tag/yr",
-      "yes_lite": "Edge / Maker limits",
-      "yes_pro": "Per-device modules",
-      "pg": "PostgreSQL + Timescale",
-      "proprio": "Proprietary format",
-      "native": "Direct read",
-      "export": "CSV export",
-      "odbc": "Paid ODBC module",
-      "docker": "docker compose",
-      "jvm": "JVM + station",
-      "cloud": "SaaS only",
-      "git": "Commit / diff / revert",
-      "manual": "Manual backup",
-      "yes": "Yes",
-      "p3": "3 (TCP / OPC-UA / BACnet)",
-      "p20": "20+",
-      "p15": "15+",
-      "free": "€0 (≤ 50 pts)",
-      "5k": "≈ €5,000",
-      "4k": "≈ $4,500",
-      "quote": "On request"
-    },
-    "disclaimer": "Public sources, April 2026. Niagara, Ignition, EcoStruxure: trademarks of Tridium, Inductive Automation, Schneider Electric."
-  },
-  "how": {
-    "eyebrow": "Commissioning",
-    "title": "Three steps. One Sunday evening.",
-    "subtitle": "No mandatory integration services. The public demo replicates the install an automation engineer can do without calling us.",
-    "1_install": {
-      "title": "Install",
-      "desc": "One Docker command on a VPS, an industrial mini-PC or a Raspberry Pi 4. The image bundles the gateway, PostgreSQL + TimescaleDB, Redis and the UI."
-    },
-    "2_configure": {
-      "title": "Connect",
-      "desc": "You declare your PLCs by IP and port. Wiregrid lists the exposed points, you organise them by machine and tags, you wire the alarms."
-    },
-    "3_operate": {
-      "title": "Operate",
-      "desc": "Values stream over WebSocket into the UI. In parallel your Postgres is open for direct read from Power BI, Grafana, Metabase or Excel."
-    }
+    "latency": "WebSocket latency between the runtime and the browser",
+    "tag_cost": "per tag, no asterisk, no condition"
   },
   "features": {
     "eyebrow": "Capabilities",
-    "title": "Three things classic SCADAs do badly.",
-    "subtitle": "The rest — drivers, alarms, historian, multi-project — also runs in the demo and is listed below. But these three are why you'd look at Wiregrid instead of Niagara or Ignition.",
-    "open_data": {
-      "title_html": "Your data in <span class=\"text-brand\">your Postgres</span>, not in ours.",
-      "desc_html": "Every config row (drivers, points, machines, alarms…) sits in standard PostgreSQL tables. Value history lives in a TimescaleDB hypertable <code>point_history(ts, point_id, value, quality)</code>. Power BI connects through ODBC the same way it would to any enterprise SQL database.",
-      "bullet_1_html": "No proprietary connector to buy or install",
-      "bullet_2_html": "Plain SQL or <code>time_bucket()</code> for aggregations",
-      "bullet_3_html": "If Wiregrid disappears, your data and dashboards keep working"
+    "title": "Five things Meshvise does, and one it never will.",
+    "subtitle": "Everything below runs in the public demo today. The only piece in progress is the visual wiresheet editor (Q3 2026). The execution engine itself already runs.",
+    "acquisition": {
+      "title": "Multi-protocol acquisition",
+      "desc_html": "Native reads over <code>Modbus TCP</code>, <code>OPC-UA</code> and <code>BACnet/IP</code> in a single install. Each driver runs in its own asyncio task, independent polling per device, automatic reconnection. 10 drivers across the 3 protocols in the demo."
     },
-    "live": {
-      "title_html": "<span class=\"text-brand\">1-2 ms</span> from PLC to browser.",
-      "desc_html": "The runtime publishes every value change to Redis pub/sub. The gateway forwards to the browser via <code>/ws/live</code>. When the WS drops, fallback to 1 s polling with exponential reconnect. Read and write supported on commandable points.",
-      "bullet_1_html": "Direct Redis → WebSocket push, no backend polling",
-      "bullet_2_html": "Typical <strong>1-2 ms</strong> latency, measurable client-side",
-      "bullet_3_html": "Auto-reconnect with exponential backoff"
-    },
-    "versioning": {
-      "title_html": "Every change is a <span class=\"text-brand\">commit</span>. Every rollback, a transaction.",
-      "desc_html": "Editing a setpoint, adding an alarm, deleting a machine — everything goes into a revision. Diff between two revisions, single-transaction revert to a past state, runtime hot-reload via <code>pg_notify</code>. You test on the working copy, you deploy when it's ready.",
-      "bullet_1_html": "14 versioned entity types, delta-only storage",
-      "bullet_2_html": "Atomic revert to any past revision",
-      "bullet_3_html": "Full audit log: who, what, when, from which diff"
-    },
-    "drivers": {
-      "title": "Multi-protocol",
-      "desc_html": "Modbus TCP, OPC-UA and BACnet/IP in a single install. Independent polling per device, automatic reconnection. 10 drivers across the 3 protocols in the demo."
+    "historian": {
+      "title": "Historian",
+      "desc_html": "Every value is written to a TimescaleDB hypertable chunked by day. Per-point <code>on_change</code> with deadband or fixed-interval mode. Configurable retention, <code>time_bucket()</code> queries for downsampling."
     },
     "alarms": {
       "title": "Operational alarms",
-      "desc_html": "<code>high</code>/<code>low</code> conditions with threshold, deadband and delay. Severities <code>info / warning / critical</code>. Email notifications via user groups."
-    },
-    "historian": {
-      "title": "TimescaleDB historian",
-      "desc_html": "Hypertable chunked by day. Per-point <code>on_change</code> with deadband or fixed-interval mode. Configurable retention, <code>time_bucket()</code> queries for downsampling."
-    },
-    "integrations": {
-      "title": "Open API",
-      "desc_html": "REST on <code>/py/v1/*</code>, <code>/api/v1/*</code> alias for legacy integrations, WebSocket <code>/ws/live</code>, plus direct SQL access to Postgres."
-    },
-    "multitenant": {
-      "title": "Multi-project",
-      "desc_html": "<code>project_id</code> scoping on every entity. The demo signup clones a complete project (10 drivers / 13 machines / 18 alarms) in under a second."
+      "desc_html": "<code>high</code> / <code>low</code> conditions with threshold, deadband and delay. Severities <code>info / warning / critical</code>. Email notifications via user groups. Full event log for traceability."
     },
     "wiresheet": {
-      "title": "Visual programmable logic",
-      "desc_html": "Niagara N4-style functional block editor: math, comparison, timer, schedule, latch, ramp, PID. The execution engine is already in place — the Vue Flow editor lands in Q3 2026."
+      "title": "Real-time business logic",
+      "desc_html": "<strong>The wiresheet engine runs today</strong>: math, logic, comparison, timer, schedule, latch, ramp, PID, alarm. You edit graphs via the REST API or as versioned JSON, with one-click revert. <strong>The drag-and-drop visual editor lands in Q3 2026</strong> (block palette, mouse-driven connections). For technical early adopters, the API + JSON pipeline is sufficient today.",
+      "mock_label": "Wiresheet · DeltaT computed point"
+    },
+    "open_data": {
+      "title": "Direct data access",
+      "desc_html": "Power BI, Grafana, Metabase, Excel or <code>psql</code>: native <code>ODBC PostgreSQL</code> compatibility. Your BI teams build dashboards directly, no extra IT dependency."
     }
   },
-  "equipment": {
-    "eyebrow": "Compatibility",
-    "title": "Your PLCs already speak Wiregrid.",
-    "subtitle": "Three open protocols cover nearly every industrial PLC out there. Representative list — technical nomenclature, not advertising, so no vendor logos.",
-    "note": "Any device speaking Modbus TCP, OPC-UA or BACnet/IP is compatible. For a PLC with old firmware, plan a half-day validation. Modbus RTU over RS-485 needs a TCP gateway (Moxa, USR-TCP232, or equivalent)."
+  "bi_preview": {
+    "eyebrow": "Your data in your tools",
+    "title": "Power BI, Grafana, Excel: native ODBC connection.",
+    "subtitle": "No proprietary connector. Your BI team reads from Postgres directly, like any other database in the company.",
+    "dashboard_title": "Energy dashboard · Lyon site",
+    "live_label": "Live · ODBC PostgreSQL",
+    "kpi": {
+      "energy_label": "Energy 24h",
+      "meters_label": "Meters online",
+      "alarms_label": "Active alarms",
+      "alarms_sub": "1 critical"
+    },
+    "chart_title": "AHU1 supply-air temperature · 24 h",
+    "chart_unit": "°C",
+    "points_title": "Latest points",
+    "points_source": "point_history table (TimescaleDB)",
+    "col": {
+      "path": "Path",
+      "value": "Value",
+      "unit": "Unit",
+      "trend": "Trend"
+    },
+    "attribution_html": "Indicative visualisation. Live data from Meshvise via <strong>standard ODBC PostgreSQL</strong>. No proprietary connector to install."
+  },
+  "lifecycle": {
+    "eyebrow": "Organisation & versioning",
+    "title": "Your sites evolve. Meshvise evolves with them.",
+    "subtitle": "A new machine in Building 2, a reorganisation by business function, an event to understand in hindsight. Meshvise keeps up without breaking what you've already built.",
+    "tags": {
+      "title": "Tag once. Find anywhere.",
+      "body_html": "Your equipment doesn't live in silos. You tag it once: by site, by building, by business function, by criticality. Then you slice your views however you want: all HVAC equipment, all critical meters, everything in Building B.<br/><br/>When you add a unit to Building B next month, it automatically appears in every view that concerns it, because it carries the right tags. Nothing to reconfigure.",
+      "filter_label": "Active filter",
+      "result_label": "Visible equipment"
+    },
+    "versioning": {
+      "title": "The story of your supervision, in plain sight.",
+      "body_html": "Every change (a threshold adjusted, a machine renamed, a new alarm wired) leaves a trace. You see who did what, when. You can review your supervision as it was 6 months ago to understand a past event.<br/><br/>You can also undo a change in one click. No backup file to reload, no data loss since.",
+      "status": {
+        "deployed": "deployed",
+        "reverted": "reverted"
+      }
+    }
+  },
+  "sovereignty": {
+    "eyebrow": "Sovereignty & compliance",
+    "title": "Your data on your premises, under your jurisdiction.",
+    "subtitle": "Meshvise follows a sovereignty-first design. What you install is your data, in your infrastructure, under your jurisdiction.",
+    "hosting": {
+      "title": "Hosted by you, on your premises",
+      "body_html": "No telemetry, no phone-home, no customer data on our infrastructure. <strong>Air-gap compatible</strong> for industrial sites disconnected from the internet."
+    },
+    "gdpr": {
+      "title": "GDPR compliant by design",
+      "body_html": "No personal data leaves your instance by default. <strong>DPA provided</strong> with the Standard contract, simplified record of processing activities."
+    },
+    "law": {
+      "title": "French law, courts in Paris",
+      "body_html": "Data and support under French law. French-language contract, jurisdiction in Paris. No offshore arbitration clause."
+    },
+    "no_cloud": {
+      "title": "No US Cloud Act, no foreign cloud",
+      "body_html": "No foreign cloud-vendor dependency on the production path. Out of reach of US extra-territorial reach and third-party injunctions."
+    },
+    "attribution_html": "French company registered in <strong>&lt;CITY : TO BE FILLED BY BRUNO&gt;</strong>."
   },
   "pricing": {
     "eyebrow": "Pricing",
-    "title": "Two tiers. No per-tag pricing.",
-    "subtitle": "The Discovery plan covers a full small site — 50 points already covers most single-building setups a building-automation contractor handles. Beyond that, a flat annual fee.",
+    "title": "Three doors. One paid tier.",
+    "subtitle": "The online demo for a quick look. The 7-day trial to wire up your real PLCs. The Standard tier when you go to production. All points included in the Standard licence, no hidden runtime fee.",
     "recommended": "Recommended",
-    "footnote": "Prices excl. VAT, billed annually. 12-month commitment. You stay the owner of your data and your instance — Wiregrid has no access to your PostgreSQL.",
-    "free": {
-      "name": "Discovery",
-      "tagline": "Evaluation, pilot sites, small installations.",
+    "footnote": "Standard: prices excl. VAT, billed annually, renews at €990/year. You stay the owner of your data and your instance, hosted on your infrastructure.",
+    "demo": {
+      "name": "Online demo",
+      "tagline": "See the product in 60 seconds, no install.",
       "price": "€0",
-      "period": "/ forever",
-      "price_note": "self-hosted, no sign-up",
-      "cta": "Launch the demo"
+      "period": "one-off",
+      "price_note": "no sign-up, no credit card",
+      "cta": "See the demo"
     },
-    "pro": {
-      "name": "Production",
-      "tagline": "Real operation, multi-building, BI integration.",
+    "trial": {
+      "name": "7-day trial",
+      "tagline": "Wire up your real PLCs, validate in real conditions.",
+      "price": "€0",
+      "period": "/ 7 days",
+      "price_note": "licence by email, read-only on expiration",
+      "cta": "Try on my infra"
+    },
+    "standard": {
+      "name": "Standard",
+      "tagline": "Real operation, no functional limit.",
       "price": "€990",
       "period": "/ year",
-      "price_note": "per instance, unlimited points",
-      "anchor_html": "≈ equivalent to 200 Niagara tags, or 1/4 of a Workbench station.",
-      "cta": "Request a quote"
+      "price_note": "per instance, updates included",
+      "cta": "Get in touch",
+      "legal_anchor": "French registered company. Data and support under French law.",
+      "continuity_link": "What if you shut down tomorrow? Read the honest answer."
     },
     "feature": {
-      "points_50": "Up to 50 points",
-      "points_unlimited": "Unlimited points",
-      "protocols_modbus": "Modbus TCP",
-      "protocols_all": "Modbus TCP + OPC-UA + BACnet/IP",
-      "historian_7d": "7-day historian",
-      "historian_unlimited": "Unlimited historian, configurable retention",
-      "alarms": "Threshold alarms",
-      "alarms_notifications": "Alarms + email notifications + groups",
-      "api_open": "REST API + direct SQL access",
-      "support_docs": "Online documentation",
-      "support_dedicated": "Email + video call support",
-      "priority_roadmap": "Roadmap influence"
+      "demo_no_install": "Preview without installing",
+      "demo_simulated": "Simulated industrial-site data",
+      "demo_quick_look": "60 seconds of clicking around",
+      "demo_no_signup": "No sign-up required",
+      "trial_full_app": "Full app on your infrastructure",
+      "trial_limits": "5 drivers · 15 machines · 500 points",
+      "trial_protocols": "Modbus TCP + OPC-UA + BACnet/IP",
+      "trial_features": "All product features",
+      "trial_duration": "7 days then read-only, data preserved",
+      "standard_unlimited": "Unlimited points and machines in practice",
+      "standard_protocols": "Modbus TCP + OPC-UA + BACnet/IP",
+      "standard_features": "Historian, alarms, wiresheet, SQL access, API",
+      "standard_deployment": "Docker deployment in 4 h, first point in 30 min",
+      "standard_install": "One instance per licence, on your infrastructure",
+      "standard_updates": "Updates included for the year",
+      "standard_support": "Email support with a <strong>1-business-day SLA</strong> (FR public holidays excluded)",
+      "standard_audit_nda": "Source-code audit under NDA (on request)"
     }
   },
   "faq": {
     "eyebrow": "FAQ",
     "title": "The questions we get.",
-    "subtitle": "If yours isn't here, drop us a line at contact@wiregrid.fr — reply within one business day.",
-    "difference_niagara": {
-      "q": "What's the actual difference vs Niagara N4?",
-      "a_html": "Niagara is more mature. Full wiresheet, HMI builder, JACE ecosystem, thousands of trained integrators. Wiregrid is smaller, younger, more modern (pure web, no JVM station). And most importantly without <strong>tag pricing</strong>: the ~€5/tag/year you pay on Niagara, you don't pay with us. Wiregrid sweet spot: 50 to 500 points, not 5,000."
-    },
+    "subtitle": "If yours isn't here, drop us a line at contact@meshvise.com. Reply within one business day.",
     "compatible_plc": {
       "q": "Compatible with my Schneider M340 / Siemens S7-1500 / other PLC?",
-      "a_html": "If your PLC speaks <code>Modbus TCP</code> (most Schneider, ABB, Wago, Phoenix Contact), <code>OPC-UA</code> (Siemens S7-1500 natively, Beckhoff TwinCAT, B&amp;R) or <code>BACnet/IP</code> (Distech, Honeywell, Trend, JCI), yes. For Modbus RTU over serial, plan a TCP gateway. See the <a href=\"#equipment\" class=\"text-brand hover:underline\">Compatibility section</a>."
+      "a_html": "If your PLC speaks <code>Modbus TCP</code>, <code>OPC-UA</code> or <code>BACnet/IP</code>, yes. For Modbus RTU over serial, plan a TCP gateway. See the <a href=\"#features\" class=\"text-brand hover:underline\">Capabilities section</a>."
     },
     "data_format": {
       "q": "What format is the data stored in?",
-      "a_html": "Configuration: standard PostgreSQL tables (<code>drivers</code>, <code>points</code>, <code>machines</code>, <code>alarms</code>…). History: TimescaleDB hypertable <code>point_history(ts, point_id, value, quality)</code>, chunked by day. Everything queryable in plain SQL, no proprietary dialect."
+      "a_html": "Configuration: standard PostgreSQL tables. History: TimescaleDB hypertable <code>point_history(ts, point_id, value, quality)</code>, chunked by day. Everything queryable in plain SQL, no proprietary dialect."
     },
     "powerbi": {
       "q": "How do I connect Power BI?",
-      "a_html": "Power BI Desktop &gt; Get Data &gt; PostgreSQL. You enter your Wiregrid server's IP (port <code>5432</code>), a read-only user, and you see the tables. No proprietary connector to install."
+      "a_html": "Power BI Desktop &gt; Get Data &gt; PostgreSQL. You enter your Meshvise server's IP, a read-only user, and you see the tables. Native connection, exactly like any standard PostgreSQL database."
     },
     "self_host": {
       "q": "Is it SaaS or self-hosted?",
-      "a_html": "Self-hosted. <code>docker compose up -d</code> on your server. Your data never leaves your network. The online demo runs on a public environment but it's a demo, not a production offer."
+      "a_html": "Self-hosted. Your data never leaves your network. The online demo runs on a public environment but it's a demo, not a production offer."
+    },
+    "sovereignty_data": {
+      "q": "Does my data stay in France?",
+      "a_html": "Yes, by design. Meshvise is self-hosted: your instance runs on the infrastructure you choose, in France if that's what you pick. We do not store any customer data on our infrastructure. No telemetry leaves your network, no phone-home, no foreign cloud dependency. <strong>Air-gap compatible</strong> for sites disconnected from the internet."
+    },
+    "gdpr_compliance": {
+      "q": "Is Meshvise GDPR compliant?",
+      "a_html": "Yes. Meshvise is GDPR compliant by design: no personal data leaves your instance by default. For the Standard plan we provide a <strong>DPA</strong> (Data Processing Agreement) with the contract. Data and support under French law, jurisdiction in Paris."
     },
     "minimum_hardware": {
       "q": "Minimum hardware?",
-      "a_html": "2 vCPU, 4 GB RAM, 20 GB disk are enough for ~500 points with 30 days of history. Runs on an industrial mini-PC, a Raspberry Pi 4 or a €5/month Hetzner VPS."
+      "a_html": "2 vCPU, 4 GB RAM, 20 GB disk are enough for ~500 points with 30 days of history. Runs on an industrial mini-PC, a Raspberry Pi 4 or a €5/month VPS."
     },
     "security": {
       "q": "How secure is it?",
-      "a_html": "JWT auth (UI) or API key (integrations). <code>postgres</code> and <code>redis</code> bind to localhost, never exposed. If you put the gateway behind Caddy, Nginx or a Cloudflare Tunnel, you get automatic TLS."
+      "a_html": "JWT auth (UI) or API key (integrations). Postgres and Redis bind to localhost, never exposed. Behind a reverse-proxy (Caddy, Nginx, Cloudflare Tunnel) you get automatic TLS."
+    },
+    "code_audit": {
+      "q": "Can I audit the source code?",
+      "a_html": "On request for Standard customers, read access to the source code under <strong>NDA</strong>. This option exists for specific compliance needs: security audits, regulatory validation, due diligence. Outside an NDA, the code remains closed under our proprietary licence. Contact: <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>."
     },
     "safety_sil": {
       "q": "Can I run functional safety (SIL) on it?",
-      "a_html": "<strong>No</strong>, and never will. Wiregrid supervises and historises, period. Your safety interlocks must stay in your certified PLC."
-    },
-    "open_source": {
-      "q": "Is it open source?",
-      "a_html": "Not publicly yet. The license will be decided at public release (candidate: AGPL-3.0 or source-available). In the meantime: your data is in <strong>your</strong> PostgreSQL in standard SQL."
+      "a_html": "<strong>No</strong>, and never will. Meshvise supervises and historises. Your safety interlocks must stay in your certified PLC."
     },
     "company_disappears": {
       "q": "What if you shut down tomorrow?",
-      "a_html": "Fair question — and the main reason Wiregrid stores everything in standard SQL. Concretely: your <code>postgres</code> runs on your server. Your Power BI dashboards keep working. For acquisition, you replace Wiregrid with any other platform speaking Modbus / OPC-UA / BACnet — the equipment-wiring work is done once."
+      "a_html": "Fair question, and the main reason Meshvise stores everything in standard SQL. Concretely: your <code>postgres</code> runs on your server. Your Power BI dashboards keep working. For acquisition, you replace Meshvise with any other platform speaking Modbus / OPC-UA / BACnet."
     },
     "multi_site": {
       "q": "What about distant multi-site supervision?",
-      "a_html": "Today: multi-project on a single instance, ideal for multi-building setups within one group. For multi-site with edge gateways, that's on the Q4 2026 roadmap."
+      "a_html": "Today: multi-project on a single instance, ideal for multi-building setups within one group. Distant multi-site with edge gateways and a consolidating central: Q4 2026 roadmap."
     },
     "wiresheet_status": {
       "q": "When does the wiresheet (visual logic) ship?",
-      "a_html": "The execution engine is already in the runtime. The Vue Flow editor (block palette, drag-drop, links) is targeted for <strong>Q3 2026</strong>."
+      "a_html": "The execution engine already runs in the runtime, with the full block set (math, logic, comparison, timer, schedule, latch, ramp, PID, alarm). Today you edit it via the <code>REST API</code> or as <code>versioned JSON</code> (one-click revert). The Vue Flow visual editor (block palette, drag-and-drop, mouse-driven connections) is targeted for <strong>Q3 2026</strong>."
     },
     "support": {
       "q": "What does support look like?",
-      "a_html": "Discovery plan: documentation and public GitHub issues. Production plan: email with a 1-business-day response SLA, video calls on request, direct access to the lead developer."
+      "a_html": "Discovery plan: public documentation + best-effort email to <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>. Standard plan: email with a <strong>1-business-day</strong> response SLA (French public holidays excluded), video calls on request, direct access to the lead developer."
+    },
+    "support_language": {
+      "q": "Is support in French?",
+      "a_html": "Yes. Email support at <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a> is handled by a French team, with a 1-business-day SLA for Standard customers. Public documentation is available in French and English. Tickets in English are handled by the same team."
     },
     "trial": {
       "q": "How long do I need to seriously try it?",
-      "a_html": "The online demo works as an instant POC (60 seconds of clicking around). For a trial on your own equipment, plan 1–2 hours to wire up a PLC and see your real points."
+      "a_html": "Three doors depending on your need. The online demo works as an instant POC (60 seconds of clicking around). The <a href=\"/en/trial/\" class=\"text-brand hover:underline\">7-day trial</a> gives you the full app on your infra, with your PLCs, to validate in real conditions. Beyond that, you switch to a yearly Standard licence (€990)."
+    },
+    "demo_vs_trial": {
+      "q": "What's the difference between the online demo and the 7-day trial?",
+      "a_html": "The <a href=\"https://app.meshvise.com\" class=\"text-brand hover:underline\">online demo</a> is public, runs on our server with simulated industrial-site data. You click around, see the UI, close the tab. No sign-up, nothing to install. Best for a first look. The <a href=\"/en/trial/\" class=\"text-brand hover:underline\">7-day trial</a>, on the other hand, gives you the full app on your own infrastructure. You fill a form, receive a <code>license.jwt</code> and a <code>docker-compose.yml</code> by email, run <code>docker compose up -d</code> on your server, wire up your real PLCs. That's the serious evaluation before purchase."
+    },
+    "trial_what_happens": {
+      "q": "How does the 7-day trial work?",
+      "a_html": "You fill the form on <a href=\"/en/trial/\" class=\"text-brand hover:underline\">/en/trial/</a>. You immediately receive an email with your <code>license.jwt</code>, a ready-to-use <code>docker-compose.yml</code>, and the install command. You run <code>docker compose up -d</code> on your server, wire up your PLCs, explore. No credit card, no auto-renewal, no extra account on top."
+    },
+    "trial_end": {
+      "q": "What happens to my install when the 7 days are up?",
+      "a_html": "The app switches to read-only. You keep access to your historised data, you can export your configuration and historian. Writes (adding a point, editing an alarm, deploying a revision) are blocked until you activate a production licence. Nothing is deleted, nothing is volatile. To extend, write to contact@meshvise.com."
     }
+  },
+  "final_cta": {
+    "eyebrow": "Ready to try?",
+    "title": "Two ways to test. At your own pace.",
+    "subtitle": "60 seconds on the live demo to make up your mind. 7 days on your infra with your PLCs to validate seriously. No sign-up, no credit card.",
+    "cta_trial": "Try 7 days on my infra",
+    "cta_demo": "See the live demo",
+    "alt_cta": "Get in touch"
+  },
+  "trial": {
+    "meta": {
+      "title": "7-day trial · Meshvise",
+      "description": "Get a 7-day trial licence by email, run Meshvise on your own infra with your PLCs, validate in real conditions. No credit card, no auto-renewal."
+    },
+    "eyebrow": "7-day trial",
+    "title": "Meshvise on your infra. 7 days. No sign-up.",
+    "subtitle_html": "Fill in this form, receive by email your licence and a ready-to-use <code>docker-compose.yml</code>. Run <code>docker compose up -d</code> on your server, wire up your PLCs, validate in real conditions.",
+    "form": {
+      "name_label": "Name",
+      "name_placeholder": "Your name",
+      "email_label": "Work email",
+      "email_placeholder": "you@company.com",
+      "company_label": "Company",
+      "company_placeholder": "Your company",
+      "use_case_label": "Use case",
+      "use_case_placeholder": "What kind of site, how many points, which PLCs...",
+      "submit": "Send my trial licence",
+      "submitting": "Sending...",
+      "error_generic": "Something went wrong. Try again or write to contact@meshvise.com.",
+      "error_turnstile": "Please complete the anti-bot challenge before submitting.",
+      "error_rate_limit": "You already requested a licence recently. Try again in 24 hours or write to contact@meshvise.com.",
+      "error_dedupe": "A licence has already been issued for this address in the last 30 days. Check your inbox (spam included) or write to contact@meshvise.com."
+    },
+    "disclaimer": {
+      "limits_html": "Trial licence limits: 5 drivers, 15 machines, 500 points, full feature set (acquisition, historian, alarms, wiresheet, SQL access).",
+      "duration_html": "Duration: 7 days from issuance. On expiration, the app switches to <strong>read-only</strong>: your data stays yours, export remains available.",
+      "no_card_html": "No credit card. No auto-renewal. No automated marketing emails beyond the trial follow-up."
+    },
+    "what_next": {
+      "title": "What happens next",
+      "step_1_html": "<strong>Immediately:</strong> email with <code>license.jwt</code>, <code>docker-compose.yml</code> and the install command.",
+      "step_2_html": "<strong>Day 6:</strong> reminder 24 hours before expiration, with a Calendly link if you want to chat.",
+      "step_3_html": "<strong>Day 7:</strong> post-trial check-in. Move to production or not, your call."
+    },
+    "success": {
+      "title": "Check your inbox",
+      "body_html": "We sent an email to <strong class=\"font-mono\">{email}</strong> with your licence and the install command. If nothing arrives within 5 minutes (spam included), write to <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>.",
+      "back": "Back to home"
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "About · Meshvise",
+      "description": "Meshvise is a French industrial supervision platform: flat fee, data on your premises, support in French. Company, mission, values, contacts."
+    },
+    "eyebrow": "About",
+    "title": "A French industrial supervision platform.",
+    "subtitle": "Meshvise is building a French alternative to tag-priced supervisions and foreign SaaS. Your data on your premises, our support in France, contract under French law.",
+    "founder": {
+      "heading": "The founder",
+      "name": "<TO BE FILLED BY BRUNO: first + last name>",
+      "bio_html": "<TO BE FILLED BY BRUNO: 3 to 5 lines of short bio. Relevant background (industrial, IT, automation), why Meshvise, what drives the project.>"
+    },
+    "mission": {
+      "heading": "The mission",
+      "body_html": "Meshvise started from a simple observation: industrial supervision is too expensive, too closed, too dependent on foreign vendors. We are building a French alternative, open on SQL data, with predictable pricing and compliance by design. All points included in the Standard licence, no foreign cloud: one price at renewal, set once and for all."
+    },
+    "values": {
+      "heading": "Values",
+      "v1_html": "<strong>Sovereignty.</strong> Your data on your server, your keys on your desk. No telemetry, no phone-home.",
+      "v2_html": "<strong>Transparency.</strong> Public roadmap, posted pricing, readable French-language EULA. What is not shipped is announced as such.",
+      "v3_html": "<strong>Pragmatism.</strong> We ship what works today. We announce what's coming with a date. We don't promise a universal SCADA."
+    },
+    "timeline": {
+      "heading": "Milestones",
+      "t1": {
+        "date": "2026 Q2",
+        "body_html": "First production-ready release of Meshvise 1.0. Modbus / OPC-UA / BACnet acquisition, TimescaleDB historian, operational alarms, direct SQL access."
+      },
+      "t2": {
+        "date": "2026 Q3",
+        "body_html": "Visual wiresheet editor (block palette, drag-drop, links). The execution engine already runs, the editor lands."
+      },
+      "t3": {
+        "date": "2026 Q4",
+        "body_html": "Multi-site supervision with edge gateways and a consolidating central instance. Scope reserved for multi-licence contracts."
+      }
+    },
+    "coords": {
+      "heading": "Contacts",
+      "company": {
+        "label": "Company",
+        "value_html": "<TO BE FILLED BY BRUNO: official registered name>"
+      },
+      "address": {
+        "label": "Address",
+        "value_html": "<TO BE FILLED BY BRUNO: official postal address>"
+      },
+      "siren": {
+        "label": "SIREN",
+        "value_html": "<TO BE FILLED BY BRUNO: 9 digits>"
+      },
+      "contact": {
+        "label": "Contact",
+        "value_html": "<a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>"
+      },
+      "support": {
+        "label": "Support",
+        "value_html": "Email with a <strong>1-business-day</strong> response SLA (French public holidays excluded) for Standard customers."
+      }
+    },
+    "back": "Back to home"
   },
   "footer": {
     "product": "Product",
@@ -254,16 +409,18 @@
     "compat": "Compatibility",
     "contact": "Contact",
     "rights": "All rights reserved.",
-    "made_in": "Designed in France",
-    "tagline": "Open web SCADA supervision. Your Modbus / OPC-UA / BACnet PLCs, your data in standard Postgres, directly readable by Power BI.",
+    "legal_box_html": "Meshvise by <strong>&lt;COMPANY NAME : TO BE FILLED BY BRUNO&gt;</strong>, French company registered in <strong>&lt;CITY : TO BE FILLED BY BRUNO&gt;</strong>. SIREN <strong>&lt;NUMBER : TO BE FILLED BY BRUNO&gt;</strong>.",
+    "continuity_link": "What if you shut down tomorrow? The honest answer lives in the FAQ.",
+    "tech_line": "French data. French tech.",
+    "tagline": "A web SCADA platform that reads your PLCs, historises, organises and alerts. Data accessible via standard PostgreSQL ODBC.",
     "newsletter_title": "Quarterly newsletter",
     "newsletter_desc": "Roadmap, integrator stories, releases. Four sends a year, no more.",
     "newsletter_placeholder": "you@company.com",
     "newsletter_cta": "Subscribe",
-    "newsletter_aria": "Subscribe to the Wiregrid newsletter"
+    "newsletter_aria": "Subscribe to the Meshvise newsletter"
   },
   "meta": {
-    "og_image_alt": "Wiregrid — SCADA supervision without tag pricing"
+    "og_image_alt": "Meshvise · Web SCADA, flat fee, data on your premises"
   },
   "a11y": {
     "skip_to_content": "Skip to content",
@@ -272,3 +429,5 @@
     "switch_language": "Switch to {lang}"
   }
 }
+
+

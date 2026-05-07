@@ -1,14 +1,28 @@
 /**
- * Cloudflare Worker entry — delegates every request to the static assets
- * binding (`env.ASSETS`), which serves files from ./dist as configured
- * in wrangler.jsonc.
+ * Cloudflare Worker entry. Routes:
+ *   POST /api/trial → handleTrialRequest (Vague 5)
+ *   *               → env.ASSETS.fetch (static site from ./dist)
  *
- * Kept minimal on purpose: the vitrine is fully static (Astro build),
- * so we do not run any logic on the edge. The handler exists only
- * because wrangler ≥ 4 requires a `main` entry for every deploy.
+ * Same-origin form POST, so no CORS / OPTIONS handling needed. The
+ * trial form lives on https://meshvise.com/<lang>/trial/ and posts to
+ * /api/trial on the same origin.
  */
+
+import { handleTrialRequest } from './worker/handlers/trial.js';
+
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
+    if (url.pathname === '/api/trial') {
+      if (request.method !== 'POST') {
+        return new Response('Method Not Allowed', {
+          status: 405,
+          headers: { allow: 'POST' },
+        });
+      }
+      return handleTrialRequest(request, env);
+    }
     return env.ASSETS.fetch(request);
   },
 };
+

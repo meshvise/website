@@ -7,74 +7,86 @@ interface Props {
 
 const { lang } = Astro.props;
 
+// Three tiers per ADR-0008 (2026-05-01): two free entry points (online
+// demo + 7-day trial) and one paid tier (Standard 990 EUR/year). The
+// Standard tier is highlighted as the recommended path for production.
 const tiers = [
   {
-    id: 'free',
+    id: 'demo',
     highlight: false,
-    cta_href: 'https://demo.wiregrid.fr',
+    cta_href: 'https://app.meshvise.com',
     cta_external: true,
     features: [
-      'feature.points_50',
-      'feature.protocols_modbus',
-      'feature.historian_7d',
-      'feature.alarms',
-      'feature.api_open',
-      'feature.support_docs',
+      'feature.demo_no_install',
+      'feature.demo_simulated',
+      'feature.demo_quick_look',
+      'feature.demo_no_signup',
     ],
   },
   {
-    id: 'pro',
-    highlight: true,
-    cta_href: 'mailto:contact@wiregrid.fr?subject=Wiregrid%20Production',
+    id: 'trial',
+    highlight: false,
+    cta_href: `/${lang}/trial/`,
     cta_external: false,
     features: [
-      'feature.points_unlimited',
-      'feature.protocols_all',
-      'feature.historian_unlimited',
-      'feature.alarms_notifications',
-      'feature.api_open',
-      'feature.support_dedicated',
-      'feature.priority_roadmap',
+      'feature.trial_full_app',
+      'feature.trial_limits',
+      'feature.trial_protocols',
+      'feature.trial_features',
+      'feature.trial_duration',
+    ],
+  },
+  {
+    id: 'standard',
+    highlight: true,
+    cta_href: 'mailto:contact@meshvise.com?subject=Meshvise%20Standard',
+    cta_external: false,
+    features: [
+      'feature.standard_unlimited',
+      'feature.standard_protocols',
+      'feature.standard_features',
+      'feature.standard_deployment',
+      'feature.standard_install',
+      'feature.standard_updates',
+      'feature.standard_support',
+      'feature.standard_audit_nda',
     ],
   },
 ];
 ---
 
 <section id="pricing" class="px-6 py-24 md:py-32">
-  <div class="mx-auto max-w-5xl">
+  <div class="mx-auto max-w-6xl">
     <div class="text-center max-w-2xl mx-auto mb-16">
       <div class="section-eyebrow justify-center">{t(lang, 'pricing.eyebrow')}</div>
       <h2 class="section-title">{t(lang, 'pricing.title')}</h2>
       <p class="section-lede mx-auto">{t(lang, 'pricing.subtitle')}</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
       {tiers.map((tier) => (
-        <div class={`relative rounded-xl p-8 ${tier.highlight ? 'bg-text text-bg' : 'bg-surface border border-border'}`}>
+        <div class={`relative rounded-xl p-7 flex flex-col ${tier.highlight ? 'bg-text text-bg' : 'bg-surface border border-border'}`}>
           {tier.highlight && (
             <span class="absolute top-4 right-4 text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full" style="background:rgb(34 211 238 / 0.15);color:#22D3EE;">
               {t(lang, 'pricing.recommended')}
             </span>
           )}
 
-          <h3 class={`text-2xl font-semibold tracking-tight ${tier.highlight ? '' : 'text-text'}`}>{t(lang, `pricing.${tier.id}.name`)}</h3>
-          <p class={`mt-2 text-[14px] leading-relaxed ${tier.highlight ? 'opacity-70' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.tagline`)}</p>
+          <h3 class={`text-xl font-semibold tracking-tight ${tier.highlight ? '' : 'text-text'}`}>{t(lang, `pricing.${tier.id}.name`)}</h3>
+          <p class={`mt-2 text-[13.5px] leading-relaxed ${tier.highlight ? 'opacity-70' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.tagline`)}</p>
 
-          <div class={`mt-7 pb-6 ${tier.highlight ? 'border-b border-white/15' : 'border-b border-border'}`}>
+          <div class={`mt-6 pb-6 ${tier.highlight ? 'border-b border-white/15' : 'border-b border-border'}`}>
             <div class="flex items-baseline gap-2">
-              <span class="text-5xl font-semibold tracking-[-0.03em] tabular-nums">{t(lang, `pricing.${tier.id}.price`)}</span>
-              <span class={`text-sm font-mono ${tier.highlight ? 'opacity-70' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.period`)}</span>
+              <span class="text-[44px] font-semibold tracking-[-0.03em] tabular-nums leading-none">{t(lang, `pricing.${tier.id}.price`)}</span>
+              <span class={`text-[13px] font-mono ${tier.highlight ? 'opacity-70' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.period`)}</span>
             </div>
-            <p class={`mt-2 text-[12.5px] font-mono ${tier.highlight ? 'opacity-65' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.price_note`)}</p>
-            {tier.id === 'pro' && (
-              <p class="mt-3 text-[12.5px] leading-relaxed" style="color:#22D3EE;" set:html={t(lang, 'pricing.pro.anchor_html')} />
-            )}
+            <p class={`mt-2 text-[12px] font-mono ${tier.highlight ? 'opacity-65' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.price_note`)}</p>
           </div>
 
-          <ul class="mt-6 space-y-3 text-[14px]">
+          <ul class="mt-5 space-y-2.5 text-[13.5px] flex-1">
             {tier.features.map((feat) => (
               <li class="flex items-start gap-2.5">
-                <svg class={`w-4 h-4 mt-1 shrink-0 ${tier.highlight ? '' : 'text-brand'}`} viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.25" style={tier.highlight ? 'color:#22D3EE;' : ''} aria-hidden="true">
+                <svg class={`w-4 h-4 mt-0.5 shrink-0 ${tier.highlight ? '' : 'text-brand'}`} viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.25" style={tier.highlight ? 'color:#22D3EE;' : ''} aria-hidden="true">
                   <polyline points="3 8 7 12 13 4" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <span class={tier.highlight ? '' : 'text-muted-strong'} set:html={t(lang, `pricing.${feat}`)} />
@@ -82,7 +94,18 @@ const tiers = [
             ))}
           </ul>
 
-          <div class="mt-8">
+          {tier.id === 'standard' && (
+            <div class="mt-5 pt-5 border-t border-white/15 text-[12.5px] space-y-2">
+              <p class="opacity-75">{t(lang, 'pricing.standard.legal_anchor')}</p>
+              <p>
+                <a href={`/${lang}/#faq-company_disappears`} class="underline-offset-4 hover:underline" style="color:#22D3EE;">
+                  {t(lang, 'pricing.standard.continuity_link')}
+                </a>
+              </p>
+            </div>
+          )}
+
+          <div class="mt-7">
             <a
               href={tier.cta_href}
               {...(tier.cta_external ? { target: '_blank', rel: 'noopener' } : {})}
@@ -99,3 +122,5 @@ const tiers = [
     <p class="mt-8 text-center text-[12px] text-muted">{t(lang, 'pricing.footnote')}</p>
   </div>
 </section>
+
+

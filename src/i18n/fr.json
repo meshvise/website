@@ -1,22 +1,24 @@
 {
   "nav": {
-    "comparison": "Comparaison",
+    "personas": "Pour qui",
     "features": "Capacités",
+    "sovereignty": "Souveraineté",
     "pricing": "Tarifs",
     "faq": "FAQ",
+    "about": "À propos",
+    "trial": "Essai 7 jours",
     "demo": "Voir la démo"
   },
   "hero": {
-    "badge_html": "Le wiresheet visuel arrive en Q3 2026",
-    "title_html": "Enfin une supervision SCADA <span class=\"text-brand\">sans tag-pricing</span>.",
-    "subtitle_html": "Wiregrid lit vos automates en <code>Modbus TCP</code>, <code>OPC-UA</code> et <code>BACnet/IP</code>, et écrit chaque mesure dans une base <code>PostgreSQL</code> que Power BI, Grafana ou Excel lisent directement. Pas de licence par tag. Pas de connecteur propriétaire.",
-    "cta_demo": "Voir la démo",
-    "cta_shell_aria": "Copier la commande docker compose up -d",
-    "cta_note_html": "Démo publique, pas d'inscription. Auth et résidence des données activées dès l'auto-hébergement.",
-    "preview_label": "Démo live · valeurs simulées (push WebSocket dans la vraie démo)"
+    "title_html": "Supervision industrielle moderne. <span class=\"text-brand\">Forfait fixe, données chez vous.</span>",
+    "subtitle_html": "Meshvise lit vos automates en <code>Modbus TCP</code>, <code>OPC-UA</code> et <code>BACnet/IP</code>. Toutes les mesures dans votre Postgres, exploitables par Power BI, Grafana ou Excel. Une licence annuelle inclut tout : protocoles, points illimités, mises à jour, support en français.",
+    "cta_trial": "Essayer 7 jours sur mon infra",
+    "cta_demo": "Voir la démo en ligne",
+    "cta_note_html": "990 €/an par site. Essai 7 jours sans carte bancaire. Démo publique sans inscription pour un aperçu immédiat.",
+    "preview_label": "Aperçu UI · valeurs simulées (push WebSocket dans la démo)"
   },
   "app_preview": {
-    "aria_label": "Aperçu de l'interface Wiregrid : table de points en temps réel",
+    "aria_label": "Aperçu de l'interface Meshvise : table de points en temps réel",
     "title": "Live points",
     "deployed_rev": "déployé",
     "nav": {
@@ -30,223 +32,376 @@
     },
     "col": { "path": "Path", "value": "Valeur", "unit": "Unité", "trend": "Tendance" }
   },
+  "personas": {
+    "eyebrow": "Pour qui",
+    "title": "Quatre profils, un produit.",
+    "subtitle": "Meshvise est conçu pour des sites industriels et tertiaires de 50 à 500 points. Si vous reconnaissez votre quotidien dans un de ces quatre cadres, on est faits pour vous parler.",
+    "p1": {
+      "role": "Responsable maintenance / facility manager",
+      "context": "Vous gérez un ou plusieurs bâtiments : usine, siège, site logistique.",
+      "pain": "Les supervisions classiques facturent par tag. À 200 points, le budget explose et vos données dorment dans un format propriétaire.",
+      "fit": "Forfait annuel plat avec tous les points inclus. Vos données remontent dans Power BI par connexion ODBC, sans dépendance IT-industrielle supplémentaire."
+    },
+    "p2": {
+      "role": "Intégrateur GTB / SCADA",
+      "context": "Vous installez et exploitez des supervisions chez des clients industriels ou tertiaires.",
+      "pain": "Vos marges sont mangées par les licences fournisseur. Vos clients posent des questions sur le verrouillage de leurs données.",
+      "fit": "Une seule licence annuelle pour tout le site. Vos clients restent propriétaires de leur base. Vous facturez votre savoir-faire, pas du tag."
+    },
+    "p3": {
+      "role": "Responsable énergie / efficacité",
+      "context": "Vous suivez la conso d'un site ou d'un parc, vous devez livrer des rapports ISO 50001 ou un bilan carbone.",
+      "pain": "Les compteurs Modbus sont là, mais les remonter dans Power BI demande un budget connecteur ou un développement spécifique.",
+      "fit": "Lecture native des compteurs Modbus / OPC-UA, historian configurable, vues SQL directes pour vos dashboards énergie."
+    },
+    "p4": {
+      "role": "Direction technique / DSI industriel",
+      "context": "Vous consolidez la supervision sur plusieurs sites, vous arbitrez les renouvellements de licences, vous tenez le budget et la conformité.",
+      "pain": "Chaque licence par usine atteint 10 à 50 k€/an. Le budget est imprévisible, les données sont dispersées entre fournisseurs, l'audit RGPD prend du temps à chaque renouvellement.",
+      "fit": "Forfait fixe 990 €/an par site, données dans votre Postgres, conforme RGPD by design, support sous 24h ouvrées. Audit code sous NDA disponible pour les exigences de conformité spécifiques. Budget prévisible sur 5 ans."
+    }
+  },
   "stats": {
     "drivers": "drivers Modbus / OPC-UA / BACnet en démo",
     "points": "points live à 1 Hz, sub-100 ms",
-    "latency": "de latence WebSocket entre Redis et le navigateur",
-    "tag_cost": "par tag — sans condition, sans astérisque"
-  },
-  "comparison": {
-    "eyebrow": "Comparaison",
-    "title": "À comparer ligne par ligne, pas en chiffres marketing.",
-    "subtitle": "Wiregrid ne remplace pas Niagara N4 sur un site de 5 000 points avec wiresheet complet et HMI builder mature. Il vise les cas où vous payez surtout du tag pour des fonctions que Postgres + Power BI font mieux.",
-    "col": { "criterion": "Critère" },
-    "criterion": {
-      "tag_pricing": "Tarification par tag",
-      "data_storage": "Stockage des données",
-      "bi_connector": "Accès Power BI",
-      "self_host": "Auto-hébergement",
-      "config_versioning": "Versioning de config",
-      "protocols": "Protocoles",
-      "startup_cost": "Coût de démarrage"
-    },
-    "value": {
-      "no": "Aucune",
-      "yes_5": "≈ 5 €/tag/an",
-      "yes_lite": "Limites Edge / Maker",
-      "yes_pro": "Modules par device",
-      "pg": "PostgreSQL + Timescale",
-      "proprio": "Format propriétaire",
-      "native": "Lecture directe",
-      "export": "Export CSV",
-      "odbc": "Module ODBC payant",
-      "docker": "docker compose",
-      "jvm": "JVM + station",
-      "cloud": "SaaS uniquement",
-      "git": "Commit / diff / revert",
-      "manual": "Backup manuel",
-      "yes": "Oui",
-      "p3": "3 (TCP / OPC-UA / BACnet)",
-      "p20": "20+",
-      "p15": "15+",
-      "free": "0 € (≤ 50 pts)",
-      "5k": "≈ 5 000 €",
-      "4k": "≈ 4 500 $",
-      "quote": "Sur devis"
-    },
-    "disclaimer": "Sources publiques avril 2026. Niagara, Ignition, EcoStruxure : marques de Tridium, Inductive Automation, Schneider Electric."
-  },
-  "how": {
-    "eyebrow": "Mise en service",
-    "title": "Trois étapes, un dimanche soir.",
-    "subtitle": "Pas de prestation d'intégration imposée. La démo publique reproduit l'install qu'un automaticien fait sans nous appeler.",
-    "1_install": {
-      "title": "Installer",
-      "desc": "Une commande Docker sur un VPS, un mini-PC d'usine ou un Raspberry Pi 4. L'image embarque la gateway, PostgreSQL + TimescaleDB, Redis et l'UI."
-    },
-    "2_configure": {
-      "title": "Connecter",
-      "desc": "Vous déclarez vos automates par IP+port. Wiregrid liste les points exposés, vous les organisez par machine et tags, vous branchez les alarmes."
-    },
-    "3_operate": {
-      "title": "Exploiter",
-      "desc": "Les valeurs remontent en WebSocket dans l'UI. En parallèle votre Postgres est ouvert en lecture pour Power BI, Grafana, Metabase ou Excel."
-    }
+    "latency": "de latence WebSocket entre le runtime et le navigateur",
+    "tag_cost": "par tag, sans condition, sans astérisque"
   },
   "features": {
     "eyebrow": "Capacités",
-    "title": "Trois choses que les SCADA classiques font mal.",
-    "subtitle": "Le reste — drivers, alarmes, historian, multi-projets — tourne aussi en démo et est listé en bas. Mais ce sont ces trois-là qui justifient de regarder Wiregrid plutôt que Niagara ou Ignition.",
-    "open_data": {
-      "title_html": "Vos données dans <span class=\"text-brand\">votre Postgres</span>, pas dans le nôtre.",
-      "desc_html": "Toute la config (drivers, points, machines, alarmes…) est dans des tables PostgreSQL standard. L'historique des valeurs vit dans une hypertable TimescaleDB <code>point_history(ts, point_id, value, quality)</code>. Power BI s'y connecte en ODBC, comme à n'importe quelle base SQL d'entreprise.",
-      "bullet_1_html": "Aucun connecteur propriétaire à acheter ni installer",
-      "bullet_2_html": "Requêtes SQL standard ou <code>time_bucket()</code> pour les agrégations",
-      "bullet_3_html": "Si Wiregrid disparaît, vos données et dashboards continuent"
+    "title": "Cinq choses que Meshvise fait, et une qu'il ne fera jamais.",
+    "subtitle": "Tout ce qui suit tourne aujourd'hui dans la démo publique. Le seul point en cours, c'est l'éditeur visuel du wiresheet (Q3 2026). Le moteur d'exécution, lui, est déjà en place.",
+    "acquisition": {
+      "title": "Acquisition multi-protocoles",
+      "desc_html": "Lecture native en <code>Modbus TCP</code>, <code>OPC-UA</code> et <code>BACnet/IP</code> dans une seule install. Chaque driver tourne dans sa propre tâche asyncio, polling indépendant par device, reconnexion automatique. 10 drivers répartis sur les 3 protocoles dans la démo."
     },
-    "live": {
-      "title_html": "<span class=\"text-brand\">1-2 ms</span> entre l'automate et le navigateur.",
-      "desc_html": "Le runtime publie chaque changement de valeur sur Redis pub/sub. La gateway forward via <code>/ws/live</code> au navigateur. Quand le WS tombe, fallback polling 1 s avec reconnexion exponentielle. Lecture et écriture sur les points commandables.",
-      "bullet_1_html": "Push direct Redis → WebSocket, pas de polling backend",
-      "bullet_2_html": "Latence typique <strong>1-2 ms</strong>, mesurable côté client",
-      "bullet_3_html": "Reconnexion automatique avec backoff exponentiel"
-    },
-    "versioning": {
-      "title_html": "Chaque modif est un <span class=\"text-brand\">commit</span>. Chaque rollback, une transaction.",
-      "desc_html": "Modifier un setpoint, ajouter une alarme, supprimer une machine : tout part dans une révision. Diff entre deux révisions, revert vers un état antérieur dans une transaction unique, hot-reload du runtime via <code>pg_notify</code>. Vous testez sur le working copy, vous déployez quand c'est prêt.",
-      "bullet_1_html": "14 types d'entités versionnées avec stockage delta-only",
-      "bullet_2_html": "Revert atomique vers n'importe quelle révision passée",
-      "bullet_3_html": "Audit log complet : qui, quoi, quand, depuis quel diff"
-    },
-    "drivers": {
-      "title": "Multi-protocoles",
-      "desc_html": "Modbus TCP, OPC-UA et BACnet/IP en une install. Polling indépendant par device, reconnexion automatique. 10 drivers répartis sur les 3 protocoles dans la démo."
+    "historian": {
+      "title": "Historisation",
+      "desc_html": "Toutes les valeurs s'écrivent dans une hypertable TimescaleDB chunkée par jour. Mode <code>on_change</code> avec deadband ou intervalle fixe par point. Rétention configurable, requêtes <code>time_bucket()</code> pour le downsampling."
     },
     "alarms": {
       "title": "Alarmes opérationnelles",
-      "desc_html": "Conditions <code>high</code>/<code>low</code> avec seuil, deadband et délai. Sévérités <code>info / warning / critical</code>. Notifications email par groupe d'utilisateurs."
-    },
-    "historian": {
-      "title": "Historian TimescaleDB",
-      "desc_html": "Hypertable chunkée par jour. Mode <code>on_change</code> avec deadband ou intervalle fixe par point. Rétention configurable, requêtes <code>time_bucket()</code> pour le downsampling."
-    },
-    "integrations": {
-      "title": "API ouverte",
-      "desc_html": "REST sur <code>/py/v1/*</code>, alias <code>/api/v1/*</code> pour les intégrations existantes, WebSocket <code>/ws/live</code>, et accès SQL direct au Postgres."
-    },
-    "multitenant": {
-      "title": "Multi-projets",
-      "desc_html": "Scoping par <code>project_id</code> sur toutes les entités. Le signup démo clone un projet complet (10 drivers / 13 machines / 18 alarmes) en moins d'une seconde."
+      "desc_html": "Conditions <code>high</code> / <code>low</code> avec seuil, deadband et délai. Sévérités <code>info / warning / critical</code>. Notifications email par groupe d'utilisateurs. Journal complet pour la traçabilité."
     },
     "wiresheet": {
-      "title": "Logique programmable visuelle",
-      "desc_html": "Éditeur de blocs fonctionnels façon Niagara N4 : math, comparaison, timer, schedule, latch, ramp, PID. Le moteur d'exécution est déjà en place — l'éditeur Vue Flow arrive en Q3 2026."
+      "title": "Logique métier en temps réel",
+      "desc_html": "<strong>Le moteur wiresheet tourne dès aujourd'hui</strong> : math, logique, comparaison, timer, schedule, latch, ramp, PID, alarme. Vous éditez les graphes via l'API REST ou en JSON versionné, revert en un clic. <strong>L'éditeur visuel drag-and-drop arrive en Q3 2026</strong> (palette de blocs, connexions à la souris). Pour les early adopters techniques, le pipeline API + JSON suffit dès maintenant.",
+      "mock_label": "Wiresheet · DeltaT computed point"
+    },
+    "open_data": {
+      "title": "Accès direct aux données",
+      "desc_html": "Power BI, Grafana, Metabase, Excel ou <code>psql</code> : compatibilité native <code>ODBC PostgreSQL</code>. Vos équipes BI construisent leurs dashboards directement, sans dépendance IT-industrielle."
     }
   },
-  "equipment": {
-    "eyebrow": "Compatibilité",
-    "title": "Vos automates parlent déjà à Wiregrid.",
-    "subtitle": "Trois protocoles ouverts couvrent la quasi-totalité des automates industriels. Liste représentative — c'est de la nomenclature technique, pas de la pub, donc pas de logos constructeur.",
-    "note": "Tout équipement parlant Modbus TCP, OPC-UA ou BACnet/IP est compatible. Pour un automate avec un firmware ancien, prévoir une demi-journée de validation. Modbus RTU sur RS-485 nécessite une passerelle TCP (Moxa, USR-TCP232, ou équivalent)."
+  "bi_preview": {
+    "eyebrow": "Vos données dans vos outils",
+    "title": "Power BI, Grafana, Excel : connexion ODBC native.",
+    "subtitle": "Aucun connecteur propriétaire. Vos équipes BI lisent directement dans Postgres, comme pour n'importe quelle autre base de l'entreprise.",
+    "dashboard_title": "Dashboard énergie · Site Lyon",
+    "live_label": "Live · ODBC PostgreSQL",
+    "kpi": {
+      "energy_label": "Énergie 24h",
+      "meters_label": "Compteurs en ligne",
+      "alarms_label": "Alarmes actives",
+      "alarms_sub": "1 critique"
+    },
+    "chart_title": "Température air soufflage AHU1 · 24 h",
+    "chart_unit": "°C",
+    "points_title": "Derniers points lus",
+    "points_source": "table point_history (TimescaleDB)",
+    "col": {
+      "path": "Path",
+      "value": "Valeur",
+      "unit": "Unité",
+      "trend": "Tendance"
+    },
+    "attribution_html": "Visualisation indicative. Données live depuis Meshvise via <strong>ODBC PostgreSQL standard</strong>. Aucun connecteur propriétaire à installer."
+  },
+  "lifecycle": {
+    "eyebrow": "Organisation & versioning",
+    "title": "Vos sites évoluent. Meshvise évolue avec eux.",
+    "subtitle": "Une nouvelle machine au Bâtiment 2, une réorganisation par fonction métier, un événement à comprendre rétrospectivement. Meshvise suit sans casser ce que vous avez déjà construit.",
+    "tags": {
+      "title": "Étiquetez une fois. Retrouvez partout.",
+      "body_html": "Vos équipements ne vivent pas en silos. Vous les étiquetez une fois : par site, par bâtiment, par fonction métier, par criticité. Ensuite, vous regroupez vos vues comme vous voulez : tous les équipements HVAC, tous les compteurs critiques, tout le Bâtiment B.<br/><br/>Quand vous ajoutez une centrale au Bâtiment B le mois prochain, elle entre automatiquement dans toutes les vues qui la concernent, parce qu'elle porte les bonnes étiquettes. Vous n'avez rien à reparamétrer.",
+      "filter_label": "Filtre actif",
+      "result_label": "Équipements visibles"
+    },
+    "versioning": {
+      "title": "L'histoire de votre supervision, en clair.",
+      "body_html": "Chaque modification (un seuil ajusté, une machine renommée, une nouvelle alarme posée) laisse une trace. Vous voyez qui a fait quoi, quand. Vous pouvez consulter votre supervision telle qu'elle était il y a 6 mois pour comprendre un événement passé.<br/><br/>Vous pouvez aussi annuler une modification en un clic. Pas de fichier de sauvegarde à recharger, pas de perte des données depuis.",
+      "status": {
+        "deployed": "déployé",
+        "reverted": "annulée"
+      }
+    }
+  },
+  "sovereignty": {
+    "eyebrow": "Souveraineté & conformité",
+    "title": "Vos données chez vous, sous votre droit.",
+    "subtitle": "Meshvise s'inscrit dans une logique de souveraineté technique et juridique. Ce que vous installez, ce sont vos données, dans votre infrastructure, soumises à votre droit.",
+    "hosting": {
+      "title": "Hébergement chez vous, par vous",
+      "body_html": "Aucune télémétrie, aucun phone-home, aucune donnée client sur notre infrastructure. Compatible <strong>air-gap</strong> pour les sites coupés d'internet."
+    },
+    "gdpr": {
+      "title": "Conforme RGPD by design",
+      "body_html": "Aucune donnée personnelle ne quitte votre instance par défaut. <strong>DPA fourni</strong> au contrat Standard, registre des traitements simplifié."
+    },
+    "law": {
+      "title": "Droit français, juridiction Paris",
+      "body_html": "Données et support soumis au droit français. Contrat en français, juridiction Paris. Pas de clause d'arbitrage off-shore."
+    },
+    "no_cloud": {
+      "title": "Pas de Cloud Act, pas de cloud étranger",
+      "body_html": "Aucune dépendance fournisseur cloud étranger côté production. Hors d'atteinte de l'extra-territorialité USA et des injonctions tierces."
+    },
+    "attribution_html": "Société française enregistrée à <strong>&lt;VILLE : À COMPLÉTER PAR BRUNO&gt;</strong>."
   },
   "pricing": {
     "eyebrow": "Tarifs",
-    "title": "Deux paliers. Pas de tarification par tag.",
-    "subtitle": "Le plan Découverte couvre un petit site complet — 50 points, c'est déjà la majorité des sites mono-bâtiment d'un installateur GTB. Au-delà, un forfait annuel plat.",
+    "title": "Trois portes. Un seul tier payant.",
+    "subtitle": "La démo en ligne pour cliquer une fois. L'essai 7 jours pour câbler vos automates. Le tier Standard pour passer en exploitation. Tous les points inclus dans la licence Standard, sans surcoût runtime.",
     "recommended": "Recommandé",
-    "footnote": "Tarifs HT, facturés annuellement. Engagement 12 mois. Vous restez propriétaire de vos données et de votre instance — Wiregrid n'a aucun accès à votre PostgreSQL.",
-    "free": {
-      "name": "Découverte",
-      "tagline": "Évaluation, sites pilotes, petites installations.",
+    "footnote": "Standard : tarifs HT, facturation annuelle, renouvellement 990 € / an. Vous restez propriétaire de vos données et de votre instance, hébergement chez vous.",
+    "demo": {
+      "name": "Démo en ligne",
+      "tagline": "Survoler le produit en 60 secondes, sans rien installer.",
       "price": "0 €",
-      "period": "/ pour toujours",
-      "price_note": "self-host, pas d'inscription",
-      "cta": "Lancer la démo"
+      "period": "ponctuel",
+      "price_note": "pas d'inscription, pas de carte bancaire",
+      "cta": "Voir la démo"
     },
-    "pro": {
-      "name": "Production",
-      "tagline": "Exploitation réelle, multi-bâtiments, intégration BI.",
+    "trial": {
+      "name": "Essai 7 jours",
+      "tagline": "Câbler vos vrais automates, valider en conditions réelles.",
+      "price": "0 €",
+      "period": "/ 7 jours",
+      "price_note": "licence par email, lecture seule à expiration",
+      "cta": "Essayer sur mon infra"
+    },
+    "standard": {
+      "name": "Standard",
+      "tagline": "Exploitation réelle, sans limite fonctionnelle.",
       "price": "990 €",
       "period": "/ an",
-      "price_note": "par instance, points illimités",
-      "anchor_html": "≈ équivalent à 200 tags Niagara, ou 1/4 du prix d'une station Workbench.",
-      "cta": "Demander un devis"
+      "price_note": "par instance, mises à jour incluses",
+      "cta": "Nous contacter",
+      "legal_anchor": "Société française enregistrée. Données et support sous droit français.",
+      "continuity_link": "Et si vous fermez demain ? Lire la réponse honnête."
     },
     "feature": {
-      "points_50": "Jusqu'à 50 points",
-      "points_unlimited": "Points illimités",
-      "protocols_modbus": "Modbus TCP",
-      "protocols_all": "Modbus TCP + OPC-UA + BACnet/IP",
-      "historian_7d": "Historian 7 jours",
-      "historian_unlimited": "Historian illimité, rétention configurable",
-      "alarms": "Alarmes par seuil",
-      "alarms_notifications": "Alarmes + notifications email + groupes",
-      "api_open": "API REST + accès SQL direct",
-      "support_docs": "Documentation en ligne",
-      "support_dedicated": "Support email + visio",
-      "priority_roadmap": "Influence sur la roadmap"
+      "demo_no_install": "Aperçu sans installation",
+      "demo_simulated": "Données simulées d'un site industriel",
+      "demo_quick_look": "60 secondes pour cliquer partout",
+      "demo_no_signup": "Pas d'inscription requise",
+      "trial_full_app": "L'app complète sur votre infra",
+      "trial_limits": "5 drivers · 15 machines · 500 points",
+      "trial_protocols": "Modbus TCP + OPC-UA + BACnet/IP",
+      "trial_features": "Toutes les fonctionnalités produit",
+      "trial_duration": "7 jours puis lecture seule, données conservées",
+      "standard_unlimited": "Points et machines illimités en pratique",
+      "standard_protocols": "Modbus TCP + OPC-UA + BACnet/IP",
+      "standard_features": "Historian, alarmes, wiresheet, accès SQL, API",
+      "standard_deployment": "Déploiement Docker en 4 h, premier point remonté en 30 min",
+      "standard_install": "Une instance par licence, sur votre infra",
+      "standard_updates": "Mises à jour incluses pendant l'année",
+      "standard_support": "Support email avec engagement <strong>24 h ouvrées</strong> (jours fériés FR exclus)",
+      "standard_audit_nda": "Audit code sous NDA disponible (sur demande)"
     }
   },
   "faq": {
     "eyebrow": "FAQ",
     "title": "Les questions qu'on nous pose.",
-    "subtitle": "Si la vôtre n'y est pas, écrivez à contact@wiregrid.fr — réponse sous 24 h ouvrées.",
-    "difference_niagara": {
-      "q": "Quelle différence concrète avec Niagara N4 ?",
-      "a_html": "Niagara est plus mature. Wiresheet complet, HMI builder, écosystème JACE, des milliers d'intégrateurs formés. Wiregrid est plus petit, plus jeune, plus moderne (web pur, pas de station JVM). Et surtout sans <strong>tag-pricing</strong> : les ~5 €/tag/an que vous payez sur Niagara, vous ne les payez pas chez nous. Le sweet spot Wiregrid : 50 à 500 points, pas 5 000."
-    },
+    "subtitle": "Si la vôtre n'y est pas, écrivez à contact@meshvise.com. Réponse sous 24 h ouvrées.",
     "compatible_plc": {
       "q": "Compatible avec mon Schneider M340 / Siemens S7-1500 / autre PLC ?",
-      "a_html": "Si votre PLC parle <code>Modbus TCP</code> (la majorité des Schneider, ABB, Wago, Phoenix Contact), <code>OPC-UA</code> (Siemens S7-1500 nativement, Beckhoff TwinCAT, B&amp;R) ou <code>BACnet/IP</code> (Distech, Honeywell, Trend, JCI), oui. Pour Modbus RTU sur série, prévoir une passerelle TCP. Voir la <a href=\"#equipment\" class=\"text-brand hover:underline\">section Compatibilité</a>."
+      "a_html": "Si votre PLC parle <code>Modbus TCP</code>, <code>OPC-UA</code> ou <code>BACnet/IP</code>, oui. Pour Modbus RTU sur série, prévoir une passerelle TCP. Voir aussi la <a href=\"#features\" class=\"text-brand hover:underline\">section Capacités</a>."
     },
     "data_format": {
       "q": "Dans quel format sont stockées les données ?",
-      "a_html": "Configuration : tables PostgreSQL standard (<code>drivers</code>, <code>points</code>, <code>machines</code>, <code>alarms</code>…). Historique : hypertable TimescaleDB <code>point_history(ts, point_id, value, quality)</code>, chunkée par jour. Tout est requêtable en SQL, pas de dialecte propriétaire."
+      "a_html": "Configuration : tables PostgreSQL standard. Historique : hypertable TimescaleDB <code>point_history(ts, point_id, value, quality)</code>, chunkée par jour. Tout est requêtable en SQL, pas de dialecte propriétaire."
     },
     "powerbi": {
       "q": "Comment je connecte Power BI ?",
-      "a_html": "Power BI Desktop &gt; Obtenir des données &gt; PostgreSQL. Vous renseignez l'IP de votre serveur Wiregrid (port <code>5432</code>), un user en lecture seule, et vous voyez les tables. Aucun connecteur propriétaire à installer."
+      "a_html": "Power BI Desktop &gt; Obtenir des données &gt; PostgreSQL. Vous renseignez l'IP de votre serveur Meshvise, un user en lecture seule, et vous voyez les tables. Connexion native, comme pour n'importe quelle base PostgreSQL standard."
     },
     "self_host": {
       "q": "C'est en SaaS ou self-hosted ?",
-      "a_html": "Self-hosted. <code>docker compose up -d</code> sur votre serveur. Vos données ne quittent jamais votre réseau. La démo en ligne tourne sur un environnement public mais c'est une démo, pas une offre de prod."
+      "a_html": "Self-hosted. Vos données ne quittent jamais votre réseau. La démo en ligne tourne sur un environnement public mais c'est une démo, pas une offre de prod."
+    },
+    "sovereignty_data": {
+      "q": "Mes données restent-elles en France ?",
+      "a_html": "Oui, par construction. Meshvise est self-hosted : votre instance tourne sur l'infrastructure que vous choisissez, en France si c'est ce que vous décidez. Nous ne stockons aucune donnée client sur notre infrastructure. Aucune télémétrie ne sort de votre réseau, aucun phone-home, aucune dépendance cloud étranger. Compatible <strong>air-gap</strong> pour les sites coupés d'internet."
+    },
+    "gdpr_compliance": {
+      "q": "Meshvise est-il conforme RGPD ?",
+      "a_html": "Oui. Meshvise est conçu RGPD by design : aucune donnée personnelle ne quitte votre instance par défaut. Pour le plan Standard, nous fournissons un <strong>DPA</strong> (Data Processing Agreement) au contrat. Données et support soumis au droit français, juridiction Paris."
     },
     "minimum_hardware": {
       "q": "Quel matériel minimum ?",
-      "a_html": "2 vCPU, 4 Go RAM, 20 Go disque suffisent pour ~500 points avec 30 jours d'historique. Tient sur un mini-PC d'usine, un Raspberry Pi 4 ou un VPS Hetzner à 5 €/mois."
+      "a_html": "2 vCPU, 4 Go RAM, 20 Go disque suffisent pour ~500 points avec 30 jours d'historique. Tient sur un mini-PC d'usine, un Raspberry Pi 4 ou un VPS à 5 €/mois."
     },
     "security": {
       "q": "Comment c'est sécurisé ?",
-      "a_html": "Auth par JWT (UI) ou API key (intégrations). <code>postgres</code> et <code>redis</code> bind sur localhost, jamais exposés. Si vous mettez la gateway derrière Caddy, Nginx ou un Cloudflare Tunnel, vous avez TLS automatique."
+      "a_html": "Auth par JWT (UI) ou API key (intégrations). Postgres et Redis bind sur localhost, jamais exposés. Si vous mettez la gateway derrière un reverse-proxy (Caddy, Nginx, Cloudflare Tunnel), vous avez TLS automatique."
+    },
+    "code_audit": {
+      "q": "Puis-je auditer le code source ?",
+      "a_html": "Sur demande pour les clients Standard, accès en lecture au code source sous <strong>NDA</strong>. Cette possibilité existe pour les exigences de conformité spécifiques : audit sécurité, validation réglementaire, due diligence. Hors NDA, le code reste fermé conformément à notre licence propriétaire. Contact : <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>."
     },
     "safety_sil": {
       "q": "Je peux faire de la sécurité fonctionnelle (SIL) avec ?",
-      "a_html": "<strong>Non</strong>, et ce ne sera jamais le cas. Wiregrid supervise et historise, point. Vos interlocks de sécurité doivent rester dans votre PLC certifié."
-    },
-    "open_source": {
-      "q": "C'est open source ?",
-      "a_html": "Pas encore publiquement. La license sera décidée à la sortie publique (candidate : AGPL-3.0 ou source-available). En attendant : votre data est dans <strong>votre</strong> PostgreSQL en SQL standard."
+      "a_html": "<strong>Non</strong>, et ce ne sera jamais le cas. Meshvise supervise et historise. Vos interlocks de sécurité doivent rester dans votre PLC certifié."
     },
     "company_disappears": {
       "q": "Et si vous fermez la boîte demain ?",
-      "a_html": "Question légitime, et la raison principale pour laquelle Wiregrid stocke tout en SQL standard. Concrètement : votre <code>postgres</code> tourne sur votre serveur. Vos dashboards Power BI continuent. Pour la couche acquisition, vous remplacez Wiregrid par n'importe quelle autre plateforme qui parle Modbus / OPC-UA / BACnet — le travail de connexion équipement est fait une fois."
+      "a_html": "Question légitime, et la raison principale pour laquelle Meshvise stocke tout en SQL standard. Concrètement : votre <code>postgres</code> tourne sur votre serveur. Vos dashboards Power BI continuent. Pour la couche acquisition, vous remplacez Meshvise par n'importe quelle autre plateforme qui parle Modbus / OPC-UA / BACnet."
     },
     "multi_site": {
       "q": "Et la supervision multi-sites distants ?",
-      "a_html": "Aujourd'hui : multi-projet sur une instance, idéal pour multi-bâtiments d'un même groupe. Pour multi-sites distants avec gateway edge, c'est sur la roadmap (Q4 2026)."
+      "a_html": "Aujourd'hui : multi-projet sur une instance, idéal pour multi-bâtiments d'un même groupe. Multi-sites distants avec gateway edge à chaque endroit + central qui consolide : sur la roadmap (Q4 2026)."
     },
     "wiresheet_status": {
       "q": "Le wiresheet (logique visuelle), c'est pour quand ?",
-      "a_html": "Le moteur d'exécution est déjà dans le runtime. L'éditeur Vue Flow (palette de blocs, drag-drop, connexions) est prévu pour <strong>Q3 2026</strong>."
+      "a_html": "Le moteur d'exécution tourne déjà dans le runtime, avec tous les blocs (math, logique, comparaison, timer, schedule, latch, ramp, PID, alarme). Aujourd'hui, vous l'éditez via l'<code>API REST</code> ou en <code>JSON versionné</code> (revert en un clic). L'éditeur visuel Vue Flow (palette de blocs, drag-and-drop, connexions à la souris) est prévu pour <strong>Q3 2026</strong>."
     },
     "support": {
       "q": "À quoi ressemble le support ?",
-      "a_html": "Plan Découverte : documentation et issues GitHub publiques. Plan Production : email avec engagement de réponse sous 24 h ouvrées, visio sur demande, accès direct au développeur principal."
+      "a_html": "Plan Découverte : documentation publique + email best-effort à <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>. Plan Standard : email avec engagement de réponse sous <strong>24 h ouvrées</strong> (jours fériés français exclus), visio sur demande, accès direct au développeur principal."
+    },
+    "support_language": {
+      "q": "Le support est-il en français ?",
+      "a_html": "Oui. Le support email à <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a> est assuré par une équipe française, sous 24 h ouvrées pour les clients Standard. La documentation publique est en français et en anglais. Les tickets en anglais sont aussi traités par la même équipe."
     },
     "trial": {
       "q": "Combien de temps pour tester sérieusement ?",
-      "a_html": "La démo en ligne fait office de POC instantané (60 secondes pour cliquer partout). Pour un essai sur votre matériel, comptez 1 à 2 heures pour brancher un PLC et voir vos vrais points."
+      "a_html": "Trois portes d'entrée selon votre besoin. La démo en ligne sert de POC instantané (60 secondes pour cliquer partout). L'<a href=\"/fr/trial/\" class=\"text-brand hover:underline\">essai 7 jours</a> vous donne l'app complète à installer sur votre infra, avec vos automates, pour valider en conditions réelles. Au-delà, on bascule sur une licence Standard annuelle (990 €)."
+    },
+    "demo_vs_trial": {
+      "q": "Quelle différence entre la démo en ligne et l'essai 7 jours ?",
+      "a_html": "La <a href=\"https://app.meshvise.com\" class=\"text-brand hover:underline\">démo en ligne</a> est publique, tourne sur notre serveur avec des données simulées d'un site industriel. Vous cliquez où vous voulez, vous voyez l'UI, vous fermez l'onglet. Pas d'inscription, rien à installer. Idéal pour vous faire une première idée. L'<a href=\"/fr/trial/\" class=\"text-brand hover:underline\">essai 7 jours</a>, lui, vous donne l'app complète sur votre infra. Vous remplissez un formulaire, vous recevez un <code>license.jwt</code> et un <code>docker-compose.yml</code> par email, vous lancez <code>docker compose up -d</code> sur votre serveur, vous branchez vos vrais automates. C'est l'évaluation sérieuse avant achat."
+    },
+    "trial_what_happens": {
+      "q": "Comment se passe l'essai 7 jours ?",
+      "a_html": "Vous remplissez le formulaire sur <a href=\"/fr/trial/\" class=\"text-brand hover:underline\">/fr/trial/</a>. Vous recevez immédiatement un email avec votre <code>license.jwt</code>, un <code>docker-compose.yml</code> prêt à l'emploi, et la commande d'installation. Vous lancez <code>docker compose up -d</code> sur votre serveur, vous branchez vos automates, vous explorez. Pas de carte bancaire, pas d'auto-renouvellement, pas d'inscription par-dessus."
+    },
+    "trial_end": {
+      "q": "Que devient mon installation à la fin des 7 jours ?",
+      "a_html": "L'app passe en lecture seule. Vous gardez l'accès à vos données historisées, vous pouvez exporter votre configuration et votre historian. Les écritures (ajout d'un point, modification d'une alarme, déploiement d'une révision) sont bloquées jusqu'à activation d'une licence production. Rien n'est supprimé, rien n'est volatil. Si vous souhaitez prolonger, écrivez à contact@meshvise.com."
     }
+  },
+  "final_cta": {
+    "eyebrow": "Prêt à essayer ?",
+    "title": "Deux façons de tester. À votre rythme.",
+    "subtitle": "60 secondes sur la démo en ligne pour vous faire une idée. 7 jours sur votre infra avec vos automates pour valider sérieusement. Aucune inscription, aucune carte bancaire.",
+    "cta_trial": "Essayer 7 jours sur mon infra",
+    "cta_demo": "Voir la démo en ligne",
+    "alt_cta": "Nous contacter"
+  },
+  "trial": {
+    "meta": {
+      "title": "Essai 7 jours · Meshvise",
+      "description": "Recevez une licence d'essai 7 jours par email, lancez Meshvise sur votre infra avec vos automates, validez en conditions réelles. Pas de carte bancaire, pas d'auto-renouvellement."
+    },
+    "eyebrow": "Essai 7 jours",
+    "title": "Meshvise sur votre infra. 7 jours. Pas d'inscription.",
+    "subtitle_html": "Remplissez ce formulaire, recevez par email votre licence et un <code>docker-compose.yml</code> prêt à l'emploi. Vous lancez <code>docker compose up -d</code> sur votre serveur, vous branchez vos automates, vous validez en conditions réelles.",
+    "form": {
+      "name_label": "Nom",
+      "name_placeholder": "Votre nom",
+      "email_label": "Email professionnel",
+      "email_placeholder": "vous@société.fr",
+      "company_label": "Entreprise",
+      "company_placeholder": "Votre société",
+      "use_case_label": "Cas d'usage",
+      "use_case_placeholder": "Quel type de site, combien de points, quels automates...",
+      "submit": "Recevoir ma licence d'essai",
+      "submitting": "Envoi en cours...",
+      "error_generic": "Quelque chose a coincé. Réessayez ou écrivez à contact@meshvise.com.",
+      "error_turnstile": "Validez le challenge anti-bot avant d'envoyer.",
+      "error_rate_limit": "Vous avez déjà demandé une licence récemment. Réessayez dans 24 heures ou écrivez à contact@meshvise.com.",
+      "error_dedupe": "Une licence a déjà été émise pour cette adresse dans les 30 derniers jours. Vérifiez votre boîte mail (spam inclus) ou écrivez à contact@meshvise.com."
+    },
+    "disclaimer": {
+      "limits_html": "Limites de la licence d'essai : 5 drivers, 15 machines, 500 points, fonctionnalités complètes (acquisition, historian, alarmes, wiresheet, accès SQL).",
+      "duration_html": "Durée : 7 jours à compter de l'émission. À l'expiration, l'app passe en <strong>lecture seule</strong> : vos données restent vôtres, l'export reste actif.",
+      "no_card_html": "Aucune carte bancaire. Aucun auto-renouvellement. Pas d'envoi commercial automatique au-delà du suivi de cet essai."
+    },
+    "what_next": {
+      "title": "Ce qui arrive ensuite",
+      "step_1_html": "<strong>Immédiat :</strong> email avec <code>license.jwt</code>, <code>docker-compose.yml</code> et la commande d'install.",
+      "step_2_html": "<strong>J+6 :</strong> rappel 24h avant l'expiration, avec un lien Calendly si vous voulez en parler.",
+      "step_3_html": "<strong>J+7 :</strong> bilan post-essai. Continuer en production ou pas, à vous de voir."
+    },
+    "success": {
+      "title": "Vérifiez votre boîte mail",
+      "body_html": "On a envoyé un email à <strong class=\"font-mono\">{email}</strong> avec votre licence et la commande d'installation. Si rien n'arrive dans 5 minutes (spam inclus), écrivez à <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>.",
+      "back": "Retour à l'accueil"
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "À propos · Meshvise",
+      "description": "Meshvise est une supervision industrielle française : forfait fixe, données chez vous, support en français. Société, mission, valeurs, coordonnées."
+    },
+    "eyebrow": "À propos",
+    "title": "Une supervision industrielle française.",
+    "subtitle": "Meshvise construit une alternative française aux supervisions tag-pricées et aux SaaS étrangers. Données chez vous, support chez nous, contrat de droit français.",
+    "founder": {
+      "heading": "Le fondateur",
+      "name": "<À COMPLÉTER PAR BRUNO : prénom + nom>",
+      "bio_html": "<À COMPLÉTER PAR BRUNO : 3 à 5 lignes de bio courte. Parcours pertinent (industrie, IT, automatisme), pourquoi Meshvise, ce qui motive le projet.>"
+    },
+    "mission": {
+      "heading": "La mission",
+      "body_html": "Meshvise est née d'un constat simple : la supervision industrielle est trop chère, trop fermée, trop dépendante de l'étranger. Nous construisons une alternative française, ouverte sur les données SQL, avec un pricing prévisible et une conformité par design. Tous les points inclus dans la licence Standard, pas de cloud étranger : un prix au renouvellement, posé une fois pour toutes."
+    },
+    "values": {
+      "heading": "Les valeurs",
+      "v1_html": "<strong>Souveraineté.</strong> Vos données sur votre serveur, vos clés sur votre bureau. Aucune télémétrie, aucun phone-home.",
+      "v2_html": "<strong>Transparence.</strong> Roadmap publique, pricing affiché, EULA en français lisible. Ce qui n'est pas livré est annoncé comme tel.",
+      "v3_html": "<strong>Pragmatisme.</strong> On livre ce qui marche aujourd'hui. On annonce ce qui arrive avec une date. On ne promet pas de SCADA universel."
+    },
+    "timeline": {
+      "heading": "Repères",
+      "t1": {
+        "date": "2026 Q2",
+        "body_html": "Première version production-ready de Meshvise 1.0. Acquisition Modbus / OPC-UA / BACnet, historian TimescaleDB, alarmes opérationnelles, accès SQL direct."
+      },
+      "t2": {
+        "date": "2026 Q3",
+        "body_html": "Éditeur visuel wiresheet (palette de blocs, drag-drop, connexions). Le moteur d'exécution tourne déjà, l'éditeur arrive."
+      },
+      "t3": {
+        "date": "2026 Q4",
+        "body_html": "Multi-site avec gateway edge à chaque endroit + central qui consolide. Scope réservé aux contrats multi-licences."
+      }
+    },
+    "coords": {
+      "heading": "Coordonnées",
+      "company": {
+        "label": "Société",
+        "value_html": "<À COMPLÉTER PAR BRUNO : raison sociale officielle>"
+      },
+      "address": {
+        "label": "Adresse",
+        "value_html": "<À COMPLÉTER PAR BRUNO : adresse postale officielle>"
+      },
+      "siren": {
+        "label": "SIREN",
+        "value_html": "<À COMPLÉTER PAR BRUNO : 9 chiffres>"
+      },
+      "contact": {
+        "label": "Contact",
+        "value_html": "<a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>"
+      },
+      "support": {
+        "label": "Support",
+        "value_html": "Email avec engagement de réponse sous <strong>24h ouvrées</strong> (jours fériés français exclus) pour les clients Standard."
+      }
+    },
+    "back": "Retour à l'accueil"
   },
   "footer": {
     "product": "Produit",
@@ -254,16 +409,18 @@
     "compat": "Compatibilité",
     "contact": "Contact",
     "rights": "Tous droits réservés.",
-    "made_in": "Conçu en France",
-    "tagline": "Supervision SCADA web ouverte. Vos automates Modbus / OPC-UA / BACnet, vos données dans Postgres standard, lisibles directement par Power BI.",
+    "legal_box_html": "Meshvise by <strong>&lt;RAISON SOCIALE : À COMPLÉTER PAR BRUNO&gt;</strong>, société française enregistrée à <strong>&lt;VILLE : À COMPLÉTER PAR BRUNO&gt;</strong>. SIREN <strong>&lt;NUMÉRO : À COMPLÉTER PAR BRUNO&gt;</strong>.",
+    "continuity_link": "Et si vous fermez demain ? La réponse honnête est dans la FAQ.",
+    "tech_line": "Données françaises. Tech française.",
+    "tagline": "Une supervision SCADA web qui lit vos automates, historise, organise et alerte. Données accessibles en PostgreSQL standard via ODBC.",
     "newsletter_title": "Newsletter trimestrielle",
     "newsletter_desc": "Roadmap, retours d'expérience d'intégrateurs, nouveautés. 4 envois par an, pas plus.",
     "newsletter_placeholder": "vous@société.fr",
     "newsletter_cta": "S'abonner",
-    "newsletter_aria": "S'abonner à la newsletter Wiregrid"
+    "newsletter_aria": "S'abonner à la newsletter Meshvise"
   },
   "meta": {
-    "og_image_alt": "Wiregrid — Supervision SCADA sans tag-pricing"
+    "og_image_alt": "Meshvise · Supervision SCADA, forfait fixe, données chez vous"
   },
   "a11y": {
     "skip_to_content": "Aller au contenu",
@@ -272,3 +429,5 @@
     "switch_language": "Basculer en {lang}"
   }
 }
+
+

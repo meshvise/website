@@ -1,28 +1,31 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
-import Stats from '../../components/Stats.astro';
-import Comparison from '../../components/Comparison.astro';
-import HowItWorks from '../../components/HowItWorks.astro';
+import Personas from '../../components/Personas.astro';
 import Features from '../../components/Features.astro';
-import Equipment from '../../components/Equipment.astro';
+import BIPreview from '../../components/BIPreview.astro';
+import Lifecycle from '../../components/Lifecycle.astro';
+import Sovereignty from '../../components/Sovereignty.astro';
 import Pricing from '../../components/Pricing.astro';
 import FAQ from '../../components/FAQ.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
 
 const lang = 'en' as const;
 ---
 
 <Base
   lang={lang}
-  title="Wiregrid — SCADA supervision without tag pricing | Data in Power BI"
-  description="Web-based industrial supervision platform. Reads Modbus TCP, OPC-UA and BACnet PLCs, writes to standard PostgreSQL, queryable directly from Power BI, Grafana and Excel. No per-tag licensing, self-hostable, free tier."
+  title="Meshvise · Web SCADA, flat fee, data on your premises"
+  description="Web SCADA platform that reads your Modbus TCP, OPC-UA and BACnet/IP PLCs, historises, alerts. Data accessible via standard PostgreSQL ODBC for Power BI, Grafana or Excel. Standard licence at €990/year per site, all points included, free 7-day trial."
 >
   <Hero lang={lang} />
-  <Stats lang={lang} />
-  <Comparison lang={lang} />
-  <HowItWorks lang={lang} />
+  <Personas lang={lang} />
   <Features lang={lang} />
-  <Equipment lang={lang} />
+  <BIPreview lang={lang} />
+  <Lifecycle lang={lang} />
+  <Sovereignty lang={lang} />
   <Pricing lang={lang} />
   <FAQ lang={lang} />
+  <FinalCTA lang={lang} />
 </Base>
+

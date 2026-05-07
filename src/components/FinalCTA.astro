@@ -1,0 +1,34 @@
+---
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<section class="px-6 py-24 md:py-32 border-t border-border/60">
+  <div class="mx-auto max-w-3xl text-center">
+    <div class="section-eyebrow justify-center">{t(lang, 'final_cta.eyebrow')}</div>
+    <h2 class="section-title">{t(lang, 'final_cta.title')}</h2>
+    <p class="section-lede mx-auto">{t(lang, 'final_cta.subtitle')}</p>
+
+    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+      <a href={`/${lang}/trial/`} class="btn btn-primary btn-lg">
+        {t(lang, 'final_cta.cta_trial')}
+        <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M6 3l5 5-5 5" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <a href="https://app.meshvise.com" target="_blank" rel="noopener" class="btn btn-outline btn-lg">
+        {t(lang, 'final_cta.cta_demo')}
+      </a>
+    </div>
+    <p class="mt-6 text-[13px] text-muted">
+      <a href="mailto:contact@meshvise.com?subject=Meshvise" class="text-muted-strong hover:text-text underline-offset-4 hover:underline">{t(lang, 'final_cta.alt_cta')}</a>
+    </p>
+  </div>
+</section>
+
+

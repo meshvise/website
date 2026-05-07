@@ -31,6 +31,15 @@ jobs:
 
       - name: Astro build
         run: npm run build
+        env:
+          # Public Turnstile siteKey, embedded in the static HTML at build
+          # time via import.meta.env.PUBLIC_TURNSTILE_SITE_KEY in
+          # src/components/TrialForm.astro. Posed as a GitHub Actions
+          # repository variable (not secret — value is public, visible
+          # in HTML). If unset, TrialForm.astro falls back to Cloudflare's
+          # always-pass test siteKey, which is fine for staging but should
+          # be set in prod.
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
@@ -39,12 +48,13 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy
 
-      - name: Smoke test wiregrid.fr
+      - name: Smoke test meshvise.com
         run: |
           sleep 10
-          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 https://wiregrid.fr)
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 https://meshvise.com)
           if [ "$HTTP_CODE" -lt 200 ] || [ "$HTTP_CODE" -ge 400 ]; then
             echo "❌ Smoke test failed: got HTTP $HTTP_CODE"
             exit 1
           fi
           echo "✅ Smoke test passed (HTTP $HTTP_CODE)"
+

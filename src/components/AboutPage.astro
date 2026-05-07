@@ -1,0 +1,84 @@
+---
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const values = ['v1', 'v2', 'v3'] as const;
+const timeline = ['t1', 't2', 't3'] as const;
+const coords = ['company', 'address', 'siren', 'contact', 'support'] as const;
+---
+
+<section class="px-6 py-20 md:py-24">
+  <div class="mx-auto max-w-4xl">
+    <div class="mb-14">
+      <div class="section-eyebrow">{t(lang, 'about.eyebrow')}</div>
+      <h1 class="section-title">{t(lang, 'about.title')}</h1>
+      <p class="section-lede">{t(lang, 'about.subtitle')}</p>
+    </div>
+
+    <div class="bg-surface rounded-xl border border-border p-7 md:p-10 mb-12">
+      <h2 class="text-[18px] font-semibold tracking-tight text-text mb-5">{t(lang, 'about.founder.heading')}</h2>
+      <div class="flex flex-col sm:flex-row items-start gap-6">
+        <div class="w-24 h-24 rounded-full bg-bg-alt border border-border flex items-center justify-center shrink-0" aria-hidden="true">
+          <svg class="w-10 h-10 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="9" r="3.5"/>
+            <path d="M5 20a7 7 0 0 1 14 0" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <p class="font-medium text-text text-[15px] mb-1.5">{t(lang, 'about.founder.name')}</p>
+          <p class="text-[14.5px] text-muted-strong leading-relaxed" set:html={t(lang, 'about.founder.bio_html')} />
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-12">
+      <h2 class="text-[18px] font-semibold tracking-tight text-text mb-4">{t(lang, 'about.mission.heading')}</h2>
+      <p class="text-[15px] text-muted-strong leading-relaxed" set:html={t(lang, 'about.mission.body_html')} />
+    </div>
+
+    <div class="mb-12">
+      <h2 class="text-[18px] font-semibold tracking-tight text-text mb-4">{t(lang, 'about.values.heading')}</h2>
+      <ul class="space-y-3 text-[15px] text-muted-strong leading-relaxed">
+        {values.map((v) => (
+          <li class="flex items-start gap-3">
+            <span class="font-mono text-[12px] text-brand mt-1.5 shrink-0">▸</span>
+            <span set:html={t(lang, `about.values.${v}_html`)} />
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="mb-12">
+      <h2 class="text-[18px] font-semibold tracking-tight text-text mb-4">{t(lang, 'about.timeline.heading')}</h2>
+      <ul class="space-y-3 text-[15px] text-muted-strong leading-relaxed">
+        {timeline.map((tp) => (
+          <li class="flex items-start gap-3">
+            <span class="font-mono text-[12px] text-brand mt-1.5 shrink-0 tabular-nums">{t(lang, `about.timeline.${tp}.date`)}</span>
+            <span set:html={t(lang, `about.timeline.${tp}.body_html`)} />
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="bg-bg-alt/60 rounded-md border border-border p-6 mb-12">
+      <h2 class="text-[18px] font-semibold tracking-tight text-text mb-4">{t(lang, 'about.coords.heading')}</h2>
+      <dl class="space-y-2 text-[14.5px]">
+        {coords.map((c) => (
+          <div class="flex flex-col sm:flex-row sm:gap-3">
+            <dt class="text-muted shrink-0 sm:w-32 font-mono text-[12px] uppercase tracking-wider mt-1">{t(lang, `about.coords.${c}.label`)}</dt>
+            <dd class="text-text" set:html={t(lang, `about.coords.${c}.value_html`)} />
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <div class="text-center">
+      <a href={`/${lang}/`} class="btn btn-outline">{t(lang, 'about.back')}</a>
+    </div>
+  </div>
+</section>

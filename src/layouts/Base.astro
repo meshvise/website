@@ -14,7 +14,7 @@ interface Props {
 
 const { title, description, lang, ogImage = '/og-image.svg' } = Astro.props;
 
-const SITE_ORIGIN = 'https://wiregrid.fr';
+const SITE_ORIGIN = 'https://meshvise.com';
 const alternateLang: Lang = lang === 'fr' ? 'en' : 'fr';
 const currentPath = Astro.url.pathname;
 const alternatePath =
@@ -31,21 +31,30 @@ const ogLocaleAlternate = alternateLang === 'fr' ? 'fr_FR' : 'en_US';
 const stripHtml = (s: string) =>
   s.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
 
+// Organization-level description is independent of the per-page meta
+// description (which changes by route). This one anchors the
+// sovereignty + flat-fee positioning consistently for AI search
+// engines that re-quote schema.org Organization data.
+const organizationDescription =
+  lang === 'fr'
+    ? 'Plateforme française de supervision industrielle SCADA. Forfait annuel fixe, données chez vous en PostgreSQL standard, support en français. Hébergement self-hosted, conforme RGPD by design, droit français, sans dépendance Cloud Act.'
+    : 'French industrial supervision (SCADA) platform. Flat annual licence, data on your premises in standard PostgreSQL, French support. Self-hosted, GDPR compliant by design, French jurisdiction, no Cloud Act exposure.';
+
 const organizationLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Wiregrid',
+  name: 'Meshvise',
   url: SITE_ORIGIN,
   logo: `${SITE_ORIGIN}/favicon.svg`,
-  description,
-  email: 'contact@wiregrid.fr',
+  description: organizationDescription,
+  email: 'contact@meshvise.com',
   sameAs: ['https://www.linkedin.com/in/bruno-crespo'],
 };
 
 const softwareLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'Wiregrid',
+  name: 'Meshvise',
   applicationCategory: 'BusinessApplication',
   applicationSubCategory: 'SCADA / Industrial Supervision',
   operatingSystem: 'Linux, Windows, macOS (Docker)',
@@ -56,19 +65,31 @@ const softwareLd = {
   offers: [
     {
       '@type': 'Offer',
-      name: lang === 'fr' ? 'Découverte' : 'Discovery',
+      name: lang === 'fr' ? 'Démo en ligne' : 'Online demo',
       price: '0',
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
-      url: 'https://demo.wiregrid.fr',
+      url: 'https://app.meshvise.com',
       description:
         lang === 'fr'
-          ? 'Self-host gratuit jusqu’à 50 points, Modbus TCP, 7 jours d’historique.'
-          : 'Free self-host up to 50 points, Modbus TCP, 7-day history.',
+          ? 'Démo publique en ligne, données simulées, sans installation, sans inscription.'
+          : 'Public online demo, simulated data, no installation, no sign-up.',
     },
     {
       '@type': 'Offer',
-      name: 'Production',
+      name: lang === 'fr' ? 'Essai 7 jours' : '7-day trial',
+      price: '0',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      url: `${SITE_ORIGIN}/${lang}/trial/`,
+      description:
+        lang === 'fr'
+          ? "L'app complète sur votre infrastructure pendant 7 jours, limites 5 drivers / 15 machines / 500 points, toutes fonctionnalités. Lecture seule à expiration."
+          : 'Full app on your infrastructure for 7 days, limits 5 drivers / 15 machines / 500 points, all features. Read-only on expiration.',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Standard',
       price: '990',
       priceCurrency: 'EUR',
       priceSpecification: {
@@ -82,8 +103,8 @@ const softwareLd = {
       url: `${SITE_ORIGIN}/${lang}/#pricing`,
       description:
         lang === 'fr'
-          ? 'Points illimités, Modbus + OPC-UA + BACnet, historian illimité, support email + visio.'
-          : 'Unlimited points, Modbus + OPC-UA + BACnet, unlimited historian, email + video support.',
+          ? 'Points et machines illimités en pratique, tous protocoles (Modbus + OPC-UA + BACnet), toutes fonctionnalités, mises à jour incluses, support email avec engagement 24 h ouvrées (jours fériés FR exclus), audit code sous NDA disponible sur demande. Une instance par licence, déploiement Docker en 4 h.'
+          : 'Unlimited points and machines in practice, all protocols (Modbus + OPC-UA + BACnet), all features, updates included, email support with a 1-business-day SLA (FR public holidays excluded), source-code audit under NDA on request. One instance per licence, Docker deployment in 4 h.',
     },
   ],
 };
@@ -126,7 +147,7 @@ const faqLd = {
     <link rel="alternate" hreflang="x-default" href={`${SITE_ORIGIN}/`} />
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Wiregrid" />
+    <meta property="og:site_name" content="Meshvise" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -144,7 +165,7 @@ const faqLd = {
 
     <meta name="robots" content="index, follow, max-image-preview:large" />
 
-    <!-- Schema.org structured data — feeds Google rich results AND
+    <!-- Schema.org structured data: feeds Google rich results AND
          AI search citations (Perplexity, ChatGPT, Claude). FAQPage in
          particular gets re-quoted verbatim in answer engines. -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
@@ -165,3 +186,5 @@ const faqLd = {
     <Footer lang={lang} />
   </body>
 </html>
+
+
