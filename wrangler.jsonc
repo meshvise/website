@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "meshvise-vitrine",
+  "name": "meshvise-website",
   "compatibility_date": "2026-04-23",
   "main": "src/worker.js",
   "observability": {
@@ -14,10 +14,13 @@
   "compatibility_flags": [
     "nodejs_compat"
   ],
-  "routes": [
-    { "pattern": "meshvise.com", "custom_domain": true },
-    { "pattern": "www.meshvise.com", "custom_domain": true }
-  ],
+  // custom_domain routes meshvise.com + www.meshvise.com reportes au go-live
+  // (Phase 3 cutover Step 5, declenche par Bruno au premier prospect trial signe).
+  // Cf. docs/cutover-runbook-2026-05-07.md.
+  // "routes": [
+  //   { "pattern": "meshvise.com", "custom_domain": true },
+  //   { "pattern": "www.meshvise.com", "custom_domain": true }
+  // ],
 
   // Trial license bindings (Vague 5).
   // - TRIAL_DEDUPE: KV used for email dedupe (key `email:<lower>`, TTL 30d)
@@ -27,13 +30,14 @@
   //   short-window spam shield (3 req per 60s per IP). Native simple
   //   bindings only support period=10 or period=60, so the longer 24h
   //   policy from ADR-0006 is implemented in TRIAL_DEDUPE above.
-  // Provisionnés 2026-05-01 (Bruno) : prod + preview namespaces séparés.
+  // Provisionnes 2026-05-07 sur compte CF Meshvise (les anciens IDs Vague 5
+  // etaient sur le compte legacy WireGrid, supprime au cutover).
   // Local `wrangler dev` utilise preview_id; CI/prod utilise id.
   "kv_namespaces": [
     {
       "binding": "TRIAL_DEDUPE",
-      "id": "95b49039ec094b7ba4058a96b2f33e5d",
-      "preview_id": "1cdc2a868fe44f7989d75e3d13f0f7c8"
+      "id": "cab6e14b8ed24b09a6a4cbf085d255f8",
+      "preview_id": "e13e35188b704cdd9eaff3d76c31fa68"
     }
   ],
   "unsafe": {
