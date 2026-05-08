@@ -36,6 +36,8 @@
     "eyebrow": "Pour qui",
     "title": "Quatre profils, un produit.",
     "subtitle": "Meshvise est conçu pour des sites industriels et tertiaires de 50 à 500 points. Si vous reconnaissez votre quotidien dans un de ces quatre cadres, on est faits pour vous parler.",
+    "pain_label": "Problème observé",
+    "fit_label": "Notre réponse",
     "p1": {
       "role": "Responsable maintenance / facility manager",
       "context": "Vous gérez un ou plusieurs bâtiments : usine, siège, site logistique.",
@@ -70,14 +72,14 @@
   "features": {
     "eyebrow": "Capacités",
     "title": "Cinq choses que Meshvise fait, et une qu'il ne fera jamais.",
-    "subtitle": "Tout ce qui suit tourne aujourd'hui dans la démo publique. Le seul point en cours, c'est l'éditeur visuel du wiresheet (Q3 2026). Le moteur d'exécution, lui, est déjà en place.",
+    "subtitle": "Acquisition, historisation, alarmes, logique métier, accès SQL : tout ce qui suit tourne en production dans la démo publique. Le wiresheet inclut son moteur d'exécution complet ; l'éditeur visuel drag-and-drop arrive en complément en 2026.",
     "acquisition": {
       "title": "Acquisition multi-protocoles",
-      "desc_html": "Lecture native en <code>Modbus TCP</code>, <code>OPC-UA</code> et <code>BACnet/IP</code> dans une seule install. Chaque driver tourne dans sa propre tâche asyncio, polling indépendant par device, reconnexion automatique. 10 drivers répartis sur les 3 protocoles dans la démo."
+      "desc_html": "Lecture native en <code>Modbus TCP</code>, <code>OPC-UA</code> et <code>BACnet/IP</code> dans une seule installation. Chaque driver est isolé : un équipement lent ou en panne ne bloque pas les autres, reconnexion automatique. 10 drivers répartis sur les 3 protocoles dans la démo."
     },
     "historian": {
       "title": "Historisation",
-      "desc_html": "Toutes les valeurs s'écrivent dans une hypertable TimescaleDB chunkée par jour. Mode <code>on_change</code> avec deadband ou intervalle fixe par point. Rétention configurable, requêtes <code>time_bucket()</code> pour le downsampling."
+      "desc_html": "Toutes les valeurs s'écrivent dans une table d'historique TimescaleDB, partitionnée automatiquement pour rester rapide même sur plusieurs années. Mode <code>on_change</code> avec bande morte ou intervalle fixe par point. Rétention configurable, agrégations natives par minute / heure / jour pour les rapports."
     },
     "alarms": {
       "title": "Alarmes opérationnelles",
@@ -220,7 +222,7 @@
     },
     "data_format": {
       "q": "Dans quel format sont stockées les données ?",
-      "a_html": "Configuration : tables PostgreSQL standard. Historique : hypertable TimescaleDB <code>point_history(ts, point_id, value, quality)</code>, chunkée par jour. Tout est requêtable en SQL, pas de dialecte propriétaire."
+      "a_html": "Configuration : tables PostgreSQL standard. Historique : table TimescaleDB <code>point_history(ts, point_id, value, quality)</code>, partitionnée automatiquement par jour pour des requêtes rapides sur plusieurs années. Tout est requêtable en SQL standard, pas de dialecte propriétaire."
     },
     "powerbi": {
       "q": "Comment je connecte Power BI ?",

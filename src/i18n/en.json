@@ -36,6 +36,8 @@
     "eyebrow": "For whom",
     "title": "Four roles. One product.",
     "subtitle": "Meshvise is built for industrial and commercial sites of 50 to 500 points. If your day-to-day looks like one of these four, we should probably talk.",
+    "pain_label": "Common pain",
+    "fit_label": "Our take",
     "p1": {
       "role": "Maintenance / facility manager",
       "context": "You run one or several buildings: factory, head office, logistics site.",
@@ -70,14 +72,14 @@
   "features": {
     "eyebrow": "Capabilities",
     "title": "Five things Meshvise does, and one it never will.",
-    "subtitle": "Everything below runs in the public demo today. The only piece in progress is the visual wiresheet editor (Q3 2026). The execution engine itself already runs.",
+    "subtitle": "Acquisition, historian, alarms, business logic, SQL access: everything below runs in production in the public demo today. The wiresheet ships with its full execution engine; the drag-and-drop visual editor follows in 2026.",
     "acquisition": {
       "title": "Multi-protocol acquisition",
-      "desc_html": "Native reads over <code>Modbus TCP</code>, <code>OPC-UA</code> and <code>BACnet/IP</code> in a single install. Each driver runs in its own asyncio task, independent polling per device, automatic reconnection. 10 drivers across the 3 protocols in the demo."
+      "desc_html": "Native reads over <code>Modbus TCP</code>, <code>OPC-UA</code> and <code>BACnet/IP</code> in a single install. Each driver runs isolated: a slow or broken device doesn't block the others, automatic reconnection. 10 drivers across the 3 protocols in the demo."
     },
     "historian": {
       "title": "Historian",
-      "desc_html": "Every value is written to a TimescaleDB hypertable chunked by day. Per-point <code>on_change</code> with deadband or fixed-interval mode. Configurable retention, <code>time_bucket()</code> queries for downsampling."
+      "desc_html": "Every value is stored in a TimescaleDB history table, automatically partitioned to stay fast even over multi-year ranges. Per-point <code>on_change</code> with deadband or fixed-interval mode. Configurable retention, native time-bucketed aggregations for minute / hour / day reports."
     },
     "alarms": {
       "title": "Operational alarms",
@@ -220,7 +222,7 @@
     },
     "data_format": {
       "q": "What format is the data stored in?",
-      "a_html": "Configuration: standard PostgreSQL tables. History: TimescaleDB hypertable <code>point_history(ts, point_id, value, quality)</code>, chunked by day. Everything queryable in plain SQL, no proprietary dialect."
+      "a_html": "Configuration: standard PostgreSQL tables. History: TimescaleDB table <code>point_history(ts, point_id, value, quality)</code>, automatically partitioned by day for fast queries over multi-year ranges. Everything queryable in plain SQL, no proprietary dialect."
     },
     "powerbi": {
       "q": "How do I connect Power BI?",
