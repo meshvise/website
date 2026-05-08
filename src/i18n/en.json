@@ -10,10 +10,10 @@
     "demo": "See the demo"
   },
   "hero": {
-    "title_html": "Modern industrial supervision. <span class=\"text-brand\">Flat fee, data on your turf.</span>",
-    "subtitle_html": "Meshvise reads your PLCs over <code>Modbus TCP</code>, <code>OPC-UA</code> and <code>BACnet/IP</code>. All measurements in standard PostgreSQL, accessible to Power BI, Grafana or Excel. One yearly licence includes everything: protocols, unlimited points, updates, support.",
+    "title_html": "Meshvise: sovereign industrial supervision. <span class=\"text-brand\">Flat fee, data on your turf.</span>",
+    "subtitle_html": "Take back control of your PLC data. Native reads over <code>Modbus TCP</code>, <code>OPC-UA</code> and <code>BACnet/IP</code>, queryable directly from Power BI, Grafana or Excel via standard Postgres. One yearly licence covers everything.",
     "cta_trial": "Try 7 days on my infra",
-    "cta_demo": "See the live demo",
+    "cta_demo": "Explore the live demo",
     "cta_note_html": "€990/year per site. 7-day trial, no credit card. Public demo without sign-up for an immediate look.",
     "preview_label": "UI preview · simulated values (real WebSocket push in the actual demo)"
   },
@@ -64,10 +64,20 @@
     }
   },
   "stats": {
-    "drivers": "drivers across Modbus / OPC-UA / BACnet in the demo",
-    "points": "live points at 1 Hz, sub-100 ms",
-    "latency": "WebSocket latency between the runtime and the browser",
-    "tag_cost": "per tag, no asterisk, no condition"
+    "title": "Sized for real industrial sites.",
+    "subtitle": "Four concrete numbers, verifiable in the demo and in the docs.",
+    "price_value": "€990",
+    "price_label": "per site, per year",
+    "price_note": "vs €10k-50k a year for tag-priced supervision platforms",
+    "ttv_value": "30 min",
+    "ttv_label": "first point streaming",
+    "ttv_note": "from docker compose up to live WebSocket",
+    "footprint_value": "2 vCPU",
+    "footprint_label": "for 500 points + 30 days of history",
+    "footprint_note": "runs on a mini-PC or a Raspberry Pi 4",
+    "data_value": "0 bytes",
+    "data_label": "of your data on our side",
+    "data_note": "self-hosted, zero telemetry, air-gap compatible"
   },
   "features": {
     "eyebrow": "Capabilities",
@@ -75,34 +85,70 @@
     "subtitle": "Acquisition, historian, alarms, wiresheet, Python blocks, SQL access: everything below runs in production in the public demo today. No dotted-line feature, no roadmap dressed up as the present tense.",
     "acquisition": {
       "title": "Multi-protocol acquisition",
-      "desc_html": "Native reads over <code>Modbus TCP</code>, <code>OPC-UA</code> and <code>BACnet/IP</code> in a single install. Each driver runs isolated: a slow or broken device doesn't block the others, automatic reconnection. 10 drivers across the 3 protocols in the demo."
+      "tagline": "Read your PLCs across protocols, no third-party connector.",
+      "bullets": [
+        "<code>Modbus TCP</code>, <code>OPC-UA</code> and <code>BACnet/IP</code> natively",
+        "Per-device driver isolation, a broken PLC doesn't block the others",
+        "Automatic reconnection, independent polling cadence per device",
+        "10 drivers across the 3 protocols in the public demo"
+      ]
     },
     "historian": {
       "title": "Historian",
-      "desc_html": "Every value is stored in a TimescaleDB history table, automatically partitioned to stay fast even over multi-year ranges. Per-point <code>on_change</code> with deadband or fixed-interval mode. Configurable retention, native time-bucketed aggregations for minute / hour / day reports."
+      "tagline": "Historise without configuring anything.",
+      "bullets": [
+        "<code>TimescaleDB</code> storage, auto-partitioned by day",
+        "Per-point <code>on_change</code> with deadband or fixed interval",
+        "Configurable per-project retention",
+        "Native minute / hour / day aggregations for reports"
+      ]
     },
     "alarms": {
       "title": "Operational alarms",
-      "desc_html": "<code>high</code> / <code>low</code> conditions with threshold, deadband and delay. Severities <code>info / warning / critical</code>. Email notifications via user groups. Full event log for traceability."
+      "tagline": "Alert your team on the conditions that matter.",
+      "bullets": [
+        "<code>high</code> / <code>low</code> conditions with threshold, deadband and delay",
+        "Severities <code>info</code> / <code>warning</code> / <code>critical</code>",
+        "Email notifications per user group",
+        "Full event log for traceability"
+      ]
     },
     "wiresheet": {
       "title": "Real-time business logic",
-      "desc_html": "Compose your site logic in a visual grid: math, boolean logic, comparison, timer, schedule, latch, ramp, PID, alarm. Drag-and-drop blocks, mouse-driven connections, block palette on the left, live execution in the runtime. Each graph is versioned as JSON, one-click revert, full audit trail. Also editable via REST API for CI / CMMS integrations.",
+      "tagline": "Compose your site logic in a visual grid.",
+      "bullets": [
+        "Math, boolean logic, comparison, timer, schedule, latch, ramp, PID, alarm",
+        "Drag-and-drop blocks, palette on the left, mouse-driven connections",
+        "<code>JSON</code> versioning, one-click revert, full audit trail",
+        "Also drivable via REST API for CI / CMMS integrations"
+      ],
       "mock_label": "Wiresheet · DeltaT computed point"
     },
     "python": {
       "title": "Embedded Python blocks",
-      "desc_html": "When a standard block isn't enough, you write a <code>Python</code> block straight into the wiresheet. Access to live values and the historian, deterministic sandbox, runtime execution at the same cadence as other blocks. Perfect for site-specific business calculations: HVAC COP, energy aggregates, custom transformations."
+      "tagline": "Extend the wiresheet with Python.",
+      "bullets": [
+        "<code>Python</code> block straight into the graph",
+        "Access to live values and the historian",
+        "Deterministic sandbox, runtime execution",
+        "Perfect for HVAC COP, energy aggregates, custom transforms"
+      ]
     },
     "open_data": {
       "title": "Direct data access",
-      "desc_html": "Power BI, Grafana, Metabase, Excel or <code>psql</code>: native <code>ODBC PostgreSQL</code> compatibility. Your BI teams build dashboards directly, no extra IT dependency."
+      "tagline": "Plug Power BI, Grafana or Excel straight into Postgres.",
+      "bullets": [
+        "Native <code>ODBC PostgreSQL</code> compatibility",
+        "No proprietary connector to install",
+        "Read-only access for your BI teams",
+        "Plain SQL views, no proprietary dialect"
+      ]
     }
   },
   "bi_preview": {
     "eyebrow": "Your data in your tools",
-    "title": "Power BI, Grafana, Excel: native ODBC connection.",
-    "subtitle": "No proprietary connector. Your BI team reads from Postgres directly, like any other database in the company.",
+    "title": "Plug Power BI, Grafana or Excel straight into Postgres.",
+    "subtitle": "No proprietary connector to install. Your BI team reads your industrial points like any other database in the company.",
     "dashboard_title": "Energy dashboard · Lyon site",
     "live_label": "Live · ODBC PostgreSQL",
     "kpi": {
@@ -299,10 +345,10 @@
   },
   "final_cta": {
     "eyebrow": "Ready to try?",
-    "title": "Two ways to test. At your own pace.",
-    "subtitle": "60 seconds on the live demo to make up your mind. 7 days on your infra with your PLCs to validate seriously. No sign-up, no credit card.",
+    "title": "Test at your own pace. Two doors, zero sign-up.",
+    "subtitle": "Explore the live demo in 60 seconds. Or install Meshvise on your own infra for 7 days, with your real PLCs. No credit card, no commitment.",
     "cta_trial": "Try 7 days on my infra",
-    "cta_demo": "See the live demo",
+    "cta_demo": "Explore the live demo",
     "alt_cta": "Get in touch"
   },
   "trial": {

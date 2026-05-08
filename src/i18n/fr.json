@@ -10,10 +10,10 @@
     "demo": "Voir la démo"
   },
   "hero": {
-    "title_html": "Supervision industrielle moderne. <span class=\"text-brand\">Forfait fixe, données chez vous.</span>",
-    "subtitle_html": "Meshvise lit vos automates en <code>Modbus TCP</code>, <code>OPC-UA</code> et <code>BACnet/IP</code>. Toutes les mesures dans votre Postgres, exploitables par Power BI, Grafana ou Excel. Une licence annuelle inclut tout : protocoles, points illimités, mises à jour, support en français.",
+    "title_html": "Meshvise : la supervision industrielle souveraine. <span class=\"text-brand\">Forfait fixe, données chez vous.</span>",
+    "subtitle_html": "Reprenez le contrôle de vos données automates. Lecture native en <code>Modbus TCP</code>, <code>OPC-UA</code> et <code>BACnet/IP</code>, accessible directement depuis Power BI, Grafana ou Excel via Postgres standard. Une licence annuelle suffit, support en français.",
     "cta_trial": "Essayer 7 jours sur mon infra",
-    "cta_demo": "Voir la démo en ligne",
+    "cta_demo": "Découvrir la démo en ligne",
     "cta_note_html": "990 €/an par site. Essai 7 jours sans carte bancaire. Démo publique sans inscription pour un aperçu immédiat.",
     "preview_label": "Aperçu UI · valeurs simulées (push WebSocket dans la démo)"
   },
@@ -64,10 +64,20 @@
     }
   },
   "stats": {
-    "drivers": "drivers Modbus / OPC-UA / BACnet en démo",
-    "points": "points live à 1 Hz, sub-100 ms",
-    "latency": "de latence WebSocket entre le runtime et le navigateur",
-    "tag_cost": "par tag, sans condition, sans astérisque"
+    "title": "Une supervision dimensionnée pour l'industrie française.",
+    "subtitle": "Quatre repères concrets, vérifiables dans la démo et la documentation.",
+    "price_value": "990 €",
+    "price_label": "par site et par an",
+    "price_note": "vs 10 à 50 k€ pour les supervisions facturées au tag",
+    "ttv_value": "30 min",
+    "ttv_label": "premier point remonté",
+    "ttv_note": "depuis docker compose up jusqu'au live WebSocket",
+    "footprint_value": "2 vCPU",
+    "footprint_label": "pour 500 points et 30 jours d'historique",
+    "footprint_note": "tient sur un mini-PC ou un Raspberry Pi 4",
+    "data_value": "0 octet",
+    "data_label": "de vos données chez nous",
+    "data_note": "self-hosted, aucune télémétrie, compatible air-gap"
   },
   "features": {
     "eyebrow": "Capacités",
@@ -75,34 +85,70 @@
     "subtitle": "Acquisition, historisation, alarmes, wiresheet, blocs Python, accès SQL : tout ce qui suit tourne en production dans la démo publique. Pas de feature en pointillé, pas de roadmap déguisée en présent.",
     "acquisition": {
       "title": "Acquisition multi-protocoles",
-      "desc_html": "Lecture native en <code>Modbus TCP</code>, <code>OPC-UA</code> et <code>BACnet/IP</code> dans une seule installation. Chaque driver est isolé : un équipement lent ou en panne ne bloque pas les autres, reconnexion automatique. 10 drivers répartis sur les 3 protocoles dans la démo."
+      "tagline": "Lisez vos automates sans connecteur tiers.",
+      "bullets": [
+        "<code>Modbus TCP</code>, <code>OPC-UA</code> et <code>BACnet/IP</code> en natif",
+        "Driver isolé par équipement, un PLC en panne ne bloque pas les autres",
+        "Reconnexion automatique, rythme de lecture indépendant par device",
+        "10 drivers sur les 3 protocoles dans la démo publique"
+      ]
     },
     "historian": {
       "title": "Historisation",
-      "desc_html": "Toutes les valeurs s'écrivent dans une table d'historique TimescaleDB, partitionnée automatiquement pour rester rapide même sur plusieurs années. Mode <code>on_change</code> avec bande morte ou intervalle fixe par point. Rétention configurable, agrégations natives par minute / heure / jour pour les rapports."
+      "tagline": "Historisez sans rien régler.",
+      "bullets": [
+        "Stockage <code>TimescaleDB</code>, partitionné automatiquement par jour",
+        "Mode <code>on_change</code> avec bande morte ou intervalle fixe par point",
+        "Rétention configurable par projet",
+        "Agrégations natives par minute, heure ou jour pour les rapports"
+      ]
     },
     "alarms": {
       "title": "Alarmes opérationnelles",
-      "desc_html": "Conditions <code>high</code> / <code>low</code> avec seuil, deadband et délai. Sévérités <code>info / warning / critical</code>. Notifications email par groupe d'utilisateurs. Journal complet pour la traçabilité."
+      "tagline": "Alertez vos équipes sur les conditions qui comptent.",
+      "bullets": [
+        "Conditions <code>high</code> / <code>low</code> avec seuil, bande morte et délai",
+        "Sévérités <code>info</code> / <code>warning</code> / <code>critical</code>",
+        "Notifications email par groupe d'utilisateurs",
+        "Journal complet pour la traçabilité"
+      ]
     },
     "wiresheet": {
       "title": "Logique métier en temps réel",
-      "desc_html": "Composez votre logique de site dans une grille visuelle : math, logique booléenne, comparaison, timer, schedule, latch, ramp, PID, alarme. Drag-and-drop des blocs, connexions à la souris, palette à gauche, exécution en direct dans le runtime. Chaque graphe est versionné en JSON, revert en un clic, audit trail complet. Modifiable aussi via API REST pour les intégrations CI / GMAO.",
+      "tagline": "Composez votre logique de site dans une grille visuelle.",
+      "bullets": [
+        "Math, logique booléenne, comparaison, timer, schedule, latch, ramp, PID, alarme",
+        "Drag-and-drop des blocs, palette à gauche, connexions à la souris",
+        "Versionnage <code>JSON</code>, revert en un clic, audit trail complet",
+        "Pilotable aussi via API REST pour les intégrations CI / GMAO"
+      ],
       "mock_label": "Wiresheet · DeltaT computed point"
     },
     "python": {
       "title": "Blocs Python embarqués",
-      "desc_html": "Quand un bloc standard ne suffit pas, vous écrivez un bloc <code>Python</code> directement dans le wiresheet. Accès aux valeurs live et à l'historian, sandbox déterministe, exécution dans le runtime au même rythme que les autres blocs. Idéal pour les calculs métier propres à votre site : COP HVAC, agrégats énergétiques, transformations spécifiques."
+      "tagline": "Étendez le wiresheet avec du Python.",
+      "bullets": [
+        "Bloc <code>Python</code> directement dans le graphe",
+        "Accès aux valeurs live et à l'historian",
+        "Sandbox déterministe, exécution dans le runtime",
+        "Idéal pour COP HVAC, agrégats énergétiques, transformations spécifiques"
+      ]
     },
     "open_data": {
       "title": "Accès direct aux données",
-      "desc_html": "Power BI, Grafana, Metabase, Excel ou <code>psql</code> : compatibilité native <code>ODBC PostgreSQL</code>. Vos équipes BI construisent leurs dashboards directement, sans dépendance IT-industrielle."
+      "tagline": "Branchez Power BI, Grafana ou Excel directement sur Postgres.",
+      "bullets": [
+        "Compatibilité <code>ODBC PostgreSQL</code> native",
+        "Aucun connecteur propriétaire à installer",
+        "Lecture seule possible pour vos équipes BI",
+        "Vues SQL classiques, pas de dialecte propriétaire"
+      ]
     }
   },
   "bi_preview": {
     "eyebrow": "Vos données dans vos outils",
-    "title": "Power BI, Grafana, Excel : connexion ODBC native.",
-    "subtitle": "Aucun connecteur propriétaire. Vos équipes BI lisent directement dans Postgres, comme pour n'importe quelle autre base de l'entreprise.",
+    "title": "Branchez Power BI, Grafana ou Excel directement sur Postgres.",
+    "subtitle": "Aucun connecteur propriétaire à installer. Vos équipes BI lisent vos points industriels comme n'importe quelle autre base de l'entreprise.",
     "dashboard_title": "Dashboard énergie · Site Lyon",
     "live_label": "Live · ODBC PostgreSQL",
     "kpi": {
@@ -299,10 +345,10 @@
   },
   "final_cta": {
     "eyebrow": "Prêt à essayer ?",
-    "title": "Deux façons de tester. À votre rythme.",
-    "subtitle": "60 secondes sur la démo en ligne pour vous faire une idée. 7 jours sur votre infra avec vos automates pour valider sérieusement. Aucune inscription, aucune carte bancaire.",
+    "title": "Testez à votre rythme. Deux portes, zéro inscription.",
+    "subtitle": "Découvrez la démo en ligne en 60 secondes. Ou installez Meshvise sur votre infra pendant 7 jours, avec vos vrais automates. Sans carte bancaire, sans engagement.",
     "cta_trial": "Essayer 7 jours sur mon infra",
-    "cta_demo": "Voir la démo en ligne",
+    "cta_demo": "Découvrir la démo en ligne",
     "alt_cta": "Nous contacter"
   },
   "trial": {

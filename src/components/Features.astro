@@ -77,7 +77,20 @@ const cards = [
             <h3 class="font-semibold text-text">{t(lang, `features.${card.id}.title`)}</h3>
           </div>
 
-          <p class="text-[14px] text-muted-strong leading-relaxed flex-1" set:html={t(lang, `features.${card.id}.desc_html`)} />
+          <p class="text-[14px] text-text font-medium leading-snug mb-3" set:html={t(lang, `features.${card.id}.tagline`)} />
+          <ul class="text-[13.5px] text-muted-strong leading-relaxed space-y-1.5 flex-1 list-none">
+            {[0, 1, 2, 3].map((i) => {
+              const bullet = t(lang, `features.${card.id}.bullets.${i}`);
+              return bullet && bullet !== `features.${card.id}.bullets.${i}` ? (
+                <li class="flex gap-2">
+                  <span class="text-brand mt-1.5 shrink-0" aria-hidden="true">
+                    <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="2"/></svg>
+                  </span>
+                  <span set:html={bullet} />
+                </li>
+              ) : null;
+            })}
+          </ul>
 
           {card.wiresheetMock && (
             <!-- Mini wiresheet mock: DeltaT = SupplyTemp − ReturnTemp.

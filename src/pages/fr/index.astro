@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
+import Stats from '../../components/Stats.astro';
 import Personas from '../../components/Personas.astro';
 import Features from '../../components/Features.astro';
 import BIPreview from '../../components/BIPreview.astro';
@@ -19,6 +20,7 @@ const lang = 'fr' as const;
   description="Supervision SCADA web qui lit vos automates Modbus TCP, OPC-UA et BACnet/IP, historise, alerte. Données accessibles en PostgreSQL standard via ODBC pour Power BI, Grafana ou Excel. Forfait Standard 990 €/an par site, tous les points inclus, essai 7 jours gratuit."
 >
   <Hero lang={lang} />
+  <Stats lang={lang} />
   <Personas lang={lang} />
   <Features lang={lang} />
   <BIPreview lang={lang} />
