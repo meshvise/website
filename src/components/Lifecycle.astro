@@ -68,61 +68,44 @@ const events = [
       </div>
 
       <div class="lg:col-span-7">
-        <div class="rounded-xl border border-border bg-surface p-6 md:p-7 shadow-sm">
-          <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-5 md:gap-7 items-stretch">
-            <!-- Left column: all equipment with their tags -->
-            <div>
-              <div class="text-[10px] font-mono uppercase tracking-[0.1em] text-muted mb-3">{t(lang, 'lifecycle.tags.equipment_label')} ({equipment.length})</div>
-              <ul class="space-y-2.5">
-                {equipment.map((item) => {
-                  const m = matches(item);
-                  return (
-                    <li class={`text-[12.5px] ${m ? '' : 'opacity-30'}`}>
-                      <div class="font-medium text-text mb-1">{item.name}</div>
-                      <div class="flex flex-wrap gap-1">
-                        {Object.entries(item.tags).map(([k, v]) => {
-                          const isActive = k === ACTIVE_FILTER.category && v === ACTIVE_FILTER.value;
-                          return (
-                            <span
-                              class={`inline-flex items-center font-mono text-[10px] px-1.5 py-0.5 rounded ${isActive ? 'bg-brand text-white font-medium' : 'bg-bg-alt text-muted-strong'}`}
-                            >
-                              {k}:{v}
-                            </span>
-                          );
-                        })}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+        <!-- Mock: real filter UI shape — active filter chip on top, matching
+             equipment in a 2-col grid below. The matching tag inside each card
+             is highlighted in brand so the eye links the filter to the cause. -->
+        <div class="rounded-xl border border-border bg-surface p-5 md:p-6 shadow-sm">
+          <!-- Filter bar -->
+          <div class="flex items-center justify-between gap-4 pb-4 mb-5 border-b border-border">
+            <div class="flex items-center gap-2.5 flex-wrap min-w-0">
+              <span class="text-[10px] font-mono uppercase tracking-[0.1em] text-muted shrink-0">{t(lang, 'lifecycle.tags.filter_label')}</span>
+              <span class="inline-flex items-center gap-1.5 bg-brand text-white font-mono text-[12px] font-medium px-2.5 py-1 rounded">
+                {ACTIVE_FILTER.category} = {ACTIVE_FILTER.value}
+              </span>
             </div>
-
-            <!-- Middle column: active filter arrow (desktop only) -->
-            <div class="hidden md:flex flex-col items-center justify-center">
-              <div class="text-[10px] font-mono uppercase tracking-[0.1em] text-muted mb-2 text-center">{t(lang, 'lifecycle.tags.filter_label')}</div>
-              <div class="bg-brand-soft border border-brand/30 rounded-md px-3 py-2 text-center">
-                <div class="font-mono text-[10px] uppercase text-muted leading-tight">{ACTIVE_FILTER.category}</div>
-                <div class="font-mono text-[14px] text-brand font-semibold leading-tight mt-0.5">{ACTIVE_FILTER.value}</div>
-              </div>
-              <svg class="mt-3 w-8 h-8 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-
-            <!-- Right column: filtered result -->
-            <div>
-              <div class="text-[10px] font-mono uppercase tracking-[0.1em] text-brand mb-3">
-                {t(lang, 'lifecycle.tags.result_label')} ({equipment.filter(matches).length})
-              </div>
-              <ul class="space-y-2.5">
-                {equipment.filter(matches).map((item) => (
-                  <li class="text-[12.5px]">
-                    <div class="font-medium text-text">{item.name}</div>
-                  </li>
-                ))}
-              </ul>
+            <div class="text-[12px] text-muted-strong shrink-0 font-mono">
+              <span class="font-semibold text-text">{equipment.filter(matches).length}</span>
+              <span class="text-muted"> / {equipment.length}</span>
             </div>
           </div>
+
+          <!-- Matching equipment grid -->
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {equipment.filter(matches).map((item) => (
+              <li class="rounded-md border border-brand/30 bg-brand-soft/60 p-3">
+                <div class="text-[13px] font-medium text-text mb-2">{item.name}</div>
+                <div class="flex flex-wrap gap-1">
+                  {Object.entries(item.tags).map(([k, v]) => {
+                    const isActive = k === ACTIVE_FILTER.category && v === ACTIVE_FILTER.value;
+                    return (
+                      <span
+                        class={`inline-flex items-center font-mono text-[10px] px-1.5 py-0.5 rounded ${isActive ? 'bg-brand text-white font-medium' : 'bg-surface border border-border text-muted-strong'}`}
+                      >
+                        {k}:{v}
+                      </span>
+                    );
+                  })}
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

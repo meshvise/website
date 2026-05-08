@@ -182,9 +182,7 @@
         "Un nouvel équipement entre automatiquement dans les vues qui le concernent",
         "Aucun reparamétrage quand votre site évolue"
       ],
-      "equipment_label": "Équipements",
-      "filter_label": "Filtre actif",
-      "result_label": "Équipements visibles"
+      "filter_label": "Filtre actif"
     },
     "versioning": {
       "title": "L'histoire de votre supervision, en clair.",

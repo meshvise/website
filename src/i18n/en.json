@@ -182,9 +182,7 @@
         "New equipment lands in every relevant view automatically",
         "Nothing to reconfigure when your site evolves"
       ],
-      "equipment_label": "Equipment",
-      "filter_label": "Active filter",
-      "result_label": "Visible equipment"
+      "filter_label": "Active filter"
     },
     "versioning": {
       "title": "The story of your supervision, in plain sight.",
