@@ -71,8 +71,8 @@
   },
   "features": {
     "eyebrow": "Capacités",
-    "title": "Cinq choses que Meshvise fait, et une qu'il ne fera jamais.",
-    "subtitle": "Acquisition, historisation, alarmes, logique métier, accès SQL : tout ce qui suit tourne en production dans la démo publique. Le wiresheet inclut son moteur d'exécution complet ; l'éditeur visuel drag-and-drop arrive en complément en 2026.",
+    "title": "Six choses que Meshvise fait, et une qu'il ne fera jamais.",
+    "subtitle": "Acquisition, historisation, alarmes, wiresheet, blocs Python, accès SQL : tout ce qui suit tourne en production dans la démo publique. Pas de feature en pointillé, pas de roadmap déguisée en présent.",
     "acquisition": {
       "title": "Acquisition multi-protocoles",
       "desc_html": "Lecture native en <code>Modbus TCP</code>, <code>OPC-UA</code> et <code>BACnet/IP</code> dans une seule installation. Chaque driver est isolé : un équipement lent ou en panne ne bloque pas les autres, reconnexion automatique. 10 drivers répartis sur les 3 protocoles dans la démo."
@@ -87,8 +87,12 @@
     },
     "wiresheet": {
       "title": "Logique métier en temps réel",
-      "desc_html": "<strong>Le moteur wiresheet tourne dès aujourd'hui</strong> : math, logique, comparaison, timer, schedule, latch, ramp, PID, alarme. Vous éditez les graphes via l'API REST ou en JSON versionné, revert en un clic. <strong>L'éditeur visuel drag-and-drop arrive en Q3 2026</strong> (palette de blocs, connexions à la souris). Pour les early adopters techniques, le pipeline API + JSON suffit dès maintenant.",
+      "desc_html": "Composez votre logique de site dans une grille visuelle : math, logique booléenne, comparaison, timer, schedule, latch, ramp, PID, alarme. Drag-and-drop des blocs, connexions à la souris, palette à gauche, exécution en direct dans le runtime. Chaque graphe est versionné en JSON, revert en un clic, audit trail complet. Modifiable aussi via API REST pour les intégrations CI / GMAO.",
       "mock_label": "Wiresheet · DeltaT computed point"
+    },
+    "python": {
+      "title": "Blocs Python embarqués",
+      "desc_html": "Quand un bloc standard ne suffit pas, vous écrivez un bloc <code>Python</code> directement dans le wiresheet. Accès aux valeurs live et à l'historian, sandbox déterministe, exécution dans le runtime au même rythme que les autres blocs. Idéal pour les calculs métier propres à votre site : COP HVAC, agrégats énergétiques, transformations spécifiques."
     },
     "open_data": {
       "title": "Accès direct aux données",
@@ -265,8 +269,8 @@
       "a_html": "Aujourd'hui : multi-projet sur une instance, idéal pour multi-bâtiments d'un même groupe. Multi-sites distants avec gateway edge à chaque endroit + central qui consolide : sur la roadmap (Q4 2026)."
     },
     "wiresheet_status": {
-      "q": "Le wiresheet (logique visuelle), c'est pour quand ?",
-      "a_html": "Le moteur d'exécution tourne déjà dans le runtime, avec tous les blocs (math, logique, comparaison, timer, schedule, latch, ramp, PID, alarme). Aujourd'hui, vous l'éditez via l'<code>API REST</code> ou en <code>JSON versionné</code> (revert en un clic). L'éditeur visuel Vue Flow (palette de blocs, drag-and-drop, connexions à la souris) est prévu pour <strong>Q3 2026</strong>."
+      "q": "Le wiresheet (logique visuelle), il fait quoi exactement ?",
+      "a_html": "Une grille visuelle où vous composez la logique de votre site : math, logique booléenne, comparaison, timer, schedule, latch, ramp, PID, alarme. Drag-and-drop, connexions à la souris, palette à gauche. Chaque graphe est versionné en JSON, revert en un clic, audit trail complet. Pour les intégrations automatisées (CI, GMAO), tout est aussi pilotable via l'<code>API REST</code>."
     },
     "support": {
       "q": "À quoi ressemble le support ?",
