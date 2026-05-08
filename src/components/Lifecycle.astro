@@ -51,7 +51,20 @@ const events = [
         <h3 class="text-2xl md:text-3xl font-semibold tracking-tight leading-tight mb-5">
           {t(lang, 'lifecycle.tags.title')}
         </h3>
-        <p class="text-[16px] text-muted-strong leading-[1.65]" set:html={t(lang, 'lifecycle.tags.body_html')} />
+        <p class="text-[16px] text-text font-medium leading-snug mb-4" set:html={t(lang, 'lifecycle.tags.tagline')} />
+        <ul class="text-[15px] text-muted-strong leading-relaxed space-y-2.5 list-none">
+          {[0, 1, 2, 3].map((i) => {
+            const bullet = t(lang, `lifecycle.tags.bullets.${i}`);
+            return bullet && bullet !== `lifecycle.tags.bullets.${i}` ? (
+              <li class="flex gap-2.5">
+                <span class="text-brand mt-2 shrink-0" aria-hidden="true">
+                  <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="2"/></svg>
+                </span>
+                <span set:html={bullet} />
+              </li>
+            ) : null;
+          })}
+        </ul>
       </div>
 
       <div class="lg:col-span-7">
@@ -59,7 +72,7 @@ const events = [
           <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-5 md:gap-7 items-stretch">
             <!-- Left column: all equipment with their tags -->
             <div>
-              <div class="text-[10px] font-mono uppercase tracking-[0.1em] text-muted mb-3">Équipements (6)</div>
+              <div class="text-[10px] font-mono uppercase tracking-[0.1em] text-muted mb-3">{t(lang, 'lifecycle.tags.equipment_label')} ({equipment.length})</div>
               <ul class="space-y-2.5">
                 {equipment.map((item) => {
                   const m = matches(item);
@@ -118,7 +131,7 @@ const events = [
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
       <div class="lg:col-span-7 lg:order-1">
         <div class="rounded-xl border border-border bg-surface p-6 md:p-7 shadow-sm">
-          <div class="text-[10px] font-mono uppercase tracking-[0.1em] text-muted mb-5">Journal des modifications</div>
+          <div class="text-[10px] font-mono uppercase tracking-[0.1em] text-muted mb-5">{t(lang, 'lifecycle.versioning.log_label')}</div>
           <ol class="space-y-0">
             {events.map((ev, i) => (
               <li class="grid grid-cols-[68px_72px_1fr_auto] items-center gap-3 py-2.5 border-b border-border/70 last:border-0">
@@ -144,7 +157,20 @@ const events = [
         <h3 class="text-2xl md:text-3xl font-semibold tracking-tight leading-tight mb-5">
           {t(lang, 'lifecycle.versioning.title')}
         </h3>
-        <p class="text-[16px] text-muted-strong leading-[1.65]" set:html={t(lang, 'lifecycle.versioning.body_html')} />
+        <p class="text-[16px] text-text font-medium leading-snug mb-4" set:html={t(lang, 'lifecycle.versioning.tagline')} />
+        <ul class="text-[15px] text-muted-strong leading-relaxed space-y-2.5 list-none">
+          {[0, 1, 2, 3].map((i) => {
+            const bullet = t(lang, `lifecycle.versioning.bullets.${i}`);
+            return bullet && bullet !== `lifecycle.versioning.bullets.${i}` ? (
+              <li class="flex gap-2.5">
+                <span class="text-brand mt-2 shrink-0" aria-hidden="true">
+                  <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="2"/></svg>
+                </span>
+                <span set:html={bullet} />
+              </li>
+            ) : null;
+          })}
+        </ul>
       </div>
     </div>
   </div>

@@ -172,16 +172,30 @@
   "lifecycle": {
     "eyebrow": "Organisation & versioning",
     "title": "Vos sites évoluent. Meshvise évolue avec eux.",
-    "subtitle": "Une nouvelle machine au Bâtiment 2, une réorganisation par fonction métier, un événement à comprendre rétrospectivement. Meshvise suit sans casser ce que vous avez déjà construit.",
+    "subtitle": "Ajoutez une machine, réorganisez par fonction métier, comprenez un événement passé. Meshvise suit sans rien casser de ce que vous avez déjà construit.",
     "tags": {
       "title": "Étiquetez une fois. Retrouvez partout.",
-      "body_html": "Vos équipements ne vivent pas en silos. Vous les étiquetez une fois : par site, par bâtiment, par fonction métier, par criticité. Ensuite, vous regroupez vos vues comme vous voulez : tous les équipements HVAC, tous les compteurs critiques, tout le Bâtiment B.<br/><br/>Quand vous ajoutez une centrale au Bâtiment B le mois prochain, elle entre automatiquement dans toutes les vues qui la concernent, parce qu'elle porte les bonnes étiquettes. Vous n'avez rien à reparamétrer.",
+      "tagline": "Vos équipements ne vivent pas en silos. Structurez-les à votre main.",
+      "bullets": [
+        "Étiquettes par site, bâtiment, fonction métier, criticité — combinables sans limite",
+        "Vues filtrées : tous les HVAC, tous les compteurs critiques, tout le Bâtiment B",
+        "Un nouvel équipement entre automatiquement dans les vues qui le concernent",
+        "Aucun reparamétrage quand votre site évolue"
+      ],
+      "equipment_label": "Équipements",
       "filter_label": "Filtre actif",
       "result_label": "Équipements visibles"
     },
     "versioning": {
       "title": "L'histoire de votre supervision, en clair.",
-      "body_html": "Chaque modification (un seuil ajusté, une machine renommée, une nouvelle alarme posée) laisse une trace. Vous voyez qui a fait quoi, quand. Vous pouvez consulter votre supervision telle qu'elle était il y a 6 mois pour comprendre un événement passé.<br/><br/>Vous pouvez aussi annuler une modification en un clic. Pas de fichier de sauvegarde à recharger, pas de perte des données depuis.",
+      "tagline": "Chaque réglage, chaque alarme, chaque renommage laisse une trace.",
+      "bullets": [
+        "Vous voyez qui a fait quoi, à quel moment",
+        "Vous consultez votre supervision telle qu'elle était il y a 6 mois",
+        "Vous annulez une modification en un clic, sans perdre les données depuis",
+        "Pas de fichier de sauvegarde à recharger, pas de manipulation"
+      ],
+      "log_label": "Journal des modifications",
       "status": {
         "deployed": "déployé",
         "reverted": "annulée"

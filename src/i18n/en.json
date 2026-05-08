@@ -172,16 +172,30 @@
   "lifecycle": {
     "eyebrow": "Organisation & versioning",
     "title": "Your sites evolve. Meshvise evolves with them.",
-    "subtitle": "A new machine in Building 2, a reorganisation by business function, an event to understand in hindsight. Meshvise keeps up without breaking what you've already built.",
+    "subtitle": "Add a machine, reorganise by business function, understand an event in hindsight. Meshvise keeps up without breaking what you've already built.",
     "tags": {
       "title": "Tag once. Find anywhere.",
-      "body_html": "Your equipment doesn't live in silos. You tag it once: by site, by building, by business function, by criticality. Then you slice your views however you want: all HVAC equipment, all critical meters, everything in Building B.<br/><br/>When you add a unit to Building B next month, it automatically appears in every view that concerns it, because it carries the right tags. Nothing to reconfigure.",
+      "tagline": "Your equipment doesn't live in silos. Structure it your way.",
+      "bullets": [
+        "Tags by site, building, business function, criticality — combinable without limit",
+        "Filtered views: all HVAC, all critical meters, everything in Building B",
+        "New equipment lands in every relevant view automatically",
+        "Nothing to reconfigure when your site evolves"
+      ],
+      "equipment_label": "Equipment",
       "filter_label": "Active filter",
       "result_label": "Visible equipment"
     },
     "versioning": {
       "title": "The story of your supervision, in plain sight.",
-      "body_html": "Every change (a threshold adjusted, a machine renamed, a new alarm wired) leaves a trace. You see who did what, when. You can review your supervision as it was 6 months ago to understand a past event.<br/><br/>You can also undo a change in one click. No backup file to reload, no data loss since.",
+      "tagline": "Every tweak, every alarm, every rename leaves a trace.",
+      "bullets": [
+        "See who did what, and when",
+        "Replay your supervision as it was 6 months ago",
+        "Undo a change in one click, no data loss in between",
+        "No backup file to reload, no manual work"
+      ],
+      "log_label": "Change log",
       "status": {
         "deployed": "deployed",
         "reverted": "reverted"
