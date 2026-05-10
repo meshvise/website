@@ -1,0 +1,138 @@
+---
+import { t, type Lang } from '../i18n';
+import Logo from './Logo.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// Four steps of the data journey. The MESHVISE step in the middle is
+// rendered with a distinct branded card variant (brand-blue background,
+// logo instead of image) so the eye understands "this is the link that
+// makes the whole flow possible".
+const steps = [
+  { id: 'production', step: '01', image: '/images/value-chain/production.jpg', variant: 'image' as const },
+  { id: 'meshvise',   step: '02', image: null,                                  variant: 'brand' as const },
+  { id: 'analytics',  step: '03', image: '/images/value-chain/analytics.jpg',  variant: 'image' as const },
+  { id: 'management', step: '04', image: '/images/value-chain/management.jpg', variant: 'image' as const },
+];
+---
+
+<section
+  id="value-chain"
+  class="px-6 py-24 md:py-32 overflow-hidden"
+  style="background: linear-gradient(to bottom,
+    var(--color-bg) 0px,
+    var(--color-bg-alt) 96px,
+    var(--color-bg-alt) calc(100% - 96px),
+    var(--color-bg) 100%);"
+>
+  <div class="mx-auto max-w-7xl">
+    <header class="text-center max-w-2xl mx-auto mb-16">
+      <h2 class="section-title">{t(lang, 'value_chain.title')}</h2>
+      <p class="section-lede mx-auto">{t(lang, 'value_chain.subtitle')}</p>
+    </header>
+
+    <!--
+      Layout strategy :
+      - Mobile / md : standard 1-col / 2-col grid, no chevrons (they'd
+        point sideways across stacked cards which doesn't make sense).
+      - Lg+ : 7-column grid with cards in odd cells and chevrons in
+        narrow even cells. Chevrons are AUTONOMOUS GRID ITEMS, not
+        nested inside cards. With `lg:items-center` on the grid, every
+        chevron is automatically vertically centred to the row height
+        (= card height) — zero positional calculation, zero drift on
+        text length variations.
+    -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] gap-6 lg:gap-x-3 lg:gap-y-0 lg:items-center">
+      {steps.map((s, idx) => (
+        <Fragment>
+          <article class:list={[
+            "relative flex flex-col rounded-xl overflow-hidden",
+            s.variant === 'brand'
+              ? "bg-brand text-text-on-brand shadow-lg ring-1 ring-brand/30"
+              : "bg-surface border border-border shadow-sm"
+          ]}>
+            <div class="relative aspect-[16/10] w-full">
+              {s.variant === 'image' && s.image && (
+                <img
+                  src={s.image}
+                  alt={t(lang, `value_chain.${s.id}.alt`)}
+                  class="absolute inset-0 w-full h-full object-cover bg-bg-alt"
+                  loading="lazy"
+                  decoding="async"
+                  width="1024"
+                  height="640"
+                />
+              )}
+
+              {s.variant === 'brand' && (
+                <div class="absolute inset-0 flex flex-col items-center justify-center bg-brand-hover/30 px-5 py-6">
+                  <div class="flex items-center gap-2.5 mb-2">
+                    <Logo class="w-12 h-12 text-text-on-brand" />
+                    <span class="text-text-on-brand font-semibold text-[22px] tracking-[-0.02em]">meshvise</span>
+                  </div>
+                  <div class="text-[11px] font-mono uppercase tracking-[0.12em] text-text-on-brand/80 mt-1 text-center">
+                    {t(lang, 'value_chain.meshvise.tagline')}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div class="p-5 lg:p-6 flex-1 flex flex-col">
+              <div class:list={[
+                "text-[10px] font-mono uppercase tracking-[0.14em] mb-2",
+                s.variant === 'brand' ? "text-text-on-brand/80" : "text-brand"
+              ]}>
+                {s.step} · {t(lang, `value_chain.${s.id}.label`)}
+              </div>
+              <h3 class:list={[
+                "text-[18px] font-semibold tracking-tight leading-snug mb-2",
+                s.variant === 'brand' ? "text-text-on-brand" : "text-text"
+              ]}>
+                {t(lang, `value_chain.${s.id}.title`)}
+              </h3>
+              <p class:list={[
+                "text-[13.5px] leading-relaxed",
+                s.variant === 'brand' ? "text-text-on-brand/85" : "text-muted-strong"
+              ]}>
+                {t(lang, `value_chain.${s.id}.caption`)}
+              </p>
+            </div>
+          </article>
+
+          {idx < steps.length - 1 && (
+            <div
+              class="hidden lg:flex w-7 h-7 items-center justify-center rounded-full bg-surface border border-brand/40 shadow-sm vc-chevron"
+              style={`--delay: ${300 + idx * 200}ms;`}
+              aria-hidden="true"
+            >
+              <svg class="w-3 h-3 text-brand" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 2l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          )}
+        </Fragment>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .vc-chevron {
+    opacity: 0;
+    transform: scale(0.6);
+    animation: vc-chevron-in 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  @keyframes vc-chevron-in {
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vc-chevron { opacity: 1; transform: scale(1); animation: none; }
+  }
+</style>

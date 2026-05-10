@@ -1,6 +1,6 @@
 ---
 import { t, type Lang } from '../i18n';
-import AppPreview from './AppPreview.astro';
+import { equipmentHotspots } from './_hero-data';
 
 interface Props {
   lang: Lang;
@@ -9,52 +9,191 @@ interface Props {
 const { lang } = Astro.props;
 ---
 
-<section class="relative pt-20 pb-24 md:pt-28 md:pb-32 px-6 overflow-hidden">
-  <!-- Decorative grid background: extremely subtle, references P&ID. -->
+<section class="relative overflow-hidden lg:min-h-[43.75vw] lg:flex lg:items-center">
+  <!-- Decorative grid background, kept subtle -->
   <div
-    class="absolute inset-0 -z-10 pointer-events-none opacity-[0.35]"
+    class="absolute inset-0 -z-20 pointer-events-none opacity-[0.35]"
     style="background-image: linear-gradient(to right, rgb(15 23 42 / 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgb(15 23 42 / 0.04) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent 75%);"
     aria-hidden="true"
   ></div>
 
-  <div class="mx-auto max-w-4xl text-center">
-    <h1 class="text-[44px] md:text-[64px] lg:text-[76px] font-semibold tracking-[-0.035em] leading-[1] text-text">
-      <span set:html={t(lang, 'hero.title_html')} />
-    </h1>
+  <!--
+    Layout strategy on lg+:
+    - The section is a flex container with min-height = image's natural
+      aspect-height (43.75vw = 70vw × 980/1568) and items-center.
+    - The illustration is absolutely positioned, vertically centred
+      (top:50% + translateY(-50%)). When the section is exactly min-h
+      (text fits), the image sits flush top + bottom. When the text
+      content needs more vertical space, the section grows, and the
+      image gets a uniform gap above + below — no clipping.
+    - The text is in normal flex flow, so its height contributes to the
+      section height, preventing top/bottom clipping when text is tall.
 
-    <p class="mt-7 text-lg md:text-xl text-muted-strong leading-[1.5] max-w-2xl mx-auto">
-      <span set:html={t(lang, 'hero.subtitle_html')} />
-    </p>
+    On mobile (lg:hidden), text and illustration stack normally.
+  -->
 
-    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
-      <a href={`/${lang}/trial/`} class="btn btn-primary btn-lg">
-        {t(lang, 'hero.cta_trial')}
-        <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M6 3l5 5-5 5" stroke-linecap="round"/>
-        </svg>
-      </a>
-      <a href="https://app.meshvise.com" target="_blank" rel="noopener" class="btn btn-outline btn-lg">
-        {t(lang, 'hero.cta_demo')}
-      </a>
-    </div>
+  <!-- Lg+ illustration : absolute, vertically centred -->
+  <div
+    class="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 z-0 pointer-events-none"
+    style="width: 70%; aspect-ratio: 1568 / 980;"
+  >
+    <img
+      src="/images/hero/site-illustration.png"
+      alt={t(lang, 'hero.illustration_alt')}
+      width="1568"
+      height="980"
+      class="absolute inset-0 w-full h-full object-contain"
+      loading="eager"
+      decoding="sync"
+      fetchpriority="high"
+    />
 
-    <p class="mt-5 text-[13px] text-muted">
-      <span set:html={t(lang, 'hero.cta_note_html')} />
-    </p>
+    <!--
+      Fade overlay : three layered gradients so the image dissolves softly
+      into the page background on the LEFT (where the text sits), TOP
+      (touches the navbar), and BOTTOM (touches the Stats section). Each
+      gradient is a separate background-image layer composited additively.
+    -->
+    <div
+      class="absolute inset-0 z-[1] pointer-events-none"
+      style="background:
+        linear-gradient(to bottom, var(--color-bg) 0%, transparent 12%),
+        linear-gradient(to top,    var(--color-bg) 0%, transparent 12%),
+        linear-gradient(to right,
+          var(--color-bg) 0%,
+          var(--color-bg) 14%,
+          rgba(255,255,255,0.92) 26%,
+          rgba(255,255,255,0.55) 38%,
+          rgba(255,255,255,0) 50%);"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Labels above the overlay -->
+    {equipmentHotspots.map((h) => (
+      <div
+        class="hero-label absolute z-[2]"
+        style={`left: ${h.x}%; top: ${h.y}%; transform: translate(-50%, -50%); --delay: ${h.delay_ms}ms;`}
+      >
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-2.5 w-2.5 shrink-0">
+            <span class="absolute inline-flex h-full w-full rounded-full bg-brand opacity-40 hero-ping" aria-hidden="true"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand ring-2 ring-white" aria-hidden="true"></span>
+          </span>
+          <div class="bg-surface border border-border rounded-md shadow-sm px-2 py-1 whitespace-nowrap">
+            <span class="text-[11px] font-medium text-text">{h.label}</span>
+            <span class="text-[10px] font-mono text-brand ml-1.5">{h.protocol}</span>
+          </div>
+        </div>
+      </div>
+    ))}
   </div>
 
-  <!-- AppPreview frames the actual dark product on the light page. -->
-  <div class="mx-auto max-w-5xl mt-16 md:mt-20 px-2">
-    <div class="relative">
-      <div class="absolute -inset-4 rounded-[20px] bg-gradient-to-br from-brand/10 via-transparent to-transparent blur-2xl pointer-events-none" aria-hidden="true"></div>
-      <div class="relative">
-        <AppPreview lang={lang} compact />
+  <!-- Lg+ text : in normal flex flow so it contributes to section height -->
+  <div class="hidden lg:block relative z-10 w-full px-6 py-12">
+    <div class="mx-auto max-w-7xl">
+      <div class="lg:max-w-[44%]">
+        <h1 class="text-[40px] md:text-[52px] lg:text-[60px] font-semibold tracking-[-0.03em] leading-[1.05] text-text">
+          <span set:html={t(lang, 'hero.title_html')} />
+        </h1>
+
+        <p class="mt-6 text-[17px] md:text-lg text-muted-strong leading-[1.55] max-w-xl">
+          <span set:html={t(lang, 'hero.subtitle_html')} />
+        </p>
+
+        <div class="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <a href={`/${lang}/trial/`} class="btn btn-primary btn-lg">
+            {t(lang, 'hero.cta_trial')}
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M6 3l5 5-5 5" stroke-linecap="round"/>
+            </svg>
+          </a>
+          <a href="https://app.meshvise.com" target="_blank" rel="noopener" class="btn btn-outline btn-lg">
+            {t(lang, 'hero.cta_demo')}
+          </a>
+        </div>
       </div>
     </div>
-    <p class="mt-3 text-center text-[12px] text-muted">
-      <span class="font-mono">↑</span> {t(lang, 'hero.preview_label')}
-    </p>
   </div>
+
+  <!-- Mobile (< lg) : text + illustration stacked normally -->
+    <div class="lg:hidden pt-8 pb-8 px-6">
+      <div class="mx-auto max-w-7xl">
+        <div class="text-left">
+          <h1 class="text-[40px] md:text-[52px] font-semibold tracking-[-0.03em] leading-[1.05] text-text">
+            <span set:html={t(lang, 'hero.title_html')} />
+          </h1>
+          <p class="mt-6 text-[17px] md:text-lg text-muted-strong leading-[1.55] max-w-xl">
+            <span set:html={t(lang, 'hero.subtitle_html')} />
+          </p>
+          <div class="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <a href={`/${lang}/trial/`} class="btn btn-primary btn-lg">
+              {t(lang, 'hero.cta_trial')}
+              <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M6 3l5 5-5 5" stroke-linecap="round"/>
+              </svg>
+            </a>
+            <a href="https://app.meshvise.com" target="_blank" rel="noopener" class="btn btn-outline btn-lg">
+              {t(lang, 'hero.cta_demo')}
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-10 relative w-full" style="aspect-ratio: 1568 / 980;">
+          <img
+            src="/images/hero/site-illustration.png"
+            alt={t(lang, 'hero.illustration_alt')}
+            width="1568"
+            height="980"
+            class="absolute inset-0 w-full h-full object-contain"
+            loading="eager"
+            decoding="sync"
+            fetchpriority="high"
+          />
+          {equipmentHotspots.map((h) => (
+            <div
+              class="hero-label absolute"
+              style={`left: ${h.x}%; top: ${h.y}%; transform: translate(-50%, -50%); --delay: ${h.delay_ms}ms;`}
+            >
+              <div class="flex items-center gap-2">
+                <span class="relative flex h-2.5 w-2.5 shrink-0">
+                  <span class="absolute inline-flex h-full w-full rounded-full bg-brand opacity-40 hero-ping" aria-hidden="true"></span>
+                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand ring-2 ring-white" aria-hidden="true"></span>
+                </span>
+                <div class="bg-surface border border-border rounded-md shadow-sm px-2 py-1 whitespace-nowrap">
+                  <span class="text-[11px] font-medium text-text">{h.label}</span>
+                  <span class="text-[10px] font-mono text-brand ml-1.5">{h.protocol}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
 </section>
 
+<style>
+  .hero-label {
+    opacity: 0;
+    animation: hero-label-in 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: var(--delay, 0ms);
+  }
 
+  @keyframes hero-label-in {
+    from { opacity: 0; transform: translate(-50%, calc(-50% + 8px)); }
+    to   { opacity: 1; transform: translate(-50%, -50%); }
+  }
+
+  .hero-ping {
+    animation: hero-ping-anim 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes hero-ping-anim {
+    0%       { transform: scale(1);   opacity: 0.4; }
+    75%,100% { transform: scale(2.2); opacity: 0;   }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-label { opacity: 1; transform: translate(-50%, -50%); animation: none; }
+    .hero-ping  { animation: none; }
+  }
+</style>

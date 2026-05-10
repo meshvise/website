@@ -7,6 +7,31 @@
 @import "@fontsource/jetbrains-mono/500.css";
 
 /*
+ * Fallback @font-face declarations with metric overrides so the system
+ * fallback (Arial / SF Pro Text) renders text at the same x-height,
+ * line-height and width as Inter — eliminating the layout-shift "jump"
+ * that happens when the real Inter web font swaps in. Metrics taken from
+ * https://github.com/seek-oss/capsize fontMetricsOverride for Inter.
+ */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  size-adjust: 107.4%;
+  ascent-override: 90%;
+  descent-override: 22.5%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Fallback';
+  src: local('Courier New');
+  size-adjust: 95%;
+  ascent-override: 110%;
+  descent-override: 30%;
+  line-gap-override: 0%;
+}
+
+/*
  * Light-mode marketing site, ALIGNED on docs/charte-graphique.md (pivot
  * 2026-05-08 : light-first + brand #2563EB Tailwind blue-600 + Cloudflare
  * patterns). Identique à apps/spa/src/style.css côté SPA — drift = bug
@@ -75,8 +100,8 @@
 
   --color-text-on-brand: #FFFFFF;          /* texte sur fond brand-500 */
 
-  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
+  --font-sans: "Inter", "Inter Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace, "SFMono-Regular", "Menlo", monospace;
 
   --radius-sm: 6px;
   --radius-md: 10px;

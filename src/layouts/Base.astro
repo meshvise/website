@@ -137,6 +137,11 @@ const faqLd = {
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
 
+    <!-- Preload the hero illustration so it lands with the first paint
+         instead of after fonts and CSS settle. Cuts the layout-shift
+         "settle" effect on first load. -->
+    <link rel="preload" as="image" href="/images/hero/site-illustration.png" fetchpriority="high" />
+
     <meta name="theme-color" content="#2563EB" />
     <meta name="color-scheme" content="light" />
 
