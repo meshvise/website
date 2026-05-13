@@ -1,0 +1,140 @@
+---
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// Section dediee a la passerelle industrielle livree avec les offres
+// Managed Standard et Managed Premium (cf. grille Notion 2026-05-11).
+// C'est le differenciateur produit principal : la concurrence cloud IoT
+// vend une plateforme et laisse le client gerer son hardware. Meshvise
+// livre une experience cle-en-main, gateway provisionnee, agent embarque.
+//
+// Visuel : mockup SVG d'un boitier DIN-rail fanless avec LEDs et ports.
+// Sera remplace par une vraie photo une fois le produit physique
+// photographie sous lumiere correcte (TODO).
+const bullets = ['hardware', 'agent', 'protocols', 'support'];
+---
+
+<section id="gateway" class="px-6 py-24 md:py-32 border-t border-border/60">
+  <div class="mx-auto max-w-6xl">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+      <!-- Texte a gauche -->
+      <div class="lg:col-span-6 order-2 lg:order-1">
+        <span class="section-eyebrow">{t(lang, 'gateway.eyebrow')}</span>
+        <h2 class="section-title">{t(lang, 'gateway.title')}</h2>
+        <p class="section-lede">{t(lang, 'gateway.subtitle')}</p>
+
+        <ul class="mt-8 space-y-5 list-none">
+          {bullets.map((b) => (
+            <li class="flex gap-3.5">
+              <span class="w-7 h-7 rounded-md bg-brand-soft text-brand flex items-center justify-center shrink-0 mt-0.5" aria-hidden="true">
+                <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 8 7 12 13 4"/>
+                </svg>
+              </span>
+              <div class="min-w-0">
+                <div class="text-[15.5px] font-semibold tracking-tight text-text" set:html={t(lang, `gateway.bullets.${b}.title_html`)} />
+                <div class="mt-1.5 text-[14px] text-muted-strong leading-relaxed" set:html={t(lang, `gateway.bullets.${b}.body_html`)} />
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <p class="mt-8 text-[13px] text-muted" set:html={t(lang, 'gateway.attribution_html')} />
+      </div>
+
+      <!-- Visuel a droite : mockup SVG boitier DIN-rail -->
+      <div class="lg:col-span-6 order-1 lg:order-2">
+        <div class="relative">
+          <!-- Halo soft brand -->
+          <div class="absolute -inset-4 rounded-[24px] bg-gradient-to-br from-brand/12 via-transparent to-transparent blur-2xl pointer-events-none" aria-hidden="true"></div>
+
+          <div class="relative rounded-xl border border-border-strong bg-surface p-6 md:p-8 shadow-sm">
+            <!-- Title bar -->
+            <div class="flex items-center justify-between mb-5 pb-4 border-b border-border">
+              <span class="text-[11px] font-mono uppercase tracking-[0.12em] text-muted">{t(lang, 'gateway.mockup.label')}</span>
+              <span class="inline-flex items-center gap-2 text-[11px] font-mono text-success-600">
+                <span class="relative flex h-2 w-2">
+                  <span class="absolute inline-flex h-full w-full rounded-full bg-success opacity-50 animate-ping" aria-hidden="true"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-success" aria-hidden="true"></span>
+                </span>
+                {t(lang, 'gateway.mockup.status')}
+              </span>
+            </div>
+
+            <!-- Mockup boitier industriel : SVG inline -->
+            <svg viewBox="0 0 320 200" class="w-full h-auto" role="img" aria-label={t(lang, 'gateway.mockup.alt')}>
+              <!-- Body -->
+              <defs>
+                <linearGradient id="gw-body" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#1F2937"/>
+                  <stop offset="100%" stop-color="#0F172A"/>
+                </linearGradient>
+                <linearGradient id="gw-front" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#334155"/>
+                  <stop offset="100%" stop-color="#1E293B"/>
+                </linearGradient>
+              </defs>
+              <!-- Rail DIN derriere -->
+              <rect x="10" y="30" width="300" height="6" rx="1" fill="#CBD5E1"/>
+              <rect x="10" y="164" width="300" height="6" rx="1" fill="#CBD5E1"/>
+              <!-- Boitier principal -->
+              <rect x="24" y="36" width="272" height="128" rx="6" fill="url(#gw-body)" stroke="#0F172A" stroke-width="1"/>
+              <!-- Facade -->
+              <rect x="32" y="44" width="256" height="112" rx="4" fill="url(#gw-front)"/>
+              <!-- Logo Meshvise sur la facade -->
+              <g transform="translate(48,60)">
+                <circle cx="6" cy="6" r="6" fill="#2563EB"/>
+                <text x="20" y="11" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#F1F5F9">meshvise</text>
+              </g>
+              <!-- LEDs status -->
+              <g transform="translate(48,90)">
+                <circle cx="0" cy="0" r="3.5" fill="#10B981"/>
+                <text x="10" y="3.5" font-family="JetBrains Mono, ui-monospace, monospace" font-size="8" fill="#94A3B8">PWR</text>
+                <circle cx="42" cy="0" r="3.5" fill="#10B981"/>
+                <text x="52" y="3.5" font-family="JetBrains Mono, ui-monospace, monospace" font-size="8" fill="#94A3B8">RUN</text>
+                <circle cx="84" cy="0" r="3.5" fill="#3B82F6"/>
+                <text x="94" y="3.5" font-family="JetBrains Mono, ui-monospace, monospace" font-size="8" fill="#94A3B8">OT</text>
+                <circle cx="120" cy="0" r="3.5" fill="#3B82F6"/>
+                <text x="130" y="3.5" font-family="JetBrains Mono, ui-monospace, monospace" font-size="8" fill="#94A3B8">IT</text>
+              </g>
+              <!-- Ecran OLED -->
+              <rect x="48" y="108" width="160" height="38" rx="2" fill="#0B1220" stroke="#0F172A" stroke-width="1"/>
+              <text x="56" y="124" font-family="JetBrains Mono, ui-monospace, monospace" font-size="9" fill="#67E8F9">site-lyon-01</text>
+              <text x="56" y="138" font-family="JetBrains Mono, ui-monospace, monospace" font-size="8" fill="#94A3B8">487 points · 0 alarm</text>
+              <!-- Ports a droite -->
+              <g transform="translate(228,108)">
+                <rect x="0"  y="0"  width="22" height="14" rx="2" fill="#0F172A" stroke="#334155"/>
+                <rect x="26" y="0"  width="22" height="14" rx="2" fill="#0F172A" stroke="#334155"/>
+                <rect x="0"  y="20" width="22" height="14" rx="2" fill="#0F172A" stroke="#334155"/>
+                <rect x="26" y="20" width="22" height="14" rx="2" fill="#0F172A" stroke="#334155"/>
+              </g>
+              <!-- Cables qui sortent -->
+              <path d="M280 80 C 296 80 296 60 320 60" stroke="#3B82F6" stroke-width="1.5" fill="none"/>
+              <path d="M280 100 C 296 100 296 120 320 120" stroke="#10B981" stroke-width="1.5" fill="none"/>
+            </svg>
+
+            <div class="mt-5 grid grid-cols-3 gap-3 text-center">
+              <div class="rounded-md bg-bg-alt/60 border border-border px-2 py-2">
+                <div class="text-[10px] font-mono uppercase tracking-wider text-muted">{t(lang, 'gateway.mockup.spec.form_label')}</div>
+                <div class="mt-0.5 text-[12.5px] font-medium text-text">{t(lang, 'gateway.mockup.spec.form_value')}</div>
+              </div>
+              <div class="rounded-md bg-bg-alt/60 border border-border px-2 py-2">
+                <div class="text-[10px] font-mono uppercase tracking-wider text-muted">{t(lang, 'gateway.mockup.spec.net_label')}</div>
+                <div class="mt-0.5 text-[12.5px] font-medium text-text">{t(lang, 'gateway.mockup.spec.net_value')}</div>
+              </div>
+              <div class="rounded-md bg-bg-alt/60 border border-border px-2 py-2">
+                <div class="text-[10px] font-mono uppercase tracking-wider text-muted">{t(lang, 'gateway.mockup.spec.power_label')}</div>
+                <div class="mt-0.5 text-[12.5px] font-medium text-text">{t(lang, 'gateway.mockup.spec.power_value')}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

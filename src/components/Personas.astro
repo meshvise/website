@@ -1,0 +1,179 @@
+---
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// 4 profils metiers cibles, presentes en onglets (tabbed UI). Inspire
+// du pattern Ubidots Industries / System Integrators / OEM. Chaque
+// onglet expose : pain point, beneficie Meshvise, 3 a 4 bullets concrets.
+//
+// L'onglet actif par defaut est 'maintenance' parce que c'est le profil
+// le plus probable cote utilisateur final. Switch via boutons avec
+// roles ARIA tab/tablist/tabpanel. JS minimal vanilla, sans framework.
+const personas = [
+  { id: 'maintenance',  icon: 'wrench' },
+  { id: 'direction',    icon: 'chart'  },
+  { id: 'integrator',   icon: 'tools'  },
+  { id: 'bi_team',      icon: 'data'   },
+] as const;
+---
+
+<section id="personas" class="px-6 py-24 md:py-32 border-t border-border/60">
+  <div class="mx-auto max-w-6xl">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <div class="section-eyebrow justify-center">{t(lang, 'personas.eyebrow')}</div>
+      <h2 class="section-title">{t(lang, 'personas.title')}</h2>
+      <p class="section-lede mx-auto">{t(lang, 'personas.subtitle')}</p>
+    </div>
+
+    <div class="rounded-xl border border-border bg-surface shadow-sm overflow-hidden">
+      <!-- Tablist -->
+      <div
+        role="tablist"
+        aria-label={t(lang, 'personas.tablist_label')}
+        class="personas-tablist flex overflow-x-auto border-b border-border bg-bg-alt/50"
+      >
+        {personas.map((p, idx) => (
+          <button
+            type="button"
+            role="tab"
+            id={`persona-tab-${p.id}`}
+            aria-controls={`persona-panel-${p.id}`}
+            aria-selected={idx === 0 ? 'true' : 'false'}
+            tabindex={idx === 0 ? 0 : -1}
+            data-persona-tab={p.id}
+            class="personas-tab shrink-0 px-5 py-4 text-[13.5px] font-medium border-b-2 transition-colors text-muted-strong border-transparent hover:text-text focus-visible:outline-none focus-visible:bg-brand-soft/50 [&[aria-selected=true]]:text-text [&[aria-selected=true]]:border-brand [&[aria-selected=true]]:bg-surface"
+          >
+            <span class="inline-flex items-center gap-2">
+              <span class="w-4 h-4 inline-flex items-center justify-center text-brand" aria-hidden="true">
+                {p.icon === 'wrench' && (
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                    <path d="M14 7a4 4 0 1 0 4 4l4 4-3 3-4-4a4 4 0 0 0-5-5l2 2-2 2-2-2 2-2-2-2a4 4 0 0 1 6-2z" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                )}
+                {p.icon === 'chart' && (
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                    <path d="M3 3v18h18" stroke-linecap="round"/>
+                    <path d="M7 15l4-4 3 3 5-6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                )}
+                {p.icon === 'tools' && (
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                    <path d="M14 4l6 6-9 9-6-6 9-9zM3 21l4-1" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                )}
+                {p.icon === 'data' && (
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                    <ellipse cx="12" cy="5" rx="8" ry="3"/>
+                    <path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" stroke-linecap="round"/>
+                  </svg>
+                )}
+              </span>
+              <span class="whitespace-nowrap">{t(lang, `personas.${p.id}.label`)}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <!-- Tabpanels -->
+      {personas.map((p, idx) => (
+        <div
+          role="tabpanel"
+          id={`persona-panel-${p.id}`}
+          aria-labelledby={`persona-tab-${p.id}`}
+          data-persona-panel={p.id}
+          hidden={idx !== 0}
+          class="personas-panel grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 p-6 md:p-10"
+        >
+          <div class="lg:col-span-7">
+            <div class="text-[11px] font-mono uppercase tracking-[0.14em] text-muted mb-3">{t(lang, `personas.${p.id}.pain_label`)}</div>
+            <p class="text-[17px] md:text-[18px] text-text leading-snug font-medium mb-7" set:html={t(lang, `personas.${p.id}.pain_html`)} />
+
+            <div class="text-[11px] font-mono uppercase tracking-[0.14em] text-brand mb-3">{t(lang, `personas.${p.id}.gain_label`)}</div>
+            <p class="text-[15.5px] text-text leading-relaxed mb-6" set:html={t(lang, `personas.${p.id}.gain_html`)} />
+
+            <ul class="space-y-3 list-none text-[14.5px] text-muted-strong leading-relaxed">
+              {[0, 1, 2, 3].map((i) => {
+                const bullet = t(lang, `personas.${p.id}.bullets.${i}`);
+                return bullet && bullet !== `personas.${p.id}.bullets.${i}` ? (
+                  <li class="flex gap-2.5">
+                    <span class="text-brand mt-2 shrink-0" aria-hidden="true">
+                      <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="2"/></svg>
+                    </span>
+                    <span set:html={bullet} />
+                  </li>
+                ) : null;
+              })}
+            </ul>
+          </div>
+
+          <aside class="lg:col-span-5 rounded-lg border border-border bg-bg-alt/50 p-5 md:p-6">
+            <div class="text-[10px] font-mono uppercase tracking-[0.14em] text-muted mb-3">{t(lang, `personas.${p.id}.quote_label`)}</div>
+            <blockquote class="text-[15px] text-text leading-relaxed">
+              <span set:html={t(lang, `personas.${p.id}.quote_html`)} />
+            </blockquote>
+            <div class="mt-5 pt-4 border-t border-border">
+              <div class="text-[11px] font-mono uppercase tracking-[0.12em] text-muted mb-2">{t(lang, 'personas.recommended_label')}</div>
+              <a href={`/${lang}/#pricing`} class="inline-flex items-center gap-1.5 text-[13.5px] text-brand hover:text-brand-hover font-medium">
+                {t(lang, `personas.${p.id}.recommended_tier`)}
+                <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M6 3l5 5-5 5" stroke-linecap="round"/>
+                </svg>
+              </a>
+            </div>
+          </aside>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Vanilla tab switcher. Keyboard nav (ArrowLeft / ArrowRight / Home /
+  // End) + click. Compliant with WAI-ARIA Authoring Practices tabs pattern.
+  const init = () => {
+    const tablist = document.querySelector<HTMLElement>('.personas-tablist');
+    if (!tablist) return;
+    const tabs = Array.from(tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-persona-panel]'));
+
+    const activate = (tab: HTMLButtonElement, setFocus = true) => {
+      const id = tab.dataset.personaTab;
+      tabs.forEach((t) => {
+        const active = t === tab;
+        t.setAttribute('aria-selected', String(active));
+        t.tabIndex = active ? 0 : -1;
+      });
+      panels.forEach((p) => {
+        p.hidden = p.dataset.personaPanel !== id;
+      });
+      if (setFocus) tab.focus();
+    };
+
+    tabs.forEach((tab, idx) => {
+      tab.addEventListener('click', () => activate(tab, false));
+      tab.addEventListener('keydown', (e) => {
+        const k = e.key;
+        let next: HTMLButtonElement | null = null;
+        if (k === 'ArrowRight') next = tabs[(idx + 1) % tabs.length];
+        else if (k === 'ArrowLeft') next = tabs[(idx - 1 + tabs.length) % tabs.length];
+        else if (k === 'Home') next = tabs[0];
+        else if (k === 'End') next = tabs[tabs.length - 1];
+        if (next) {
+          e.preventDefault();
+          activate(next);
+        }
+      });
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>

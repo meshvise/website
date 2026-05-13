@@ -9,13 +9,172 @@
     "demo": "Voir la démo"
   },
   "hero": {
+    "eyebrow": "Supervision industrielle souveraine",
     "title_html": "Transformez vos données en <span class=\"text-brand\">connaissance industrielle</span>.",
     "subtitle_html": "L'amélioration continue ne peut pas reposer sur des intuitions. Meshvise connecte vos automates et capteurs pour livrer une base de données propre, structurée et accessible. C'est la fondation solide dont vos équipes ont besoin pour piloter la performance.",
     "cta_trial": "Essayer 7 jours",
     "cta_demo": "Découvrir la démo en ligne",
-    "cta_note_html": "990 €/an par site. Essai 7 jours sans carte bancaire. Démo publique sans inscription pour un aperçu immédiat.",
+    "cta_note_html": "À partir de <strong>2 400 €/an</strong>. Essai 7 jours sans carte bancaire. <strong>Boîtier industriel inclus</strong> avec les offres Managed.",
     "preview_label": "Aperçu UI · valeurs simulées (push WebSocket dans la démo)",
     "illustration_alt": "Illustration isométrique d'un site industriel : cuves de procédé, salle de contrôle, sous-station, moteurs et armoires électriques connectés à Meshvise"
+  },
+  "kpi_strip": {
+    "aria_label": "Faits saillants Meshvise",
+    "deploy": {
+      "metric_html": "4 h",
+      "label": "Déploiement",
+      "detail_html": "De la livraison du boîtier au premier point historisé."
+    },
+    "protocols": {
+      "metric_html": "3 protocoles natifs",
+      "label": "Compatibilité OT",
+      "detail_html": "<code>Modbus TCP</code>, <code>OPC-UA</code>, <code>BACnet/IP</code>."
+    },
+    "open_data": {
+      "metric_html": "Postgres direct",
+      "label": "Vos données",
+      "detail_html": "Branchez Power BI, Grafana ou Excel via ODBC standard."
+    },
+    "sovereign": {
+      "metric_html": "100 %",
+      "label": "Auto-hébergeable",
+      "detail_html": "Aucune télémétrie sortante. Compatible air-gap, droit français."
+    }
+  },
+  "gateway": {
+    "eyebrow": "Boîtier industriel",
+    "title": "La passerelle livrée avec votre abonnement.",
+    "subtitle": "Déballez le boîtier, branchez-le sur votre réseau industriel, et la supervision démarre. Aucun installateur, aucun agent à compiler, aucun firmware tiers à maintenir.",
+    "bullets": {
+      "hardware": {
+        "title_html": "Matériel industriel certifié",
+        "body_html": "Boîtier fanless, montage rail DIN, plage de température étendue. Pensé pour vivre 5 ans en armoire électrique."
+      },
+      "agent": {
+        "title_html": "Agent Meshvise embarqué",
+        "body_html": "Provisionné à votre nom, mises à jour signées, rollback automatique en cas d'échec. Vous ne touchez pas au firmware."
+      },
+      "protocols": {
+        "title_html": "Multi-protocoles natif",
+        "body_html": "<code>Modbus TCP</code>, <code>OPC-UA</code>, <code>BACnet/IP</code> dès le déballage. Détection automatique des équipements compatibles."
+      },
+      "support": {
+        "title_html": "Support et remplacement inclus",
+        "body_html": "Remplacement matériel sous <strong>48 h ouvrées</strong> sur les offres Managed. Garantie 5 ans sur le boîtier premium."
+      }
+    },
+    "attribution_html": "Boîtier inclus dans les offres <strong>Managed Standard</strong> et <strong>Managed Premium</strong>. Premium garanti 5 ans.",
+    "mockup": {
+      "label": "Meshvise gateway · rail DIN",
+      "status": "ONLINE",
+      "alt": "Mockup d'un boîtier industriel Meshvise sur rail DIN, écran OLED affichant le nom du site et le nombre de points actifs, voyants PWR, RUN, OT et IT allumés.",
+      "spec": {
+        "form_label": "Format",
+        "form_value": "Rail DIN, fanless",
+        "net_label": "Réseau",
+        "net_value": "2× Ethernet OT/IT",
+        "power_label": "Alimentation",
+        "power_value": "24 V DC"
+      }
+    }
+  },
+  "how_it_works": {
+    "eyebrow": "Mise en route",
+    "title": "De la commande au premier KPI, en 5 étapes.",
+    "subtitle": "Pas de chantier interminable. Pas de mois de paramétrage. Vous démarrez la supervision dès la première heure.",
+    "steps": {
+      "receive": {
+        "title": "Recevez le boîtier",
+        "body_html": "Pré-configuré pour votre site, expédié sous 5 jours ouvrés. Branchements et documentation imprimés dans le carton."
+      },
+      "plug": {
+        "title": "Branchez-le",
+        "body_html": "Un port réseau côté automates (OT), un port côté supervision (IT), 24 V DC. C'est tout."
+      },
+      "discover": {
+        "title": "Découverte automatique",
+        "body_html": "Les équipements compatibles <code>Modbus</code>, <code>OPC-UA</code> et <code>BACnet</code> apparaissent dans l'app sans configuration manuelle."
+      },
+      "tag": {
+        "title": "Étiquetez et structurez",
+        "body_html": "Site, bâtiment, fonction métier, criticité : organisez à votre main, sans schéma figé."
+      },
+      "scale": {
+        "title": "Branchez vos outils BI",
+        "body_html": "Power BI, Grafana, Excel via <code>ODBC PostgreSQL</code>. Vos analystes lisent les données live, comme une base d'entreprise standard."
+      }
+    }
+  },
+  "personas": {
+    "eyebrow": "Pour qui",
+    "title": "Quatre profils, une seule plateforme.",
+    "subtitle": "Meshvise sert les équipes qui exploitent les données industrielles, de l'atelier à la direction. Choisissez votre angle.",
+    "tablist_label": "Profils utilisateurs",
+    "recommended_label": "Recommandé",
+    "maintenance": {
+      "label": "Responsable maintenance",
+      "pain_label": "Le problème",
+      "pain_html": "Vos alarmes sont éparpillées entre l'IHM de l'automate, des emails du chef d'équipe et un export hebdomadaire que vous compilez à la main.",
+      "gain_label": "Avec Meshvise",
+      "gain_html": "Tout est centralisé, versionné, exportable. Vous voyez qui a modifié quoi, vous comparez deux semaines en un clic.",
+      "bullets": [
+        "Alarmes opérationnelles unifiées, sévérités <code>info</code> / <code>warning</code> / <code>critical</code>",
+        "Journal des modifications signé, revert en un clic",
+        "Filtrage par site, bâtiment, criticité",
+        "Export Excel des incidents, sans manipulation"
+      ],
+      "quote_label": "Cas type",
+      "quote_html": "« Sur les 6 derniers mois, j'ai 18 alarmes critiques mais je ne sais pas dire si elles viennent d'un capteur, d'un opérateur ou d'un seuil mal réglé. »",
+      "recommended_tier": "Voir l'offre Managed Standard"
+    },
+    "direction": {
+      "label": "DSI industriel",
+      "pain_label": "Le problème",
+      "pain_html": "Vos données industrielles vivent dans six silos différents, votre BI les recompose à la main, et personne ne sait sur quoi se baser au comité d'audit IT.",
+      "gain_label": "Avec Meshvise",
+      "gain_html": "Une source de vérité Postgres, schéma documenté, hébergée chez vous. Conforme RGPD, sous votre contrôle de bout en bout, auditable.",
+      "bullets": [
+        "Source unique, schéma <code>point_history</code> stable et documenté",
+        "Historique TimescaleDB pluri-annuel, agrégats minute/heure/jour",
+        "Données chez vous, sous droit français, DPA fourni au contrat",
+        "Audit log signé exportable, accès code source sous NDA"
+      ],
+      "quote_label": "Cas type",
+      "quote_html": "« Au comité d'audit IT, je ne peux pas affirmer que les KPI sont justes : ils viennent de trois exports différents qui passent entre quatre personnes. »",
+      "recommended_tier": "Voir l'offre Managed Premium"
+    },
+    "integrator": {
+      "label": "Intégrateur / installateur",
+      "pain_label": "Le problème",
+      "pain_html": "Chaque chantier est un puzzle de licences, de connecteurs et de scripts custom à maintenir pendant 10 ans après votre départ.",
+      "gain_label": "Avec Meshvise",
+      "gain_html": "Une plateforme reproductible, un boîtier livré clé en main, une licence par site. Vous déployez en jours, pas en mois.",
+      "bullets": [
+        "Déploiement Docker en 4 h, gateway provisionnée d'avance",
+        "Pas de connecteur tiers payant ni de runtime à licencier en plus",
+        "Wiresheet versionné <code>JSON</code> : reproduire un site en cloner-coller",
+        "Code source consultable sous NDA pour vos audits clients"
+      ],
+      "quote_label": "Cas type",
+      "quote_html": "« Sur 8 sites identiques, je passe deux semaines par site à recâbler les drivers à chaque renouvellement de licence. »",
+      "recommended_tier": "Voir l'offre On-Premise"
+    },
+    "bi_team": {
+      "label": "Équipe BI / data",
+      "pain_label": "Le problème",
+      "pain_html": "L'équipe OT vous envoie des CSV par email. Aucune source live, aucune fraîcheur, aucune confiance sur la donnée.",
+      "gain_label": "Avec Meshvise",
+      "gain_html": "Vos points industriels sont dans une base Postgres standard. ODBC, schéma documenté, lecture seule. C'est juste une source de plus dans votre stack.",
+      "bullets": [
+        "Schéma <code>point_history(ts, point_id, value, quality)</code> stable et documenté",
+        "User PostgreSQL en lecture seule, vues SQL prêtes à l'emploi",
+        "Power BI Desktop / DirectQuery, dbt, Metabase, n'importe quel client SQL",
+        "Données fraîches à la seconde, partitionnées par jour"
+      ],
+      "quote_label": "Cas type",
+      "quote_html": "« On me demande un dashboard énergie consolidé, mais je reçois 12 fichiers CSV par mois avec des formats différents à chaque site. »",
+      "recommended_tier": "Voir l'offre On-Premise"
+    }
   },
   "value_chain": {
     "title": "De vos automates à vos KPIs.",

@@ -9,13 +9,172 @@
     "demo": "See the demo"
   },
   "hero": {
+    "eyebrow": "Sovereign industrial supervision",
     "title_html": "Turn your data into <span class=\"text-brand\">industrial knowledge</span>.",
     "subtitle_html": "Continuous improvement can't run on hunches. Meshvise connects your PLCs and sensors to deliver a clean, structured, accessible data foundation. The solid base your teams need to drive performance.",
     "cta_trial": "Try 7 days on my infra",
     "cta_demo": "Explore the live demo",
-    "cta_note_html": "€990/year per site. 7-day trial, no credit card. Public demo without sign-up for an immediate look.",
+    "cta_note_html": "From <strong>€2,400/year</strong>. 7-day trial, no credit card. <strong>Industrial appliance included</strong> with Managed plans.",
     "preview_label": "UI preview · simulated values (real WebSocket push in the actual demo)",
     "illustration_alt": "Isometric illustration of an industrial site: process tanks, control room, substation, motors and electrical cabinets connected to Meshvise"
+  },
+  "kpi_strip": {
+    "aria_label": "Meshvise key facts",
+    "deploy": {
+      "metric_html": "4 h",
+      "label": "Deployment",
+      "detail_html": "From appliance unboxing to first historised data point."
+    },
+    "protocols": {
+      "metric_html": "3 native protocols",
+      "label": "OT compatibility",
+      "detail_html": "<code>Modbus TCP</code>, <code>OPC-UA</code>, <code>BACnet/IP</code>."
+    },
+    "open_data": {
+      "metric_html": "Direct Postgres",
+      "label": "Your data",
+      "detail_html": "Plug Power BI, Grafana or Excel through standard ODBC."
+    },
+    "sovereign": {
+      "metric_html": "100 %",
+      "label": "Self-hostable",
+      "detail_html": "No outbound telemetry. Air-gap compatible, French jurisdiction."
+    }
+  },
+  "gateway": {
+    "eyebrow": "Industrial appliance",
+    "title": "The gateway shipped with your subscription.",
+    "subtitle": "Unbox the appliance, plug it into your industrial network, and supervision starts. No installer, no agent to compile, no third-party firmware to maintain.",
+    "bullets": {
+      "hardware": {
+        "title_html": "Certified industrial hardware",
+        "body_html": "Fanless enclosure, DIN-rail mount, extended temperature range. Built to live 5 years in an electrical cabinet."
+      },
+      "agent": {
+        "title_html": "Meshvise agent on board",
+        "body_html": "Provisioned to you, signed updates, automatic rollback on failure. You never touch the firmware."
+      },
+      "protocols": {
+        "title_html": "Native multi-protocol",
+        "body_html": "<code>Modbus TCP</code>, <code>OPC-UA</code>, <code>BACnet/IP</code> out of the box. Auto-discovery of compatible equipment."
+      },
+      "support": {
+        "title_html": "Support and replacement included",
+        "body_html": "Hardware swap within <strong>48 business hours</strong> on Managed plans. 5-year warranty on the premium appliance."
+      }
+    },
+    "attribution_html": "Appliance included with <strong>Managed Standard</strong> and <strong>Managed Premium</strong> plans. Premium covered for 5 years.",
+    "mockup": {
+      "label": "Meshvise gateway · DIN rail",
+      "status": "ONLINE",
+      "alt": "Mockup of a Meshvise DIN-rail industrial appliance, OLED screen showing the site name and active point count, PWR, RUN, OT and IT LEDs lit.",
+      "spec": {
+        "form_label": "Form factor",
+        "form_value": "DIN rail, fanless",
+        "net_label": "Network",
+        "net_value": "2× Ethernet OT/IT",
+        "power_label": "Power",
+        "power_value": "24 V DC"
+      }
+    }
+  },
+  "how_it_works": {
+    "eyebrow": "Getting started",
+    "title": "From order to first KPI, in 5 steps.",
+    "subtitle": "No endless project plan. No months of configuration. Supervision starts within the first hour.",
+    "steps": {
+      "receive": {
+        "title": "Receive the appliance",
+        "body_html": "Pre-configured for your site, shipped within 5 business days. Wiring diagram and printed docs included in the box."
+      },
+      "plug": {
+        "title": "Plug it in",
+        "body_html": "One network port to your PLC side (OT), one to your supervision side (IT), 24 V DC. That's it."
+      },
+      "discover": {
+        "title": "Auto-discovery",
+        "body_html": "<code>Modbus</code>, <code>OPC-UA</code> and <code>BACnet</code> compatible equipment appears in the app with no manual setup."
+      },
+      "tag": {
+        "title": "Tag and structure",
+        "body_html": "Site, building, business function, criticality: organise your way, no fixed schema."
+      },
+      "scale": {
+        "title": "Plug your BI tools",
+        "body_html": "Power BI, Grafana, Excel through <code>PostgreSQL ODBC</code>. Your analysts read live data like any standard enterprise database."
+      }
+    }
+  },
+  "personas": {
+    "eyebrow": "Who it's for",
+    "title": "Four roles, one platform.",
+    "subtitle": "Meshvise serves the teams that work with industrial data, from the shop floor to the boardroom. Pick your angle.",
+    "tablist_label": "User profiles",
+    "recommended_label": "Recommended",
+    "maintenance": {
+      "label": "Maintenance lead",
+      "pain_label": "The problem",
+      "pain_html": "Your alarms are scattered across the PLC HMI, the shift lead's emails, and a weekly export you compile by hand.",
+      "gain_label": "With Meshvise",
+      "gain_html": "Everything is centralised, versioned, exportable. You see who changed what, you compare two weeks in one click.",
+      "bullets": [
+        "Unified operational alarms, severities <code>info</code> / <code>warning</code> / <code>critical</code>",
+        "Signed change log, revert in one click",
+        "Filter by site, building, criticality",
+        "Excel export of incidents, no manual work"
+      ],
+      "quote_label": "Typical case",
+      "quote_html": "\"Over the last 6 months, I have 18 critical alarms but I cannot tell whether they came from a sensor, an operator or a badly set threshold.\"",
+      "recommended_tier": "See the Managed Standard plan"
+    },
+    "direction": {
+      "label": "Industrial CIO",
+      "pain_label": "The problem",
+      "pain_html": "Your industrial data lives in six different silos, your BI reconciles them by hand, and nobody knows which figure to trust at the IT audit committee.",
+      "gain_label": "With Meshvise",
+      "gain_html": "One source of truth in Postgres, documented schema, hosted on your premises. GDPR compliant, under your end-to-end control, auditable.",
+      "bullets": [
+        "Single source, stable and documented <code>point_history</code> schema",
+        "TimescaleDB multi-year history, minute/hour/day rollups",
+        "Data on your premises, French jurisdiction, DPA shipped with the contract",
+        "Signed exportable audit log, source code access under NDA"
+      ],
+      "quote_label": "Typical case",
+      "quote_html": "\"In the IT audit committee, I cannot claim the KPIs are right: they come from three different exports passing through four people.\"",
+      "recommended_tier": "See the Managed Premium plan"
+    },
+    "integrator": {
+      "label": "Integrator / installer",
+      "pain_label": "The problem",
+      "pain_html": "Every project is a puzzle of licences, connectors and custom scripts to maintain for 10 years after you leave.",
+      "gain_label": "With Meshvise",
+      "gain_html": "One reproducible platform, one turnkey appliance, one licence per site. You deploy in days, not months.",
+      "bullets": [
+        "Docker deployment in 4 h, gateway pre-provisioned",
+        "No third-party paid connector or extra runtime to licence",
+        "Wiresheet versioned in <code>JSON</code>: clone a site in a click",
+        "Source code reviewable under NDA for your customer audits"
+      ],
+      "quote_label": "Typical case",
+      "quote_html": "\"Across 8 identical sites, I spend two weeks per site re-wiring drivers at every licence renewal.\"",
+      "recommended_tier": "See the On-Premise plan"
+    },
+    "bi_team": {
+      "label": "BI / data team",
+      "pain_label": "The problem",
+      "pain_html": "The OT team emails you CSVs. No live source, no freshness, no trust in the data.",
+      "gain_label": "With Meshvise",
+      "gain_html": "Your industrial points live in a standard Postgres database. ODBC, documented schema, read-only. It's just one more source in your stack.",
+      "bullets": [
+        "Stable, documented <code>point_history(ts, point_id, value, quality)</code> schema",
+        "Read-only PostgreSQL user, ready-made SQL views",
+        "Power BI Desktop / DirectQuery, dbt, Metabase, any SQL client",
+        "Fresh data to the second, partitioned by day"
+      ],
+      "quote_label": "Typical case",
+      "quote_html": "\"They ask me for a consolidated energy dashboard, but I receive 12 CSV files per month with a different format on every site.\"",
+      "recommended_tier": "See the On-Premise plan"
+    }
   },
   "value_chain": {
     "title": "From PLCs to KPIs.",

@@ -1,0 +1,98 @@
+---
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// 5 etapes pour passer de zero a un site supervise. Format inspire de
+// "How it works" Ubidots, adapte au workflow Meshvise : gateway livree,
+// branchement OT/IT, decouverte auto, etiquetage metier, ouverture BI.
+//
+// Layout : 5 cartes en horizontal sur lg+ (auto-fr), 2 colonnes sur md,
+// 1 colonne sur mobile. Numerotation 01..05 typographique. Animation
+// d'entree en cascade au scroll, reduced-motion gere.
+const steps = [
+  { id: 'receive',   step: '01', icon: 'package' },
+  { id: 'plug',      step: '02', icon: 'plug'    },
+  { id: 'discover',  step: '03', icon: 'scan'    },
+  { id: 'tag',       step: '04', icon: 'tag'     },
+  { id: 'scale',     step: '05', icon: 'graph'   },
+];
+---
+
+<section id="how-it-works" class="px-6 py-24 md:py-32 border-t border-border/60" style="background:var(--color-bg-alt);">
+  <div class="mx-auto max-w-6xl">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <div class="section-eyebrow justify-center">{t(lang, 'how_it_works.eyebrow')}</div>
+      <h2 class="section-title">{t(lang, 'how_it_works.title')}</h2>
+      <p class="section-lede mx-auto">{t(lang, 'how_it_works.subtitle')}</p>
+    </div>
+
+    <ol class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-3 list-none">
+      {steps.map((s, idx) => (
+        <li
+          class="hiw-card relative rounded-xl bg-surface border border-border p-5 flex flex-col"
+          style={`--delay: ${100 + idx * 90}ms;`}
+        >
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-[10px] font-mono uppercase tracking-[0.14em] text-brand">{s.step}</span>
+            <span class="w-8 h-8 rounded-md bg-brand-soft text-brand flex items-center justify-center" aria-hidden="true">
+              {s.icon === 'package' && (
+                <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <path d="M3 8l9-5 9 5v8l-9 5-9-5V8z" stroke-linejoin="round"/>
+                  <path d="M3 8l9 5 9-5M12 13v10" stroke-linejoin="round"/>
+                </svg>
+              )}
+              {s.icon === 'plug' && (
+                <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <path d="M9 2v4M15 2v4M6 6h12v6a6 6 0 0 1-12 0V6zM12 18v4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              )}
+              {s.icon === 'scan' && (
+                <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3" stroke-linecap="round"/>
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M12 8v-2M12 18v-2M8 12H6M18 12h-2" stroke-linecap="round"/>
+                </svg>
+              )}
+              {s.icon === 'tag' && (
+                <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <path d="M3 12V4h8l10 10-8 8-10-10z" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/>
+                </svg>
+              )}
+              {s.icon === 'graph' && (
+                <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <path d="M3 17l5-5 4 3 8-8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14 7h6v6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              )}
+            </span>
+          </div>
+          <h3 class="text-[16px] font-semibold tracking-tight text-text leading-snug mb-2">{t(lang, `how_it_works.steps.${s.id}.title`)}</h3>
+          <p class="text-[13.5px] text-muted-strong leading-relaxed flex-1" set:html={t(lang, `how_it_works.steps.${s.id}.body_html`)} />
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .hiw-card {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: hiw-in 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  @keyframes hiw-in {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hiw-card { opacity: 1; transform: none; animation: none; }
+  }
+</style>
