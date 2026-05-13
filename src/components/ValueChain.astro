@@ -1,6 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import { t, type Lang } from '../i18n';
-import Logo from './Logo.astro';
+import Wordmark from './Wordmark.astro';
+import productionImg from '../assets/value-chain/production.jpg';
+import analyticsImg from '../assets/value-chain/analytics.jpg';
+import managementImg from '../assets/value-chain/management.jpg';
 
 interface Props {
   lang: Lang;
@@ -13,11 +17,17 @@ const { lang } = Astro.props;
 // logo instead of image) so the eye understands "this is the link that
 // makes the whole flow possible".
 const steps = [
-  { id: 'production', step: '01', image: '/images/value-chain/production.jpg', variant: 'image' as const },
-  { id: 'meshvise',   step: '02', image: null,                                  variant: 'brand' as const },
-  { id: 'analytics',  step: '03', image: '/images/value-chain/analytics.jpg',  variant: 'image' as const },
-  { id: 'management', step: '04', image: '/images/value-chain/management.jpg', variant: 'image' as const },
+  { id: 'production', step: '01', image: productionImg, variant: 'image' as const },
+  { id: 'meshvise',   step: '02', image: null,          variant: 'brand' as const },
+  { id: 'analytics',  step: '03', image: analyticsImg,  variant: 'image' as const },
+  { id: 'management', step: '04', image: managementImg, variant: 'image' as const },
 ];
+
+// Slot is ~280px on lg+ (4 cols), ~480px on md (2 cols), ~600px on mobile.
+// Generate variants so each device/DPR pulls a file close to its target
+// size and the browser only does a small final downscale (no moiré).
+const imgWidths = [320, 480, 640, 800, 1080];
+const imgSizes = '(min-width: 1024px) 25vw, (min-width: 768px) 45vw, 92vw';
 ---
 
 <section
@@ -43,7 +53,7 @@ const steps = [
         narrow even cells. Chevrons are AUTONOMOUS GRID ITEMS, not
         nested inside cards. With `lg:items-center` on the grid, every
         chevron is automatically vertically centred to the row height
-        (= card height) — zero positional calculation, zero drift on
+        (= card height): zero positional calculation, zero drift on
         text length variations.
     -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] gap-6 lg:gap-x-3 lg:gap-y-0 lg:items-center">
@@ -52,28 +62,25 @@ const steps = [
           <article class:list={[
             "relative flex flex-col rounded-xl overflow-hidden",
             s.variant === 'brand'
-              ? "bg-brand text-text-on-brand shadow-lg ring-1 ring-brand/30"
+              ? "bg-brand-600 text-text-on-brand shadow-lg ring-1 ring-brand-600/30"
               : "bg-surface border border-border shadow-sm"
           ]}>
-            <div class="relative aspect-[16/10] w-full">
+            <div class="relative aspect-[5/4] w-full">
               {s.variant === 'image' && s.image && (
-                <img
+                <Image
                   src={s.image}
                   alt={t(lang, `value_chain.${s.id}.alt`)}
+                  widths={imgWidths}
+                  sizes={imgSizes}
                   class="absolute inset-0 w-full h-full object-cover bg-bg-alt"
                   loading="lazy"
                   decoding="async"
-                  width="1024"
-                  height="640"
                 />
               )}
 
               {s.variant === 'brand' && (
-                <div class="absolute inset-0 flex flex-col items-center justify-center bg-brand-hover/30 px-5 py-6">
-                  <div class="flex items-center gap-2.5 mb-2">
-                    <Logo class="w-12 h-12 text-text-on-brand" />
-                    <span class="text-text-on-brand font-semibold text-[22px] tracking-[-0.02em]">meshvise</span>
-                  </div>
+                <div class="absolute inset-0 flex flex-col items-center justify-center bg-brand-700/30 px-5 py-6">
+                  <Wordmark class="h-12 text-text-on-brand mb-3" />
                   <div class="text-[11px] font-mono uppercase tracking-[0.12em] text-text-on-brand/80 mt-1 text-center">
                     {t(lang, 'value_chain.meshvise.tagline')}
                   </div>
@@ -136,3 +143,4 @@ const steps = [
     .vc-chevron { opacity: 1; transform: scale(1); animation: none; }
   }
 </style>
+

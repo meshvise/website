@@ -15,33 +15,33 @@
     "cta_demo": "Explore the live demo",
     "cta_note_html": "€990/year per site. 7-day trial, no credit card. Public demo without sign-up for an immediate look.",
     "preview_label": "UI preview · simulated values (real WebSocket push in the actual demo)",
-    "illustration_alt": "Isometric illustration of an industrial site: process tanks, control room, substation, motor drives and electrical cabinets connected to Meshvise"
+    "illustration_alt": "Isometric illustration of an industrial site: process tanks, control room, substation, motors and electrical cabinets connected to Meshvise"
   },
   "value_chain": {
     "title": "From PLCs to KPIs.",
-    "subtitle": "Meshvise is the link that turns your raw industrial signals into operational knowledge, accessible across the entire company — from the shop floor to the boardroom.",
+    "subtitle": "Meshvise is the link that turns your raw industrial signals into operational knowledge, accessible across the entire company, from the shop floor to the boardroom.",
     "production": {
       "label": "Acquisition",
       "title": "Your equipment",
-      "caption": "Tanks, PLCs, sensors, motor drives, substations. Modbus TCP, OPC-UA and BACnet/IP natively — no matter the vendor.",
-      "alt": "Illustration of a production workshop with PLCs, motor drives, transformers and technicians"
+      "caption": "Machines, sensors, PLCs: Meshvise connects to all your equipment, regardless of brand or protocol.",
+      "alt": "Illustration of a production workshop with PLCs, motors, transformers and technicians"
     },
     "meshvise": {
       "label": "Structuring",
       "title": "Meshvise",
-      "tagline": "Acquisition · Historian · SQL",
-      "caption": "Your data is read, structured by site and business function, historised in standard Postgres and exposed everywhere — no proprietary connector."
+      "tagline": "Acquisition · Supervision · Structuring",
+      "caption": "Your data is read, structured by site and business function, historised in a standard database and exposed everywhere."
     },
     "analytics": {
       "label": "Analysis",
       "title": "Your BI team",
-      "caption": "Power BI, Grafana, Excel or psql : your analysts build dashboards directly on your industrial data, like any other database in the company.",
+      "caption": "Power BI, Grafana, Excel : your analysts build dashboards directly on your industrial data.",
       "alt": "Illustration of a data analytics workspace with two analysts in front of a wall of dashboards"
     },
     "management": {
       "label": "Decision",
       "title": "Your leadership",
-      "caption": "Productivity, energy, quality : leadership steers based on reliable, structured KPIs — not gut feeling or hand-rolled Excel files.",
+      "caption": "Productivity, energy, quality : leadership steers with peace of mind on KPIs grounded in reliable, structured data.",
       "alt": "Illustration of an executive meeting with a KPI wall showing positive trends"
     }
   },
@@ -62,63 +62,52 @@
   },
   "features": {
     "eyebrow": "Capabilities",
-    "title": "Six things Meshvise does, and one it never will.",
-    "subtitle": "Acquisition, historian, alarms, wiresheet, Python blocks, SQL access: everything below runs in production in the public demo today. No dotted-line feature, no roadmap dressed up as the present tense.",
+    "title": "Everything you need to run an industrial site.",
+    "subtitle": "Six native capabilities, in production. All in the public demo.",
     "acquisition": {
       "title": "Multi-protocol acquisition",
-      "tagline": "Read your PLCs across protocols, no third-party connector.",
+      "tagline": "Read your PLCs natively, no third-party connector.",
       "bullets": [
         "<code>Modbus TCP</code>, <code>OPC-UA</code> and <code>BACnet/IP</code> natively"
       ]
     },
     "historian": {
       "title": "Historian",
-      "tagline": "Historise without configuring anything.",
+      "tagline": "Time-series storage, auto-partitioned.",
       "bullets": [
-        "<code>TimescaleDB</code> storage, auto-partitioned by day",
-        "Per-point <code>on_change</code> with deadband or fixed interval",
-        "Configurable per-project retention",
-        "Native minute / hour / day aggregations for reports"
+        "<code>TimescaleDB</code>, configurable retention",
+        "Aggregates per minute, hour or day"
       ]
     },
     "alarms": {
       "title": "Operational alarms",
-      "tagline": "Alert your team on the conditions that matter.",
+      "tagline": "Thresholds and email notifications for your team.",
       "bullets": [
-        "<code>high</code> / <code>low</code> conditions with threshold, deadband and delay",
-        "Severities <code>info</code> / <code>warning</code> / <code>critical</code>",
-        "Email notifications per user group",
-        "Full event log for traceability"
+        "<code>high</code> / <code>low</code> conditions, severities <code>info</code> / <code>warning</code> / <code>critical</code>",
+        "Full event log, exportable"
       ]
     },
     "wiresheet": {
       "title": "Real-time business logic",
-      "tagline": "Compose your site logic in a visual grid.",
+      "tagline": "Your business logic in a visual grid.",
       "bullets": [
-        "Math, boolean logic, comparison, timer, schedule, latch, ramp, PID, alarm",
-        "Drag-and-drop blocks, palette on the left, mouse-driven connections",
-        "<code>JSON</code> versioning, one-click revert, full audit trail",
-        "Also drivable via REST API for CI / CMMS integrations"
+        "Math, timer, schedule, latch, ramp, PID, alarm",
+        "Versioned <code>JSON</code>, drivable via REST API"
       ]
     },
     "python": {
       "title": "Embedded Python blocks",
-      "tagline": "Extend the wiresheet with Python.",
+      "tagline": "Extend the wiresheet without writing a plugin.",
       "bullets": [
-        "<code>Python</code> block straight into the graph",
-        "Access to live values and the historian",
-        "Deterministic sandbox, runtime execution",
-        "Perfect for HVAC COP, energy aggregates, custom transforms"
+        "Live + historian access, deterministic sandbox"
       ]
     },
     "open_data": {
-      "title": "Direct data access",
+      "title": "Direct SQL access",
       "tagline": "Plug Power BI, Grafana or Excel straight into Postgres.",
       "bullets": [
-        "Native <code>ODBC PostgreSQL</code> compatibility",
-        "No proprietary connector to install",
-        "Read-only access for your BI teams",
-        "Plain SQL views, no proprietary dialect"
+        "Native <code>ODBC PostgreSQL</code>, standard SQL views",
+        "Read-only for your BI teams"
       ]
     }
   },
@@ -154,7 +143,7 @@
       "title": "Tag once. Find anywhere.",
       "tagline": "Your equipment doesn't live in silos. Structure it your way.",
       "bullets": [
-        "Tags by site, building, business function, criticality — combinable without limit",
+        "Tags by site, building, business function, criticality, combinable without limit",
         "Filtered views: all HVAC, all critical meters, everything in Building B",
         "New equipment lands in every relevant view automatically",
         "Nothing to reconfigure when your site evolves"
@@ -201,10 +190,12 @@
   },
   "pricing": {
     "eyebrow": "Pricing",
-    "title": "Three doors. One paid tier.",
-    "subtitle": "The online demo for a quick look. The 7-day trial to wire up your real PLCs. The Standard tier when you go to production. All points included in the Standard licence, no hidden runtime fee.",
+    "title": "Try first, choose your offer when ready.",
+    "subtitle": "Online demo and 7-day trial always free. Three commercial offers when you go to production, depending on who runs the infra.",
     "recommended": "Recommended",
-    "footnote": "Standard: prices excl. VAT, billed annually, renews at €990/year. You stay the owner of your data and your instance, hosted on your infrastructure.",
+    "nav_prev": "Previous offer",
+    "nav_next": "Next offer",
+    "footnote": "Prices excl. VAT, France. Annual billing, one-shot setup invoiced at signature. You stay the owner of your data in all three paid tiers.",
     "demo": {
       "name": "Online demo",
       "tagline": "See the product in 60 seconds, no install.",
@@ -221,34 +212,58 @@
       "price_note": "licence by email, read-only on expiration",
       "cta": "Try on my infra"
     },
-    "standard": {
-      "name": "Standard",
-      "tagline": "Real operation, no functional limit.",
-      "price": "€990",
+    "on_premise": {
+      "name": "On-Premise",
+      "tagline": "For customers with an internal IT team or tech lead.",
+      "price": "€2,400",
       "period": "/ year",
-      "price_note": "per instance, updates included",
+      "price_note": "+ €1,200 setup fee",
+      "cta": "Get in touch"
+    },
+    "managed_standard": {
+      "name": "Managed Standard",
+      "tagline": "Turnkey service for SMEs without an internal IT team.",
+      "price": "€4,200",
+      "period": "/ year",
+      "price_note": "+ €1,800 setup fee, industrial agent included",
       "cta": "Get in touch",
       "legal_anchor": "French registered company. Data and support under French law.",
       "continuity_link": "What if you shut down tomorrow? Read the honest answer."
     },
+    "managed_premium": {
+      "name": "Managed Premium",
+      "tagline": "Mid-market or critical environments with contractual SLA.",
+      "price": "€8,400",
+      "period": "/ year",
+      "price_note": "+ €3,200 setup fee, premium agent",
+      "cta": "Get in touch"
+    },
     "feature": {
-      "demo_no_install": "Preview without installing",
       "demo_simulated": "Simulated industrial-site data",
+      "demo_no_signup": "No sign-up, no credit card",
       "demo_quick_look": "60 seconds of clicking around",
-      "demo_no_signup": "No sign-up required",
       "trial_full_app": "Full app on your infrastructure",
       "trial_limits": "5 drivers · 15 machines · 500 points",
-      "trial_protocols": "Modbus TCP + OPC-UA + BACnet/IP",
-      "trial_features": "All product features",
+      "trial_protocols": "<code>Modbus TCP</code> + <code>OPC-UA</code> + <code>BACnet/IP</code>",
       "trial_duration": "7 days then read-only, data preserved",
-      "standard_unlimited": "Unlimited points and machines in practice",
-      "standard_protocols": "Modbus TCP + OPC-UA + BACnet/IP",
-      "standard_features": "Historian, alarms, wiresheet, SQL access, API",
-      "standard_deployment": "Docker deployment in 4 h, first point in 30 min",
-      "standard_install": "One instance per licence, on your infrastructure",
-      "standard_updates": "Updates included for the year",
-      "standard_support": "Email support with a <strong>1-business-day SLA</strong> (FR public holidays excluded)",
-      "standard_audit_nda": "Source-code audit under NDA (on request)"
+      "on_premise_license": "Full Meshvise licence (runtime, gateway, dashboards)",
+      "on_premise_sso": "Standard SSO <code>SAML 2.0 / OIDC</code> included",
+      "on_premise_updates": "Application updates included for 12 months",
+      "on_premise_support": "Email support, <strong>2-business-day</strong> response",
+      "on_premise_hosting": "Self-hosted on your own infrastructure",
+      "managed_standard_includes": "<strong>Everything in On-Premise</strong>, plus:",
+      "managed_standard_agent": "Fanless industrial agent provisioned and shipped",
+      "managed_standard_hosting": "Managed hosting on <code>Cloudflare + Supabase</code>",
+      "managed_standard_ops": "Daily backups + 24/7 monitoring",
+      "managed_standard_support": "Email + phone support, <strong>1-business-day</strong> response",
+      "managed_standard_domain": "Subdomain <code>customer.app.meshvise.com</code>",
+      "managed_premium_includes": "<strong>Everything in Managed Standard</strong>, plus:",
+      "managed_premium_supabase": "Dedicated Supabase project, physical isolation",
+      "managed_premium_sla": "<strong>Contractual 99.5% SLA</strong>, 4-business-hour response",
+      "managed_premium_pitr": "7-day PITR + dedicated staging environment",
+      "managed_premium_audit": "Signed exportable audit log (machine-write traceability)",
+      "managed_premium_sso": "Advanced SSO: SCIM, multi-IdP, white-label login page",
+      "managed_premium_support": "Priority 24/7 business support + direct phone line"
     }
   },
   "faq": {

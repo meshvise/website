@@ -340,7 +340,7 @@ describe('Hard-rule lint on built HTML', () => {
   }
 });
 
-describe('Pricing section renders 3 tiers per ADR-0008', () => {
+describe('Pricing section renders 2 free + 3 commercial tiers (grille 2026-05-11)', () => {
   for (const lang of ['fr', 'en'] as const) {
     function pricingSection(): string {
       const m = html[lang].match(/<section id="pricing"[\s\S]*?<\/section>/);
@@ -348,20 +348,26 @@ describe('Pricing section renders 3 tiers per ADR-0008', () => {
       return m[0];
     }
 
-    it(`${lang} pricing has exactly 3 tier cards`, () => {
+    it(`${lang} pricing has exactly 5 tier cards`, () => {
       const section = pricingSection();
       const cardHeads = section.match(/<h3 class="text-xl/g) ?? [];
-      expect(cardHeads).toHaveLength(3);
+      expect(cardHeads).toHaveLength(5);
     });
 
-    it(`${lang} pricing wires the 3 expected CTAs (demo / trial / standard mailto)`, () => {
+    it(`${lang} pricing wires the 2 free entry CTAs (demo + trial)`, () => {
       const section = pricingSection();
       expect(section).toContain('href="https://app.meshvise.com"');
       expect(section).toContain(`href="/${lang}/trial/"`);
-      expect(section).toContain('href="mailto:contact@meshvise.com?subject=Meshvise%20Standard"');
     });
 
-    it(`${lang} pricing Standard tier carries the legal anchor + continuity link`, () => {
+    it(`${lang} pricing wires the 3 paid mailto CTAs (On-Premise / Managed Standard / Managed Premium)`, () => {
+      const section = pricingSection();
+      expect(section).toContain('href="mailto:contact@meshvise.com?subject=Meshvise%20On-Premise"');
+      expect(section).toContain('href="mailto:contact@meshvise.com?subject=Meshvise%20Managed%20Standard"');
+      expect(section).toContain('href="mailto:contact@meshvise.com?subject=Meshvise%20Managed%20Premium"');
+    });
+
+    it(`${lang} pricing Managed Standard tier carries the legal anchor + continuity link`, () => {
       const section = pricingSection();
       if (lang === 'fr') {
         expect(section).toMatch(/Société française enregistrée\. Données et support sous droit français\./);
@@ -374,8 +380,6 @@ describe('Pricing section renders 3 tiers per ADR-0008', () => {
     });
 
     it(`${lang} pricing no longer references the obsolete free-forever 50-points tier`, () => {
-      // ADR-0008 explicitly rejected a permanent self-host free tier.
-      // Make sure the old "Discovery / 50 points / forever" copy is gone.
       const section = pricingSection();
       expect(section).not.toMatch(/Discovery|Découverte/);
       expect(section).not.toMatch(/50 points/);

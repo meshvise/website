@@ -15,33 +15,33 @@
     "cta_demo": "Découvrir la démo en ligne",
     "cta_note_html": "990 €/an par site. Essai 7 jours sans carte bancaire. Démo publique sans inscription pour un aperçu immédiat.",
     "preview_label": "Aperçu UI · valeurs simulées (push WebSocket dans la démo)",
-    "illustration_alt": "Illustration isométrique d'un site industriel : cuves de procédé, salle de contrôle, sous-station, motoréducteurs et armoires électriques connectés à Meshvise"
+    "illustration_alt": "Illustration isométrique d'un site industriel : cuves de procédé, salle de contrôle, sous-station, moteurs et armoires électriques connectés à Meshvise"
   },
   "value_chain": {
     "title": "De vos automates à vos KPIs.",
-    "subtitle": "Meshvise est le maillon qui transforme vos signaux industriels bruts en connaissance opérationnelle, accessible à toute l'entreprise — du terrain à la direction.",
+    "subtitle": "Meshvise est le maillon qui transforme vos signaux industriels bruts en connaissance opérationnelle, accessible à toute l'entreprise, du terrain à la direction.",
     "production": {
       "label": "Acquisition",
       "title": "Vos équipements",
-      "caption": "Cuves, automates, capteurs, motoréducteurs, sous-stations. Modbus TCP, OPC-UA et BACnet/IP en natif, peu importe la marque.",
-      "alt": "Illustration d'un atelier de production avec automates, motoréducteurs, transformateurs et techniciens"
+      "caption": "Machines, capteurs, automates : Meshvise se connecte à tous vos équipements, peu importe la marque ou le protocole.",
+      "alt": "Illustration d'un atelier de production avec automates, moteurs, transformateurs et techniciens"
     },
     "meshvise": {
       "label": "Structuration",
       "title": "Meshvise",
-      "tagline": "Acquisition · Historisation · SQL",
-      "caption": "Vos données sont lues, structurées par site et fonction métier, historisées dans Postgres standard et exposées partout — sans connecteur propriétaire."
+      "tagline": "Acquisition · Supervision · Structuration",
+      "caption": "Vos données sont lues, structurées par site et fonction métier, historisées dans une base de données standard et exposées partout."
     },
     "analytics": {
       "label": "Analyse",
       "title": "Vos équipes BI",
-      "caption": "Power BI, Grafana, Excel ou psql : vos analystes construisent leurs dashboards directement sur vos données industrielles, comme sur n'importe quelle autre base.",
+      "caption": "Power BI, Grafana, Excel : vos analystes construisent leurs dashboards directement sur vos données industrielles.",
       "alt": "Illustration d'un espace d'analyse de données avec deux analystes devant un mur d'écrans affichant des dashboards"
     },
     "management": {
       "label": "Décision",
       "title": "Votre direction",
-      "caption": "Productivité, énergie, qualité : la direction pilote sur des KPI fondés sur des données fiables et structurées, plus sur des intuitions ou des fichiers Excel manuels.",
+      "caption": "Productivité, énergie, qualité : la direction pilote en toute sérénité sur des KPI fondés sur des données fiables et structurées.",
       "alt": "Illustration d'une réunion de direction avec un mur de KPI affichant des tendances positives"
     }
   },
@@ -62,8 +62,8 @@
   },
   "features": {
     "eyebrow": "Capacités",
-    "title": "Six choses que Meshvise fait, et une qu'il ne fera jamais.",
-    "subtitle": "Acquisition, historisation, alarmes, wiresheet, blocs Python, accès SQL : tout ce qui suit tourne en production dans la démo publique. Pas de feature en pointillé, pas de roadmap déguisée en présent.",
+    "title": "Tout ce qu'il faut pour piloter votre site industriel.",
+    "subtitle": "Six capacités natives, en production. Tout est dans la démo publique.",
     "acquisition": {
       "title": "Acquisition multi-protocoles",
       "tagline": "Lisez vos automates sans connecteur tiers.",
@@ -73,52 +73,41 @@
     },
     "historian": {
       "title": "Historisation",
-      "tagline": "Historisez sans rien régler.",
+      "tagline": "Time-series partitionné automatiquement.",
       "bullets": [
-        "Stockage <code>TimescaleDB</code>, partitionné automatiquement par jour",
-        "Mode <code>on_change</code> avec bande morte ou intervalle fixe par point",
-        "Rétention configurable par projet",
-        "Agrégations natives par minute, heure ou jour pour les rapports"
+        "<code>TimescaleDB</code>, rétention configurable",
+        "Agrégats par minute, heure ou jour"
       ]
     },
     "alarms": {
       "title": "Alarmes opérationnelles",
-      "tagline": "Alertez vos équipes sur les conditions qui comptent.",
+      "tagline": "Seuils et notifications email pour vos équipes.",
       "bullets": [
-        "Conditions <code>high</code> / <code>low</code> avec seuil, bande morte et délai",
-        "Sévérités <code>info</code> / <code>warning</code> / <code>critical</code>",
-        "Notifications email par groupe d'utilisateurs",
-        "Journal complet pour la traçabilité"
+        "Conditions <code>high</code> / <code>low</code>, sévérités <code>info</code> / <code>warning</code> / <code>critical</code>",
+        "Journal complet, exportable"
       ]
     },
     "wiresheet": {
       "title": "Logique métier en temps réel",
-      "tagline": "Composez votre logique de site dans une grille visuelle.",
+      "tagline": "Votre logique métier dans une grille visuelle.",
       "bullets": [
-        "Math, logique booléenne, comparaison, timer, schedule, latch, ramp, PID, alarme",
-        "Drag-and-drop des blocs, palette à gauche, connexions à la souris",
-        "Versionnage <code>JSON</code>, revert en un clic, audit trail complet",
-        "Pilotable aussi via API REST pour les intégrations CI / GMAO"
+        "Math, timer, schedule, latch, ramp, PID, alarme",
+        "Versionné <code>JSON</code>, pilotable via API REST"
       ]
     },
     "python": {
       "title": "Blocs Python embarqués",
-      "tagline": "Étendez le wiresheet avec du Python.",
+      "tagline": "Étendez le wiresheet sans écrire un plugin.",
       "bullets": [
-        "Bloc <code>Python</code> directement dans le graphe",
-        "Accès aux valeurs live et à l'historian",
-        "Sandbox déterministe, exécution dans le runtime",
-        "Idéal pour COP HVAC, agrégats énergétiques, transformations spécifiques"
+        "Accès aux valeurs live et à l'historian, sandbox déterministe"
       ]
     },
     "open_data": {
-      "title": "Accès direct aux données",
+      "title": "Accès SQL direct",
       "tagline": "Branchez Power BI, Grafana ou Excel directement sur Postgres.",
       "bullets": [
-        "Compatibilité <code>ODBC PostgreSQL</code> native",
-        "Aucun connecteur propriétaire à installer",
-        "Lecture seule possible pour vos équipes BI",
-        "Vues SQL classiques, pas de dialecte propriétaire"
+        "<code>ODBC PostgreSQL</code> natif, vues SQL standards",
+        "Lecture seule pour vos équipes BI"
       ]
     }
   },
@@ -154,7 +143,7 @@
       "title": "Étiquetez une fois. Retrouvez partout.",
       "tagline": "Vos équipements ne vivent pas en silos. Structurez-les à votre main.",
       "bullets": [
-        "Étiquettes par site, bâtiment, fonction métier, criticité — combinables sans limite",
+        "Étiquettes par site, bâtiment, fonction métier, criticité, combinables sans limite",
         "Vues filtrées : tous les HVAC, tous les compteurs critiques, tout le Bâtiment B",
         "Un nouvel équipement entre automatiquement dans les vues qui le concernent",
         "Aucun reparamétrage quand votre site évolue"
@@ -201,10 +190,12 @@
   },
   "pricing": {
     "eyebrow": "Tarifs",
-    "title": "Trois portes. Un seul tier payant.",
-    "subtitle": "La démo en ligne pour cliquer une fois. L'essai 7 jours pour câbler vos automates. Le tier Standard pour passer en exploitation. Tous les points inclus dans la licence Standard, sans surcoût runtime.",
+    "title": "Évaluez librement, puis choisissez votre offre.",
+    "subtitle": "Démo en ligne et essai 7 jours toujours gratuits. Trois offres commerciales pour passer en production selon qui exploite l'infra.",
     "recommended": "Recommandé",
-    "footnote": "Standard : tarifs HT, facturation annuelle, renouvellement 990 € / an. Vous restez propriétaire de vos données et de votre instance, hébergement chez vous.",
+    "nav_prev": "Offre précédente",
+    "nav_next": "Offre suivante",
+    "footnote": "Tarifs HT, France. Facturation annuelle, mise en service facturée une fois à la signature. Vous restez propriétaire de vos données dans les trois offres commerciales.",
     "demo": {
       "name": "Démo en ligne",
       "tagline": "Survoler le produit en 60 secondes, sans rien installer.",
@@ -221,34 +212,58 @@
       "price_note": "licence par email, lecture seule à expiration",
       "cta": "Essayer sur mon infra"
     },
-    "standard": {
-      "name": "Standard",
-      "tagline": "Exploitation réelle, sans limite fonctionnelle.",
-      "price": "990 €",
+    "on_premise": {
+      "name": "On-Premise",
+      "tagline": "Pour les clients avec une DSI ou un référent technique interne.",
+      "price": "2 400 €",
       "period": "/ an",
-      "price_note": "par instance, mises à jour incluses",
+      "price_note": "+ 1 200 € à la mise en service",
+      "cta": "Nous contacter"
+    },
+    "managed_standard": {
+      "name": "Managed Standard",
+      "tagline": "Service clé en main pour TPE et PME sans DSI.",
+      "price": "4 200 €",
+      "period": "/ an",
+      "price_note": "+ 1 800 € à la mise en service, boîtier inclus",
       "cta": "Nous contacter",
       "legal_anchor": "Société française enregistrée. Données et support sous droit français.",
       "continuity_link": "Et si vous fermez demain ? Lire la réponse honnête."
     },
+    "managed_premium": {
+      "name": "Managed Premium",
+      "tagline": "ETI ou environnement critique avec SLA contractuel.",
+      "price": "8 400 €",
+      "period": "/ an",
+      "price_note": "+ 3 200 € à la mise en service, boîtier premium",
+      "cta": "Nous contacter"
+    },
     "feature": {
-      "demo_no_install": "Aperçu sans installation",
       "demo_simulated": "Données simulées d'un site industriel",
+      "demo_no_signup": "Pas d'inscription, pas de carte bancaire",
       "demo_quick_look": "60 secondes pour cliquer partout",
-      "demo_no_signup": "Pas d'inscription requise",
       "trial_full_app": "L'app complète sur votre infra",
       "trial_limits": "5 drivers · 15 machines · 500 points",
-      "trial_protocols": "Modbus TCP + OPC-UA + BACnet/IP",
-      "trial_features": "Toutes les fonctionnalités produit",
+      "trial_protocols": "<code>Modbus TCP</code> + <code>OPC-UA</code> + <code>BACnet/IP</code>",
       "trial_duration": "7 jours puis lecture seule, données conservées",
-      "standard_unlimited": "Points et machines illimités en pratique",
-      "standard_protocols": "Modbus TCP + OPC-UA + BACnet/IP",
-      "standard_features": "Historian, alarmes, wiresheet, accès SQL, API",
-      "standard_deployment": "Déploiement Docker en 4 h, premier point remonté en 30 min",
-      "standard_install": "Une instance par licence, sur votre infra",
-      "standard_updates": "Mises à jour incluses pendant l'année",
-      "standard_support": "Support email avec engagement <strong>24 h ouvrées</strong> (jours fériés FR exclus)",
-      "standard_audit_nda": "Audit code sous NDA disponible (sur demande)"
+      "on_premise_license": "Licence Meshvise complète (runtime, gateway, dashboards)",
+      "on_premise_sso": "SSO standard <code>SAML 2.0 / OIDC</code> inclus",
+      "on_premise_updates": "Mises à jour applicatives incluses pendant 12 mois",
+      "on_premise_support": "Support email, réponse <strong>2 jours ouvrés</strong>",
+      "on_premise_hosting": "Hébergement chez vous, sur votre infra",
+      "managed_standard_includes": "<strong>Tout l'On-Premise</strong>, plus :",
+      "managed_standard_agent": "Boîtier industriel agent fanless livré et provisionné",
+      "managed_standard_hosting": "Hébergement managé <code>Cloudflare + Supabase</code>",
+      "managed_standard_ops": "Sauvegardes quotidiennes + monitoring 24/7",
+      "managed_standard_support": "Support email + téléphone, réponse <strong>1 jour ouvré</strong>",
+      "managed_standard_domain": "Sous-domaine <code>client.app.meshvise.com</code>",
+      "managed_premium_includes": "<strong>Tout le Managed Standard</strong>, plus :",
+      "managed_premium_supabase": "Projet Supabase dédié, isolation physique",
+      "managed_premium_sla": "<strong>SLA contractuel 99,5 %</strong>, intervention 4 h ouvrées",
+      "managed_premium_pitr": "PITR 7 jours + environnement de staging dédié",
+      "managed_premium_audit": "Audit log signé exportable (traçabilité écritures machine)",
+      "managed_premium_sso": "SSO avancé : SCIM, multi-IdP, page de login en marque blanche",
+      "managed_premium_support": "Support prioritaire 24/7 ouvrés + numéro direct"
     }
   },
   "faq": {

@@ -1,0 +1,471 @@
+---
+/*
+ * Preview vitrine "avant / apres" : page de validation interne, pas
+ * reliee a la nav. Sert a juger le concept de slider de comparaison
+ * avant integration dans le Hero principal.
+ *
+ * Cote "Avant" : reuse de l'illustration existante avec ajout de
+ *   friction visuelle (soupe de protocoles, export manuel).
+ * Cote "Apres" : dashboard Meshvise sombre, donnees live simulees sur
+ *   les memes equipements que l'illustration (Cuves, Convoyeur, etc.).
+ * Slider : draggable + auto-play une fois a l'entree du viewport.
+ */
+import Base from '../../layouts/Base.astro';
+
+const lang = 'fr' as const;
+
+interface Point {
+  id: string;
+  name: string;
+  unit: string;
+  base: number;
+  amp: number;
+  period: number;
+  dyn: 'sine' | 'walk' | 'static';
+  text?: string;
+  accent?: boolean;
+}
+
+const points: Point[] = [
+  { id: 'tank-lvl', name: 'Cuve 3 / Niveau',          unit: '%',    base: 62.3,  amp: 6,    period: 17, dyn: 'sine' },
+  { id: 'tank-tmp', name: 'Cuve 3 / Temperature',     unit: '°C',   base: 78.4,  amp: 1.6,  period: 13, dyn: 'sine' },
+  { id: 'conv-spd', name: 'Convoyeur / Vitesse',      unit: 'm/s',  base: 1.42,  amp: 0.08, period: 3,  dyn: 'walk' },
+  { id: 'plc-st',   name: 'Automate / Etat',          unit: '',     base: 0,     amp: 0,    period: 0,  dyn: 'static', text: 'RUN' },
+  { id: 'mot-vib',  name: 'Motor 2 / Vibration',      unit: 'mm/s', base: 2.34,  amp: 0.18, period: 2,  dyn: 'walk' },
+  { id: 'mot-cur',  name: 'Motor 2 / Courant',        unit: 'A',    base: 18.2,  amp: 1.2,  period: 5,  dyn: 'walk' },
+  { id: 'subst-u',  name: 'Sous-station / Tension',   unit: 'kV',   base: 23.10, amp: 0.4,  period: 11, dyn: 'sine', accent: true },
+  { id: 'subst-p',  name: 'Sous-station / Puissance', unit: 'kW',   base: 124.7, amp: 8,    period: 4,  dyn: 'walk' },
+];
+
+const fmtBase = (p: Point): string => {
+  if (p.text) return p.text;
+  if (p.unit === 'kV' || p.unit === 'mm/s' || p.unit === 'm/s') return p.base.toFixed(2);
+  return p.base.toFixed(1);
+};
+---
+
+<Base
+  lang={lang}
+  title="Preview vitrine avant/apres · Meshvise"
+  description="Page de validation interne pour la nouvelle vitrine."
+>
+  <section class="px-6 pt-12 pb-6">
+    <div class="mx-auto max-w-7xl">
+      <span class="section-eyebrow">Vitrine : proposition avant/apres</span>
+      <h1 class="text-[40px] md:text-[52px] lg:text-[60px] font-semibold tracking-[-0.03em] leading-[1.05] text-text mt-4 max-w-4xl">
+        Toutes vos donnees industrielles, <span class="text-brand">enfin au meme endroit.</span>
+      </h1>
+      <p class="mt-6 text-[17px] md:text-lg text-muted-strong leading-[1.55] max-w-2xl">
+        Glissez la poignee pour voir ce qui change : a gauche, la realite de l'usine aujourd'hui. A droite, le tableau de bord Meshvise qui consolide tout en temps reel.
+      </p>
+    </div>
+  </section>
+
+  <section class="px-6 pb-10">
+    <div class="mx-auto max-w-7xl">
+      <div
+        id="compare"
+        class="compare-root relative w-full rounded-xl overflow-hidden ring-1 ring-border shadow-2xl shadow-slate-900/10 select-none touch-none"
+        style="aspect-ratio: 16 / 10; background: #FFFFFF;"
+        role="region"
+        aria-roledescription="slider"
+        aria-label="Comparaison avant Meshvise versus apres Meshvise. Utilisez les fleches gauche/droite pour deplacer la poignee."
+        tabindex="0"
+      >
+        {/* ============== AVANT (couche 0) ============== */}
+        <div class="absolute inset-0 z-0 pointer-events-none">
+          <img
+            src="/images/hero/site-illustration.png"
+            alt=""
+            width="1568"
+            height="980"
+            class="absolute inset-0 w-full h-full object-cover"
+            style="filter: saturate(0.9) brightness(0.97);"
+            loading="eager"
+            decoding="sync"
+            fetchpriority="high"
+            aria-hidden="true"
+          />
+
+          {/* Soupe de protocoles, top-left */}
+          <div class="absolute top-[8%] left-[3%] flex flex-col gap-2 max-w-[26%]">
+            <div class="text-[10px] font-mono text-slate-500 uppercase tracking-wider opacity-80">A integrer, un par un</div>
+            <div class="flex flex-wrap gap-1.5">
+              {['Modbus TCP', 'OPC-UA', 'S7', 'BACnet/IP', 'MQTT', 'OPC-DA', 'CSV'].map((p) => (
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/85 border border-slate-300 text-slate-600 shadow-sm">{p}</span>
+              ))}
+            </div>
+          </div>
+
+          {/* Note "export manuel" en bas a gauche */}
+          <div class="absolute bottom-[7%] left-[3%] bg-amber-50 border border-amber-200 rounded-md px-2.5 py-1.5 shadow-sm rotate-[-2deg] max-w-[26%]">
+            <div class="text-[10px] font-mono text-amber-700 uppercase tracking-wider">Releve hebdo</div>
+            <div class="text-[11px] text-slate-700 mt-0.5">donnees.xlsx, cle USB, mail au chef d'atelier</div>
+          </div>
+
+          {/* Caption "Avant" */}
+          <div class="absolute top-3 left-3 z-[3]">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/80 text-white text-[11px] font-mono uppercase tracking-wider backdrop-blur-sm">
+              Aujourd'hui
+            </span>
+          </div>
+        </div>
+
+        {/* ============== APRES (couche 1, clipped) ============== */}
+        <div
+          class="compare-after absolute inset-0 z-[1] pointer-events-none"
+          style="background: #0F172A;"
+        >
+          {/* Window chrome */}
+          <div class="px-3 py-2 border-b flex items-center gap-2" style="background:#273449;border-color:#334155;">
+            <div class="flex gap-1" aria-hidden="true">
+              <span class="w-2 h-2 rounded-full" style="background:rgb(239 68 68 / 0.6);"></span>
+              <span class="w-2 h-2 rounded-full" style="background:rgb(245 158 11 / 0.6);"></span>
+              <span class="w-2 h-2 rounded-full" style="background:rgb(16 185 129 / 0.6);"></span>
+            </div>
+            <span class="text-[11px] font-mono ml-2" style="color:#94A3B8;">app.meshvise.com / sites / beauvais</span>
+            <span class="ml-auto flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider" style="color:#22D3EE;">
+              <span class="relative flex h-1.5 w-1.5">
+                <span class="absolute inline-flex h-full w-full rounded-full ws-pulse" style="background:#22D3EE;opacity:0.75;" aria-hidden="true"></span>
+                <span class="relative inline-flex rounded-full h-1.5 w-1.5" style="background:#22D3EE;"></span>
+              </span>
+              live, websocket
+            </span>
+          </div>
+
+          {/* Desktop layout: sidebar + table */}
+          <div class="hidden md:grid md:grid-cols-[180px_1fr]" style="height: calc(100% - 36px);">
+            <aside class="border-r px-2.5 py-3 flex flex-col gap-0.5 text-[12px] overflow-hidden" style="background:#1E293B;border-color:#334155;">
+              <div class="text-[9px] uppercase tracking-[0.12em] px-2 mb-2 font-mono" style="color:#94A3B8;">Site Beauvais</div>
+              <a class="px-2 py-1 rounded text-[#94A3B8]">Vue d'ensemble</a>
+              <a class="px-2 py-1 rounded font-medium flex items-center justify-between" style="background:rgb(6 182 212 / 0.1);color:#22D3EE;">
+                <span>Equipements</span>
+                <span class="text-[10px] font-mono opacity-80">9</span>
+              </a>
+              <div class="ml-3 mt-0.5 flex flex-col gap-0.5 text-[11px]">
+                <a class="px-2 py-0.5 rounded" style="color:#CBD5E1;">Cuves</a>
+                <a class="px-2 py-0.5 rounded" style="color:#CBD5E1;">Convoyeur</a>
+                <a class="px-2 py-0.5 rounded" style="color:#CBD5E1;">Automate</a>
+                <a class="px-2 py-0.5 rounded" style="color:#CBD5E1;">Motoreducteurs</a>
+                <a class="px-2 py-0.5 rounded" style="color:#CBD5E1;">Sous-station</a>
+              </div>
+              <a class="mt-2 px-2 py-1 rounded flex items-center justify-between" style="color:#94A3B8;">
+                <span>Alertes</span>
+                <span class="text-[10px] font-mono" style="color:rgb(245 158 11 / 0.95);">3</span>
+              </a>
+              <a class="px-2 py-1 rounded" style="color:#94A3B8;">Historique</a>
+              <a class="px-2 py-1 rounded" style="color:#94A3B8;">Export ODBC</a>
+
+              <div class="mt-auto pt-3 px-1.5 border-t text-[10px] font-mono" style="border-color:#334155;color:#94A3B8;">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full" style="background:#22D3EE;"></span>
+                  <span>Revision</span>
+                  <span style="color:#22D3EE;">#42</span>
+                </div>
+              </div>
+            </aside>
+
+            <div class="px-4 py-3 overflow-hidden">
+              <div class="flex items-center justify-between mb-2.5">
+                <div>
+                  <h3 class="text-[12px] font-semibold tracking-tight" style="color:#F8FAFC;">Points en temps reel</h3>
+                  <div class="text-[10px] mt-0.5 font-mono" style="color:#64748B;">9 equipements, 47 points, 3 alertes ouvertes</div>
+                </div>
+                <span class="text-[10px] font-mono" id="ap-status" style="color:#94A3B8;">↻ 0.4s</span>
+              </div>
+
+              <table class="w-full text-[12px] font-mono border-collapse">
+                <thead>
+                  <tr class="text-[9px] uppercase tracking-wider border-b" style="color:#94A3B8;border-color:#334155;">
+                    <th class="text-left py-1.5 pr-3 font-medium">Point</th>
+                    <th class="text-right py-1.5 px-3 font-medium">Valeur</th>
+                    <th class="text-left py-1.5 px-2 font-medium">Unite</th>
+                    <th class="text-center py-1.5 pl-3 font-medium hidden lg:table-cell">Tendance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {points.map((p) => (
+                    <tr class="border-b last:border-0" data-point={p.id} style="border-color:rgb(51 65 85 / 0.5);">
+                      <td class="py-1.5 pr-3 truncate" style="color:#CBD5E1;">{p.name}</td>
+                      <td
+                        class="py-1.5 px-3 text-right tabular-nums"
+                        style={`color:${p.accent ? '#22D3EE' : '#F8FAFC'};font-weight:${p.accent ? '600' : '400'};`}
+                      >
+                        <span class="ap-val">{fmtBase(p)}</span>
+                      </td>
+                      <td class="py-1.5 px-2 text-[11px]" style="color:#94A3B8;">{p.unit}</td>
+                      <td class="py-1.5 pl-3 hidden lg:table-cell">
+                        {p.dyn !== 'static' && (
+                          <svg class="ap-spark mx-auto block w-20 h-4" viewBox="0 0 80 16" fill="none" stroke="rgb(34 211 238 / 0.7)" stroke-width="1.25" aria-hidden="true">
+                            <polyline class="ap-spark-line" points="" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        )}
+                        {p.dyn === 'static' && (
+                          <span class="inline-flex items-center gap-1 text-[10px]" style="color:rgb(16 185 129 / 0.95);">
+                            <span class="w-1.5 h-1.5 rounded-full" style="background:rgb(16 185 129);"></span>
+                            stable
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Mobile fallback: cards stack */}
+          <div class="md:hidden px-3 py-3 overflow-hidden" style="height: calc(100% - 36px);">
+            <div class="text-[10px] font-mono uppercase tracking-wider mb-2" style="color:#94A3B8;">Site Beauvais, 47 points</div>
+            <div class="flex flex-col gap-1">
+              {points.slice(0, 5).map((p) => (
+                <div class="flex items-center justify-between border-b py-1" style="border-color:rgb(51 65 85 / 0.5);" data-point={p.id}>
+                  <span class="text-[10px] font-mono truncate pr-2" style="color:#CBD5E1;">{p.name}</span>
+                  <span class="text-[11px] font-mono tabular-nums whitespace-nowrap" style={`color:${p.accent ? '#22D3EE' : '#F8FAFC'};`}>
+                    <span class="ap-val">{fmtBase(p)}</span>
+                    {p.unit && <span class="text-[9px] ml-1" style="color:#94A3B8;">{p.unit}</span>}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Caption "Apres" */}
+          <div class="absolute top-3 right-3 z-[3]">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono uppercase tracking-wider shadow-sm" style="background:#22D3EE;color:#0F172A;">
+              Avec Meshvise
+            </span>
+          </div>
+        </div>
+
+        {/* ============== Slider handle ============== */}
+        <div
+          class="compare-divider absolute top-0 bottom-0 z-[5] pointer-events-none"
+          aria-hidden="true"
+        >
+          <div class="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[2px] bg-white shadow-[0_0_0_1px_rgba(15,23,42,0.18)]"></div>
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white shadow-lg ring-2 ring-brand flex items-center justify-center">
+            <svg viewBox="0 0 16 16" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" style="color:var(--color-brand);" aria-hidden="true">
+              <path d="M5.5 4l-3 4 3 4 M10.5 4l3 4-3 4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+
+        {/* "Glissez" hint, fades after auto-anim */}
+        <div class="compare-hint absolute bottom-3 left-1/2 -translate-x-1/2 z-[4] pointer-events-none">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-sm border border-slate-200 text-[11px] font-mono text-slate-700 shadow-sm">
+            <svg viewBox="0 0 16 16" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <path d="M3 8l3-3 M3 8l3 3 M13 8l-3-3 M13 8l-3 3 M3 8h10" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Glissez la poignee pour comparer
+          </span>
+        </div>
+      </div>
+
+      {/* CTAs */}
+      <div class="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-center">
+        <a href={`/${lang}/trial/`} class="btn btn-primary btn-lg">
+          Demarrer l'essai 7 jours
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M6 3l5 5-5 5" stroke-linecap="round"/>
+          </svg>
+        </a>
+        <a href="https://app.meshvise.com" target="_blank" rel="noopener" class="btn btn-outline btn-lg">
+          Voir la demo en ligne
+        </a>
+      </div>
+
+      <p class="mt-12 text-center text-[12px] text-muted">
+        Page de validation interne. Le slider auto-joue une fois a l'arrivee dans le viewport, puis devient draggable a la souris/tactile/clavier (fleches, Home, End).
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .compare-root {
+    cursor: ew-resize;
+    --x: 50%;
+  }
+  .compare-root:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+  .compare-after {
+    clip-path: inset(0 0 0 var(--x));
+  }
+  .compare-divider {
+    left: var(--x);
+    transform: translateX(-50%);
+  }
+
+  @keyframes ws-ping {
+    0% { transform: scale(1); opacity: 0.75; }
+    75%, 100% { transform: scale(2.4); opacity: 0; }
+  }
+  .ws-pulse { animation: ws-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+  .compare-hint {
+    animation: compare-hint-fade 1s ease-out 4s forwards;
+    will-change: opacity;
+  }
+  @keyframes compare-hint-fade {
+    to { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ws-pulse { animation: none; }
+    .compare-hint { animation: none; }
+  }
+</style>
+
+<script is:inline type="module" define:vars={{ pointsConfig: points }}>
+  const root = document.getElementById('compare');
+  if (root) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let dragging = false;
+    let userInteracted = false;
+
+    const setX = (clientX) => {
+      const r = root.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(100, ((clientX - r.left) / r.width) * 100));
+      root.style.setProperty('--x', `${pct}%`);
+    };
+
+    root.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      userInteracted = true;
+      try { root.setPointerCapture(e.pointerId); } catch (_) {}
+      setX(e.clientX);
+    });
+    root.addEventListener('pointermove', (e) => { if (dragging) setX(e.clientX); });
+    const stopDrag = () => { dragging = false; };
+    root.addEventListener('pointerup', stopDrag);
+    root.addEventListener('pointercancel', stopDrag);
+    root.addEventListener('pointerleave', stopDrag);
+
+    root.addEventListener('keydown', (e) => {
+      const cur = parseFloat(getComputedStyle(root).getPropertyValue('--x')) || 50;
+      let next = cur;
+      const step = e.shiftKey ? 10 : 4;
+      if (e.key === 'ArrowLeft')        next = Math.max(0, cur - step);
+      else if (e.key === 'ArrowRight')  next = Math.min(100, cur + step);
+      else if (e.key === 'Home')        next = 0;
+      else if (e.key === 'End')         next = 100;
+      else return;
+      e.preventDefault();
+      userInteracted = true;
+      root.style.setProperty('--x', `${next}%`);
+    });
+
+    /* Auto-animation : 75 -> 25 -> 50, ease-in-out cubic */
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const playAuto = () => {
+      if (reduced || userInteracted) {
+        root.style.setProperty('--x', '50%');
+        return;
+      }
+      root.style.setProperty('--x', '75%');
+      const start = performance.now();
+      const phase1End = 1600;  /* 75 -> 25 */
+      const phase2End = 2400;  /* 25 -> 50 */
+      const tick = (now) => {
+        if (userInteracted) return;
+        const elapsed = now - start;
+        let x;
+        if (elapsed < phase1End) {
+          x = 75 + (25 - 75) * ease(elapsed / phase1End);
+        } else if (elapsed < phase2End) {
+          x = 25 + (50 - 25) * ease((elapsed - phase1End) / (phase2End - phase1End));
+        } else {
+          x = 50;
+        }
+        root.style.setProperty('--x', `${x}%`);
+        if (elapsed < phase2End) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((ent) => {
+        if (ent.isIntersecting) {
+          obs.unobserve(root);
+          setTimeout(playAuto, 400);
+        }
+      });
+    }, { threshold: 0.4 });
+    obs.observe(root);
+
+    /* Live data simulation pour le panel "Apres" (memes patterns que AppPreview) */
+    if (!reduced) {
+      const buffers = new Map();
+      const minMax = new Map();
+      pointsConfig.forEach((p) => {
+        if (p.dyn === 'static') return;
+        buffers.set(p.id, Array(24).fill(p.base));
+        minMax.set(p.id, { min: p.base - p.amp, max: p.base + p.amp });
+      });
+
+      const status = root.querySelector('#ap-status');
+      const t0 = performance.now();
+      let lastUpdate = t0;
+
+      const computeValue = (p, tSec) => {
+        const buf = buffers.get(p.id);
+        if (!buf) return p.base;
+        const last = buf[buf.length - 1];
+        if (p.dyn === 'sine') {
+          return p.base + p.amp * Math.sin((tSec * 2 * Math.PI) / p.period);
+        }
+        const drift = (Math.random() - 0.5) * p.amp * 0.18;
+        const pull = (p.base - last) * 0.05;
+        return last + drift + pull;
+      };
+
+      const formatVal = (p, val) => {
+        if (p.unit === 'kV' || p.unit === 'mm/s' || p.unit === 'm/s') return val.toFixed(2);
+        return val.toFixed(1);
+      };
+
+      const render = (now) => {
+        const tSec = (now - t0) / 1000;
+        const since = ((now - lastUpdate) / 1000).toFixed(1);
+        if (status) status.textContent = `↻ ${since}s`;
+
+        if (now - lastUpdate < 320) {
+          requestAnimationFrame(render);
+          return;
+        }
+        lastUpdate = now;
+
+        for (const p of pointsConfig) {
+          if (p.dyn === 'static') continue;
+          const rows = root.querySelectorAll(`[data-point="${p.id}"]`);
+          if (!rows.length) continue;
+          const val = computeValue(p, tSec);
+          const buf = buffers.get(p.id);
+          buf.shift();
+          buf.push(val);
+          const formatted = formatVal(p, val);
+          rows.forEach((row) => {
+            const valEl = row.querySelector('.ap-val');
+            if (valEl) valEl.textContent = formatted;
+            const line = row.querySelector('.ap-spark-line');
+            if (line) {
+              const mm = minMax.get(p.id);
+              const range = mm.max - mm.min || 1;
+              const pts = buf.map((v, i) => {
+                const x = (i / (buf.length - 1)) * 80;
+                const y = 14 - ((v - mm.min) / range) * 12;
+                return `${x.toFixed(1)},${y.toFixed(1)}`;
+              }).join(' ');
+              line.setAttribute('points', pts);
+            }
+          });
+        }
+        requestAnimationFrame(render);
+      };
+      requestAnimationFrame(render);
+    }
+  }
+</script>

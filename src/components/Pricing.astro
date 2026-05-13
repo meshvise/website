@@ -7,9 +7,9 @@ interface Props {
 
 const { lang } = Astro.props;
 
-// Three tiers per ADR-0008 (2026-05-01): two free entry points (online
-// demo + 7-day trial) and one paid tier (Standard 990 EUR/year). The
-// Standard tier is highlighted as the recommended path for production.
+// Pricing tiers (grille 2026-05-11), affiches sur une seule ligne au-
+// dessus de lg : demo + trial (entrees gratuites) puis 3 offres
+// commerciales. Managed Standard est highlight (cible 60 % du mix).
 const tiers = [
   {
     id: 'demo',
@@ -17,10 +17,9 @@ const tiers = [
     cta_href: 'https://app.meshvise.com',
     cta_external: true,
     features: [
-      'feature.demo_no_install',
       'feature.demo_simulated',
-      'feature.demo_quick_look',
       'feature.demo_no_signup',
+      'feature.demo_quick_look',
     ],
   },
   {
@@ -32,24 +31,49 @@ const tiers = [
       'feature.trial_full_app',
       'feature.trial_limits',
       'feature.trial_protocols',
-      'feature.trial_features',
       'feature.trial_duration',
     ],
   },
   {
-    id: 'standard',
-    highlight: true,
-    cta_href: 'mailto:contact@meshvise.com?subject=Meshvise%20Standard',
+    id: 'on_premise',
+    highlight: false,
+    cta_href: 'mailto:contact@meshvise.com?subject=Meshvise%20On-Premise',
     cta_external: false,
     features: [
-      'feature.standard_unlimited',
-      'feature.standard_protocols',
-      'feature.standard_features',
-      'feature.standard_deployment',
-      'feature.standard_install',
-      'feature.standard_updates',
-      'feature.standard_support',
-      'feature.standard_audit_nda',
+      'feature.on_premise_license',
+      'feature.on_premise_sso',
+      'feature.on_premise_updates',
+      'feature.on_premise_support',
+      'feature.on_premise_hosting',
+    ],
+  },
+  {
+    id: 'managed_standard',
+    highlight: true,
+    cta_href: 'mailto:contact@meshvise.com?subject=Meshvise%20Managed%20Standard',
+    cta_external: false,
+    features: [
+      'feature.managed_standard_includes',
+      'feature.managed_standard_agent',
+      'feature.managed_standard_hosting',
+      'feature.managed_standard_ops',
+      'feature.managed_standard_support',
+      'feature.managed_standard_domain',
+    ],
+  },
+  {
+    id: 'managed_premium',
+    highlight: false,
+    cta_href: 'mailto:contact@meshvise.com?subject=Meshvise%20Managed%20Premium',
+    cta_external: false,
+    features: [
+      'feature.managed_premium_includes',
+      'feature.managed_premium_supabase',
+      'feature.managed_premium_sla',
+      'feature.managed_premium_pitr',
+      'feature.managed_premium_audit',
+      'feature.managed_premium_sso',
+      'feature.managed_premium_support',
     ],
   },
 ];
@@ -63,27 +87,50 @@ const tiers = [
       <p class="section-lede mx-auto">{t(lang, 'pricing.subtitle')}</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+    <div class="relative max-w-7xl mx-auto">
+      <button
+        type="button"
+        aria-label={t(lang, 'pricing.nav_prev')}
+        class="pricing-nav pricing-prev absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 lg:-translate-x-5 z-10 w-10 h-10 rounded-full bg-surface border border-border shadow-md hidden items-center justify-center text-text hover:text-brand hover:border-brand transition-colors"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <button
+        type="button"
+        aria-label={t(lang, 'pricing.nav_next')}
+        class="pricing-nav pricing-next absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 lg:translate-x-5 z-10 w-10 h-10 rounded-full bg-surface border border-border shadow-md hidden items-center justify-center text-text hover:text-brand hover:border-brand transition-colors"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+
+    <div class="pricing-track overflow-x-auto snap-x snap-mandatory flex gap-4 pb-2 scroll-smooth -mx-6 px-6">
       {tiers.map((tier) => (
-        <div class={`relative rounded-xl p-7 flex flex-col ${tier.highlight ? 'bg-text text-bg' : 'bg-surface border border-border'}`}>
+        <div class:list={[
+          'pricing-card relative rounded-xl p-5 flex flex-col snap-start shrink-0 w-[260px] lg:w-auto lg:flex-1',
+          tier.highlight ? 'bg-text text-bg' : 'bg-surface border border-border',
+        ]}>
           {tier.highlight && (
-            <span class="absolute top-4 right-4 text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full" style="background:rgb(34 211 238 / 0.15);color:#22D3EE;">
+            <span class="absolute top-3 right-3 text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full" style="background:rgb(34 211 238 / 0.15);color:#22D3EE;">
               {t(lang, 'pricing.recommended')}
             </span>
           )}
 
           <h3 class={`text-xl font-semibold tracking-tight ${tier.highlight ? '' : 'text-text'}`}>{t(lang, `pricing.${tier.id}.name`)}</h3>
-          <p class={`mt-2 text-[13.5px] leading-relaxed ${tier.highlight ? 'opacity-70' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.tagline`)}</p>
+          <p class={`mt-2 text-[13px] leading-relaxed min-h-[3.25em] ${tier.highlight ? 'opacity-70' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.tagline`)}</p>
 
-          <div class={`mt-6 pb-6 ${tier.highlight ? 'border-b border-white/15' : 'border-b border-border'}`}>
-            <div class="flex items-baseline gap-2">
-              <span class="text-[44px] font-semibold tracking-[-0.03em] tabular-nums leading-none">{t(lang, `pricing.${tier.id}.price`)}</span>
-              <span class={`text-[13px] font-mono ${tier.highlight ? 'opacity-70' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.period`)}</span>
+          <div class={`mt-5 pb-5 ${tier.highlight ? 'border-b border-white/15' : 'border-b border-border'}`}>
+            <div class="flex items-baseline gap-1.5 flex-wrap">
+              <span class="text-[34px] font-semibold tracking-[-0.03em] tabular-nums leading-none">{t(lang, `pricing.${tier.id}.price`)}</span>
+              <span class={`text-[12.5px] font-mono ${tier.highlight ? 'opacity-70' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.period`)}</span>
             </div>
-            <p class={`mt-2 text-[12px] font-mono ${tier.highlight ? 'opacity-65' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.price_note`)}</p>
+            <p class={`mt-2 text-[11.5px] font-mono leading-snug ${tier.highlight ? 'opacity-65' : 'text-muted'}`}>{t(lang, `pricing.${tier.id}.price_note`)}</p>
           </div>
 
-          <ul class="mt-5 space-y-2.5 text-[13.5px] flex-1">
+          <ul class="mt-4 space-y-2 text-[12.5px] flex-1">
             {tier.features.map((feat) => (
               <li class="flex items-start gap-2.5">
                 <svg class={`w-4 h-4 mt-0.5 shrink-0 ${tier.highlight ? '' : 'text-brand'}`} viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.25" style={tier.highlight ? 'color:#22D3EE;' : ''} aria-hidden="true">
@@ -94,12 +141,12 @@ const tiers = [
             ))}
           </ul>
 
-          {tier.id === 'standard' && (
+          {tier.id === 'managed_standard' && (
             <div class="mt-5 pt-5 border-t border-white/15 text-[12.5px] space-y-2">
-              <p class="opacity-75">{t(lang, 'pricing.standard.legal_anchor')}</p>
+              <p class="opacity-75">{t(lang, 'pricing.managed_standard.legal_anchor')}</p>
               <p>
                 <a href={`/${lang}/#faq-company_disappears`} class="underline-offset-4 hover:underline" style="color:#22D3EE;">
-                  {t(lang, 'pricing.standard.continuity_link')}
+                  {t(lang, 'pricing.managed_standard.continuity_link')}
                 </a>
               </p>
             </div>
@@ -118,9 +165,62 @@ const tiers = [
         </div>
       ))}
     </div>
+    </div>
 
     <p class="mt-8 text-center text-[12px] text-muted">{t(lang, 'pricing.footnote')}</p>
   </div>
 </section>
 
+<style>
+  /* Hide scrollbar visually but keep the affordance functional. */
+  .pricing-track {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
+  }
+  .pricing-track::-webkit-scrollbar { height: 6px; }
+  .pricing-track::-webkit-scrollbar-thumb {
+    background: var(--color-border-strong);
+    border-radius: 3px;
+  }
+</style>
 
+<script>
+  // Show / hide pricing-track arrows based on whether more cards exist
+  // off-screen on either side. Scrolling a single card width per click
+  // lines up with snap-mandatory on the track.
+  const initPricingNav = () => {
+    const track = document.querySelector<HTMLElement>('.pricing-track');
+    const prev = document.querySelector<HTMLButtonElement>('.pricing-prev');
+    const next = document.querySelector<HTMLButtonElement>('.pricing-next');
+    if (!track || !prev || !next) return;
+
+    const setVisible = (btn: HTMLButtonElement, visible: boolean) => {
+      btn.classList.toggle('hidden', !visible);
+      btn.classList.toggle('flex', visible);
+    };
+
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      setVisible(prev, track.scrollLeft > 4);
+      setVisible(next, track.scrollLeft < max - 4);
+    };
+
+    const cardWidth = () => {
+      const card = track.querySelector('.pricing-card');
+      if (!(card instanceof HTMLElement)) return 260;
+      return card.getBoundingClientRect().width + 16;
+    };
+
+    prev.addEventListener('click', () => track.scrollBy({ left: -cardWidth(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left: cardWidth(), behavior: 'smooth' }));
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPricingNav);
+  } else {
+    initPricingNav();
+  }
+</script>
