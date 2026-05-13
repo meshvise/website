@@ -1,9 +1,13 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
+import KpiStrip from '../../components/KpiStrip.astro';
+import Gateway from '../../components/Gateway.astro';
 import ValueChain from '../../components/ValueChain.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
 import Features from '../../components/Features.astro';
 import BIPreview from '../../components/BIPreview.astro';
+import Personas from '../../components/Personas.astro';
 import Lifecycle from '../../components/Lifecycle.astro';
 import Sovereignty from '../../components/Sovereignty.astro';
 import Pricing from '../../components/Pricing.astro';
@@ -15,13 +19,17 @@ const lang = 'fr' as const;
 
 <Base
   lang={lang}
-  title="Meshvise · Supervision SCADA, forfait fixe, données chez vous"
-  description="Supervision SCADA web qui lit vos automates Modbus TCP, OPC-UA et BACnet/IP, historise, alerte. Données accessibles en PostgreSQL standard via ODBC pour Power BI, Grafana ou Excel. Forfait Standard 990 €/an par site, tous les points inclus, essai 7 jours gratuit."
+  title="Meshvise · Supervision SCADA souveraine, boîtier inclus, données chez vous"
+  description="Supervision SCADA française qui lit vos automates Modbus TCP, OPC-UA et BACnet/IP. Boîtier industriel livré clé en main avec les offres Managed. Données en PostgreSQL standard via ODBC pour Power BI, Grafana ou Excel. À partir de 2 400 €/an, essai 7 jours sans carte bancaire."
 >
   <Hero lang={lang} />
+  <KpiStrip lang={lang} />
+  <Gateway lang={lang} />
   <ValueChain lang={lang} />
+  <HowItWorks lang={lang} />
   <Features lang={lang} />
   <BIPreview lang={lang} />
+  <Personas lang={lang} />
   <Lifecycle lang={lang} />
   <Sovereignty lang={lang} />
   <Pricing lang={lang} />

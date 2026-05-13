@@ -1,9 +1,13 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
+import KpiStrip from '../../components/KpiStrip.astro';
+import Gateway from '../../components/Gateway.astro';
 import ValueChain from '../../components/ValueChain.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
 import Features from '../../components/Features.astro';
 import BIPreview from '../../components/BIPreview.astro';
+import Personas from '../../components/Personas.astro';
 import Lifecycle from '../../components/Lifecycle.astro';
 import Sovereignty from '../../components/Sovereignty.astro';
 import Pricing from '../../components/Pricing.astro';
@@ -15,13 +19,17 @@ const lang = 'en' as const;
 
 <Base
   lang={lang}
-  title="Meshvise · Web SCADA, flat fee, data on your premises"
-  description="Web SCADA platform that reads your Modbus TCP, OPC-UA and BACnet/IP PLCs, historises, alerts. Data accessible via standard PostgreSQL ODBC for Power BI, Grafana or Excel. Standard licence at €990/year per site, all points included, free 7-day trial."
+  title="Meshvise · Sovereign web SCADA, industrial gateway included, data on your premises"
+  description="French web SCADA platform that reads your Modbus TCP, OPC-UA and BACnet/IP PLCs. Industrial gateway shipped turnkey with Managed plans. Data in standard PostgreSQL via ODBC for Power BI, Grafana or Excel. From €2,400/year, 7-day trial with no credit card."
 >
   <Hero lang={lang} />
+  <KpiStrip lang={lang} />
+  <Gateway lang={lang} />
   <ValueChain lang={lang} />
+  <HowItWorks lang={lang} />
   <Features lang={lang} />
   <BIPreview lang={lang} />
+  <Personas lang={lang} />
   <Lifecycle lang={lang} />
   <Sovereignty lang={lang} />
   <Pricing lang={lang} />

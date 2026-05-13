@@ -154,7 +154,7 @@ describe('Landing pages link to the trial page', () => {
   }
 });
 
-describe('Personas section renders 4 cards (DSI persona added 2026-05-02)', () => {
+describe('Personas section renders 4 profiles (tabbed UI refonte v2 2026-05-13)', () => {
   for (const lang of ['fr', 'en'] as const) {
     function personasSection(): string {
       const m = html[lang].match(/<section id="personas"[\s\S]*?<\/section>/);
@@ -162,10 +162,16 @@ describe('Personas section renders 4 cards (DSI persona added 2026-05-02)', () =
       return m[0];
     }
 
-    it(`${lang} personas section renders exactly 4 articles`, () => {
+    it(`${lang} personas section renders exactly 4 tab buttons`, () => {
       const section = personasSection();
-      const articles = section.match(/<article\b/g) ?? [];
-      expect(articles).toHaveLength(4);
+      const tabs = section.match(/data-persona-tab="[a-z_]+"/g) ?? [];
+      expect(tabs).toHaveLength(4);
+    });
+
+    it(`${lang} personas section renders exactly 4 tab panels`, () => {
+      const section = personasSection();
+      const panels = section.match(/data-persona-panel="[a-z_]+"/g) ?? [];
+      expect(panels).toHaveLength(4);
     });
 
     it(`${lang} personas section names the technical-director / DSI role`, () => {
