@@ -1,8 +1,8 @@
 # Meshvise Vitrine — Project Checklist
 
-Source of truth for "what's done / what's next" on this repo. Update inline as work lands.
+> **⚠️ 2026-05-11 — Le sprint courant + les tâches actives vivent dans Notion** ([Hub Meshvise](https://www.notion.so/35d80245b90f81bf8448f3e02489cb17)). DB Tâches filtrée sur `Repo = website`. Ce fichier reste comme **archive historique** des vagues vitrine livrées. Ne plus cocher d'items ici.
 
-For the trial license system that spans both this repo and the meshvise product repo, the architectural source of truth is `c:/Users/bruno/Desktop/Dev/meshvise-lead/docs/adr/0006-trial-license-system.md`. That file is read-only from here. The meshvise checklist tracks the items on its side; this checklist tracks only what lives in this repo.
+Pour le trial license system (qui couvre vitrine + repo produit), la source autoritaire est [`docs/adr/0006-trial-license-system.md`](https://github.com/meshvise/meshvise/blob/dev/docs/adr/0006-trial-license-system.md) dans le repo sister. Read-only depuis ici.
 
 ---
 
