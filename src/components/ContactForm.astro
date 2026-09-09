@@ -1,0 +1,58 @@
+---
+/**
+ * Demande de démonstration. Sans backend pour l'instant : le formulaire
+ * compose un courriel (mailto) avec les champs saisis.
+ */
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  body: string;
+  id?: string;
+}
+
+const { lang, title, body, id = 'contact' } = Astro.props;
+---
+
+<section id={id} class="section border-t border-line scroll-mt-14">
+  <div class="wrap grid lg:grid-cols-12 gap-10">
+    <div class="lg:col-span-5">
+      <h2 class="t-page">{title}</h2>
+      <p class="t-lede mt-5">{body}</p>
+    </div>
+    <form class="lg:col-span-7 panel p-7 md:p-9 grid sm:grid-cols-2 gap-6" data-contact-form>
+      <div>
+        <label for={`${id}-name`} class="field-label">{t(lang, 'contact_form.name')}</label>
+        <input id={`${id}-name`} name="name" type="text" required placeholder={t(lang, 'contact_form.name_ph')} class="field" />
+      </div>
+      <div>
+        <label for={`${id}-company`} class="field-label">{t(lang, 'contact_form.company')}</label>
+        <input id={`${id}-company`} name="company" type="text" required placeholder={t(lang, 'contact_form.company_ph')} class="field" />
+      </div>
+      <div class="sm:col-span-2">
+        <label for={`${id}-email`} class="field-label">{t(lang, 'contact_form.email')}</label>
+        <input id={`${id}-email`} name="email" type="email" required placeholder={t(lang, 'contact_form.email_ph')} class="field" />
+      </div>
+      <div class="sm:col-span-2">
+        <label for={`${id}-install`} class="field-label">{t(lang, 'contact_form.install')}</label>
+        <textarea id={`${id}-install`} name="install" rows="3" placeholder={t(lang, 'contact_form.install_ph')} class="field resize-y"></textarea>
+      </div>
+      <div class="sm:col-span-2 flex flex-col sm:flex-row sm:items-center gap-4 pt-1">
+        <button type="submit" class="btn btn-primary btn-lg">{t(lang, 'contact_form.submit')}</button>
+        <p class="t-small">{t(lang, 'contact_form.note')}</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script is:inline define:vars={{ subject: t(lang, 'contact_form.mailto_subject') }}>
+  document.querySelectorAll('form[data-contact-form]').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const body = [`Nom / Name: ${fd.get('name') || ''}`, `Entreprise / Company: ${fd.get('company') || ''}`, `Email: ${fd.get('email') || ''}`, '', `${fd.get('install') || ''}`].join('\n');
+      window.location.href = 'mailto:contact@meshvise.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    });
+  });
+</script>
