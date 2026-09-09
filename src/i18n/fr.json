@@ -158,8 +158,8 @@
       }
     },
     "continuity": {
-      "title": "Et si Meshvise disparaît ?",
-      "intro": "C'est la première question à poser à un fournisseur, et la raison pour laquelle Meshvise est construit comme il l'est.",
+      "title": "Vos données ne dépendent pas de Meshvise",
+      "intro": "Une supervision s'exploite dix ans. Ce qui est installé chez vous ne doit dépendre de personne pour continuer à tourner, et c'est ce qui a décidé de la façon dont le produit est construit.",
       "data": {
         "title": "Vos données sont à vous",
         "body": "Base Postgres standard, sur votre serveur, schéma documenté. Elles ne dépendent pas de Meshvise pour être lues."
@@ -167,10 +167,6 @@
       "stack": {
         "title": "La pile est standard",
         "body": "Postgres, MQTT, Docker. N'importe quel intégrateur peut reprendre l'exploitation."
-      },
-      "escrow": {
-        "title": "Séquestre du code source",
-        "body": "Proposé au contrat, déclenché en cas de cessation d'activité."
       },
       "outro": "Aucune télémétrie ne sort de votre installation. Elle fonctionne sans connexion internet. Le contrat est en français, sous droit français."
     },
@@ -729,8 +725,7 @@
         "Points, machines et écrans sans limite",
         "Authentification unique OIDC",
         "Mises à jour pendant douze mois",
-        "Support par courriel, réponse sous deux jours ouvrés",
-        "Séquestre du code source proposé au contrat"
+        "Support par courriel, réponse sous deux jours ouvrés"
       ]
     },
     "managed": {
@@ -741,7 +736,7 @@
     },
     "setup_note_title": "Ce que couvre la mise en service",
     "setup_note": "L'installation à distance sur votre serveur, la connexion de vos équipements et une session de prise en main. Le montant est chiffré sur devis : il dépend du nombre d'équipements, de leurs protocoles et de la segmentation de votre réseau.",
-    "continuity_link": "Et si Meshvise disparaît ?",
+    "continuity_link": "Vos données restent lisibles",
     "cta_quote": "Demander un devis",
     "quote": {
       "title": "Demander un devis",
@@ -794,14 +789,14 @@
   "about": {
     "meta": {
       "title": "À propos · Meshvise",
-      "description": "Meshvise est une supervision industrielle conçue et développée par une personne, ingénieur en digitalisation industrielle. Données chez vous, aucune télémétrie, séquestre du code source."
+      "description": "Meshvise est une supervision industrielle conçue et développée par une personne, ingénieur en digitalisation industrielle. Données chez vous, dans une base standard, aucune télémétrie."
     },
     "eyebrow": "À propos",
     "title": "Une supervision industrielle construite par quelqu'un qui en avait besoin.",
     "founder": {
       "heading": "Le fondateur",
       "p1": "Meshvise est conçu et développé par Bruno Crespo, ingénieur en digitalisation industrielle, en poste dans l'industrie. Le produit est né d'un constat de terrain : la supervision est trop chère au point, trop fermée, et trop souvent une console d'opérateur sombre qu'on ne peut pas montrer en réunion.",
-      "p2": "Meshvise est une entreprise d'une personne. Ce n'est pas caché, et c'est pour cela que le produit est construit sur une base standard, avec vos données chez vous et un séquestre du code source au contrat."
+      "p2": "Meshvise est une entreprise d'une personne. Ce n'est pas caché, et c'est pour cela que le produit est construit sur une base standard, avec vos données chez vous, dans un format que vous lisez sans lui."
     },
     "commitments": {
       "heading": "Ce à quoi Meshvise s'engage",
@@ -889,7 +884,7 @@
     },
     "audit": {
       "q": "Puis-je auditer le code source ?",
-      "a": "Sur demande, en lecture, sous accord de confidentialité. C'est distinct du séquestre, qui couvre la cessation d'activité."
+      "a": "Sur demande, en lecture, sous accord de confidentialité."
     },
     "sil": {
       "q": "Je peux faire de la sécurité fonctionnelle avec ?",
@@ -897,11 +892,11 @@
     },
     "disappear": {
       "q": "Et si vous fermez demain ?",
-      "a": "Vos données sont dans une base Postgres standard, sur votre serveur, avec un schéma documenté. La pile est standard, Postgres, MQTT, Docker, et n'importe quel intégrateur peut reprendre l'exploitation. Un séquestre du code source est proposé au contrat."
+      "a": "Vos données sont dans une base Postgres standard, sur votre serveur, avec un schéma documenté. La pile est standard, Postgres, MQTT, Docker, et n'importe quel intégrateur peut reprendre l'exploitation."
     },
     "alone": {
       "q": "Vous êtes seul ?",
-      "a": "Oui. Meshvise est une entreprise d'une personne, et c'est précisément pour cela que le produit est construit sur une base standard, avec vos données chez vous et un séquestre du code au contrat. Voir la page À propos."
+      "a": "Oui. Meshvise est une entreprise d'une personne, et c'est précisément pour cela que le produit est construit sur une base standard, avec vos données chez vous et lisibles sans lui. Voir la page À propos."
     },
     "notfor": {
       "q": "Pour qui Meshvise n'est pas fait ?",
@@ -942,7 +937,7 @@
     "product": "Produit",
     "resources": "Ressources",
     "contact": "Contact",
-    "continuity": "Et si Meshvise disparaît ?",
+    "continuity": "Vos données restent lisibles",
     "rights": "Tous droits réservés.",
     "tech_line": "Contrat en français, droit français."
   },

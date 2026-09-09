@@ -158,8 +158,8 @@
       }
     },
     "continuity": {
-      "title": "What if Meshvise disappears?",
-      "intro": "It is the first question to ask a vendor, and the reason Meshvise is built the way it is.",
+      "title": "Your data does not depend on Meshvise",
+      "intro": "A supervision system runs for ten years. What is installed on your premises must not depend on anyone to keep running, and that decided how the product is built.",
       "data": {
         "title": "Your data is yours",
         "body": "Standard Postgres database, on your server, documented schema. It does not need Meshvise to be read."
@@ -167,10 +167,6 @@
       "stack": {
         "title": "The stack is standard",
         "body": "Postgres, MQTT, Docker. Any integrator can take over operations."
-      },
-      "escrow": {
-        "title": "Source code escrow",
-        "body": "Offered in the contract, triggered on cessation of business."
       },
       "outro": "No telemetry leaves your installation. It works without an internet connection. The contract is in French, under French law."
     },
@@ -729,8 +725,7 @@
         "Unlimited points, machines and screens",
         "OIDC single sign-on",
         "Updates for twelve months",
-        "Email support, reply within two business days",
-        "Source code escrow offered in the contract"
+        "Email support, reply within two business days"
       ]
     },
     "managed": {
@@ -741,7 +736,7 @@
     },
     "setup_note_title": "What setup covers",
     "setup_note": "Remote installation on your server, connection of your devices and a hands-on session. The amount is quoted case by case: it depends on the number of devices, their protocols and how your network is segmented.",
-    "continuity_link": "What if Meshvise disappears?",
+    "continuity_link": "Your data stays readable",
     "cta_quote": "Request a quote",
     "quote": {
       "title": "Request a quote",
@@ -794,14 +789,14 @@
   "about": {
     "meta": {
       "title": "About · Meshvise",
-      "description": "Meshvise is an industrial supervision system designed and built by one person, an industrial digitalisation engineer. Data on your premises, no telemetry, source code escrow."
+      "description": "Meshvise is an industrial supervision system designed and built by one person, an industrial digitalisation engineer. Data on your premises, in a standard database, no telemetry."
     },
     "eyebrow": "About",
     "title": "An industrial supervision system built by someone who needed one.",
     "founder": {
       "heading": "The founder",
       "p1": "Meshvise is designed and developed by Bruno Crespo, an industrial digitalisation engineer working in industry. The product was born from a field observation: supervision is too expensive per point, too closed, and too often a dark operator console you cannot show in a meeting.",
-      "p2": "Meshvise is a one-person company. That is not hidden, and it is why the product is built on a standard base, with your data on your premises and a source code escrow in the contract."
+      "p2": "Meshvise is a one-person company. That is not hidden, and it is why the product is built on a standard base, with your data on your premises, in a format you can read without it."
     },
     "commitments": {
       "heading": "What Meshvise commits to",
@@ -889,7 +884,7 @@
     },
     "audit": {
       "q": "Can I audit the source code?",
-      "a": "On request, read access, under a non-disclosure agreement. This is distinct from escrow, which covers cessation of business."
+      "a": "On request, read access, under a non-disclosure agreement."
     },
     "sil": {
       "q": "Can I do functional safety with it?",
@@ -897,11 +892,11 @@
     },
     "disappear": {
       "q": "What if you close tomorrow?",
-      "a": "Your data is in a standard Postgres database, on your server, with a documented schema. The stack is standard, Postgres, MQTT, Docker, and any integrator can take over operations. A source code escrow is offered in the contract."
+      "a": "Your data is in a standard Postgres database, on your server, with a documented schema. The stack is standard, Postgres, MQTT, Docker, and any integrator can take over operations."
     },
     "alone": {
       "q": "Are you on your own?",
-      "a": "Yes. Meshvise is a one-person company, and that is precisely why the product is built on a standard base, with your data on your premises and a code escrow in the contract. See the About page."
+      "a": "Yes. Meshvise is a one-person company, and that is precisely why the product is built on a standard base, with your data on your premises and readable without it. See the About page."
     },
     "notfor": {
       "q": "Who is Meshvise not for?",
@@ -942,7 +937,7 @@
     "product": "Product",
     "resources": "Resources",
     "contact": "Contact",
-    "continuity": "What if Meshvise disappears?",
+    "continuity": "Your data stays readable",
     "rights": "All rights reserved.",
     "tech_line": "Contract in French, French law."
   },
