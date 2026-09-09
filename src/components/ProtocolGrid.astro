@@ -1,0 +1,36 @@
+---
+/**
+ * Résumé des protocoles sur la page produit : les douze noms et leur
+ * mode, sans le détail. Le détail vit sur la page Protocoles.
+ */
+import fr from '../i18n/fr.json';
+import en from '../i18n/en.json';
+import { t, type Lang } from '../i18n';
+import { href } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const dict = (lang === 'fr' ? fr : en).protocols;
+const list = dict.list as { name: string; mode: string; transport: string }[];
+const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+---
+
+<div class="panel">
+  <ul class="grid sm:grid-cols-2 lg:grid-cols-3">
+    {list.map((p, i) => (
+      <li class={`px-5 py-4 border-line ${i % 3 !== 2 ? 'lg:border-r' : ''} ${i % 2 === 0 ? 'sm:border-r lg:border-r' : ''} ${i < list.length - 1 ? 'border-b' : ''}`}>
+        <a href={`${href(lang, 'protocols')}#${slug(p.name)}`} class="group flex items-baseline justify-between gap-3">
+          <span class="mono text-[15px] font-medium text-ink group-hover:text-info transition-colors">{p.name}</span>
+          <span class="t-small mono whitespace-nowrap">{p.transport}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<p class="mt-5 text-[15px]">
+  <a href={href(lang, 'protocols')} class="link">{t(lang, 'product.acq.link')}</a>
+</p>

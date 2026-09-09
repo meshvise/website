@@ -1,0 +1,72 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../PageHero.astro';
+import ProtocolGrid from '../ProtocolGrid.astro';
+import ScreenPlaceholder from '../ScreenPlaceholder.astro';
+import FinalCTA from '../FinalCTA.astro';
+import ProcessBackground from '../bg/ProcessBackground.astro';
+import { t, type Lang } from '../../i18n';
+import { href } from '../../i18n/routes';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+// La page suit la chaîne de la donnée : on la lit, on la garde, on
+// surveille, on la calcule, on la montre, on la commande, on la trace.
+const sections = [
+  { id: 'hist',     kind: 'history' },
+  { id: 'alarms',   kind: 'alarms' },
+  { id: 'kpi',      kind: null },
+  { id: 'dash',     kind: 'dashboard' },
+  { id: 'synoptic', kind: 'synoptic' },
+  { id: 'live',     kind: null },
+  { id: 'logic',    kind: null },
+  { id: 'reports',  kind: null },
+  { id: 'trace',    kind: 'history' },
+  { id: 'sec',      kind: null },
+  { id: 'ops',      kind: null },
+] as const;
+---
+
+<Base lang={lang} title={t(lang, 'product.meta.title')} description={t(lang, 'product.meta.description')}>
+  <PageHero title={t(lang, 'product.hero.title')} subtitle={t(lang, 'product.hero.subtitle')}>
+    <ProcessBackground slot="bg" />
+    <div class="mt-7 flex flex-col sm:flex-row gap-3">
+      <a href={href(lang, 'demo')} class="btn btn-primary btn-lg">{t(lang, 'common.cta_demo')}</a>
+      <a href={href(lang, 'trial')} class="btn btn-outline btn-lg">{t(lang, 'common.cta_trial')}</a>
+    </div>
+  </PageHero>
+
+  <section id="acquisition" class="section scroll-mt-14">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="t-page">{t(lang, 'product.acq.title')}</h2>
+        <p class="t-lede">{t(lang, 'product.acq.intro')}</p>
+      </div>
+      <ProtocolGrid lang={lang} />
+      <p class="t-body mt-6 max-w-3xl">{t(lang, 'product.acq.after')}</p>
+    </div>
+  </section>
+
+  <div class="bg-surface border-t border-line">
+    {sections.map((s) => (
+      <section id={s.id} class="wrap py-16 md:py-20 border-b border-line scroll-mt-14">
+        <div class={`grid gap-8 items-start ${s.kind ? 'lg:grid-cols-12' : ''}`}>
+          <div class={s.kind ? 'lg:col-span-5' : 'max-w-3xl'}>
+            <h2 class="t-section">{t(lang, `product.${s.id}.title`)}</h2>
+            <p class="t-body mt-3">{t(lang, `product.${s.id}.body`)}</p>
+            {s.id === 'kpi' && (
+              <p class="t-body mt-4 pl-5 border-l-2 border-warn text-ink">{t(lang, 'product.kpi.wip')}</p>
+            )}
+          </div>
+          {s.kind && (
+            <div class="lg:col-span-7">
+              <ScreenPlaceholder kind={s.kind} lang={lang} label={t(lang, 'home.see.placeholder')} />
+            </div>
+          )}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <FinalCTA lang={lang} />
+</Base>
