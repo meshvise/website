@@ -1,0 +1,42 @@
+---
+/**
+ * Fond du hero : une courbe d'historique sur sept jours, sur sa grille
+ * d'enregistreur, très pâle. Elle se dessine une fois au chargement puis
+ * ne bouge plus. C'est ce que fait le produit : montrer un historique.
+ */
+---
+
+<svg class="trend-bg" viewBox="0 0 1440 520" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <!-- Grille d'enregistreur : ligne majeure toutes les cinq -->
+  <g stroke="var(--color-n-200)" stroke-width="1">
+    {Array.from({ length: 13 }, (_, i) => <line x1="0" y1={i * 40} x2="1440" y2={i * 40} opacity={i % 5 === 0 ? 0.9 : 0.45}/>)}
+    {Array.from({ length: 25 }, (_, i) => <line x1={i * 60} y1="0" x2={i * 60} y2="520" opacity={i % 5 === 0 ? 0.9 : 0.35}/>)}
+  </g>
+  <!-- Repères de jours -->
+  <g font-family="var(--font-mono)" font-size="11" fill="var(--color-n-400)">
+    {['lun', 'mar', 'mer', 'jeu', 'ven', 'sam', 'dim'].map((d, i) => <text x={i * 205 + 8} y="512">{d}</text>)}
+  </g>
+  <!-- Aire sous la courbe -->
+  <path class="trend-fill" d="M0 380 C60 372 100 340 160 350 S260 300 320 318 S420 250 480 262 S560 300 620 288 S700 200 760 214 S860 262 920 250 S1000 170 1060 186 S1160 240 1220 226 S1320 150 1380 168 L1440 176 L1440 520 L0 520 Z" fill="var(--color-info)" opacity="0.06"/>
+  <!-- La courbe, dessinée au chargement -->
+  <path class="trend-line" pathLength="1" d="M0 380 C60 372 100 340 160 350 S260 300 320 318 S420 250 480 262 S560 300 620 288 S700 200 760 214 S860 262 920 250 S1000 170 1060 186 S1160 240 1220 226 S1320 150 1380 168 L1440 176" fill="none" stroke="var(--color-info)" stroke-width="2" stroke-linecap="round" opacity="0.28"/>
+  <!-- Seuil haut -->
+  <line x1="0" y1="150" x2="1440" y2="150" stroke="var(--color-crit)" stroke-width="1" stroke-dasharray="6 6" opacity="0.18"/>
+  <!-- Voile : dégage la colonne de texte à gauche, laisse la courbe respirer à droite -->
+  <defs>
+    <linearGradient id="trend-veil" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="var(--color-surface)" stop-opacity="0.96"/>
+      <stop offset="0.34" stop-color="var(--color-surface)" stop-opacity="0.88"/>
+      <stop offset="0.62" stop-color="var(--color-surface)" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="var(--color-surface)" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1440" height="520" fill="url(#trend-veil)"/>
+</svg>
+
+<style>
+  .trend-bg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .trend-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: trend-draw 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards; }
+  @keyframes trend-draw { to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) { .trend-line { animation: none; stroke-dashoffset: 0; } }
+</style>
