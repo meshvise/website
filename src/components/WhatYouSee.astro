@@ -1,0 +1,34 @@
+---
+import { t, type Lang } from '../i18n';
+import ScreenPlaceholder from './ScreenPlaceholder.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const screens = [
+  { id: 'dashboards', kind: 'dashboard' },
+  { id: 'alarms', kind: 'alarms' },
+  { id: 'synoptics', kind: 'synoptic' },
+  { id: 'history', kind: 'history' },
+] as const;
+---
+
+<section class="section bg-surface border-y border-line">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="t-page">{t(lang, 'home.see.title')}</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-x-10 gap-y-14">
+      {screens.map((s) => (
+        <div>
+          <ScreenPlaceholder kind={s.kind} lang={lang} label={t(lang, 'home.see.placeholder')} />
+          <h3 class="mt-4 text-[17px] font-medium text-ink">{t(lang, `home.see.${s.id}.title`)}</h3>
+          <p class="t-body mt-1">{t(lang, `home.see.${s.id}.body`)}</p>
+        </div>
+      ))}
+    </div>
+    <p class="t-small mt-8">{t(lang, 'home.see.note')}</p>
+  </div>
+</section>

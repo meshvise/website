@@ -1,0 +1,36 @@
+---
+import { t, type Lang } from '../i18n';
+import { href } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const cols = ['demo', 'trial', 'onprem'] as const;
+---
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="t-page">{t(lang, 'home.pricing_brief.title')}</h2>
+    </div>
+    <div class="panel">
+      <table class="tbl">
+        <tbody>
+          {cols.map((c) => (
+            <tr>
+              <td class="w-1/3 font-medium text-ink">{t(lang, `home.pricing_brief.${c}.name`)}</td>
+              <td class="num text-[16px] text-ink">{t(lang, `home.pricing_brief.${c}.price`)}</td>
+              <td class="text-ink-2">{t(lang, `home.pricing_brief.${c}.note`)}</td>
+            </tr>
+          ))}
+          <tr>
+            <td colspan="3" class="t-small">{t(lang, 'home.pricing_brief.managed_line')}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-5 text-[15px]"><a href={href(lang, 'pricing')} class="link">{t(lang, 'home.pricing_brief.link')}</a></p>
+  </div>
+</section>

@@ -1,0 +1,140 @@
+---
+/**
+ * La table de points vivante de la page d'accueil. C'est le visuel du
+ * site : le produit tel qu'il est. Hiérarchie site › machine › point,
+ * valeurs en mono, tendance 24 h, qualité, horodatage. Les lignes en
+ * avertissement ou en alarme sont surlignées comme sur un écran de
+ * supervision, et l'en-tête porte les compteurs d'état du produit.
+ */
+import { t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+type Q = 'good' | 'warn' | 'crit' | 'stale';
+type Row = { machine?: string; point: string; path: string; value: number | string; unit: string; q: Q; note?: string; jitter?: number; decimals?: number; trend: number[]; trendKind?: 'flat-night' | 'drop' | 'lost' };
+
+// Tendances 24 h (24 échantillons normalisés 0..1)
+const steady = (b: number, a: number) => Array.from({ length: 24 }, (_, i) => b + a * Math.sin(i / 3.1) + a * 0.5 * Math.sin(i / 1.3));
+const night = () => Array.from({ length: 24 }, (_, i) => (i < 6 || i > 21 ? 0.55 : 0.75 + 0.15 * Math.sin(i / 2))); // ne redescend pas la nuit
+const drop = () => Array.from({ length: 24 }, (_, i) => (i < 22 ? 0.85 : 0.05)); // tombe à zéro en fin
+const lost = () => Array.from({ length: 24 }, (_, i) => (i < 18 ? 0.5 + 0.2 * Math.sin(i / 2) : NaN)); // s'interrompt
+const drift = () => Array.from({ length: 24 }, (_, i) => 0.8 - i * 0.02 + 0.03 * Math.sin(i));
+
+const rows: Row[] = [
+  { machine: 'Chaudière Nord', point: 'FlueTemp', path: 'Boiler1/FlueTemp', value: 121.3, unit: '°C', q: 'good', jitter: 0.4, decimals: 1, trend: steady(0.55, 0.15) },
+  { point: 'BurnerPower', path: 'Boiler1/BurnerPower', value: 21.7, unit: '%', q: 'good', jitter: 0.6, decimals: 1, trend: steady(0.4, 0.25) },
+  { point: 'WaterOutTemp', path: 'Boiler1/WaterOutTemp', value: 58.3, unit: '°C', q: 'good', jitter: 0.2, decimals: 1, trend: steady(0.6, 0.08) },
+  { machine: 'Compresseur 2', point: 'Power', path: 'Comp2/Power', value: 18.4, unit: 'kW', q: 'warn', note: 'note_offprod', jitter: 0.3, decimals: 1, trend: night(), trendKind: 'flat-night' },
+  { point: 'Pressure', path: 'Comp2/Pressure', value: 7.1, unit: 'bar', q: 'good', jitter: 0.05, decimals: 2, trend: steady(0.65, 0.05) },
+  { machine: 'Ligne 3', point: 'RunState', path: 'Line3/RunState', value: 0, unit: '', q: 'crit', note: 'note_stop', decimals: 0, trend: drop(), trendKind: 'drop' },
+  { point: 'PartsCount', path: 'Line3/PartsCount', value: 14208, unit: 'pcs', q: 'good', decimals: 0, trend: Array.from({ length: 24 }, (_, i) => Math.min(1, i / 23)) },
+  { machine: 'Compteur Électrique', point: 'CurrentL1', path: 'Meter1/Current_L1', value: 152.8, unit: 'A', q: 'good', jitter: 1.2, decimals: 1, trend: steady(0.5, 0.2) },
+  { point: 'Cosφ', path: 'Meter1/PowerFactor', value: 0.81, unit: '', q: 'warn', note: 'note_drift', jitter: 0.004, decimals: 2, trend: drift() },
+  { machine: 'CTA Atelier', point: 'SupplyTemp', path: 'AHU1/SupplyTemp', value: 19.6, unit: '°C', q: 'stale', note: 'note_lost', decimals: 1, trend: lost(), trendKind: 'lost' },
+];
+
+const counts = { good: 47, warn: 2, crit: 1, stale: 2 };
+const fmt = (v: number | string, d = 1) => typeof v === 'number' ? v.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-GB', { minimumFractionDigits: d, maximumFractionDigits: d }) : v;
+const badge: Record<Q, string> = { good: 'badge-normal', warn: 'badge-warn', crit: 'badge-crit', stale: 'badge-off' };
+const rowCls: Record<Q, string> = { good: '', warn: 'row-warn', crit: 'row-crit', stale: 'row-off' };
+const stroke: Record<Q, string> = { good: 'var(--color-info)', warn: 'var(--color-warn)', crit: 'var(--color-crit)', stale: 'var(--color-off)' };
+
+/** Polyline d'une tendance normalisée dans un viewBox 96×24 ; NaN coupe la ligne. */
+const spark = (tr: number[]) => {
+  const segs: string[] = []; let cur: string[] = [];
+  tr.forEach((v, i) => {
+    if (Number.isNaN(v)) { if (cur.length) segs.push(cur.join(' ')); cur = []; return; }
+    cur.push(`${(i / 23) * 96},${22 - v * 20}`);
+  });
+  if (cur.length) segs.push(cur.join(' '));
+  return segs;
+};
+---
+
+<div class="panel" data-live data-lang={lang}>
+  <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-3 border-b border-line">
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <span class="font-medium text-[15px] text-ink">{t(lang, 'home.live.site')}</span>
+      <span class="t-small">{t(lang, 'home.live.summary')}</span>
+      <span class="flex gap-1.5">
+        <span class="badge badge-normal">{counts.good} {t(lang, 'home.live.q_good')}</span>
+        <span class="badge badge-warn">{counts.warn} {t(lang, 'home.live.q_warn')}</span>
+        <span class="badge badge-crit">{counts.crit} {t(lang, 'home.live.q_crit')}</span>
+        <span class="badge badge-off">{counts.stale} {t(lang, 'home.live.q_stale')}</span>
+      </span>
+    </div>
+    <div class="t-small mono">{t(lang, 'home.live.updated')} <span data-live-clock>11:09:30.158</span></div>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>{t(lang, 'home.live.col_point')}</th>
+          <th class="text-right">{t(lang, 'home.live.col_value')}</th>
+          <th>{t(lang, 'home.live.col_unit')}</th>
+          <th class="hidden sm:table-cell">24 h</th>
+          <th>{t(lang, 'home.live.col_quality')}</th>
+          <th class="hidden md:table-cell">{t(lang, 'home.live.col_note')}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <>
+            {r.machine && <tr class="group"><td colspan="6">{r.machine}</td></tr>}
+            <tr class={rowCls[r.q]}>
+              <td>
+                <div class="text-ink pl-4">{r.point}</div>
+                <div class="path pl-4">{r.path}</div>
+              </td>
+              <td class={`num text-[15px] ${r.q === 'crit' ? 'text-crit font-medium' : r.q === 'warn' ? 'text-warn font-medium' : 'text-ink'}`} data-live-value={typeof r.value === 'number' ? r.value : undefined} data-jitter={r.jitter ?? 0} data-decimals={r.decimals ?? 1}>
+                {r.q === 'crit' && r.point === 'RunState' ? (lang === 'fr' ? 'ARRÊT' : 'STOPPED') : fmt(r.value, r.decimals)}
+              </td>
+              <td class="mono text-muted">{r.unit}</td>
+              <td class="hidden sm:table-cell">
+                <svg viewBox="0 0 96 24" width="96" height="24" class="block" aria-hidden="true">
+                  {r.trendKind === 'flat-night' && <><rect x="0" y="0" width="24" height="24" fill="var(--color-n-100)"/><rect x="88" y="0" width="8" height="24" fill="var(--color-n-100)"/></>}
+                  {r.trendKind === 'drop' && <rect x="88" y="0" width="8" height="24" fill="var(--color-crit-bg)"/>}
+                  {r.trendKind === 'lost' && <rect x="72" y="0" width="24" height="24" fill="var(--color-n-100)"/>}
+                  {spark(r.trend).map((pts) => <polyline points={pts} fill="none" stroke={stroke[r.q]} stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>)}
+                </svg>
+              </td>
+              <td><span class={`badge ${badge[r.q]}`}>{t(lang, `home.live.q_${r.q}`)}</span></td>
+              <td class={`hidden md:table-cell ${r.q === 'crit' ? 'text-crit' : r.q === 'warn' ? 'text-warn' : 'text-ink-2'}`}>{r.note ? t(lang, `home.live.${r.note}`) : ''}</td>
+            </tr>
+          </>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-live]');
+  if (root) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const locale = root.dataset.lang === 'fr' ? 'fr-FR' : 'en-GB';
+    const clock = root.querySelector<HTMLElement>('[data-live-clock]');
+    const cells = Array.from(root.querySelectorAll<HTMLElement>('[data-live-value]'));
+    const state = cells.map((c) => ({ el: c, base: Number(c.dataset.liveValue), jitter: Number(c.dataset.jitter || 0), d: Number(c.dataset.decimals || 1) }));
+    const t0 = Date.now();
+    const base = new Date(); base.setHours(11, 9, 30, 158);
+    setInterval(() => {
+      if (!clock) return;
+      const now = new Date(base.getTime() + (Date.now() - t0));
+      const p = (n: number, l = 2) => String(n).padStart(l, '0');
+      clock.textContent = `${p(now.getHours())}:${p(now.getMinutes())}:${p(now.getSeconds())}.${p(now.getMilliseconds(), 3)}`;
+    }, 200);
+    if (!reduced) {
+      setInterval(() => {
+        const s = state[Math.floor(Math.random() * state.length)];
+        if (!s || !s.jitter) return;
+        s.el.textContent = (s.base + (Math.random() * 2 - 1) * s.jitter).toLocaleString(locale, { minimumFractionDigits: s.d, maximumFractionDigits: s.d });
+      }, 1400);
+    }
+  }
+</script>

@@ -1,0 +1,135 @@
+---
+/**
+ * Illustration de données d'un écran du produit, en attendant les
+ * captures de la démonstration. Chaque écran reproduit ce que le produit
+ * affiche réellement, avec ses couleurs d'état : jauges, courbes pleines,
+ * cuves, alarmes surlignées. À remplacer par <img> réels.
+ */
+import type { Lang } from '../i18n';
+
+interface Props {
+  kind: 'dashboard' | 'alarms' | 'synoptic' | 'history';
+  label: string;
+  lang: Lang;
+  class?: string;
+}
+
+const { kind, label, lang, class: cls = '' } = Astro.props;
+const fr = lang === 'fr';
+const title = { dashboard: fr ? 'Tableau de bord · Usine Nord' : 'Dashboard · North Plant', alarms: fr ? 'Alarmes actives' : 'Active alarms', synoptic: fr ? 'Synoptique · Chaufferie' : 'Synoptic · Boiler room', history: fr ? 'Historique · 7 jours' : 'History · 7 days' }[kind];
+
+// Jauge circulaire : arc de 270°, zones vert / ambre / rouge
+const arc = (cx: number, cy: number, r: number, a0: number, a1: number) => {
+  const p = (a: number) => [cx + r * Math.cos((a - 225) * Math.PI / 180), cy + r * Math.sin((a - 225) * Math.PI / 180)];
+  const [x0, y0] = p(a0), [x1, y1] = p(a1);
+  return `M${x0.toFixed(1)},${y0.toFixed(1)} A${r},${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1.toFixed(1)},${y1.toFixed(1)}`;
+};
+---
+
+<figure class={`panel ${cls}`} aria-label={label}>
+  <div class="flex items-center justify-between px-3 h-9 border-b border-line bg-n-50">
+    <span class="text-[12px] font-medium text-ink-2">{title}</span>
+    <span class="t-small mono">11:09</span>
+  </div>
+
+  <div class="p-3" style="aspect-ratio: 16 / 9;">
+    {kind === 'dashboard' && (
+      <div class="grid grid-cols-4 grid-rows-3 gap-2 h-full text-[11px]">
+        <div class="border border-line rounded-md p-2 flex flex-col">
+          <span class="text-muted">TRS</span>
+          <svg viewBox="0 0 100 70" class="w-full flex-1" aria-hidden="true">
+            <path d={arc(50, 50, 38, 0, 270)} fill="none" stroke="var(--color-n-150)" stroke-width="9"/>
+            <path d={arc(50, 50, 38, 0, 212)} fill="none" stroke="var(--color-normal)" stroke-width="9" stroke-linecap="butt"/>
+            <text x="50" y="56" text-anchor="middle" font-family="var(--font-mono)" font-size="18" font-weight="500" fill="var(--color-ink)">78,4</text>
+          </svg>
+        </div>
+        <div class="border border-line rounded-md p-2 flex flex-col">
+          <span class="text-muted">{fr ? 'Disponibilité' : 'Availability'}</span>
+          <svg viewBox="0 0 100 70" class="w-full flex-1" aria-hidden="true">
+            <path d={arc(50, 50, 38, 0, 270)} fill="none" stroke="var(--color-n-150)" stroke-width="9"/>
+            <path d={arc(50, 50, 38, 0, 259)} fill="none" stroke="var(--color-normal)" stroke-width="9"/>
+            <text x="50" y="56" text-anchor="middle" font-family="var(--font-mono)" font-size="18" font-weight="500" fill="var(--color-ink)">96,1</text>
+          </svg>
+        </div>
+        <div class="border border-line rounded-md p-2 flex flex-col justify-between bg-crit-bg border-crit-border">
+          <span class="text-crit">{fr ? 'Alarmes' : 'Alarms'}</span>
+          <span class="mono text-[26px] font-medium text-crit leading-none">3</span>
+          <span class="text-crit text-[10px]">Line3, Comp2, Meter1</span>
+        </div>
+        <div class="border border-line rounded-md p-2 flex flex-col justify-between">
+          <span class="text-muted">{fr ? 'Puissance' : 'Power'}</span>
+          <span class="mono text-[22px] font-medium text-info leading-none">412 <span class="text-[12px] text-muted">kW</span></span>
+          <span class="text-muted text-[10px]">{fr ? 'talon nuit' : 'night base'} <span class="text-warn mono">38 kW</span></span>
+        </div>
+        <div class="col-span-3 row-span-2 border border-line rounded-md p-2 flex flex-col">
+          <span class="text-muted mb-1">{fr ? 'Consommation 24 h' : 'Consumption 24 h'}</span>
+          <svg viewBox="0 0 300 80" class="w-full flex-1" preserveAspectRatio="none" aria-hidden="true">
+            <rect x="0" y="0" width="60" height="80" fill="var(--color-n-100)"/><rect x="250" y="0" width="50" height="80" fill="var(--color-n-100)"/>
+            <line x1="0" y1="26" x2="300" y2="26" stroke="var(--color-line)"/><line x1="0" y1="53" x2="300" y2="53" stroke="var(--color-line)"/>
+            <path d="M0 62 L60 60 L70 30 L100 34 L130 22 L160 28 L190 18 L220 25 L250 20 L260 58 L300 60 L300 80 L0 80 Z" fill="var(--color-info)" opacity="0.18"/>
+            <path d="M0 62 L60 60 L70 30 L100 34 L130 22 L160 28 L190 18 L220 25 L250 20 L260 58 L300 60" fill="none" stroke="var(--color-info)" stroke-width="2"/>
+            <path d="M0 62 L60 60" stroke="var(--color-warn)" stroke-width="2.5"/><path d="M260 58 L300 60" stroke="var(--color-warn)" stroke-width="2.5"/>
+          </svg>
+        </div>
+        <div class="row-span-2 border border-line rounded-md p-2 flex flex-col justify-between">
+          {[['Ligne 1', '14 208', 'normal'], ['Ligne 2', '9 871', 'normal'], ['Ligne 3', '0', 'crit']].map(([l, v, s]) => (
+            <div class="flex items-center justify-between gap-2"><span class="text-muted">{l}</span><span class={`mono font-medium ${s === 'crit' ? 'text-crit' : 'text-ink'}`}>{v}</span></div>
+          ))}
+          <div class="h-1.5 rounded-full bg-n-150 overflow-hidden"><div class="h-full w-[71%] bg-normal"></div></div>
+        </div>
+      </div>
+    )}
+    {kind === 'alarms' && (
+      <table class="tbl text-[11px]">
+        <thead><tr><th>{fr ? 'Sévérité' : 'Severity'}</th><th>Point</th><th>{fr ? 'Message' : 'Message'}</th><th>{fr ? 'Depuis' : 'Since'}</th></tr></thead>
+        <tbody>
+          <tr class="row-crit"><td><span class="badge badge-crit">critical</span></td><td class="mono">Line3/RunState</td><td class="text-crit">{fr ? 'Arrêt non déclaré' : 'Unreported stop'}</td><td class="mono">4 min</td></tr>
+          <tr class="row-warn"><td><span class="badge badge-warn">warning</span></td><td class="mono">Comp2/Power</td><td class="text-warn">{fr ? 'Hors production' : 'Outside production'}</td><td class="mono">9 h 02</td></tr>
+          <tr class="row-warn"><td><span class="badge badge-warn">warning</span></td><td class="mono">Meter1/PowerFactor</td><td class="text-warn">{fr ? 'Cos φ < 0,85' : 'PF < 0.85'}</td><td class="mono">3 j</td></tr>
+          <tr class="row-off"><td><span class="badge badge-off">stale</span></td><td class="mono">AHU1/SupplyTemp</td><td>{fr ? 'Plus de valeur' : 'No value'}</td><td class="mono">12 min</td></tr>
+          <tr><td><span class="badge badge-normal">acked</span></td><td class="mono">Boiler1/FlueTemp</td><td class="text-muted">{fr ? 'Seuil haut, acquitté' : 'High limit, acknowledged'}</td><td class="mono">2 h</td></tr>
+        </tbody>
+      </table>
+    )}
+    {kind === 'synoptic' && (
+      <svg viewBox="0 0 320 170" class="w-full h-full" aria-hidden="true" font-family="var(--font-mono)" font-size="9">
+        <rect x="20" y="40" width="70" height="95" rx="3" fill="var(--color-n-50)" stroke="var(--color-ink-2)" stroke-width="1.25"/>
+        <rect x="21" y="76" width="68" height="58" fill="var(--color-info)" opacity="0.55"/>
+        <rect x="130" y="40" width="70" height="95" rx="3" fill="var(--color-n-50)" stroke="var(--color-ink-2)" stroke-width="1.25"/>
+        <rect x="131" y="58" width="68" height="76" fill="var(--color-info)" opacity="0.55"/>
+        <path d="M90 88 H130" stroke="var(--color-info)" stroke-width="3"/>
+        <path d="M200 88 H238" stroke="var(--color-info)" stroke-width="3"/>
+        <circle cx="252" cy="88" r="14" fill="var(--color-normal-bg)" stroke="var(--color-normal)" stroke-width="2"/>
+        <path d="M246 82 L260 88 L246 94 Z" fill="var(--color-normal)"/>
+        <path d="M266 88 H278" stroke="var(--color-info)" stroke-width="3"/>
+        <rect x="278" y="52" width="30" height="72" rx="3" fill="var(--color-warn-bg)" stroke="var(--color-warn)" stroke-width="1.5"/>
+        <rect x="279" y="100" width="28" height="23" fill="var(--color-warn)" opacity="0.5"/>
+        <text x="55" y="30" fill="var(--color-ink-2)" text-anchor="middle">T1 · 62 %</text>
+        <text x="165" y="30" fill="var(--color-ink-2)" text-anchor="middle">T2 · 81 %</text>
+        <text x="252" y="115" fill="var(--color-normal)" text-anchor="middle" font-weight="500">P1 ON</text>
+        <text x="293" y="44" fill="var(--color-warn)" text-anchor="middle" font-weight="500">T3 · 31 %</text>
+        <text x="55" y="152" fill="var(--color-muted)" text-anchor="middle">58,3 °C</text>
+        <text x="165" y="152" fill="var(--color-muted)" text-anchor="middle">121,3 °C</text>
+        <text x="252" y="70" fill="var(--color-muted)" text-anchor="middle">7,1 bar</text>
+      </svg>
+    )}
+    {kind === 'history' && (
+      <div class="flex flex-col h-full gap-2">
+        <div class="flex items-center gap-3 text-[11px]"><span class="mono text-info font-medium">Boiler1/FlueTemp</span><span class="text-muted">7 j</span><span class="ml-auto mono text-muted">min <span class="text-ink">98,2</span> · max <span class="text-crit">131,0</span></span></div>
+        <div class="flex-1 border border-line rounded-md p-2">
+          <svg viewBox="0 0 300 90" class="w-full h-full" preserveAspectRatio="none" aria-hidden="true">
+            <rect x="0" y="0" width="300" height="18" fill="var(--color-crit-bg)"/>
+            <line x1="0" y1="18" x2="300" y2="18" stroke="var(--color-crit)" stroke-dasharray="4 3"/>
+            <line x1="0" y1="45" x2="300" y2="45" stroke="var(--color-line)"/><line x1="0" y1="70" x2="300" y2="70" stroke="var(--color-line)"/>
+            <path d="M0 70 C40 65 60 45 100 50 S150 12 190 30 S260 55 300 40 L300 90 L0 90 Z" fill="var(--color-info)" opacity="0.15"/>
+            <path d="M0 70 C40 65 60 45 100 50 S150 12 190 30 S260 55 300 40" fill="none" stroke="var(--color-info)" stroke-width="2"/>
+            <circle cx="163" cy="15" r="3" fill="var(--color-crit)"/>
+            <line x1="163" y1="0" x2="163" y2="90" stroke="var(--color-warn)" stroke-width="1" stroke-dasharray="2 2"/>
+          </svg>
+        </div>
+        <div class="flex items-center gap-2 text-[10px] text-muted"><span class="inline-block w-2 h-2 bg-warn"></span>{fr ? 'déploiement rév. 53 · seuil haut 130 °C' : 'deploy rev. 53 · high limit 130 °C'}</div>
+      </div>
+    )}
+  </div>
+  <figcaption class="px-3 py-1.5 border-t border-line t-small">{label}</figcaption>
+</figure>
