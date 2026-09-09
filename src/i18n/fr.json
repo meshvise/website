@@ -25,12 +25,12 @@
   "home": {
     "meta": {
       "title": "Meshvise · Supervision industrielle, hébergée chez vous",
-      "description": "Tous vos équipements dans une seule supervision. Douze protocoles industriels inclus, prix affiché indépendant du nombre de points, données dans une base Postgres que vous lisez avec Excel. 2 400 € par an."
+      "description": "Tous vos équipements dans une seule supervision. Douze protocoles industriels inclus, une licence par site indépendante du nombre de points, données dans une base Postgres que vous lisez avec Excel."
     },
     "hero": {
       "eyebrow": "Supervision industrielle, hébergée chez vous",
-      "title": "Tous vos équipements. Une seule supervision. Un prix affiché.",
-      "subtitle": "Meshvise connecte vos automates, capteurs et compteurs, historise tout dans une base que vous pouvez lire avec Excel, et vous prévient quand quelque chose dérive. Douze protocoles industriels inclus. 2 400 € par an, quel que soit le nombre de points."
+      "title": "Tous vos équipements. Une seule supervision.",
+      "subtitle": "Meshvise connecte vos automates, capteurs et compteurs, historise tout dans une base que vous pouvez lire avec Excel, et vous prévient quand quelque chose dérive. Douze protocoles industriels inclus, sans module à acheter par marque d'automate."
     },
     "live": {
       "caption": "Ce que montre Meshvise : les points d'un site, en direct",
@@ -71,9 +71,9 @@
         "detail": "Modbus TCP et RTU, OPC UA, BACnet, S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. Aucun module à acheter par marque."
       },
       "price": {
-        "metric": "2 400 €",
-        "label": "Par an, affiché",
-        "detail": "Quel que soit le nombre de points, de machines ou d'écrans."
+        "metric": "Sans limite",
+        "label": "Points, machines, écrans",
+        "detail": "Une licence par site, quel que soit le nombre d'équipements raccordés."
       },
       "data": {
         "metric": "Postgres",
@@ -91,8 +91,8 @@
       "director": {
         "label": "Dirigeant",
         "pain": "Vous décidez sur des chiffres reconstitués en fin de mois, et vous ne savez pas ce que vous coûte de ne pas savoir.",
-        "gain": "Un abonnement qui se rembourse sur un seul incident évité, et des indicateurs qui existent avant la réunion, pas après.",
-        "cta": "Calculer le délai de récupération"
+        "gain": "Les chiffres du mois disponibles en continu, et le coût d'un arrêt enfin mesuré au lieu d'être estimé de mémoire.",
+        "cta": "Calculer le coût de l'inaction"
       },
       "maintenance": {
         "label": "Maintenance",
@@ -111,8 +111,8 @@
       },
       "integrator": {
         "label": "Intégrateur",
-        "pain": "Chaque chantier est un puzzle de licences et de connecteurs, et le prix au point vous fait perdre des affaires.",
-        "gain": "Une plateforme reproductible, douze protocoles dans un seul moteur, une licence par site, un prix que vous pouvez annoncer avant le devis.",
+        "pain": "Chaque chantier est un puzzle de licences et de connecteurs, et la facturation au point vous fait perdre des affaires.",
+        "gain": "Une plateforme reproductible, douze protocoles dans un seul moteur, une licence par site que vous chiffrez avant d'établir votre devis.",
         "cta": "Espace intégrateurs"
       }
     },
@@ -175,24 +175,24 @@
       "outro": "Aucune télémétrie ne sort de votre installation. Elle fonctionne sans connexion internet. Le contrat est en français, sous droit français."
     },
     "pricing_brief": {
-      "title": "Ce que ça coûte",
+      "title": "Par où commencer",
       "demo": {
-        "name": "Démo en ligne",
-        "price": "0 €",
+        "name": "Démonstration en ligne",
+        "price": "Publique",
         "note": "Accès direct"
       },
       "trial": {
         "name": "Essai 7 jours",
-        "price": "0 €",
-        "note": "Sur votre infrastructure"
+        "price": "Sept jours",
+        "note": "Sur votre infrastructure, avec vos équipements"
       },
       "onprem": {
         "name": "On-Premise",
-        "price": "2 400 €",
-        "note": "par an, tous protocoles, tous points"
+        "price": "Licence annuelle",
+        "note": "Par site, tous protocoles, tous points"
       },
       "managed_line": "Exploitation déléguée sur demande, pour les sites sans équipe technique.",
-      "link": "Voir le détail des offres"
+      "link": "Voir les tarifs"
     },
     "final": {
       "title": "Voir Meshvise fonctionner",
@@ -215,8 +215,6 @@
       "tablist_label": "Gisements",
       "per_year": "par an",
       "per_month": "par mois",
-      "subscription_label": "Abonnement On-Premise",
-      "subscription_value": "2 400 € par an",
       "downtime": {
         "label": "Arrêts",
         "help": "Sans historique, comprendre pourquoi une ligne s'est arrêtée relève de l'enquête, et l'enquête se fait pendant que la ligne est à l'arrêt.",
@@ -257,11 +255,9 @@
         "result": "Ordre de grandeur annuel du gisement"
       },
       "total_label": "Avec vos chiffres, l'absence de supervision vous coûte environ",
-      "payback_label": "Un abonnement Meshvise se rembourse en",
-      "months": "mois",
-      "month": "mois",
       "empty": "Renseignez au moins une ligne pour voir le résultat.",
-      "rule": "Ces méthodes de calcul sont volontairement simples. Elles ne remplacent pas une étude, elles rendent visible un coût que personne ne mesure."
+      "rule": "Ces méthodes de calcul sont volontairement simples. Elles ne remplacent pas une étude, elles rendent visible un coût que personne ne mesure.",
+      "compare": "Comparez ce montant au tarif de la licence"
     },
     "first": {
       "title": "Ce qui apparaît la première semaine",
@@ -712,16 +708,16 @@
   },
   "pricing": {
     "meta": {
-      "title": "Tarifs · Le prix est affiché · Meshvise",
-      "description": "Démo gratuite, essai sept jours gratuit, On-Premise à 2 400 € par an quel que soit le nombre de points. Prix hors taxes, France, facturation annuelle."
+      "title": "Tarifs · Meshvise",
+      "description": "Démonstration et essai de sept jours sans frais, On-Premise à 2 400 € par an quel que soit le nombre de points, mise en service sur devis. Tarifs hors taxes, France, facturation annuelle."
     },
     "hero": {
       "eyebrow": "Tarifs",
-      "title": "Le prix est affiché. Il ne dépend pas du nombre de points.",
-      "subtitle": "Prix hors taxes, France. Facturation annuelle. Vous restez propriétaire de vos données dans tous les cas."
+      "title": "Le tarif de la licence ne dépend pas du nombre de points.",
+      "subtitle": "Tarif catalogue hors taxes, France, facturation annuelle. La mise en service est chiffrée sur devis, selon le nombre d'équipements à raccorder."
     },
     "demo": {
-      "name": "Démo en ligne",
+      "name": "Démonstration en ligne",
       "price": "0 €",
       "period": "",
       "tagline": "Un site industriel simulé, en accès direct.",
@@ -747,7 +743,7 @@
       "name": "On-Premise",
       "price": "2 400 €",
       "period": "par an",
-      "setup": "+ 1 200 € de mise en service",
+      "setup": "Mise en service sur devis",
       "tagline": "La licence complète, hébergée chez vous.",
       "items": [
         "Acquisition, historisation, alarmes, tableaux de bord, synoptiques, logique, traçabilité",
@@ -766,18 +762,19 @@
       "body": "Cette offre n'est pas encore livrable. Écrivez pour en discuter."
     },
     "setup_note_title": "Ce que couvre la mise en service",
-    "setup_note": "L'installation à distance sur votre serveur, la connexion de vos premiers équipements et une session de prise en main.",
-    "continuity_link": "Et si Meshvise disparaît ?"
+    "setup_note": "L'installation à distance sur votre serveur, la connexion de vos équipements et une session de prise en main. Le montant est chiffré sur devis : il dépend du nombre d'équipements, de leurs protocoles et de la segmentation de votre réseau.",
+    "continuity_link": "Et si Meshvise disparaît ?",
+    "cta_quote": "Demander une proposition"
   },
   "integrators": {
     "meta": {
       "title": "Intégrateurs · Une supervision à chiffrer avant le devis · Meshvise",
-      "description": "Douze protocoles dans un moteur unique, une licence par site, un prix indépendant du nombre de points. Votre marge se fait sur l'ingénierie, pas sur la licence."
+      "description": "Douze protocoles dans un moteur unique, une licence par site, indépendante du nombre de points. Votre marge se fait sur l'ingénierie, pas sur la licence."
     },
     "hero": {
       "eyebrow": "Intégrateurs, bureaux d'études",
       "title": "Une supervision que vous pouvez chiffrer avant le devis.",
-      "subtitle": "Douze protocoles dans un moteur unique, une licence par site, un prix indépendant du nombre de points. Votre marge se fait sur l'ingénierie, pas sur la licence."
+      "subtitle": "Douze protocoles dans un moteur unique, une licence par site, indépendante du nombre de points. Votre marge se fait sur l'ingénierie, pas sur la licence."
     },
     "why": {
       "title": "Sur un chantier",
@@ -787,7 +784,7 @@
       },
       "points": {
         "title": "Aucune négociation sur les points",
-        "body": "Le prix ne dépend pas du nombre de points. Le sujet le plus pénible de vos négociations disparaît."
+        "body": "La licence ne dépend pas du nombre de points. Le sujet le plus pénible de vos négociations disparaît."
       },
       "license": {
         "title": "Pas de contrainte copyleft",
@@ -815,7 +812,7 @@
   "about": {
     "meta": {
       "title": "À propos · Meshvise",
-      "description": "Meshvise est une supervision industrielle conçue et développée par une personne, ingénieur en digitalisation industrielle. Données chez vous, prix affiché, séquestre du code source."
+      "description": "Meshvise est une supervision industrielle conçue et développée par une personne, ingénieur en digitalisation industrielle. Données chez vous, aucune télémétrie, séquestre du code source."
     },
     "eyebrow": "À propos",
     "title": "Une supervision industrielle construite par quelqu'un qui en avait besoin.",
@@ -831,8 +828,8 @@
         "body": "Base standard, schéma documenté, export à tout moment."
       },
       "price": {
-        "title": "Le prix est affiché.",
-        "body": "Pas de devis opaque, pas de facturation au point."
+        "title": "Pas de facturation au point.",
+        "body": "Une licence par site, quel que soit le nombre d'équipements raccordés."
       },
       "honest": {
         "title": "Ce qui n'est pas livré est dit.",
@@ -959,7 +956,7 @@
     "body": "Elle tournera sur un site industriel simulé, en accès direct. En attendant, une démonstration de trente minutes en visio, sur un cas proche du vôtre, est possible dès maintenant."
   },
   "footer": {
-    "tagline": "Supervision industrielle, hébergée chez vous. Douze protocoles inclus, prix affiché, données dans une base que vous possédez.",
+    "tagline": "Supervision industrielle, hébergée chez vous. Douze protocoles inclus, données dans une base que vous possédez.",
     "product": "Produit",
     "resources": "Ressources",
     "contact": "Contact",
@@ -974,7 +971,7 @@
     "switch_language": "Basculer en {lang}"
   },
   "meta": {
-    "og_image_alt": "Meshvise · Tous vos équipements. Une seule supervision. Un prix affiché."
+    "og_image_alt": "Meshvise · Tous vos équipements. Une seule supervision."
   },
   "trial": {
     "meta": {

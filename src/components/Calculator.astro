@@ -5,13 +5,13 @@
  * sous-total. Aucune valeur par défaut. Formules : argumentaire-valeur.md.
  */
 import { t, type Lang } from '../i18n';
+import { href } from '../i18n/routes';
 
 interface Props {
   lang: Lang;
 }
 
 const { lang } = Astro.props;
-const SUBSCRIPTION = 2400;
 const groups = [
   { id: 'downtime', fields: ['f1', 'f2', 'f3'] },
   { id: 'oncall',   fields: ['f1', 'f2', 'f3'] },
@@ -28,7 +28,7 @@ const groups = [
       <p class="t-lede">{t(lang, 'why.calc.intro')}</p>
     </div>
 
-    <div class="grid lg:grid-cols-12 gap-8 items-start" data-calc data-subscription={SUBSCRIPTION} data-lang={lang}>
+    <div class="grid lg:grid-cols-12 gap-8 items-start" data-calc data-lang={lang}>
       <div class="lg:col-span-8 border-t border-line">
         {groups.map((g) => (
           <div class="grid md:grid-cols-12 gap-x-10 gap-y-5 py-8 border-b border-line">
@@ -58,14 +58,9 @@ const groups = [
         <div class="t-small">{t(lang, 'why.calc.total_label')}</div>
         <div class="mono text-[36px] font-medium mt-1 leading-none text-crit-bg" data-calc-total>–</div>
         <div class="t-small mt-1" data-calc-total-unit hidden>{t(lang, 'why.calc.per_year')}</div>
-        <div class="mt-6 pt-5 border-t border-n-700">
-          <div class="t-small">{t(lang, 'why.calc.payback_label')}</div>
-          <div class="mt-1 leading-none"><span class="mono text-[28px] font-medium text-normal-bg" data-calc-payback>–</span> <span class="t-small" data-calc-payback-unit hidden>{t(lang, 'why.calc.months')}</span></div>
-        </div>
         <p class="t-small mt-5" data-calc-empty>{t(lang, 'why.calc.empty')}</p>
-        <div class="mt-5 pt-4 border-t border-n-700 flex justify-between t-small">
-          <span>{t(lang, 'why.calc.subscription_label')}</span>
-          <span class="mono">{t(lang, 'why.calc.subscription_value')}</span>
+        <div class="mt-6 pt-5 border-t border-n-700">
+          <a href={href(lang, 'pricing')} class="t-small underline underline-offset-4 hover:no-underline">{t(lang, 'why.calc.compare')}</a>
         </div>
       </aside>
     </div>
@@ -78,7 +73,6 @@ const groups = [
   const root = document.querySelector<HTMLElement>('[data-calc]');
   if (root) {
     const locale = root.dataset.lang === 'en' ? 'en-GB' : 'fr-FR';
-    const subscription = Number(root.dataset.subscription || 2400);
     const fmt = new Intl.NumberFormat(locale, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
     const v = (tab: string, f: string): number | null => {
       const el = root.querySelector<HTMLInputElement>(`[data-calc-input][data-tab="${tab}"][data-field="${f}"]`);
@@ -99,8 +93,6 @@ const groups = [
     };
     const totalEl = root.querySelector<HTMLElement>('[data-calc-total]')!;
     const totalUnit = root.querySelector<HTMLElement>('[data-calc-total-unit]')!;
-    const paybackEl = root.querySelector<HTMLElement>('[data-calc-payback]')!;
-    const paybackUnit = root.querySelector<HTMLElement>('[data-calc-payback-unit]')!;
     const emptyEl = root.querySelector<HTMLElement>('[data-calc-empty]')!;
     const recompute = () => {
       let total = 0, any = false;
@@ -109,11 +101,9 @@ const groups = [
         const out = root.querySelector<HTMLElement>(`[data-calc-result="${tab}"]`)!;
         if (r === null) out.textContent = '–'; else { out.textContent = fmt.format(r); total += r; any = true; }
       }
-      if (!any || total <= 0) { totalEl.textContent = '–'; paybackEl.textContent = '–'; totalUnit.hidden = true; paybackUnit.hidden = true; emptyEl.hidden = false; return; }
+      if (!any || total <= 0) { totalEl.textContent = '–'; totalUnit.hidden = true; emptyEl.hidden = false; return; }
       totalEl.textContent = fmt.format(total);
-      const months = subscription / (total / 12);
-      paybackEl.textContent = months < 1 ? '< 1' : String(Math.ceil(months));
-      totalUnit.hidden = false; paybackUnit.hidden = false; emptyEl.hidden = true;
+      totalUnit.hidden = false; emptyEl.hidden = true;
     };
     root.querySelectorAll<HTMLInputElement>('[data-calc-input]').forEach((i) => i.addEventListener('input', recompute));
     recompute();

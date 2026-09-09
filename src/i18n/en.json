@@ -25,12 +25,12 @@
   "home": {
     "meta": {
       "title": "Meshvise · Industrial supervision, hosted on your premises",
-      "description": "All your equipment in one supervision system. Twelve industrial protocols included, a published price independent of point count, your data in a Postgres database you can read with Excel. €2,400 per year."
+      "description": "All your equipment in one supervision system. Twelve industrial protocols included, one licence per site independent of point count, your data in a Postgres database you can read with Excel."
     },
     "hero": {
       "eyebrow": "Industrial supervision, hosted on your premises",
-      "title": "All your equipment. One supervision system. A published price.",
-      "subtitle": "Meshvise connects your PLCs, sensors and meters, records everything in a database you can open with Excel, and alerts you when something drifts. Twelve industrial protocols included. €2,400 per year, whatever the number of points."
+      "title": "All your equipment. One supervision system.",
+      "subtitle": "Meshvise connects your PLCs, sensors and meters, records everything in a database you can open with Excel, and alerts you when something drifts. Twelve industrial protocols included, with no module to buy per PLC brand."
     },
     "live": {
       "caption": "What Meshvise shows: one site's points, live",
@@ -71,9 +71,9 @@
         "detail": "Modbus TCP and RTU, OPC UA, BACnet, S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. No module to buy per brand."
       },
       "price": {
-        "metric": "€2,400",
-        "label": "Per year, published",
-        "detail": "Whatever the number of points, machines or screens."
+        "metric": "No limit",
+        "label": "Points, machines, screens",
+        "detail": "One licence per site, whatever the number of connected devices."
       },
       "data": {
         "metric": "Postgres",
@@ -91,8 +91,8 @@
       "director": {
         "label": "Managing director",
         "pain": "You decide on numbers reconstructed at month end, and you don't know what not knowing costs you.",
-        "gain": "A subscription that pays for itself on a single avoided incident, and indicators that exist before the meeting, not after.",
-        "cta": "Calculate the payback"
+        "gain": "This month's figures available continuously, and the cost of a stoppage finally measured instead of estimated from memory.",
+        "cta": "Calculate the cost of doing nothing"
       },
       "maintenance": {
         "label": "Maintenance",
@@ -111,8 +111,8 @@
       },
       "integrator": {
         "label": "Integrator",
-        "pain": "Every project is a puzzle of licences and connectors, and per-point pricing loses you deals.",
-        "gain": "A reproducible platform, twelve protocols in one engine, one licence per site, a price you can state before the quote.",
+        "pain": "Every project is a puzzle of licences and connectors, and per-point billing loses you deals.",
+        "gain": "A reproducible platform, twelve protocols in one engine, one licence per site that you can cost before drafting your quote.",
         "cta": "Integrator area"
       }
     },
@@ -175,24 +175,24 @@
       "outro": "No telemetry leaves your installation. It works without an internet connection. The contract is in French, under French law."
     },
     "pricing_brief": {
-      "title": "What it costs",
+      "title": "Where to start",
       "demo": {
-        "name": "Online demo",
-        "price": "€0",
+        "name": "Online demonstration",
+        "price": "Public",
         "note": "Direct access"
       },
       "trial": {
         "name": "7-day trial",
-        "price": "€0",
-        "note": "On your infrastructure"
+        "price": "Seven days",
+        "note": "On your infrastructure, with your equipment"
       },
       "onprem": {
         "name": "On-Premise",
-        "price": "€2,400",
-        "note": "per year, all protocols, all points"
+        "price": "Annual licence",
+        "note": "Per site, all protocols, all points"
       },
       "managed_line": "Managed operations on request, for sites without a technical team.",
-      "link": "See the full offers"
+      "link": "See the rates"
     },
     "final": {
       "title": "See Meshvise running",
@@ -215,8 +215,6 @@
       "tablist_label": "Cost sources",
       "per_year": "per year",
       "per_month": "per month",
-      "subscription_label": "On-Premise subscription",
-      "subscription_value": "€2,400 per year",
       "downtime": {
         "label": "Stops",
         "help": "Without history, understanding why a line stopped is an investigation, and the investigation happens while the line is down.",
@@ -257,11 +255,9 @@
         "result": "Annual order of magnitude"
       },
       "total_label": "With your numbers, the absence of supervision costs you about",
-      "payback_label": "A Meshvise subscription pays for itself in",
-      "months": "months",
-      "month": "month",
       "empty": "Fill in at least one line to see the result.",
-      "rule": "These calculation methods are deliberately simple. They do not replace a study, they make visible a cost nobody measures."
+      "rule": "These calculation methods are deliberately simple. They do not replace a study, they make visible a cost nobody measures.",
+      "compare": "Compare this figure with the licence rate"
     },
     "first": {
       "title": "What shows up in the first week",
@@ -712,16 +708,16 @@
   },
   "pricing": {
     "meta": {
-      "title": "Pricing · The price is published · Meshvise",
-      "description": "Free demo, free seven-day trial, On-Premise at €2,400 per year whatever the number of points. Prices excluding VAT, France, annual billing."
+      "title": "Rates · Meshvise",
+      "description": "Demonstration and seven-day trial at no charge, On-Premise at €2,400 per year whatever the number of points, commissioning quoted separately. Rates excluding VAT, France, annual billing."
     },
     "hero": {
       "eyebrow": "Pricing",
-      "title": "The price is published. It does not depend on the number of points.",
-      "subtitle": "Prices excluding VAT, France. Annual billing. You remain the owner of your data in every case."
+      "title": "The licence rate does not depend on the number of points.",
+      "subtitle": "List rate excluding VAT, France, annual billing. Commissioning is quoted separately, based on the number of devices to connect."
     },
     "demo": {
-      "name": "Online demo",
+      "name": "Online demonstration",
       "price": "€0",
       "period": "",
       "tagline": "A simulated industrial site, direct access.",
@@ -747,7 +743,7 @@
       "name": "On-Premise",
       "price": "€2,400",
       "period": "per year",
-      "setup": "+ €1,200 setup",
+      "setup": "Commissioning quoted separately",
       "tagline": "The full licence, hosted on your premises.",
       "items": [
         "Acquisition, history, alarms, dashboards, synoptics, logic, traceability",
@@ -766,18 +762,19 @@
       "body": "This offer is not deliverable yet. Write to discuss it."
     },
     "setup_note_title": "What setup covers",
-    "setup_note": "Remote installation on your server, connection of your first equipment and an onboarding session.",
-    "continuity_link": "What if Meshvise disappears?"
+    "setup_note": "Remote installation on your server, connection of your devices and a hands-on session. The amount is quoted case by case: it depends on the number of devices, their protocols and how your network is segmented.",
+    "continuity_link": "What if Meshvise disappears?",
+    "cta_quote": "Request a proposal"
   },
   "integrators": {
     "meta": {
       "title": "Integrators · A supervision system you can price before the quote · Meshvise",
-      "description": "Twelve protocols in one engine, one licence per site, a price independent of point count. Your margin is on engineering, not on the licence."
+      "description": "Twelve protocols in one engine, one licence per site, independent of point count. Your margin is on engineering, not on the licence."
     },
     "hero": {
       "eyebrow": "Integrators, engineering firms",
       "title": "A supervision system you can price before the quote.",
-      "subtitle": "Twelve protocols in one engine, one licence per site, a price independent of point count. Your margin is on engineering, not on the licence."
+      "subtitle": "Twelve protocols in one engine, one licence per site, independent of point count. Your margin is on engineering, not on the licence."
     },
     "why": {
       "title": "On a project",
@@ -787,7 +784,7 @@
       },
       "points": {
         "title": "No negotiation over points",
-        "body": "The price does not depend on the number of points. The most painful topic of your negotiations disappears."
+        "body": "The licence does not depend on the number of points. The most painful topic of your negotiations disappears."
       },
       "license": {
         "title": "No copyleft constraint",
@@ -815,7 +812,7 @@
   "about": {
     "meta": {
       "title": "About · Meshvise",
-      "description": "Meshvise is an industrial supervision system designed and built by one person, an industrial digitalisation engineer. Data on your premises, published price, source code escrow."
+      "description": "Meshvise is an industrial supervision system designed and built by one person, an industrial digitalisation engineer. Data on your premises, no telemetry, source code escrow."
     },
     "eyebrow": "About",
     "title": "An industrial supervision system built by someone who needed one.",
@@ -831,8 +828,8 @@
         "body": "Standard database, documented schema, export at any time."
       },
       "price": {
-        "title": "The price is published.",
-        "body": "No opaque quote, no per-point billing."
+        "title": "No per-point billing.",
+        "body": "One licence per site, whatever the number of connected devices."
       },
       "honest": {
         "title": "What is not delivered is said.",
@@ -959,7 +956,7 @@
     "body": "It will run on a simulated industrial site, with direct access. Meanwhile, a thirty-minute video demonstration on a case close to yours is available now."
   },
   "footer": {
-    "tagline": "Industrial supervision, hosted on your premises. Twelve protocols included, published price, data in a database you own.",
+    "tagline": "Industrial supervision, hosted on your premises. Twelve protocols included, data in a database you own.",
     "product": "Product",
     "resources": "Resources",
     "contact": "Contact",
@@ -974,7 +971,7 @@
     "switch_language": "Switch to {lang}"
   },
   "meta": {
-    "og_image_alt": "Meshvise · All your equipment. One supervision system. A published price."
+    "og_image_alt": "Meshvise · All your equipment. One supervision system."
   },
   "trial": {
     "meta": {

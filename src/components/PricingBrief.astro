@@ -21,7 +21,7 @@ const cols = ['demo', 'trial', 'onprem'] as const;
           {cols.map((c) => (
             <tr>
               <td class="w-1/3 font-medium text-ink">{t(lang, `home.pricing_brief.${c}.name`)}</td>
-              <td class="num text-[16px] text-ink">{t(lang, `home.pricing_brief.${c}.price`)}</td>
+              <td class="text-ink">{t(lang, `home.pricing_brief.${c}.price`)}</td>
               <td class="text-ink-2">{t(lang, `home.pricing_brief.${c}.note`)}</td>
             </tr>
           ))}

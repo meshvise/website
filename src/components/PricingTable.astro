@@ -17,7 +17,7 @@ const d = (lang === 'fr' ? fr : en).pricing;
 const cols = [
   { id: 'demo',   href: href(lang, 'demo'),  cta: t(lang, 'common.cta_demo') },
   { id: 'trial',  href: href(lang, 'trial'), cta: t(lang, 'common.cta_trial') },
-  { id: 'onprem', href: href(lang, 'why', 'contact'), cta: t(lang, 'common.cta_contact') },
+  { id: 'onprem', href: href(lang, 'why', 'contact'), cta: t(lang, 'pricing.cta_quote') },
 ] as const;
 const get = (id: string) => (d as any)[id] as { name: string; price: string; period?: string; setup?: string; tagline: string; items: string[] };
 ---
