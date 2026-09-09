@@ -711,35 +711,12 @@
   "pricing": {
     "meta": {
       "title": "Tarifs · Meshvise",
-      "description": "Démonstration et essai de sept jours sans frais, On-Premise à 2 400 € par an quel que soit le nombre de points, mise en service sur devis. Tarifs hors taxes, France, facturation annuelle."
+      "description": "On-Premise à 2 400 € par an quel que soit le nombre de points, mise en service sur devis, exploitation déléguée sur demande. Tarifs hors taxes, France, facturation annuelle."
     },
     "hero": {
       "eyebrow": "Tarifs",
       "title": "Le tarif de la licence ne dépend pas du nombre de points.",
       "subtitle": "Tarif catalogue hors taxes, France, facturation annuelle. La mise en service est chiffrée sur devis, selon le nombre d'équipements à raccorder."
-    },
-    "demo": {
-      "name": "Démonstration en ligne",
-      "price": "0 €",
-      "period": "",
-      "tagline": "Un site industriel simulé, en accès direct.",
-      "items": [
-        "Vingt-deux machines, douze protocoles",
-        "Trente jours d'historique",
-        "Accès direct, sans formulaire"
-      ]
-    },
-    "trial": {
-      "name": "Essai 7 jours",
-      "price": "0 €",
-      "period": "7 jours",
-      "tagline": "L'application complète sur votre infrastructure.",
-      "items": [
-        "Licence reçue par courriel",
-        "Cinq drivers, quinze machines, cinq cents points",
-        "Tous les protocoles, toutes les fonctions",
-        "À l'expiration, lecture seule, données conservées"
-      ]
     },
     "onprem": {
       "name": "On-Premise",
@@ -755,13 +732,14 @@
         "Support par courriel, réponse sous deux jours ouvrés",
         "Séquestre du code source proposé au contrat"
       ],
-      "recommended": "Disponible"
+      "status": "Disponible"
     },
     "managed": {
       "name": "Exploitation déléguée",
       "price": "Sur demande",
       "tagline": "Pour les sites sans équipe technique.",
-      "body": "Cette offre n'est pas encore livrable. Écrivez pour en discuter."
+      "body": "Cette offre n'est pas encore livrable. Écrivez pour en discuter.",
+      "status": "En construction"
     },
     "setup_note_title": "Ce que couvre la mise en service",
     "setup_note": "L'installation à distance sur votre serveur, la connexion de vos équipements et une session de prise en main. Le montant est chiffré sur devis : il dépend du nombre d'équipements, de leurs protocoles et de la segmentation de votre réseau.",

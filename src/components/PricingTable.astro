@@ -1,7 +1,10 @@
 ---
 /**
- * Les tarifs, en tableau : une colonne par offre, une ligne par contenu.
- * Tout est visible, rien n'est mis en scène.
+ * Les deux offres commerciales, côte à côte. La démonstration et l'essai
+ * n'y figurent pas : ce ne sont pas des tarifs, ils vivent dans la
+ * navigation et sur l'accueil. La colonne de droite est volontairement
+ * plus courte que celle de gauche : l'exploitation déléguée n'est pas
+ * livrable, rien n'y est promis.
  */
 import fr from '../i18n/fr.json';
 import en from '../i18n/en.json';
@@ -14,43 +17,41 @@ interface Props {
 
 const { lang } = Astro.props;
 const d = (lang === 'fr' ? fr : en).pricing;
-const cols = [
-  { id: 'demo',   href: href(lang, 'demo'),  cta: t(lang, 'common.cta_demo') },
-  { id: 'trial',  href: href(lang, 'trial'), cta: t(lang, 'common.cta_trial') },
-  { id: 'onprem', href: '#devis', cta: t(lang, 'pricing.cta_quote') },
-] as const;
-const get = (id: string) => (d as any)[id] as { name: string; price: string; period?: string; setup?: string; tagline: string; items: string[] };
 ---
 
 <section class="wrap py-16 md:py-24">
   <div class="grid md:grid-cols-3 panel">
-    {cols.map((c, i) => {
-      const o = get(c.id);
-      return (
-        <div class={`flex flex-col p-6 md:p-7 ${i > 0 ? 'border-t md:border-t-0 md:border-l border-line' : ''}`}>
-          <h3 class="text-[16px] font-medium text-ink">{o.name}</h3>
-          <div class="mt-4 flex items-baseline gap-2">
-            <span class="mono text-[30px] font-medium text-ink leading-none">{o.price}</span>
-            {o.period && <span class="t-small">{o.period}</span>}
-          </div>
-          {o.setup && <div class="t-small mt-1.5">{o.setup}</div>}
-          <p class="t-body mt-4">{o.tagline}</p>
-          <ul class="mt-5 space-y-2.5 text-[14px] text-ink-2 flex-1 border-t border-line pt-5">
-            {o.items.map((it) => <li class="flex gap-2.5"><span class="mt-[9px] w-1 h-1 rounded-full bg-n-400 shrink-0" aria-hidden="true"></span><span>{it}</span></li>)}
-          </ul>
-          <a href={c.href} class={`mt-7 btn justify-center ${c.id === 'onprem' ? 'btn-primary' : 'btn-outline'}`}>{c.cta}</a>
-        </div>
-      );
-    })}
-  </div>
-
-  <div class="mt-4 border border-dashed border-n-300 rounded-lg p-7 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 bg-surface">
-    <div class="md:flex-1">
-      <h3 class="text-[16px] font-medium text-ink">{d.managed.name}</h3>
-      <div class="mono text-[20px] font-medium text-ink mt-2">{d.managed.price}</div>
-      <p class="t-body mt-2">{d.managed.tagline} {d.managed.body}</p>
+    <div class="md:col-span-2 flex flex-col p-6 md:p-8">
+      <div class="flex items-baseline gap-3">
+        <h3 class="text-[16px] font-medium text-ink">{d.onprem.name}</h3>
+        <span class="badge badge-normal">{d.onprem.status}</span>
+      </div>
+      <div class="mt-4 flex items-baseline gap-2">
+        <span class="mono text-[30px] font-medium text-ink leading-none">{d.onprem.price}</span>
+        <span class="t-small">{d.onprem.period}</span>
+      </div>
+      <div class="t-small mt-1.5">{d.onprem.setup}</div>
+      <p class="t-body mt-4">{d.onprem.tagline}</p>
+      <ul class="mt-5 space-y-2.5 text-[14px] text-ink-2 flex-1 border-t border-line pt-5">
+        {d.onprem.items.map((it) => (
+          <li class="flex gap-2.5">
+            <span class="mt-[9px] w-1 h-1 rounded-full bg-n-400 shrink-0" aria-hidden="true"></span>
+            <span>{it}</span>
+          </li>
+        ))}
+      </ul>
+      <a href="#devis" class="mt-7 btn btn-primary justify-center sm:self-start sm:px-8">{t(lang, 'pricing.cta_quote')}</a>
     </div>
-    <a href="#devis" class="btn btn-outline">{t(lang, 'common.cta_contact')}</a>
+
+    <div class="flex flex-col p-6 md:p-8 border-t md:border-t-0 md:border-l border-line bg-surface">
+      <div class="flex items-baseline gap-3">
+        <h3 class="text-[16px] font-medium text-ink">{d.managed.name}</h3>
+        <span class="badge badge-off">{d.managed.status}</span>
+      </div>
+      <div class="mt-4 mono text-[20px] font-medium text-ink leading-none">{d.managed.price}</div>
+      <p class="t-body mt-4 flex-1">{d.managed.tagline} {d.managed.body}</p>
+      <a href="#devis" class="mt-7 btn btn-outline justify-center">{t(lang, 'common.cta_contact')}</a>
+    </div>
   </div>
 
   <div class="mt-10 grid md:grid-cols-2 gap-8">
