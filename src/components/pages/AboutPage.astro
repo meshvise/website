@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../PageHero.astro';
+import FinalCTA from '../FinalCTA.astro';
+import { t, type Lang } from '../../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const commitments = ['data', 'price', 'honest', 'telemetry'] as const;
+const coords = [
+  { k: 'company', v: t(lang, 'about.coords.company_v') },
+  { k: 'address', v: t(lang, 'about.coords.address_v') },
+  { k: 'id',      v: t(lang, 'about.coords.id_v') },
+] as const;
+---
+
+<Base lang={lang} title={t(lang, 'about.meta.title')} description={t(lang, 'about.meta.description')}>
+  <PageHero title={t(lang, 'about.title')} />
+
+  <section class="section">
+    <div class="wrap grid lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-7">
+        <h2 class="t-section">{t(lang, 'about.founder.heading')}</h2>
+        <p class="t-lede mt-4">{t(lang, 'about.founder.p1')}</p>
+        <p class="t-lede mt-4">{t(lang, 'about.founder.p2')}</p>
+      </div>
+      <dl class="lg:col-span-5 panel p-7 self-start">
+        <h2 class="text-[16px] font-medium text-ink mb-4">{t(lang, 'about.coords.heading')}</h2>
+        {coords.map((c) => (
+          <div class="py-2.5 border-t border-line grid grid-cols-12 gap-3 text-[14px]">
+            <dt class="col-span-5 text-muted">{t(lang, `about.coords.${c.k}`)}</dt>
+            <dd class="col-span-7 text-ink">{c.v}</dd>
+          </div>
+        ))}
+        <div class="py-2.5 border-t border-line grid grid-cols-12 gap-3 text-[14px]">
+          <dt class="col-span-5 text-muted">{t(lang, 'about.coords.email')}</dt>
+          <dd class="col-span-7"><a href="mailto:contact@meshvise.com" class="mono text-ink hover:underline">contact@meshvise.com</a></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section bg-surface border-y border-line">
+    <div class="wrap">
+      <div class="section-head"><h2 class="t-page">{t(lang, 'about.commitments.heading')}</h2></div>
+      <dl class="grid md:grid-cols-2 border-t border-line">
+        {commitments.map((k, i) => (
+          <div class={`py-5 pr-8 border-b border-line ${i % 2 === 1 ? 'md:pl-8 md:border-l' : ''}`}>
+            <dt class="text-[17px] font-medium text-ink">{t(lang, `about.commitments.${k}.title`)}</dt>
+            <dd class="t-body mt-1.5">{t(lang, `about.commitments.${k}.body`)}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <FinalCTA lang={lang} />
+</Base>

@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../PageHero.astro';
+import PricingTable from '../PricingTable.astro';
+import Continuity from '../Continuity.astro';
+import FAQ from '../FAQ.astro';
+import { t, type Lang } from '../../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+
+<Base lang={lang} title={t(lang, 'pricing.meta.title')} description={t(lang, 'pricing.meta.description')}>
+  <PageHero title={t(lang, 'pricing.hero.title')} subtitle={t(lang, 'pricing.hero.subtitle')} />
+  <PricingTable lang={lang} />
+  <Continuity lang={lang} />
+  <FAQ lang={lang} />
+</Base>

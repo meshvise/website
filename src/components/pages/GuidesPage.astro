@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../PageHero.astro';
+import FinalCTA from '../FinalCTA.astro';
+import fr from '../../i18n/fr.json';
+import en from '../../i18n/en.json';
+import { t, type Lang } from '../../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const list = (lang === 'fr' ? fr : en).guides.list as string[];
+---
+
+<Base lang={lang} title={t(lang, 'guides.meta.title')} description={t(lang, 'guides.meta.description')}>
+  <PageHero title={t(lang, 'guides.title')} subtitle={t(lang, 'guides.subtitle')} />
+  <section class="section">
+    <div class="wrap">
+      <ol class="border-t border-line max-w-3xl">
+        {list.map((title) => (
+          <li class="flex items-baseline gap-5 py-4 border-b border-line">
+            <span class="flex-1 text-[16px] text-ink">{title}</span>
+            <span class="t-small shrink-0">{t(lang, 'guides.coming')}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+  <FinalCTA lang={lang} />
+</Base>
