@@ -3,8 +3,8 @@
  * Les deux offres commerciales, côte à côte. La démonstration et l'essai
  * n'y figurent pas : ce ne sont pas des tarifs, ils vivent dans la
  * navigation et sur l'accueil. La colonne de droite est volontairement
- * plus courte que celle de gauche : l'exploitation déléguée n'est pas
- * livrable, rien n'y est promis.
+ * plus courte : l'exploitation déléguée n'est pas livrable, et rien n'y
+ * est promis. Le texte le dit, aucun badge n'a à le signaler.
  */
 import fr from '../i18n/fr.json';
 import en from '../i18n/en.json';
@@ -22,10 +22,7 @@ const d = (lang === 'fr' ? fr : en).pricing;
 <section class="wrap py-16 md:py-24">
   <div class="grid md:grid-cols-3 panel">
     <div class="md:col-span-2 flex flex-col p-6 md:p-8">
-      <div class="flex items-baseline gap-3">
-        <h3 class="text-[16px] font-medium text-ink">{d.onprem.name}</h3>
-        <span class="badge badge-normal">{d.onprem.status}</span>
-      </div>
+      <h3 class="text-[16px] font-medium text-ink">{d.onprem.name}</h3>
       <div class="mt-4 flex items-baseline gap-2">
         <span class="mono text-[30px] font-medium text-ink leading-none">{d.onprem.price}</span>
         <span class="t-small">{d.onprem.period}</span>
@@ -44,10 +41,7 @@ const d = (lang === 'fr' ? fr : en).pricing;
     </div>
 
     <div class="flex flex-col p-6 md:p-8 border-t md:border-t-0 md:border-l border-line bg-surface">
-      <div class="flex items-baseline gap-3">
-        <h3 class="text-[16px] font-medium text-ink">{d.managed.name}</h3>
-        <span class="badge badge-off">{d.managed.status}</span>
-      </div>
+      <h3 class="text-[16px] font-medium text-ink">{d.managed.name}</h3>
       <div class="mt-4 mono text-[20px] font-medium text-ink leading-none">{d.managed.price}</div>
       <p class="t-body mt-4 flex-1">{d.managed.tagline} {d.managed.body}</p>
       <a href="#devis" class="mt-7 btn btn-outline justify-center">{t(lang, 'common.cta_contact')}</a>

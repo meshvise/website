@@ -731,15 +731,13 @@
         "Updates for twelve months",
         "Email support, reply within two business days",
         "Source code escrow offered in the contract"
-      ],
-      "status": "Available"
+      ]
     },
     "managed": {
       "name": "Managed operations",
       "price": "On request",
       "tagline": "For sites without a technical team.",
-      "body": "This offer is not deliverable yet. Write to discuss it.",
-      "status": "Under construction"
+      "body": "This offer is not deliverable yet. Write to discuss it."
     },
     "setup_note_title": "What setup covers",
     "setup_note": "Remote installation on your server, connection of your devices and a hands-on session. The amount is quoted case by case: it depends on the number of devices, their protocols and how your network is segmented.",
