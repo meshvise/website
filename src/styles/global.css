@@ -1,129 +1,89 @@
 @import "tailwindcss";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
-@import "@fontsource/jetbrains-mono/400.css";
-@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/ibm-plex-sans/300.css";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
 
 /*
- * Fallback @font-face declarations with metric overrides so the system
- * fallback (Arial / SF Pro Text) renders text at the same x-height,
- * line-height and width as Inter — eliminating the layout-shift "jump"
- * that happens when the real Inter web font swaps in. Metrics taken from
- * https://github.com/seek-oss/capsize fontMetricsOverride for Inter.
- */
-@font-face {
-  font-family: 'Inter Fallback';
-  src: local('Arial');
-  size-adjust: 107.4%;
-  ascent-override: 90%;
-  descent-override: 22.5%;
-  line-gap-override: 0%;
-}
-
-@font-face {
-  font-family: 'JetBrains Mono Fallback';
-  src: local('Courier New');
-  size-adjust: 95%;
-  ascent-override: 110%;
-  descent-override: 30%;
-  line-gap-override: 0%;
-}
-
-/*
- * Light-mode marketing site, ALIGNED on docs/charte-graphique.md (pivot
- * 2026-05-08 : light-first + brand #2563EB Tailwind blue-600 + Cloudflare
- * patterns). Identique à apps/spa/src/style.css côté SPA — drift = bug
- * en review.
+ * Vitrine Meshvise : mêmes tokens que le produit (apps/spa/src/styles/tokens.css,
+ * charte MeshVise adoptée le 2026-06-06). Le site parle comme l'application :
+ * IBM Plex, graphite, fond clair, la couleur n'encode que des états.
  *
- * Brand UI (#2563EB) ≠ logo (#1FA8FF) : le logo garde son cyan-bleu
- * vif comme asset graphique constant (cf. note charte § Brand).
+ * Réglage 2026-09-09 : la première passe reprenait aussi la DENSITÉ de
+ * l'application. Une vitrine n'est pas un écran d'exploitation, elle
+ * respire. Titres plus grands et plus légers (500, jamais 600+), traits
+ * deux crans plus clairs, sections deux fois plus hautes, tables aérées.
  */
 @theme {
-  /* Brand scale — Tailwind blue shifted +1 cran (brand-500 = blue-600) */
-  --color-brand-50:  #EFF6FF;
-  --color-brand-100: #DBEAFE;
-  --color-brand-200: #BFDBFE;
-  --color-brand-300: #93C5FD;
-  --color-brand-400: #60A5FA;
-  --color-brand-500: #2563EB;
-  --color-brand-600: #1D4ED8;
-  --color-brand-700: #1E40AF;
-  --color-brand-800: #1E3A8A;
-  --color-brand-900: #172554;
-  --color-brand-950: #0F1A3A;
+  /* Neutres graphite (n-*) */
+  --color-n-0:   #ffffff;
+  --color-n-50:  #f7f9fb;
+  --color-n-100: #f0f3f7;
+  --color-n-150: #e8ecf2;
+  --color-n-200: #dfe4ec;
+  --color-n-300: #c8d0dc;
+  --color-n-400: #9aa4b3;
+  --color-n-500: #6c7686;
+  --color-n-550: #5d6675;
+  --color-n-600: #4b5462;
+  --color-n-700: #353d49;
+  --color-n-800: #232a34;
+  --color-n-900: #161b23;
+  --color-n-950: #0d1117;
 
-  /* Success — emerald scale */
-  --color-success-50:  #ECFDF5;
-  --color-success-100: #D1FAE5;
-  --color-success-200: #A7F3D0;
-  --color-success-500: #10B981;
-  --color-success-600: #059669;
-  --color-success-700: #047857;
+  /* Graphite (marque) */
+  --color-primary-500: #2f3a48;
+  --color-primary-600: #1f2937;
+  --color-primary-700: #161e29;
 
-  /* Warning — amber scale */
-  --color-warning-50:  #FFFBEB;
-  --color-warning-100: #FEF3C7;
-  --color-warning-500: #F59E0B;
-  --color-warning-600: #D97706;
-  --color-warning-700: #B45309;
+  /* Sémantiques : la couleur encode un état, jamais une décoration */
+  --color-normal:        #0b7a40;
+  --color-normal-bg:     #e9f7ef;
+  --color-normal-border: #c2e7d0;
+  --color-info:          #1560cf;
+  --color-info-bg:       #eaf2fd;
+  --color-info-border:   #c6dcf8;
+  --color-warn:          #9a5800;
+  --color-warn-bg:       #fdf4e3;
+  --color-warn-border:   #f5dcab;
+  --color-crit:          #c41f1f;
+  --color-crit-bg:       #fdeeee;
+  --color-crit-border:   #f6cccc;
+  --color-off:           #5d6675;
+  --color-off-bg:        #f0f3f7;
 
-  /* Error — red scale */
-  --color-error-50:  #FEF2F2;
-  --color-error-100: #FEE2E2;
-  --color-error-500: #EF4444;
-  --color-error-600: #DC2626;
-  --color-error-700: #B91C1C;
+  /* Alias sémantiques utilisés par les composants */
+  --color-canvas:  var(--color-n-50);
+  --color-surface: var(--color-n-0);
+  --color-line:    var(--color-n-150);
+  --color-line-strong: var(--color-n-300);
+  --color-ink:     var(--color-n-900);
+  --color-ink-2:   var(--color-n-600);
+  --color-muted:   var(--color-n-550);
+  --color-brand:   var(--color-primary-600);
 
-  /* Flat tokens (sémantiques, light values) — backward-compat avec les
-   * composants vitrine v4 qui utilisent bg-bg / text-text / bg-brand. */
-  --color-bg: #FFFFFF;                     /* page canvas (was #FAFAF7 crème) */
-  --color-bg-alt: var(--color-brand-50);   /* sections tintées subtiles */
-  --color-surface: #FFFFFF;                /* cards */
-  --color-surface-hi: #F1F5F9;             /* slate-100 — was #F7F6F1 crème */
-  --color-border: #E2E8F0;                 /* slate-200 — was #E5E5E0 crème */
-  --color-border-strong: #CBD5E1;          /* slate-300 — was #D1D1CC crème */
-  --color-text: #0F172A;                   /* slate-900 — titles */
-  --color-text-soft: #1F2937;              /* slate-800 — body strong */
-  --color-muted: #475569;                  /* slate-600 (was slate-500, contrast was too low) */
-  --color-muted-strong: #334155;           /* slate-700 (was slate-600) */
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  --color-brand: var(--color-brand-500);   /* #2563EB */
-  --color-brand-hover: var(--color-brand-600); /* #1D4ED8 */
-  --color-brand-soft: var(--color-brand-50);   /* #EFF6FF — was cyan #ECFEFF */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
 
-  --color-success: var(--color-success-500);
-  --color-warning: var(--color-warning-500);
-  --color-error: var(--color-error-500);
-  --color-info: var(--color-brand-500);    /* alias brand, pas de doublon */
-
-  --color-text-on-brand: #FFFFFF;          /* texte sur fond brand-500 */
-
-  --font-sans: "Inter", "Inter Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace, "SFMono-Regular", "Menlo", monospace;
-
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  --shadow-subtle: 0 1px 2px rgb(22 27 35 / 0.03);
+  --shadow-card: 0 1px 2px rgb(22 27 35 / 0.04), 0 12px 32px -16px rgb(22 27 35 / 0.10);
 }
 
 html {
   font-family: var(--font-sans);
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  scroll-behavior: smooth;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-body {
-  letter-spacing: -0.005em;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
@@ -132,147 +92,219 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-brand);
-  outline-offset: 3px;
+  outline: 2px solid var(--color-info);
+  outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
 ::selection {
-  background-color: rgb(6 182 212 / 0.18);
-  color: var(--color-text);
+  background-color: var(--color-info-bg);
+  color: var(--color-ink);
 }
 
-/* Inline mono for paths, endpoints, shell commands. Subtle on light. */
-code, .mono {
+/* Valeurs, identifiants, chemins : toujours en mono, chiffres tabulaires. */
+.mono, code {
   font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1;
+}
+code {
   font-size: 0.92em;
-  background-color: var(--color-brand-soft);
-  color: #0E7490;
-  padding: 0.05em 0.4em;
+  background: var(--color-n-100);
+  color: var(--color-ink-2);
+  padding: 0.05em 0.35em;
   border-radius: var(--radius-sm);
+}
+
+/* Échelle typographique : grande et légère. Le poids 500 est le maximum,
+   la hiérarchie se fait par la taille et l'espace, pas par la graisse. */
+h1, h2, h3 { font-weight: 500; }
+
+.t-hero {
+  font-size: clamp(2.5rem, 5.4vw, 4rem);
   font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
 }
-.mono-plain {
-  font-family: var(--font-mono);
+.t-page {
+  font-size: clamp(2rem, 4vw, 2.875rem);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
-
-/* Headings: generous, tight tracking. */
-h1, h2, h3, h4 {
-  letter-spacing: -0.025em;
+.t-section {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
 }
-h1 { font-weight: 600; }
-
-/* Section eyebrow: small caps mono, brand color. */
-.section-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+.t-lede {
+  font-size: 1.125rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--color-ink-2);
+  max-width: 60ch;
+  letter-spacing: -0.005em;
+}
+.t-body {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-ink-2);
+}
+.t-small {
   font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--color-brand);
-  font-family: var(--font-mono);
-  letter-spacing: 0.02em;
-}
-.section-eyebrow::before {
-  content: "";
-  width: 1.5rem;
-  height: 1px;
-  background: var(--color-brand);
-  display: inline-block;
+  line-height: 1.6;
+  color: var(--color-muted);
 }
 
-.section-title {
-  margin-top: 1rem;
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 600;
-  line-height: 1.05;
-}
-.section-lede {
-  margin-top: 1.25rem;
-  color: var(--color-muted-strong);
-  max-width: 38rem;
-  line-height: 1.6;
-  font-size: 1.0625rem;
-}
+/* Rythme vertical : une vitrine respire deux fois plus qu'une application. */
+.section { padding: 5.5rem 0; }
+@media (min-width: 768px) { .section { padding: 8rem 0; } }
+.wrap { max-width: 74rem; margin-inline: auto; padding-inline: 1.5rem; }
+@media (min-width: 1024px) { .wrap { padding-inline: 2.5rem; } }
+
+.section-head { max-width: 60ch; margin-bottom: 3.5rem; }
+.section-head .t-lede { margin-top: 1.125rem; }
 
 .nav-link {
-  color: var(--color-muted-strong);
-  transition: color 150ms;
-  text-decoration: none;
+  color: var(--color-ink-2);
   font-size: 0.9375rem;
+  text-decoration: none;
+  padding-bottom: 0.125rem;
+  border-bottom: 1px solid transparent;
+  transition: color 160ms ease, border-color 160ms ease;
 }
-.nav-link:hover { color: var(--color-text); }
-.nav-link[aria-current="page"] {
-  color: var(--color-text);
-  font-weight: 500;
-}
+.nav-link:hover { color: var(--color-ink); }
+.nav-link[aria-current="page"] { color: var(--color-ink); border-bottom-color: var(--color-n-300); }
 
-/* Buttons */
+/* Boutons : graphite plein pour l'action principale, filet pour la secondaire. */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.625rem 1.25rem;
+  padding: 0.625rem 1.125rem;
   border-radius: var(--radius-md);
   font-weight: 500;
   font-size: 0.9375rem;
-  line-height: 1.4;
-  transition: background-color 150ms, color 150ms, border-color 150ms, transform 150ms;
-  cursor: pointer;
+  line-height: 1.35;
   text-decoration: none;
   border: 1px solid transparent;
   white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
 }
-.btn:hover { transform: translateY(-1px); }
-.btn:active { transform: translateY(0); }
+.btn-primary { background: var(--color-brand); color: #fff; border-color: var(--color-brand); }
+.btn-primary:hover { background: var(--color-primary-700); border-color: var(--color-primary-700); }
+.btn-outline { background: var(--color-surface); color: var(--color-ink); border-color: var(--color-n-200); box-shadow: var(--shadow-subtle); }
+.btn-outline:hover { border-color: var(--color-n-300); background: var(--color-n-50); }
+.btn-lg { padding: 0.8125rem 1.5rem; font-size: 1rem; }
 
-.btn-primary {
-  background-color: var(--color-text);
-  color: var(--color-bg);
-  font-weight: 500;
-}
-.btn-primary:hover {
-  background-color: #1F2937;
-}
-
-.btn-outline {
-  border-color: var(--color-border-strong);
-  color: var(--color-text);
-  background: var(--color-surface);
-}
-.btn-outline:hover {
-  border-color: var(--color-text);
-  background: var(--color-surface-hi);
-}
-
-.btn-shell {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  background: var(--color-surface);
-  border-color: var(--color-border-strong);
-  color: var(--color-muted-strong);
-}
-.btn-shell::before {
-  content: "$";
-  color: var(--color-brand);
-  margin-right: 0.5rem;
-  font-weight: 600;
-}
-
-.btn-lg {
-  padding: 0.8125rem 1.5rem;
-  font-size: 1rem;
-}
-.btn-link {
-  color: var(--color-text);
-  background: none;
-  padding: 0;
-  border: 0;
-}
-.btn-link:hover {
-  color: var(--color-brand-hover);
-  transform: none;
+/* Lien texte : bleu, souligné fin. Pas de chevron. */
+.link {
+  color: var(--color-info);
   text-decoration: underline;
-  text-underline-offset: 4px;
+  text-decoration-color: color-mix(in srgb, var(--color-info) 30%, transparent);
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 160ms ease;
 }
+.link:hover { text-decoration-color: var(--color-info); }
 
+/* Chiffre mis en avant : mono, bleu, léger. */
+.metric { font-family: var(--font-mono); font-feature-settings: "tnum" 1; color: var(--color-info); font-weight: 400; letter-spacing: -0.03em; }
+
+/* Badges d'état : ceux du produit. Forme + couleur, jamais la couleur seule. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.badge::before { content: ""; width: 0.4rem; height: 0.4rem; display: inline-block; }
+.badge-normal { color: var(--color-normal); background: var(--color-normal-bg); border-color: var(--color-normal-border); }
+.badge-normal::before { background: var(--color-normal); border-radius: 50%; }
+.badge-info { color: var(--color-info); background: var(--color-info-bg); border-color: var(--color-info-border); }
+.badge-info::before { background: var(--color-info); }
+.badge-warn { color: var(--color-warn); background: var(--color-warn-bg); border-color: var(--color-warn-border); }
+.badge-warn::before { width: 0; height: 0; background: none; border-left: 0.28rem solid transparent; border-right: 0.28rem solid transparent; border-bottom: 0.45rem solid var(--color-warn); }
+.badge-crit { color: var(--color-crit); background: var(--color-crit-bg); border-color: var(--color-crit-border); }
+.badge-crit::before { background: var(--color-crit); transform: rotate(45deg); width: 0.36rem; height: 0.36rem; }
+.badge-off { color: var(--color-off); background: var(--color-off-bg); border-color: var(--color-line); }
+.badge-off::before { background: none; border: 1.5px solid var(--color-off); border-radius: 50%; }
+
+/* Tables : celles du produit, aérées d'un cran. Filets clairs, en-tête discret,
+   valeurs à droite en mono. Pas de fond sur l'en-tête : l'espace suffit. */
+.tbl { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+.tbl th {
+  text-align: left;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-n-400);
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.tbl td { padding: 0.9375rem 1rem; border-bottom: 1px solid var(--color-line); vertical-align: top; }
+.tbl tr:last-child td { border-bottom: 0; }
+.tbl .num { font-family: var(--font-mono); font-feature-settings: "tnum" 1; text-align: right; white-space: nowrap; }
+.tbl .path { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-n-400); }
+.tbl .group td { background: var(--color-n-50); font-weight: 500; font-size: 0.8125rem; padding-top: 0.625rem; padding-bottom: 0.625rem; color: var(--color-ink-2); }
+
+/* Lignes d'état : fond pâle + filet gauche coloré, comme un écran de supervision. */
+.tbl tr.row-warn td { background: var(--color-warn-bg); }
+.tbl tr.row-crit td { background: var(--color-crit-bg); }
+.tbl tr.row-off  td { background: var(--color-off-bg); }
+.tbl tr.row-warn td:first-child { box-shadow: inset 2px 0 0 var(--color-warn); }
+.tbl tr.row-crit td:first-child { box-shadow: inset 2px 0 0 var(--color-crit); }
+.tbl tr.row-off  td:first-child { box-shadow: inset 2px 0 0 var(--color-off); }
+
+/* Panneau : le conteneur des tables et des blocs. Filet clair, ombre imperceptible. */
+.panel {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-subtle);
+  overflow: hidden;
+}
+.panel-raised { box-shadow: var(--shadow-card); }
+
+/* Bloc sombre : un seul par page, pour le contraste. Texte clair sur graphite profond,
+   avec la trame d'un écran de supervision. Le bloc doit être positionné. */
+.dark-block { background: var(--color-n-900); color: var(--color-n-0); isolation: isolate; }
+.dark-block::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+.dark-block .t-lede, .dark-block .t-body { color: var(--color-n-300); }
+.dark-block .t-small { color: var(--color-n-400); }
+.dark-block .btn-primary { background: var(--color-n-0); color: var(--color-n-900); border-color: var(--color-n-0); }
+.dark-block .btn-primary:hover { background: var(--color-n-100); border-color: var(--color-n-100); }
+
+/* Formulaires */
+.field {
+  width: 100%;
+  padding: 0.6875rem 0.875rem;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-n-200);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.field::placeholder { color: var(--color-n-400); }
+.field:focus { outline: none; border-color: var(--color-info); box-shadow: 0 0 0 3px var(--color-info-bg); }
+.field-label { display: block; font-size: 0.8125rem; font-weight: 400; color: var(--color-muted); margin-bottom: 0.4375rem; }
