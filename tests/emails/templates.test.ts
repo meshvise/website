@@ -35,8 +35,8 @@ describe('renderWelcomeEmail', () => {
 
   it('returns an English subject + body when lang=en', () => {
     const r = renderWelcomeEmail({ lang: 'en', name: 'Bruno', jwt: 'a.b.c', docsUrl: 'https://docs/' });
-    expect(r.subject).toMatch(/Meshvise 7-day trial/i);
-    expect(r.html).toContain('Hi');
+    expect(r.subject).toMatch(/Meshvise trial licence/i);
+    expect(r.html).toContain('Hello');
     assertCleanCopy(r);
   });
 
@@ -71,14 +71,14 @@ describe('renderWelcomeEmail', () => {
 describe('renderReminderEmail', () => {
   it('returns the reminder subject in FR', () => {
     const r = renderReminderEmail({ lang: 'fr', name: 'A', calendlyUrl: 'https://cal/x' });
-    expect(r.subject).toMatch(/24 heures/i);
+    expect(r.subject).toMatch(/vingt-quatre heures/i);
     expect(r.html).toContain('https://cal/x');
     assertCleanCopy(r);
   });
 
   it('returns the reminder subject in EN', () => {
     const r = renderReminderEmail({ lang: 'en', name: 'A', calendlyUrl: 'https://cal/x' });
-    expect(r.subject).toMatch(/24 hours/i);
+    expect(r.subject).toMatch(/twenty-four hours/i);
     expect(r.html).toContain('https://cal/x');
     assertCleanCopy(r);
   });

@@ -134,12 +134,12 @@
         "title": "Historique",
         "body": "N'importe quel point, n'importe quelle période, exportable."
       },
-      "note": "Tout ce qui est montré ici est dans la démo en ligne, sans inscription.",
+      "note": "Tout ce qui est montré ici se trouve dans la démonstration en ligne.",
       "placeholder": "Capture de la démonstration"
     },
     "how": {
       "title": "Comment ça se met en place",
-      "subtitle": "De l'installation au premier tableau de bord, sans chantier ni paramétrage interminable.",
+      "subtitle": "De l'installation au premier tableau de bord.",
       "install": {
         "title": "Installez",
         "body": "Une commande Docker sur un serveur ou un mini-PC d'atelier. Deux cœurs et quatre giga de mémoire suffisent pour cinq cents points."
@@ -179,7 +179,7 @@
       "demo": {
         "name": "Démo en ligne",
         "price": "0 €",
-        "note": "Sans inscription"
+        "note": "Accès direct"
       },
       "trial": {
         "name": "Essai 7 jours",
@@ -196,7 +196,7 @@
     },
     "final": {
       "title": "Voir Meshvise fonctionner",
-      "body": "La démo en ligne tourne sur un site industriel simulé. Pas d'inscription, pas de carte bancaire, soixante secondes pour cliquer partout."
+      "body": "Un site industriel simulé : vingt-deux machines, douze protocoles, trente jours d'historique. Les alarmes, l'historique et les tableaux de bord sont ceux de l'application."
     }
   },
   "why": {
@@ -724,11 +724,11 @@
       "name": "Démo en ligne",
       "price": "0 €",
       "period": "",
-      "tagline": "Site industriel simulé, sans inscription, sans carte bancaire.",
+      "tagline": "Un site industriel simulé, en accès direct.",
       "items": [
-        "Données simulées d'un site industriel",
-        "Pas d'inscription, pas de carte bancaire",
-        "Soixante secondes pour cliquer partout"
+        "Vingt-deux machines, douze protocoles",
+        "Trente jours d'historique",
+        "Accès direct, sans formulaire"
       ]
     },
     "trial": {
@@ -763,7 +763,7 @@
       "name": "Exploitation déléguée",
       "price": "Sur demande",
       "tagline": "Pour les sites sans équipe technique.",
-      "body": "En cours de construction. Contactez-nous pour en discuter."
+      "body": "Cette offre n'est pas encore livrable. Écrivez pour en discuter."
     },
     "setup_note_title": "Ce que couvre la mise en service",
     "setup_note": "L'installation à distance sur votre serveur, la connexion de vos premiers équipements et une session de prise en main.",
@@ -861,7 +861,7 @@
     },
     "eyebrow": "Guides",
     "title": "Guides de mise en œuvre",
-    "subtitle": "Un article toutes les deux semaines, sur des cas concrets. Chacun se termine par la démo, jamais par un formulaire.",
+    "subtitle": "Des cas concrets traités en entier : le protocole, la configuration, le résultat.",
     "coming": "À paraître",
     "list": [
       "Lire un automate Siemens S7 et historiser les valeurs en vingt minutes",
@@ -956,7 +956,7 @@
     },
     "eyebrow": "Démo en ligne",
     "title": "La démo publique n'est pas encore en ligne",
-    "body": "Elle tournera sur un site industriel simulé, sans inscription ni carte bancaire. En attendant, une démonstration de trente minutes en visio, sur un cas proche du vôtre, est possible dès maintenant."
+    "body": "Elle tournera sur un site industriel simulé, en accès direct. En attendant, une démonstration de trente minutes en visio, sur un cas proche du vôtre, est possible dès maintenant."
   },
   "footer": {
     "tagline": "Supervision industrielle, hébergée chez vous. Douze protocoles inclus, prix affiché, données dans une base que vous possédez.",
@@ -979,15 +979,15 @@
   "trial": {
     "meta": {
       "title": "Essai 7 jours · Meshvise",
-      "description": "Recevez une licence d'essai 7 jours par email, lancez Meshvise sur votre infra avec vos automates, validez en conditions réelles. Pas de carte bancaire, pas d'auto-renouvellement."
+      "description": "Recevez une licence d'essai de sept jours par courriel, lancez Meshvise sur votre infrastructure avec vos automates, validez en conditions réelles. Sans reconduction ni facturation à l'échéance."
     },
     "eyebrow": "Essai 7 jours",
-    "title": "Meshvise sur votre infra. 7 jours. Pas d'inscription.",
-    "subtitle_html": "Remplissez ce formulaire, recevez par email votre licence et un <code>docker-compose.yml</code> prêt à l'emploi. Vous lancez <code>docker compose up -d</code> sur votre serveur, vous branchez vos automates, vous validez en conditions réelles.",
+    "title": "Meshvise sur votre infrastructure, pendant sept jours.",
+    "subtitle_html": "Remplissez ce formulaire, recevez par courriel votre licence et un <code>docker-compose.yml</code> prêt à l'emploi. Vous lancez <code>docker compose up -d</code> sur votre serveur, vous branchez vos automates, vous validez en conditions réelles.",
     "form": {
       "name_label": "Nom",
       "name_placeholder": "Votre nom",
-      "email_label": "Email professionnel",
+      "email_label": "Courriel professionnel",
       "email_placeholder": "vous@société.fr",
       "company_label": "Entreprise",
       "company_placeholder": "Votre société",
@@ -995,25 +995,25 @@
       "use_case_placeholder": "Quel type de site, combien de points, quels automates...",
       "submit": "Recevoir ma licence d'essai",
       "submitting": "Envoi en cours...",
-      "error_generic": "Quelque chose a coincé. Réessayez ou écrivez à contact@meshvise.com.",
-      "error_turnstile": "Validez le challenge anti-bot avant d'envoyer.",
+      "error_generic": "L'envoi a échoué. Réessayez ou écrivez à contact@meshvise.com.",
+      "error_turnstile": "Validez le contrôle anti-robot avant d'envoyer.",
       "error_rate_limit": "Vous avez déjà demandé une licence récemment. Réessayez dans 24 heures ou écrivez à contact@meshvise.com.",
-      "error_dedupe": "Une licence a déjà été émise pour cette adresse dans les 30 derniers jours. Vérifiez votre boîte mail (spam inclus) ou écrivez à contact@meshvise.com."
+      "error_dedupe": "Une licence a déjà été émise pour cette adresse dans les trente derniers jours. Vérifiez votre boîte de réception, courrier indésirable compris, ou écrivez à contact@meshvise.com."
     },
     "disclaimer": {
       "limits_html": "Limites de la licence d'essai : 5 drivers, 15 machines, 500 points, fonctionnalités complètes (acquisition, historisation, alarmes, logique visuelle, accès SQL).",
-      "duration_html": "Durée : 7 jours à compter de l'émission. À l'expiration, l'app passe en <strong>lecture seule</strong> : vos données restent vôtres, l'export reste actif.",
-      "no_card_html": "Aucune carte bancaire. Aucun auto-renouvellement. Pas d'envoi commercial automatique au-delà du suivi de cet essai."
+      "duration_html": "Durée : sept jours à compter de l'émission. À l'expiration, l'application passe en <strong>lecture seule</strong> : vos données restent vôtres, l'export reste actif.",
+      "no_card_html": "L'essai n'engage à rien : pas de reconduction, pas de facturation à l'échéance. Aucun envoi commercial au-delà du suivi de cet essai."
     },
     "what_next": {
       "title": "Ce qui arrive ensuite",
-      "step_1_html": "<strong>Immédiat :</strong> email avec <code>license.jwt</code>, <code>docker-compose.yml</code> et la commande d'install.",
-      "step_2_html": "<strong>J+6 :</strong> rappel 24h avant l'expiration, avec un lien Calendly si vous voulez en parler.",
-      "step_3_html": "<strong>J+7 :</strong> bilan post-essai. Continuer en production ou pas, à vous de voir."
+      "step_1_html": "<strong>Immédiat :</strong> courriel avec <code>license.jwt</code>, <code>docker-compose.yml</code> et la commande d'installation.",
+      "step_2_html": "<strong>Jour 6 :</strong> rappel vingt-quatre heures avant l'expiration, avec une proposition de rendez-vous.",
+      "step_3_html": "<strong>Jour 7 :</strong> bilan de l'essai. Aucune relance ensuite."
     },
     "success": {
-      "title": "Vérifiez votre boîte mail",
-      "body_html": "On a envoyé un email à <strong class=\"font-mono\">{email}</strong> avec votre licence et la commande d'installation. Si rien n'arrive dans 5 minutes (spam inclus), écrivez à <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>.",
+      "title": "Vérifiez votre boîte de réception",
+      "body_html": "Un courriel vient d'être envoyé à <strong class=\"font-mono\">{email}</strong>, avec votre licence et la commande d'installation. Sans réception dans les cinq minutes, courrier indésirable compris, écrivez à <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>.",
       "back": "Retour à l'accueil"
     }
   }

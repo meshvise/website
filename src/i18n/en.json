@@ -134,12 +134,12 @@
         "title": "History",
         "body": "Any point, any period, exportable."
       },
-      "note": "Everything shown here is in the online demo, no sign-up.",
+      "note": "Everything shown here is in the online demonstration.",
       "placeholder": "Demo screenshot"
     },
     "how": {
       "title": "How it gets set up",
-      "subtitle": "From install to first dashboard, without a long project or endless configuration.",
+      "subtitle": "From install to first dashboard.",
       "install": {
         "title": "Install",
         "body": "One Docker command on a server or a shop-floor mini-PC. Two cores and four gigabytes of memory are enough for five hundred points."
@@ -179,7 +179,7 @@
       "demo": {
         "name": "Online demo",
         "price": "€0",
-        "note": "No sign-up"
+        "note": "Direct access"
       },
       "trial": {
         "name": "7-day trial",
@@ -196,7 +196,7 @@
     },
     "final": {
       "title": "See Meshvise running",
-      "body": "The online demo runs on a simulated industrial site. No sign-up, no credit card, sixty seconds to click everywhere."
+      "body": "A simulated industrial site: twenty-two machines, twelve protocols, thirty days of history. The alarms, history and dashboards are the ones in the application."
     }
   },
   "why": {
@@ -724,11 +724,11 @@
       "name": "Online demo",
       "price": "€0",
       "period": "",
-      "tagline": "Simulated industrial site, no sign-up, no credit card.",
+      "tagline": "A simulated industrial site, direct access.",
       "items": [
-        "Simulated data from an industrial site",
-        "No sign-up, no credit card",
-        "Sixty seconds to click everywhere"
+        "Twenty-two machines, twelve protocols",
+        "Thirty days of history",
+        "Direct access, no form"
       ]
     },
     "trial": {
@@ -763,7 +763,7 @@
       "name": "Managed operations",
       "price": "On request",
       "tagline": "For sites without a technical team.",
-      "body": "Under construction. Get in touch to discuss it."
+      "body": "This offer is not deliverable yet. Write to discuss it."
     },
     "setup_note_title": "What setup covers",
     "setup_note": "Remote installation on your server, connection of your first equipment and an onboarding session.",
@@ -861,7 +861,7 @@
     },
     "eyebrow": "Guides",
     "title": "Implementation guides",
-    "subtitle": "One article every two weeks, on concrete cases. Each ends with the demo, never with a form.",
+    "subtitle": "Concrete cases covered end to end: the protocol, the configuration, the result.",
     "coming": "Coming",
     "list": [
       "Read a Siemens S7 PLC and record its values in twenty minutes",
@@ -956,7 +956,7 @@
     },
     "eyebrow": "Online demo",
     "title": "The public demo is not online yet",
-    "body": "It will run on a simulated industrial site, with no sign-up or credit card. Meanwhile, a thirty-minute video demonstration on a case close to yours is available now."
+    "body": "It will run on a simulated industrial site, with direct access. Meanwhile, a thirty-minute video demonstration on a case close to yours is available now."
   },
   "footer": {
     "tagline": "Industrial supervision, hosted on your premises. Twelve protocols included, published price, data in a database you own.",
@@ -979,10 +979,10 @@
   "trial": {
     "meta": {
       "title": "7-day trial · Meshvise",
-      "description": "Get a 7-day trial licence by email, run Meshvise on your own infra with your PLCs, validate in real conditions. No credit card, no auto-renewal."
+      "description": "Get a seven-day trial licence by email, run Meshvise on your own infrastructure with your PLCs, validate in real conditions. No renewal, no invoice at expiry."
     },
     "eyebrow": "7-day trial",
-    "title": "Meshvise on your infra. 7 days. No sign-up.",
+    "title": "Meshvise on your infrastructure, for seven days.",
     "subtitle_html": "Fill in this form, receive by email your licence and a ready-to-use <code>docker-compose.yml</code>. Run <code>docker compose up -d</code> on your server, wire up your PLCs, validate in real conditions.",
     "form": {
       "name_label": "Name",
@@ -995,25 +995,25 @@
       "use_case_placeholder": "What kind of site, how many points, which PLCs...",
       "submit": "Send my trial licence",
       "submitting": "Sending...",
-      "error_generic": "Something went wrong. Try again or write to contact@meshvise.com.",
-      "error_turnstile": "Please complete the anti-bot challenge before submitting.",
+      "error_generic": "The request failed. Try again or write to contact@meshvise.com.",
+      "error_turnstile": "Complete the anti-robot check before submitting.",
       "error_rate_limit": "You already requested a licence recently. Try again in 24 hours or write to contact@meshvise.com.",
-      "error_dedupe": "A licence has already been issued for this address in the last 30 days. Check your inbox (spam included) or write to contact@meshvise.com."
+      "error_dedupe": "A licence has already been issued for this address in the last thirty days. Check your inbox, junk folder included, or write to contact@meshvise.com."
     },
     "disclaimer": {
       "limits_html": "Trial licence limits: 5 drivers, 15 machines, 500 points, full features (acquisition, history, alarms, visual logic, SQL access).",
-      "duration_html": "Duration: 7 days from issuance. On expiration, the app switches to <strong>read-only</strong>: your data stays yours, export remains available.",
-      "no_card_html": "No credit card. No auto-renewal. No automated marketing emails beyond the trial follow-up."
+      "duration_html": "Duration: seven days from issuance. On expiry, the application switches to <strong>read-only</strong>: your data stays yours, export remains available.",
+      "no_card_html": "The trial commits you to nothing: no renewal, no invoice at expiry. No marketing emails beyond the trial follow-up."
     },
     "what_next": {
       "title": "What happens next",
       "step_1_html": "<strong>Immediately:</strong> email with <code>license.jwt</code>, <code>docker-compose.yml</code> and the install command.",
-      "step_2_html": "<strong>Day 6:</strong> reminder 24 hours before expiration, with a Calendly link if you want to chat.",
-      "step_3_html": "<strong>Day 7:</strong> post-trial check-in. Move to production or not, your call."
+      "step_2_html": "<strong>Day 6:</strong> reminder twenty-four hours before expiry, with a proposed meeting time.",
+      "step_3_html": "<strong>Day 7:</strong> trial review. No follow-up afterwards."
     },
     "success": {
       "title": "Check your inbox",
-      "body_html": "We sent an email to <strong class=\"font-mono\">{email}</strong> with your licence and the install command. If nothing arrives within 5 minutes (spam included), write to <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>.",
+      "body_html": "An email has been sent to <strong class=\"font-mono\">{email}</strong> with your licence and the install command. If nothing arrives within five minutes, junk folder included, write to <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>.",
       "back": "Back to home"
     }
   }
