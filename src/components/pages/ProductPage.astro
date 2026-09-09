@@ -36,7 +36,7 @@ const sections = [
     </div>
   </PageHero>
 
-  <section id="acquisition" class="section scroll-mt-14">
+  <section id="acquisition" class="section">
     <div class="wrap">
       <div class="section-head">
         <h2 class="t-page">{t(lang, 'product.acq.title')}</h2>
@@ -49,7 +49,7 @@ const sections = [
 
   <div class="bg-surface border-t border-line">
     {sections.map((s) => (
-      <section id={s.id} class="wrap py-16 md:py-20 border-b border-line scroll-mt-14">
+      <section id={s.id} class="wrap py-16 md:py-20 border-b border-line">
         <div class={`grid gap-8 items-start ${s.kind ? 'lg:grid-cols-12' : ''}`}>
           <div class={s.kind ? 'lg:col-span-5' : 'max-w-3xl'}>
             <h2 class="t-section">{t(lang, `product.${s.id}.title`)}</h2>

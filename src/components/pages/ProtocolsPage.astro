@@ -78,7 +78,7 @@ const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(
       <div class="section-head"><h2 class="t-page">{t(lang, 'protocols.detail.title')}</h2></div>
       <div class="border-t border-line">
         {list.map((p) => (
-          <article id={slug(p.name)} class="grid lg:grid-cols-12 gap-x-10 gap-y-5 py-9 border-b border-line scroll-mt-20">
+          <article id={slug(p.name)} class="grid lg:grid-cols-12 gap-x-10 gap-y-5 py-9 border-b border-line">
             <div class="lg:col-span-3">
               <h3 class="mono text-[17px] font-medium text-ink">{p.name}</h3>
               <div class="mt-2 flex flex-wrap items-center gap-2">
@@ -101,7 +101,7 @@ const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(
     </div>
   </section>
 
-  <section id="securite-opcua" class="section scroll-mt-20">
+  <section id="securite-opcua" class="section">
     <div class="wrap">
       <div class="section-head">
         <h2 class="t-page">{t(lang, 'protocols.opcua_security.title')}</h2>
@@ -136,7 +136,7 @@ const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(
     </div>
   </section>
 
-  <section id="proprietaires" class="section bg-surface border-y border-line scroll-mt-20">
+  <section id="proprietaires" class="section bg-surface border-y border-line">
     <div class="wrap">
       <div class="section-head">
         <h2 class="t-page">{t(lang, 'protocols.proprietary.title')}</h2>

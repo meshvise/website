@@ -75,6 +75,11 @@
 }
 
 html {
+  /* Le header colle en haut sur 68 px : toute ancre s'arrête en dessous,
+     avec une respiration. Vaut pour le site entier, les sections n'ont donc
+     pas besoin de leur propre scroll-margin. */
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
   font-family: var(--font-sans);
   background-color: var(--color-canvas);
   color: var(--color-ink);
@@ -84,6 +89,7 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
