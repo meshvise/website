@@ -1,518 +1,980 @@
 {
   "nav": {
-    "features": "Capacités",
-    "sovereignty": "Souveraineté",
+    "why": "Pourquoi superviser",
+    "product": "Produit",
+    "protocols": "Protocoles",
     "pricing": "Tarifs",
+    "integrators": "Intégrateurs",
+    "guides": "Guides",
     "faq": "FAQ",
     "about": "À propos",
+    "demo": "Voir la démo",
     "trial": "Essai 7 jours",
-    "demo": "Voir la démo"
+    "contact": "Contact"
   },
-  "hero": {
-    "eyebrow": "Supervision industrielle souveraine",
-    "title_html": "Transformez vos données en <span class=\"text-brand\">connaissance industrielle</span>.",
-    "subtitle_html": "L'amélioration continue ne peut pas reposer sur des intuitions. Meshvise connecte vos automates et capteurs pour livrer une base de données propre, structurée et accessible. C'est la fondation solide dont vos équipes ont besoin pour piloter la performance.",
+  "common": {
+    "cta_demo": "Voir la démo",
     "cta_trial": "Essayer 7 jours",
-    "cta_demo": "Découvrir la démo en ligne",
-    "cta_note_html": "À partir de <strong>2 400 €/an</strong>. Essai 7 jours sans carte bancaire. <strong>Boîtier industriel inclus</strong> avec les offres Managed.",
-    "preview_label": "Aperçu UI · valeurs simulées (push WebSocket dans la démo)",
-    "illustration_alt": "Illustration isométrique d'un site industriel : cuves de procédé, salle de contrôle, sous-station, moteurs et armoires électriques connectés à Meshvise"
+    "cta_calc": "Calculer ce que ça vous coûte",
+    "cta_contact": "Prendre contact",
+    "cta_request_demo": "Demander une démonstration",
+    "learn_more": "En savoir plus",
+    "the_problem": "Le problème",
+    "with_meshvise": "Avec Meshvise"
   },
-  "kpi_strip": {
-    "aria_label": "Faits saillants Meshvise",
-    "deploy": {
-      "metric_html": "4 h",
-      "label": "Déploiement",
-      "detail_html": "De la livraison du boîtier au premier point historisé."
+  "home": {
+    "meta": {
+      "title": "Meshvise · Supervision industrielle, hébergée chez vous",
+      "description": "Tous vos équipements dans une seule supervision. Douze protocoles industriels inclus, prix affiché indépendant du nombre de points, données dans une base Postgres que vous lisez avec Excel. 2 400 € par an."
     },
-    "protocols": {
-      "metric_html": "3 protocoles natifs",
-      "label": "Compatibilité OT",
-      "detail_html": "<code>Modbus TCP</code>, <code>OPC-UA</code>, <code>BACnet/IP</code>."
+    "hero": {
+      "eyebrow": "Supervision industrielle, hébergée chez vous",
+      "title": "Tous vos équipements. Une seule supervision. Un prix affiché.",
+      "subtitle": "Meshvise connecte vos automates, capteurs et compteurs, historise tout dans une base que vous pouvez lire avec Excel, et vous prévient quand quelque chose dérive. Douze protocoles industriels inclus. 2 400 € par an, quel que soit le nombre de points."
     },
-    "open_data": {
-      "metric_html": "Postgres direct",
-      "label": "Vos données",
-      "detail_html": "Branchez Power BI, Grafana ou Excel via ODBC standard."
+    "live": {
+      "caption": "Ce que montre Meshvise : les points d'un site, en direct",
+      "site": "Usine Nord",
+      "summary": "52 points, 3 alarmes actives",
+      "updated": "dernière mise à jour",
+      "col_point": "Point",
+      "col_value": "Valeur",
+      "col_unit": "Unité",
+      "col_quality": "Qualité",
+      "col_note": "Observation",
+      "q_good": "good",
+      "q_warn": "warn",
+      "q_crit": "alarm",
+      "q_stale": "stale",
+      "note_offprod": "tourne hors production depuis 02:14",
+      "note_stop": "arrêt de 4 min, non déclaré",
+      "note_drift": "dérive lente depuis 3 jours",
+      "note_lost": "plus de valeur depuis 12 min"
     },
-    "sovereign": {
-      "metric_html": "100 %",
-      "label": "Auto-hébergeable",
-      "detail_html": "Aucune télémétrie sortante. Compatible air-gap, droit français."
-    }
-  },
-  "gateway": {
-    "eyebrow": "Boîtier industriel",
-    "title": "La passerelle livrée avec votre abonnement.",
-    "subtitle": "Déballez le boîtier, branchez-le sur votre réseau industriel, et la supervision démarre. Aucun installateur, aucun agent à compiler, aucun firmware tiers à maintenir.",
-    "bullets": {
-      "hardware": {
-        "title_html": "Matériel industriel certifié",
-        "body_html": "Boîtier fanless, montage rail DIN, plage de température étendue. Pensé pour vivre 5 ans en armoire électrique."
+    "doors": {
+      "left": {
+        "title": "Vous n'avez pas encore de supervision.",
+        "body": "Vos relevés sont sur un carnet, votre taux de rendement dans un tableur, et une alarme de nuit veut dire un déplacement. Calculez ce que ça vous coûte, avec vos propres chiffres.",
+        "cta": "Pourquoi superviser"
       },
-      "agent": {
-        "title_html": "Agent Meshvise embarqué",
-        "body_html": "Provisionné à votre nom, mises à jour signées, rollback automatique en cas d'échec. Vous ne touchez pas au firmware."
-      },
+      "right": {
+        "title": "Vous en avez une, et elle vous coûte trop cher.",
+        "body": "Chaque nouvel automate est un module à acheter, chaque point compte, chaque extension est une négociation. Comparez.",
+        "cta": "Produit et tarifs"
+      }
+    },
+    "facts": {
+      "aria": "Quatre faits vérifiables",
       "protocols": {
-        "title_html": "Multi-protocoles natif",
-        "body_html": "<code>Modbus TCP</code>, <code>OPC-UA</code>, <code>BACnet/IP</code> dès le déballage. Détection automatique des équipements compatibles."
+        "metric": "12",
+        "label": "Protocoles inclus",
+        "detail": "Modbus TCP et RTU, OPC UA, BACnet, S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. Aucun module à acheter par marque."
       },
-      "support": {
-        "title_html": "Support et remplacement inclus",
-        "body_html": "Remplacement matériel sous <strong>48 h ouvrées</strong> sur les offres Managed. Garantie 5 ans sur le boîtier premium."
+      "price": {
+        "metric": "2 400 €",
+        "label": "Par an, affiché",
+        "detail": "Quel que soit le nombre de points, de machines ou d'écrans."
+      },
+      "data": {
+        "metric": "Postgres",
+        "label": "Vos données, lisibles",
+        "detail": "Base standard, schéma documenté. Excel, Power BI, Grafana s'y connectent directement."
+      },
+      "onprem": {
+        "metric": "100 %",
+        "label": "Chez vous",
+        "detail": "Aucune télémétrie sortante. Fonctionne sans internet."
       }
     },
-    "attribution_html": "Boîtier inclus dans les offres <strong>Managed Standard</strong> et <strong>Managed Premium</strong>. Premium garanti 5 ans.",
-    "mockup": {
-      "label": "Meshvise gateway · rail DIN",
-      "status": "ONLINE",
-      "alt": "Mockup d'un boîtier industriel Meshvise sur rail DIN, écran OLED affichant le nom du site et le nombre de points actifs, voyants PWR, RUN, OT et IT allumés.",
-      "spec": {
-        "form_label": "Format",
-        "form_value": "Rail DIN, fanless",
-        "net_label": "Réseau",
-        "net_value": "2× Ethernet OT/IT",
-        "power_label": "Alimentation",
-        "power_value": "24 V DC"
+    "personas": {
+      "title": "Ce que ça change, poste par poste",
+      "director": {
+        "label": "Dirigeant",
+        "pain": "Vous décidez sur des chiffres reconstitués en fin de mois, et vous ne savez pas ce que vous coûte de ne pas savoir.",
+        "gain": "Un abonnement qui se rembourse sur un seul incident évité, et des indicateurs qui existent avant la réunion, pas après.",
+        "cta": "Calculer le délai de récupération"
+      },
+      "maintenance": {
+        "label": "Maintenance",
+        "pain": "Vos alarmes sont éparpillées entre l'écran de l'automate, les courriels du chef d'équipe et un export hebdomadaire que vous compilez à la main. Une alarme de nuit veut dire un déplacement pour aller voir.",
+        "gain": "Toutes les alarmes au même endroit, l'historique des minutes précédant l'arrêt, et la réponse à « c'est grave ? » depuis votre téléphone."
+      },
+      "production": {
+        "label": "Production, méthodes",
+        "pain": "Votre taux de rendement est calculé dans un tableur, de mémoire, en fin de semaine. Les arrêts de quatre minutes n'existent pas parce que personne ne les note.",
+        "gain": "Le taux de rendement calculé en continu depuis les compteurs, les micro-arrêts visibles, et la même définition de l'indicateur pour toutes les équipes."
+      },
+      "quality": {
+        "label": "Qualité",
+        "pain": "Avant chaque audit, vous reconstituez des preuves à la main dans des classeurs. Lors d'un doute sur un lot, vous ne savez pas si un paramètre a bougé, donc vous suspectez tout.",
+        "gain": "Chaque paramètre est horodaté, chaque modification de seuil est signée, l'historique s'exporte en une requête. Vous ne prouvez plus votre conformité avec des classeurs."
+      },
+      "integrator": {
+        "label": "Intégrateur",
+        "pain": "Chaque chantier est un puzzle de licences et de connecteurs, et le prix au point vous fait perdre des affaires.",
+        "gain": "Une plateforme reproductible, douze protocoles dans un seul moteur, une licence par site, un prix que vous pouvez annoncer avant le devis.",
+        "cta": "Espace intégrateurs"
       }
-    }
-  },
-  "how_it_works": {
-    "eyebrow": "Mise en route",
-    "title": "De la commande au premier KPI, en 5 étapes.",
-    "subtitle": "Pas de chantier interminable. Pas de mois de paramétrage. Vous démarrez la supervision dès la première heure.",
-    "steps": {
-      "receive": {
-        "title": "Recevez le boîtier",
-        "body_html": "Pré-configuré pour votre site, expédié sous 5 jours ouvrés. Branchements et documentation imprimés dans le carton."
+    },
+    "see": {
+      "title": "Ce que vous voyez dans Meshvise",
+      "dashboards": {
+        "title": "Tableaux de bord",
+        "body": "Indicateurs, courbes, jauges, tableaux, composés sans code."
       },
-      "plug": {
-        "title": "Branchez-le",
-        "body_html": "Un port réseau côté automates (OT), un port côté supervision (IT), 24 V DC. C'est tout."
+      "alarms": {
+        "title": "Alarmes",
+        "body": "Par criticité, acquittement, mise en veille, notification par courriel ou webhook."
       },
-      "discover": {
-        "title": "Découverte automatique",
-        "body_html": "Les équipements compatibles <code>Modbus</code>, <code>OPC-UA</code> et <code>BACnet</code> apparaissent dans l'app sans configuration manuelle."
+      "synoptics": {
+        "title": "Synoptiques",
+        "body": "Vos installations dessinées, animées par les valeurs réelles."
       },
-      "tag": {
-        "title": "Étiquetez et structurez",
-        "body_html": "Site, bâtiment, fonction métier, criticité : organisez à votre main, sans schéma figé."
+      "history": {
+        "title": "Historique",
+        "body": "N'importe quel point, n'importe quelle période, exportable."
       },
-      "scale": {
-        "title": "Branchez vos outils BI",
-        "body_html": "Power BI, Grafana, Excel via <code>ODBC PostgreSQL</code>. Vos analystes lisent les données live, comme une base d'entreprise standard."
+      "note": "Tout ce qui est montré ici est dans la démo en ligne, sans inscription.",
+      "placeholder": "Capture de la démonstration"
+    },
+    "how": {
+      "title": "Comment ça se met en place",
+      "subtitle": "De l'installation au premier tableau de bord, sans chantier ni paramétrage interminable.",
+      "install": {
+        "title": "Installez",
+        "body": "Une commande Docker sur un serveur ou un mini-PC d'atelier. Deux cœurs et quatre giga de mémoire suffisent pour cinq cents points."
+      },
+      "connect": {
+        "title": "Connectez",
+        "body": "Renseignez l'adresse de vos automates. Les équipements compatibles sont découverts automatiquement."
+      },
+      "organize": {
+        "title": "Organisez",
+        "body": "Site, bâtiment, ligne, fonction : structurez à votre main, sans schéma imposé."
+      },
+      "watch": {
+        "title": "Regardez",
+        "body": "Tableaux de bord, alarmes et historique sont prêts. Vos outils habituels lisent la base directement."
       }
+    },
+    "continuity": {
+      "title": "Et si Meshvise disparaît ?",
+      "intro": "C'est la première question à poser à un fournisseur, et la raison pour laquelle Meshvise est construit comme il l'est.",
+      "data": {
+        "title": "Vos données sont à vous",
+        "body": "Base Postgres standard, sur votre serveur, schéma documenté. Elles ne dépendent pas de Meshvise pour être lues."
+      },
+      "stack": {
+        "title": "La pile est standard",
+        "body": "Postgres, MQTT, Docker. N'importe quel intégrateur peut reprendre l'exploitation."
+      },
+      "escrow": {
+        "title": "Séquestre du code source",
+        "body": "Proposé au contrat, déclenché en cas de cessation d'activité."
+      },
+      "outro": "Aucune télémétrie ne sort de votre installation. Elle fonctionne sans connexion internet. Le contrat est en français, sous droit français."
+    },
+    "pricing_brief": {
+      "title": "Ce que ça coûte",
+      "demo": {
+        "name": "Démo en ligne",
+        "price": "0 €",
+        "note": "Sans inscription"
+      },
+      "trial": {
+        "name": "Essai 7 jours",
+        "price": "0 €",
+        "note": "Sur votre infrastructure"
+      },
+      "onprem": {
+        "name": "On-Premise",
+        "price": "2 400 €",
+        "note": "par an, tous protocoles, tous points"
+      },
+      "managed_line": "Exploitation déléguée sur demande, pour les sites sans équipe technique.",
+      "link": "Voir le détail des offres"
+    },
+    "final": {
+      "title": "Voir Meshvise fonctionner",
+      "body": "La démo en ligne tourne sur un site industriel simulé. Pas d'inscription, pas de carte bancaire, soixante secondes pour cliquer partout."
     }
   },
-  "personas": {
-    "eyebrow": "Pour qui",
-    "title": "Quatre profils, une seule plateforme.",
-    "subtitle": "Meshvise sert les équipes qui exploitent les données industrielles, de l'atelier à la direction. Choisissez votre angle.",
-    "tablist_label": "Profils utilisateurs",
-    "recommended_label": "Recommandé",
-    "maintenance": {
-      "label": "Responsable maintenance",
-      "pain_label": "Le problème",
-      "pain_html": "Vos alarmes sont éparpillées entre l'IHM de l'automate, des emails du chef d'équipe et un export hebdomadaire que vous compilez à la main.",
-      "gain_label": "Avec Meshvise",
-      "gain_html": "Tout est centralisé, versionné, exportable. Vous voyez qui a modifié quoi, vous comparez deux semaines en un clic.",
-      "bullets": [
-        "Alarmes opérationnelles unifiées, sévérités <code>info</code> / <code>warning</code> / <code>critical</code>",
-        "Journal des modifications signé, revert en un clic",
-        "Filtrage par site, bâtiment, criticité",
-        "Export Excel des incidents, sans manipulation"
-      ],
-      "quote_label": "Cas type",
-      "quote_html": "« Sur les 6 derniers mois, j'ai 18 alarmes critiques mais je ne sais pas dire si elles viennent d'un capteur, d'un opérateur ou d'un seuil mal réglé. »",
-      "recommended_tier": "Voir l'offre Managed Standard"
+  "why": {
+    "meta": {
+      "title": "Pourquoi superviser · Ce que vous coûte de ne pas savoir · Meshvise",
+      "description": "Arrêts inexpliqués, relevés manuels, audits préparés à la main, énergie consommée hors production : calculez ce que l'absence de supervision coûte à votre site, avec vos propres chiffres."
     },
-    "direction": {
-      "label": "DSI industriel",
-      "pain_label": "Le problème",
-      "pain_html": "Vos données industrielles vivent dans six silos différents, votre BI les recompose à la main, et personne ne sait sur quoi se baser au comité d'audit IT.",
-      "gain_label": "Avec Meshvise",
-      "gain_html": "Une source de vérité Postgres, schéma documenté, hébergée chez vous. Conforme RGPD, sous votre contrôle de bout en bout, auditable.",
-      "bullets": [
-        "Source unique, schéma <code>point_history</code> stable et documenté",
-        "Historique TimescaleDB pluri-annuel, agrégats minute/heure/jour",
-        "Données chez vous, sous droit français, DPA fourni au contrat",
-        "Audit log signé exportable, accès code source sous NDA"
-      ],
-      "quote_label": "Cas type",
-      "quote_html": "« Au comité d'audit IT, je ne peux pas affirmer que les KPI sont justes : ils viennent de trois exports différents qui passent entre quatre personnes. »",
-      "recommended_tier": "Voir l'offre Managed Premium"
+    "hero": {
+      "eyebrow": "Pourquoi superviser",
+      "title": "Ce que vous coûte de ne pas savoir.",
+      "subtitle": "Une ligne qui s'arrête sans qu'on sache pourquoi, un relevé noté trois fois par jour sur un carnet, un audit préparé à la main, un compresseur qui tourne la nuit. Chacun de ces coûts est réel, aucun n'apparaît dans vos comptes. Calculez-les avec vos chiffres."
     },
-    "integrator": {
-      "label": "Intégrateur / installateur",
-      "pain_label": "Le problème",
-      "pain_html": "Chaque chantier est un puzzle de licences, de connecteurs et de scripts custom à maintenir pendant 10 ans après votre départ.",
-      "gain_label": "Avec Meshvise",
-      "gain_html": "Une plateforme reproductible, un boîtier livré clé en main, une licence par site. Vous déployez en jours, pas en mois.",
-      "bullets": [
-        "Déploiement Docker en 4 h, gateway provisionnée d'avance",
-        "Pas de connecteur tiers payant ni de runtime à licencier en plus",
-        "Wiresheet versionné <code>JSON</code> : reproduire un site en cloner-coller",
-        "Code source consultable sous NDA pour vos audits clients"
-      ],
-      "quote_label": "Cas type",
-      "quote_html": "« Sur 8 sites identiques, je passe deux semaines par site à recâbler les drivers à chaque renouvellement de licence. »",
-      "recommended_tier": "Voir l'offre On-Premise"
+    "calc": {
+      "title": "Le calcul, avec vos chiffres",
+      "intro": "Aucun pourcentage promis. Renseignez ce que vous savez de votre site, le calcul fait le reste. Les champs vides sont ignorés.",
+      "tablist_label": "Gisements",
+      "per_year": "par an",
+      "per_month": "par mois",
+      "subscription_label": "Abonnement On-Premise",
+      "subscription_value": "2 400 € par an",
+      "downtime": {
+        "label": "Arrêts",
+        "help": "Sans historique, comprendre pourquoi une ligne s'est arrêtée relève de l'enquête, et l'enquête se fait pendant que la ligne est à l'arrêt.",
+        "f1": "Coût d'une heure d'arrêt (€)",
+        "f2": "Heures de recherche par incident",
+        "f3": "Incidents par mois",
+        "result": "Coût annuel du diagnostic"
+      },
+      "oncall": {
+        "label": "Astreinte",
+        "help": "Une alarme de nuit veut dire un déplacement pour aller regarder un écran, parce que rien ne dit à distance si c'est grave.",
+        "f1": "Déplacements évitables par mois",
+        "f2": "Durée aller-retour (heures)",
+        "f3": "Coût horaire majoré (€)",
+        "result": "Coût annuel des déplacements"
+      },
+      "manual": {
+        "label": "Relevés manuels",
+        "help": "Un relevé noté sur un carnet coûte du temps, produit des erreurs, et ne constitue pas une preuve solide en audit.",
+        "f1": "Relevés par jour",
+        "f2": "Minutes par relevé",
+        "f3": "Coût horaire chargé (€)",
+        "result": "Coût annuel de la saisie"
+      },
+      "audit": {
+        "label": "Audits",
+        "help": "La collecte des preuves se fait à la main, dans des classeurs. Avec un historique interrogeable, elle devient une extraction.",
+        "f1": "Jours de préparation par audit",
+        "f2": "Audits par an",
+        "f3": "Coût journalier chargé (€)",
+        "result": "Coût annuel de la préparation"
+      },
+      "energy": {
+        "label": "Énergie",
+        "help": "Équipements qui tournent hors production, fuites d'air comprimé, talon nocturne : les gisements se voient en quelques jours d'historique.",
+        "f1": "Facture d'énergie mensuelle (€)",
+        "f2": "Part estimée hors production (%)",
+        "result": "Ordre de grandeur annuel du gisement"
+      },
+      "total_label": "Avec vos chiffres, l'absence de supervision vous coûte environ",
+      "payback_label": "Un abonnement Meshvise se rembourse en",
+      "months": "mois",
+      "month": "mois",
+      "empty": "Renseignez au moins une ligne pour voir le résultat.",
+      "rule": "Ces méthodes de calcul sont volontairement simples. Elles ne remplacent pas une étude, elles rendent visible un coût que personne ne mesure."
     },
-    "bi_team": {
-      "label": "Équipe BI / data",
-      "pain_label": "Le problème",
-      "pain_html": "L'équipe OT vous envoie des CSV par email. Aucune source live, aucune fraîcheur, aucune confiance sur la donnée.",
-      "gain_label": "Avec Meshvise",
-      "gain_html": "Vos points industriels sont dans une base Postgres standard. ODBC, schéma documenté, lecture seule. C'est juste une source de plus dans votre stack.",
-      "bullets": [
-        "Schéma <code>point_history(ts, point_id, value, quality)</code> stable et documenté",
-        "User PostgreSQL en lecture seule, vues SQL prêtes à l'emploi",
-        "Power BI Desktop / DirectQuery, dbt, Metabase, n'importe quel client SQL",
-        "Données fraîches à la seconde, partitionnées par jour"
-      ],
-      "quote_label": "Cas type",
-      "quote_html": "« On me demande un dashboard énergie consolidé, mais je reçois 12 fichiers CSV par mois avec des formats différents à chaque site. »",
-      "recommended_tier": "Voir l'offre On-Premise"
-    }
-  },
-  "value_chain": {
-    "title": "De vos automates à vos KPIs.",
-    "subtitle": "Meshvise est le maillon qui transforme vos signaux industriels bruts en connaissance opérationnelle, accessible à toute l'entreprise, du terrain à la direction.",
-    "production": {
-      "label": "Acquisition",
-      "title": "Vos équipements",
-      "caption": "Machines, capteurs, automates : Meshvise se connecte à tous vos équipements, peu importe la marque ou le protocole.",
-      "alt": "Illustration d'un atelier de production avec automates, moteurs, transformateurs et techniciens"
+    "first": {
+      "title": "Ce qui apparaît la première semaine",
+      "microstops": {
+        "title": "Les arrêts qui n'existaient pas",
+        "body": "Personne ne note un arrêt de quatre minutes. Cumulés sur un mois, ils pèsent souvent plus que les pannes déclarées. Ils apparaissent dès que les compteurs sont lus."
+      },
+      "night": {
+        "title": "Le talon de consommation nocturne",
+        "body": "Ce qui tourne quand rien ne devrait tourner. Un compresseur, une ventilation, un chauffage de bac. Visible à la première nuit."
+      },
+      "alarm": {
+        "title": "La première alarme reçue à distance",
+        "body": "Un seuil franchi, un courriel, et la réponse à « faut-il y aller ? » sans se déplacer."
+      }
     },
-    "meshvise": {
-      "label": "Structuration",
-      "title": "Meshvise",
-      "tagline": "Acquisition · Supervision · Structuration",
-      "caption": "Vos données sont lues, structurées par site et fonction métier, historisées dans une base de données standard et exposées partout."
-    },
-    "analytics": {
-      "label": "Analyse",
-      "title": "Vos équipes BI",
-      "caption": "Power BI, Grafana, Excel : vos analystes construisent leurs dashboards directement sur vos données industrielles.",
-      "alt": "Illustration d'un espace d'analyse de données avec deux analystes devant un mur d'écrans affichant des dashboards"
-    },
-    "management": {
-      "label": "Décision",
-      "title": "Votre direction",
-      "caption": "Productivité, énergie, qualité : la direction pilote en toute sérénité sur des KPI fondés sur des données fiables et structurées.",
-      "alt": "Illustration d'une réunion de direction avec un mur de KPI affichant des tendances positives"
-    }
-  },
-  "app_preview": {
-    "aria_label": "Aperçu de l'interface Meshvise : table de points en temps réel",
-    "title": "Live points",
-    "deployed_rev": "déployé",
-    "nav": {
-      "section": "Projet",
-      "overview": "Vue d'ensemble",
-      "drivers": "Drivers",
-      "machines": "Machines",
-      "live": "Points live",
-      "alarms": "Alarmes",
-      "revisions": "Révisions"
-    },
-    "col": { "path": "Path", "value": "Valeur", "unit": "Unité", "trend": "Tendance" }
-  },
-  "features": {
-    "eyebrow": "Capacités",
-    "title": "Tout ce qu'il faut pour piloter votre site industriel.",
-    "subtitle": "Six capacités natives, en production. Tout est dans la démo publique.",
-    "acquisition": {
-      "title": "Acquisition multi-protocoles",
-      "tagline": "Lisez vos automates sans connecteur tiers.",
-      "bullets": [
-        "<code>Modbus TCP</code>, <code>OPC-UA</code> et <code>BACnet/IP</code> en natif"
+    "not": {
+      "title": "Ce que Meshvise ne fait pas",
+      "intro": "La crédibilité tient aussi à ce qu'on refuse d'affirmer.",
+      "items": [
+        "Pas de prédiction de panne : Meshvise historise et alerte, il ne prédit pas.",
+        "Pas de sécurité fonctionnelle : les sécurités restent dans l'automate certifié.",
+        "Pas de gestion de maintenance, pas de pilotage de production.",
+        "Meshvise mesure, historise, alerte et montre."
       ]
     },
-    "historian": {
-      "title": "Historisation",
-      "tagline": "Time-series partitionné automatiquement.",
-      "bullets": [
-        "<code>TimescaleDB</code>, rétention configurable",
-        "Agrégats par minute, heure ou jour"
+    "cta": {
+      "title": "Une démonstration sur vos équipements",
+      "body": "Une démonstration de trente minutes, en visio, sur un cas proche du vôtre. Sans engagement."
+    }
+  },
+  "contact_form": {
+    "name": "Nom",
+    "name_ph": "Votre nom",
+    "company": "Entreprise",
+    "company_ph": "Votre société",
+    "email": "Courriel professionnel",
+    "email_ph": "vous@societe.fr",
+    "install": "Votre installation, en une ligne",
+    "install_ph": "Type de site, équipements, ce que vous aimeriez voir",
+    "submit": "Demander une démonstration",
+    "note": "Réponse sous deux jours ouvrés, par la personne qui a écrit le code.",
+    "mailto_subject": "Demande de démonstration Meshvise"
+  },
+  "product": {
+    "meta": {
+      "title": "Produit · Ce que fait Meshvise · Supervision industrielle",
+      "description": "Acquisition, historisation, alarmes, indicateurs calculés, tableaux de bord, synoptiques, vues en direct, logique visuelle, rapports planifiés, traçabilité des changements, accès et exploitation. Le détail de ce que le produit sait faire."
+    },
+    "hero": {
+      "eyebrow": "Produit",
+      "title": "Acquérir, historiser, alerter, montrer",
+      "subtitle": "Ce que Meshvise fait de vos données, de la lecture d'un capteur jusqu'au rapport envoyé par courriel le lundi matin."
+    },
+    "acq": {
+      "title": "Les douze protocoles",
+      "intro": "Aucun module à acheter par marque. Chaque protocole est un driver du même moteur.",
+      "link": "Voir le détail de chaque protocole",
+      "after": "Découverte automatique des équipements. Mémoire tampon persistante en cas de coupure réseau : rien n'est perdu, tout est rejoué dans l'ordre. Qualité de donnée portée par chaque valeur.",
+      "protocols": [
+        {
+          "name": "Modbus TCP",
+          "covers": "Le standard industriel le plus répandu",
+          "ex": "Automates, variateurs, compteurs d'énergie"
+        },
+        {
+          "name": "Modbus RTU",
+          "covers": "Modbus sur liaison série",
+          "ex": "Compteurs, capteurs, via convertisseur série-TCP"
+        },
+        {
+          "name": "OPC UA",
+          "covers": "Interopérabilité industrielle moderne",
+          "ex": "Automates récents, machines-outils, systèmes tiers"
+        },
+        {
+          "name": "BACnet/IP",
+          "covers": "Bâtiment et génie climatique",
+          "ex": "Centrales de traitement d'air, chaudières, régulateurs"
+        },
+        {
+          "name": "Siemens S7",
+          "covers": "Accès direct aux automates Siemens",
+          "ex": "S7-300, S7-400, S7-1200, S7-1500"
+        },
+        {
+          "name": "MQTT",
+          "covers": "Capteurs et passerelles IoT",
+          "ex": "Capteurs sans fil, passerelles, brokers existants"
+        },
+        {
+          "name": "EtherNet/IP",
+          "covers": "Automates Rockwell et compatibles",
+          "ex": "ControlLogix, CompactLogix"
+        },
+        {
+          "name": "Beckhoff ADS",
+          "covers": "Automates Beckhoff TwinCAT",
+          "ex": "CX, contrôleurs embarqués"
+        },
+        {
+          "name": "REST",
+          "covers": "Toute API HTTP",
+          "ex": "Systèmes métier, stations météo, services tiers"
+        },
+        {
+          "name": "WebSocket",
+          "covers": "Flux temps réel",
+          "ex": "Équipements ou services qui poussent leurs valeurs"
+        },
+        {
+          "name": "Webhook",
+          "covers": "Réception d'événements",
+          "ex": "Systèmes qui notifient au lieu d'être interrogés"
+        },
+        {
+          "name": "Sparkplug B",
+          "covers": "MQTT industriel normalisé",
+          "ex": "Passerelles edge, architectures UNS"
+        }
       ]
+    },
+    "hist": {
+      "title": "L'historique",
+      "body": "Chaque point est enregistré selon sa propre politique : à chaque changement, au-delà d'un seuil de variation, ou à intervalle fixe. La base est un Postgres avec TimescaleDB, avec une rétention que vous fixez. Rien n'est enfermé : Excel, Power BI et Grafana s'y connectent en lecture directe, sans connecteur propriétaire ni export intermédiaire."
     },
     "alarms": {
-      "title": "Alarmes opérationnelles",
-      "tagline": "Seuils et notifications email pour vos équipes.",
-      "bullets": [
-        "Conditions <code>high</code> / <code>low</code>, sévérités <code>info</code> / <code>warning</code> / <code>critical</code>",
-        "Journal complet, exportable"
-      ]
+      "title": "Les alarmes",
+      "body": "Seuils haut et bas, écarts, changements d'état, avec temporisation et hystérésis pour éviter le clignotement. Quatre niveaux de criticité, acquittement par un opérateur identifié, mise en veille d'une alarme connue pendant une intervention. Notification par courriel ou par webhook vers l'outil de votre choix. Chaque transition est journalisée, y compris qui a acquitté et quand."
     },
-    "wiresheet": {
-      "title": "Logique métier en temps réel",
-      "tagline": "Votre logique métier dans une grille visuelle.",
-      "bullets": [
-        "Math, timer, schedule, latch, ramp, PID, alarme",
-        "Versionné <code>JSON</code>, pilotable via API REST"
-      ]
-    },
-    "python": {
-      "title": "Blocs Python embarqués",
-      "tagline": "Étendez le wiresheet sans écrire un plugin.",
-      "bullets": [
-        "Accès aux valeurs live et à l'historian, sandbox déterministe"
-      ]
-    },
-    "open_data": {
-      "title": "Accès SQL direct",
-      "tagline": "Branchez Power BI, Grafana ou Excel directement sur Postgres.",
-      "bullets": [
-        "<code>ODBC PostgreSQL</code> natif, vues SQL standards",
-        "Lecture seule pour vos équipes BI"
-      ]
-    }
-  },
-  "bi_preview": {
-    "eyebrow": "Vos données dans vos outils",
-    "title": "Branchez Power BI, Grafana ou Excel directement sur Postgres.",
-    "subtitle": "Aucun connecteur propriétaire à installer. Vos équipes BI lisent vos points industriels comme n'importe quelle autre base de l'entreprise.",
-    "dashboard_title": "Dashboard énergie · Site Lyon",
-    "live_label": "Live · ODBC PostgreSQL",
     "kpi": {
-      "energy_label": "Énergie 24h",
-      "meters_label": "Compteurs en ligne",
-      "alarms_label": "Alarmes actives",
-      "alarms_sub": "1 critique"
+      "title": "Les indicateurs",
+      "body": "Un point peut être calculé à partir des autres : un cumul, un écart, un rendement, une moyenne glissante. Ces points calculés vivent comme les autres, ils sont historisés, alarmables et affichables. Aujourd'hui vous les composez vous-même, dans la logique visuelle ou directement dans un tableau de bord.",
+      "wip": "En cours : des indicateurs proposés automatiquement selon la nature de l'équipement, pour qu'un compteur d'énergie ou une ligne de production arrive avec son taux de rendement, ses micro-arrêts et son talon de consommation déjà calculés."
     },
-    "chart_title": "Température air soufflage AHU1 · 24 h",
-    "chart_unit": "°C",
-    "points_title": "Derniers points lus",
-    "points_source": "table point_history (TimescaleDB)",
-    "col": {
-      "path": "Path",
-      "value": "Valeur",
-      "unit": "Unité",
-      "trend": "Tendance"
+    "dash": {
+      "title": "Les tableaux de bord",
+      "body": "Dix-sept types de composants, posés à la souris sur une grille : indicateurs chiffrés, courbes, jauges, tableaux, bandeaux d'alarmes, chronogrammes d'états. Formatage conditionnel par seuil, variables de tableau de bord pour rejouer le même écran sur une autre machine, plage de temps commune à tous les composants. Aucune ligne de code."
     },
-    "attribution_html": "Visualisation indicative. Données live depuis Meshvise via <strong>ODBC PostgreSQL standard</strong>. Aucun connecteur propriétaire à installer."
-  },
-  "lifecycle": {
-    "eyebrow": "Organisation & versioning",
-    "title": "Vos sites évoluent. Meshvise évolue avec eux.",
-    "subtitle": "Ajoutez une machine, réorganisez par fonction métier, comprenez un événement passé. Meshvise suit sans rien casser de ce que vous avez déjà construit.",
-    "tags": {
-      "title": "Étiquetez une fois. Retrouvez partout.",
-      "tagline": "Vos équipements ne vivent pas en silos. Structurez-les à votre main.",
-      "bullets": [
-        "Étiquettes par site, bâtiment, fonction métier, criticité, combinables sans limite",
-        "Vues filtrées : tous les HVAC, tous les compteurs critiques, tout le Bâtiment B",
-        "Un nouvel équipement entre automatiquement dans les vues qui le concernent",
-        "Aucun reparamétrage quand votre site évolue"
-      ],
-      "filter_label": "Filtre actif"
+    "synoptic": {
+      "title": "Les synoptiques",
+      "body": "Vos installations dessinées dans le navigateur, avec une bibliothèque de symboles industriels : cuves, vannes, pompes, échangeurs, moteurs, appareillage électrique. Les symboles sont animés par les valeurs réelles, se relient automatiquement par des liaisons intelligentes, et peuvent écrire vers l'équipement quand l'opérateur en a le droit."
     },
-    "versioning": {
-      "title": "L'histoire de votre supervision, en clair.",
-      "tagline": "Chaque réglage, chaque alarme, chaque renommage laisse une trace.",
-      "bullets": [
-        "Vous voyez qui a fait quoi, à quel moment",
-        "Vous consultez votre supervision telle qu'elle était il y a 6 mois",
-        "Vous annulez une modification en un clic, sans perdre les données depuis",
-        "Pas de fichier de sauvegarde à recharger, pas de manipulation"
-      ],
-      "log_label": "Journal des modifications",
-      "status": {
-        "deployed": "déployé",
-        "reverted": "annulée"
-      }
+    "live": {
+      "title": "Les vues en direct",
+      "body": "Tous les points d'un site, rangés par les hiérarchies que vous définissez : site, bâtiment, ligne, fonction. Un point porte ses étiquettes une fois, et il apparaît dans toutes les vues qui les utilisent. Recherche, filtres persistants, valeurs rafraîchies en continu."
+    },
+    "logic": {
+      "title": "La logique visuelle",
+      "body": "La logique de votre site se compose par blocs reliés : calcul, comparaison, temporisation, planification horaire, régulation, bascule, alarme. Le résultat s'exécute dans le moteur, au même titre qu'une valeur lue sur un équipement. Pour les cas qui sortent du cadre, un bloc Python prend le relais."
+    },
+    "reports": {
+      "title": "Les rapports",
+      "body": "Un rapport planifié compile les valeurs d'une période dans un classeur, et part par courriel à une liste de destinataires, chaque semaine ou chaque mois. C'est ce qui remplace l'export du vendredi soir : la personne qui attend le chiffre le reçoit sans le demander."
+    },
+    "trace": {
+      "title": "Qui a changé ce seuil, et quand ?",
+      "body": "Toute modification de configuration entre dans une révision datée et signée. Vous comparez deux dates, vous revenez à un état antérieur en une opération, et vous superposez les déploiements sur les courbes pour voir ce qu'un changement a produit sur le procédé. Chaque commande envoyée à un équipement est journalisée à part, dans un registre qui ne peut pas être réécrit."
+    },
+    "sec": {
+      "title": "Accès et sécurité",
+      "body": "Trois rôles : lecture seule pour ceux qui regardent, opérateur pour ceux qui acquittent et écrivent, administrateur pour ceux qui configurent. Authentification unique OIDC avec votre annuaire, second facteur, clés d'accès révocables pour les intégrations. Côté équipements, le client OPC UA sait signer et chiffrer ses échanges et vérifier le certificat du serveur, ce qu'exigent les automates récents. Un serveur OPC UA expose à son tour vos données aux systèmes qui savent les lire."
+    },
+    "ops": {
+      "title": "Exploitation",
+      "body": "Page de santé qui montre l'état de chaque composant et la présence de chaque service. Métriques exposées au format Prometheus. Le moteur redémarre et reprend l'acquisition même si la base de données n'est pas encore là, sur sa configuration mise en cache. Une architecture de secours à reprise tiède est disponible. Aucune télémétrie ne sort de l'installation."
     }
   },
-  "sovereignty": {
-    "eyebrow": "Souveraineté & conformité",
-    "title": "Vos données chez vous, sous votre droit.",
-    "subtitle": "Meshvise s'inscrit dans une logique de souveraineté technique et juridique. Ce que vous installez, ce sont vos données, dans votre infrastructure, soumises à votre droit.",
-    "hosting": {
-      "title": "Hébergement chez vous, par vous",
-      "body_html": "Aucune télémétrie, aucun phone-home, aucune donnée client sur notre infrastructure. Compatible <strong>air-gap</strong> pour les sites coupés d'internet."
+  "protocols": {
+    "meta": {
+      "title": "Protocoles · Douze protocoles industriels inclus · Meshvise",
+      "description": "Modbus TCP et RTU, OPC UA, BACnet/IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. Transport, adressage, sens de communication et équipements couverts pour chacun."
     },
-    "gdpr": {
-      "title": "Conforme RGPD by design",
-      "body_html": "Aucune donnée personnelle ne quitte votre instance par défaut. <strong>DPA fourni</strong> au contrat Standard, registre des traitements simplifié."
+    "hero": {
+      "title": "Douze protocoles, un seul moteur",
+      "subtitle": "Chaque protocole est un driver du même moteur d'acquisition. Tous sont inclus dans la licence : aucun module à acheter par marque d'automate, aucune option à activer."
     },
-    "law": {
-      "title": "Droit français, juridiction Paris",
-      "body_html": "Données et support soumis au droit français. Contrat en français, juridiction Paris. Pas de clause d'arbitrage off-shore."
+    "table": {
+      "title": "Tableau de compatibilité",
+      "col_protocol": "Protocole",
+      "col_transport": "Transport",
+      "col_mode": "Mode",
+      "col_addressing": "Adressage",
+      "col_write": "Écriture",
+      "write_yes": "oui",
+      "write_no": "lecture seule",
+      "mode_poll": "Scrutation",
+      "mode_sub": "Souscription",
+      "mode_push": "Réception"
     },
-    "no_cloud": {
-      "title": "Pas de Cloud Act, pas de cloud étranger",
-      "body_html": "Aucune dépendance fournisseur cloud étranger côté production. Hors d'atteinte de l'extra-territorialité USA et des injonctions tierces."
+    "detail": {
+      "title": "Le détail, protocole par protocole",
+      "equipment": "Équipements typiques",
+      "note": "À savoir"
     },
-    "attribution_html": "Société française enregistrée à <strong>&lt;VILLE : À COMPLÉTER PAR BRUNO&gt;</strong>."
+    "missing": {
+      "title": "Ce qui n'est pas supporté",
+      "intro": "Dire ce qui manque évite une mise en service qui tourne mal. Ces protocoles ne sont pas implémentés à ce jour et ne sont pas datés publiquement.",
+      "items": [
+        "MTConnect, pour les machines-outils. Voir la section sur les protocoles propriétaires : les agents récents publient en MQTT.",
+        "IEC 60870-5 et IEC 61850, pour les postes électriques et la distribution.",
+        "DNP3, pour l'eau et les réseaux d'énergie nord-américains.",
+        "M-Bus et M-Bus sans fil, pour le comptage divisionnaire.",
+        "PROFINET et EtherCAT en accès direct. Ces automates s'exposent en général en OPC UA ou en Modbus TCP, qui sont supportés."
+      ],
+      "ask": "Un protocole vous manque ? Écrivez, la liste évolue avec les demandes réelles."
+    },
+    "proprietary": {
+      "title": "Machines-outils et protocoles propriétaires",
+      "intro": "Les commandes numériques et certains automates parlent un protocole maison, lié à une bibliothèque sous licence que l'éditeur n'a pas le droit de redistribuer. Aucune supervision ne s'y connecte directement sans passer par le constructeur, et l'option qui ouvre la machine se facture cher, souvent par machine. La bonne question n'est donc pas « supportez-vous Fanuc » mais « qu'ai-je besoin de mesurer, et au prix de quoi ».",
+      "principle": "Meshvise ne remplace pas la passerelle du constructeur, il se branche sur sa sortie normalisée. Dès qu'une machine expose de l'OPC UA, du MQTT ou du Modbus, elle devient un équipement comme un autre.",
+      "ladder_title": "Quatre voies, de la moins chère à la plus chère",
+      "ladder_intro": "L'option qui fait parler une machine dans un protocole standard est presque toujours payante, facturée par machine, et parfois assortie d'une mise à niveau de la commande. Un devis de ce type suffit à enterrer un projet. Il existe pourtant trois voies moins chères avant celle-là, et elles suffisent pour la plupart des indicateurs.",
+      "ladder_key": "Un taux de rendement ne demande pas de lire la commande numérique. Marche, arrêt, cycle et pièces produites se mesurent de l'extérieur, pour une fraction du prix d'une option constructeur.",
+      "ladder_col_route": "Voie",
+      "ladder_col_gets": "Ce que vous obtenez",
+      "ladder_col_cost": "Coût",
+      "ladder_col_when": "Quand la choisir",
+      "ladder_rows": [
+        {
+          "route": "Signaux déjà câblés",
+          "gets": "Marche, arrêt, défaut, fin de cycle, selon ce que la machine sort déjà sur bornier.",
+          "cost": "Presque nul",
+          "cost_level": "normal",
+          "when": "Toujours à regarder en premier. Beaucoup de machines exposent des contacts secs inutilisés, qu'un petit module d'entrées Modbus relève pour le prix d'un composant d'armoire."
+        },
+        {
+          "route": "Capteurs externes",
+          "gets": "Consommation, courant de broche, temps de cycle, comptage de pièces, micro-arrêts, état de la colonne lumineuse.",
+          "cost": "Quelques centaines d'euros par machine",
+          "cost_level": "normal",
+          "when": "Le meilleur rapport valeur sur prix quand la machine est fermée ou ancienne. Une pince de mesure et un compteur d'énergie communicants suffisent à voir tourner une machine, à dater ses arrêts et à mesurer sa consommation."
+        },
+        {
+          "route": "Passerelle tierce",
+          "gets": "Les données de process de la commande, traduites en OPC UA, MQTT ou MTConnect.",
+          "cost": "Variable, souvent moins que l'option constructeur",
+          "cost_level": "warn",
+          "when": "Quand vous avez besoin des variables internes : programme en cours, override, alarmes machine, cotes. Ajoute un équipement à maintenir, mais reste utile même si vous changez de supervision."
+        },
+        {
+          "route": "Option du constructeur",
+          "gets": "Tout ce que la commande expose, sans intermédiaire, avec le support du constructeur.",
+          "cost": "Le plus élevé, facturé par machine",
+          "cost_level": "crit",
+          "when": "Sur une machine neuve, où l'option se négocie à la commande et coûte bien moins cher qu'ajoutée après coup. Sur un parc existant, à réserver aux machines critiques."
+        }
+      ],
+      "ladder_advice": "Sur un parc de plusieurs machines, la démarche qui marche est d'équiper tout le parc par le bas de l'échelle pour voir enfin l'ensemble, puis de monter en profondeur sur les deux ou trois machines qui portent vraiment la performance.",
+      "col_vendor": "Constructeur",
+      "col_native": "Protocole natif",
+      "col_route": "Voie vers Meshvise",
+      "rows": [
+        {
+          "vendor": "Fanuc",
+          "native": "FOCAS",
+          "route": "Option OPC UA sur les commandes récentes, sinon passerelle FOCAS vers OPC UA ou MQTT, ou agent MTConnect publiant en MQTT.",
+          "note": "La bibliothèque FOCAS est sous licence Fanuc et n'est pas redistribuable : personne ne peut l'embarquer dans son produit. Vérifier si l'option OPC UA est déjà activée, elle l'est parfois sans qu'on le sache. Si elle doit être achetée, comparer son devis aux deux premières voies de l'échelle avant de décider."
+        },
+        {
+          "vendor": "Mitsubishi",
+          "native": "MC Protocol, SLMP",
+          "route": "Module de communication Modbus TCP, module OPC UA sur les gammes récentes, ou passerelle SLMP vers MQTT.",
+          "note": "Beaucoup d'installations MELSEC exposent déjà du Modbus TCP par un module en rack : regarder l'armoire avant d'acheter quoi que ce soit. Un module de communication d'occasion coûte une fraction d'une option logicielle."
+        },
+        {
+          "vendor": "Omron",
+          "native": "FINS",
+          "route": "EtherNet/IP ou Modbus TCP, tous deux supportés en direct.",
+          "note": "Les gammes récentes parlent EtherNet/IP nativement, ce qui évite complètement le sujet."
+        },
+        {
+          "vendor": "Schneider",
+          "native": "UMAS",
+          "route": "Modbus TCP, supporté en direct.",
+          "note": "Le protocole propriétaire sert surtout à la programmation. Pour lire des valeurs, Modbus suffit et il est présent partout."
+        },
+        {
+          "vendor": "Autres commandes numériques",
+          "native": "Variable selon le constructeur",
+          "route": "MTConnect ou OPC UA selon la génération, puis passerelle vers MQTT.",
+          "note": "Sur une machine d'après 2015, la question à poser au constructeur est : « la machine sait-elle sortir de l'OPC UA ou du MTConnect, et à quelle condition »."
+        }
+      ],
+      "gateway_title": "Ce qu'une passerelle change, et ce qu'elle ne change pas",
+      "gateway_body": "Une passerelle traduit le protocole du constructeur vers un protocole ouvert. Elle ajoute un équipement à maintenir et un point de panne, mais elle rend la machine lisible par n'importe quel système, pas seulement par Meshvise. C'est un investissement qui reste valable si vous changez de supervision.",
+      "mtconnect": "MTConnect, le standard des machines-outils, n'est pas encore lu en direct par Meshvise. Les agents récents savent publier en MQTT, ce qui reconstitue le chemin en attendant un driver dédié."
+    },
+    "opcua_security": {
+      "title": "La sécurité OPC UA, en clair",
+      "intro": "Ce n'est pas un raffinement, c'est une condition d'accès. Un automate Siemens de la gamme 1500 est livré configuré pour signer ou chiffrer ses échanges, et refuse une session non protégée. Sans cela, un site équipé ainsi ne peut tout simplement pas être raccordé.",
+      "col_item": "Réglage",
+      "col_value": "Ce que Meshvise propose",
+      "rows": [
+        {
+          "item": "Politiques de chiffrement",
+          "value": "Basic256Sha256, Aes128Sha256RsaOaep, Aes256Sha256RsaPss.",
+          "note": "Les politiques Basic128Rsa15 et Basic256 ne sont pas proposées : elles sont dépréciées par la fondation OPC UA et cryptographiquement cassées. La bibliothèque sous-jacente les expose encore, Meshvise ne les reprend pas."
+        },
+        {
+          "item": "Mode de message",
+          "value": "Aucun, signature seule, ou signature et chiffrement.",
+          "note": "Signer prouve l'origine et l'intégrité des messages. Chiffrer y ajoute la confidentialité. Le mode se choisit selon ce que le serveur exige."
+        },
+        {
+          "item": "Compte utilisateur",
+          "value": "Nom d'utilisateur et mot de passe, indépendants du chiffrement.",
+          "note": "Les deux réglages sont séparés dans la norme : un serveur peut demander un compte sans chiffrer le canal, ou l'inverse. Meshvise suit cette séparation au lieu de l'imposer."
+        },
+        {
+          "item": "Certificat du serveur",
+          "value": "Vérification explicite, activée en fournissant le certificat.",
+          "note": "Sans certificat fourni, Meshvise accepte ce que le serveur présente et le signale, dans le journal du pilote et à l'écran. C'est une confiance à la première connexion, défendable seulement sur un réseau d'atelier fermé."
+        }
+      ],
+      "strict": "Une configuration de sécurité incomplète est refusée à trois niveaux, en base, dans le pilote et dans le formulaire. Il n'existe aucun repli silencieux vers une session en clair : ou la connexion est conforme à ce que vous avez demandé, ou elle échoue avec un message."
+    },
+    "how": {
+      "title": "Comment un point est configuré",
+      "body": "Un driver porte la connexion : adresse, port, identifiants, cadence. Chaque point porte son adresse dans le protocole, son type de donnée et son unité. Les équipements compatibles sont découverts automatiquement quand le protocole le permet, sinon la configuration se fait par import ou à la main. Un même site mélange autant de protocoles que nécessaire dans une seule instance."
+    },
+    "cta": {
+      "title": "Vérifions sur vos équipements",
+      "body": "Envoyez la liste de vos automates et de leurs protocoles. Réponse sous deux jours ouvrés sur ce qui se connecte directement et ce qui demande une passerelle."
+    },
+    "list": [
+      {
+        "name": "Modbus TCP",
+        "transport": "TCP / 502",
+        "mode": "mode_poll",
+        "addressing": "Registre ou bit",
+        "write": true,
+        "desc": "Le standard le plus répandu de l'industrie. Lecture des registres de maintien et des bits, écriture registre par registre ou bit par bit. Les lots de lecture sont découpés automatiquement sous la limite de 125 registres imposée par le protocole.",
+        "equipment": "Automates, variateurs de vitesse, compteurs d'énergie, régulateurs, capteurs sur passerelle",
+        "note": "Le découpage des plages et la gestion des unités d'esclave sont automatiques."
+      },
+      {
+        "name": "Modbus RTU",
+        "transport": "Série RS-485 ou RS-232",
+        "mode": "mode_poll",
+        "addressing": "Registre ou bit",
+        "write": true,
+        "desc": "Le même protocole sur liaison série, avec la même surface de lecture et d'écriture. La connexion passe par un convertisseur série vers TCP, matériel courant et peu coûteux.",
+        "equipment": "Compteurs divisionnaires, capteurs anciens, variateurs sur bus de terrain",
+        "note": "Prévoir un convertisseur série vers Ethernet ; le réglage vitesse, parité et bits d'arrêt se fait dans le driver."
+      },
+      {
+        "name": "OPC UA",
+        "transport": "TCP / 4840",
+        "mode": "mode_sub",
+        "addressing": "Identifiant de nœud",
+        "write": true,
+        "desc": "Le seul protocole de la liste qui ne scrute pas. Meshvise crée une souscription réelle sur le serveur et déclare chaque point comme élément surveillé. Le serveur pousse la valeur quand elle change. Aucune lecture inutile sur les valeurs stables, et une latence qui suit l'équipement plutôt qu'une cadence choisie. Le canal se sécurise : signature ou chiffrement, compte utilisateur, vérification du certificat du serveur.",
+        "equipment": "Automates récents, machines-outils, systèmes tiers exposant un serveur OPC UA",
+        "note": "Trois politiques de chiffrement sont proposées, celles que la fondation OPC UA recommande encore. Les deux anciennes, cassées cryptographiquement, ne sont volontairement pas offertes même si la bibliothèque les expose. Une configuration incomplète est refusée plutôt que dégradée : jamais de retour silencieux vers une session en clair."
+      },
+      {
+        "name": "BACnet/IP",
+        "transport": "UDP / 47808",
+        "mode": "mode_poll",
+        "addressing": "Objet et propriété",
+        "write": true,
+        "desc": "Le protocole du bâtiment et du génie climatique. Lecture des objets analogiques, binaires et multi-états, avec leurs propriétés de présence et de valeur.",
+        "equipment": "Centrales de traitement d'air, chaudières, régulateurs de zone, comptage tertiaire, groupes froid",
+        "note": "La découverte par diffusion n'est pas utilisée : les équipements sont déclarés par adresse, ce qui évite les surprises en réseau segmenté et en conteneur."
+      },
+      {
+        "name": "Siemens S7",
+        "transport": "TCP / 102",
+        "mode": "mode_poll",
+        "addressing": "Bloc de données, décalage, type",
+        "write": true,
+        "desc": "Accès direct aux automates Siemens sans passer par un serveur intermédiaire. Chaque point vit à une position précise dans un bloc de données : numéro de bloc, décalage en octets et type de donnée.",
+        "equipment": "S7-300, S7-400, S7-1200, S7-1500",
+        "note": "Sur les gammes 1200 et 1500, l'accès optimisé aux blocs doit être désactivé côté automate, ou le bloc déclaré accessible."
+      },
+      {
+        "name": "MQTT",
+        "transport": "TCP / 1883 ou 8883",
+        "mode": "mode_push",
+        "addressing": "Topic et chemin JSON",
+        "write": true,
+        "desc": "Versions 3.1.1 et 5.0. Meshvise s'abonne aux topics déclarés et tient à jour la dernière valeur de chacun. Quand la charge utile est un objet JSON, un chemin pointé désigne la valeur à extraire, par exemple données.température.",
+        "equipment": "Capteurs sans fil, passerelles de terrain, brokers déjà en place, objets connectés industriels",
+        "note": "Fonctionne avec un broker existant : Meshvise se connecte en client, il n'impose pas le sien."
+      },
+      {
+        "name": "EtherNet/IP",
+        "transport": "TCP / 44818",
+        "mode": "mode_poll",
+        "addressing": "Tag symbolique",
+        "write": true,
+        "desc": "Le protocole des automates Rockwell, en adressage symbolique. Un point déclare directement le nom du tag dans l'automate, avec la syntaxe des programmes et des tableaux.",
+        "equipment": "ControlLogix des séries L7 et L8, CompactLogix des séries L1 à L3",
+        "note": "Les tags de programme et les membres de structure sont accessibles avec leur notation native."
+      },
+      {
+        "name": "Beckhoff ADS",
+        "transport": "ADS sur TCP / 48898",
+        "mode": "mode_poll",
+        "addressing": "Variable symbolique",
+        "write": true,
+        "desc": "Accès aux runtimes TwinCAT en nommant directement les variables du programme, par exemple une variable de vitesse dans le bloc principal ou un booléen dans une liste globale.",
+        "equipment": "Contrôleurs embarqués CX, PC industriels sous TwinCAT 2 ou 3",
+        "note": "Le type de la variable est déclaré explicitement : le protocole ne l'expose pas automatiquement."
+      },
+      {
+        "name": "REST",
+        "transport": "HTTP ou HTTPS",
+        "mode": "mode_poll",
+        "addressing": "Chemin d'URL et chemin JSON",
+        "write": true,
+        "desc": "Interrogation périodique de n'importe quelle interface HTTP renvoyant du JSON. Authentification par identifiant et mot de passe ou par jeton. L'écriture repasse par la même interface.",
+        "equipment": "Systèmes métier, stations météo, onduleurs, services tiers, passerelles propriétaires",
+        "note": "Utile pour raccrocher une source qui n'a rien d'industriel mais qui compte dans le calcul d'un indicateur."
+      },
+      {
+        "name": "WebSocket",
+        "transport": "WS ou WSS",
+        "mode": "mode_push",
+        "addressing": "Chemin JSON",
+        "write": true,
+        "desc": "Connexion permanente vers un service qui pousse ses valeurs. Chaque message reçu est analysé en JSON et alimente le cache des points.",
+        "equipment": "Équipements ou services diffusant un flux temps réel propriétaire",
+        "note": "La connexion se rétablit seule après une coupure."
+      },
+      {
+        "name": "Webhook",
+        "transport": "HTTP entrant",
+        "mode": "mode_push",
+        "addressing": "Chemin JSON",
+        "write": false,
+        "desc": "L'inverse du driver REST. Meshvise expose une adresse et attend que le système distant y publie ses valeurs. Utile quand la source refuse d'être interrogée ou n'est joignable que sortante.",
+        "equipment": "Plateformes tierces, capteurs LoRa via leur serveur réseau, services de notification",
+        "note": "Lecture seule par construction : Meshvise est le serveur dans ce sens de communication."
+      },
+      {
+        "name": "Sparkplug B",
+        "transport": "MQTT / 1883 ou 8883",
+        "mode": "mode_push",
+        "addressing": "Groupe, nœud, équipement, métrique",
+        "write": false,
+        "desc": "MQTT industriel normalisé. Meshvise tient le rôle d'application hôte, celui du superviseur : il lit les messages de naissance pour construire la table des métriques, puis décode les messages de données. La structure des équipements est découverte, pas déclarée.",
+        "equipment": "Passerelles de périphérie, architectures d'espace de noms unifié",
+        "note": "La découverte automatique des métriques est le principal intérêt : brancher une passerelle suffit à voir apparaître ses points."
+      }
+    ]
   },
   "pricing": {
-    "eyebrow": "Tarifs",
-    "title": "Évaluez librement, puis choisissez votre offre.",
-    "subtitle": "Démo en ligne et essai 7 jours toujours gratuits. Trois offres commerciales pour passer en production selon qui exploite l'infra.",
-    "recommended": "Recommandé",
-    "nav_prev": "Offre précédente",
-    "nav_next": "Offre suivante",
-    "footnote": "Tarifs HT, France. Facturation annuelle, mise en service facturée une fois à la signature. Vous restez propriétaire de vos données dans les trois offres commerciales.",
+    "meta": {
+      "title": "Tarifs · Le prix est affiché · Meshvise",
+      "description": "Démo gratuite, essai sept jours gratuit, On-Premise à 2 400 € par an quel que soit le nombre de points. Prix hors taxes, France, facturation annuelle."
+    },
+    "hero": {
+      "eyebrow": "Tarifs",
+      "title": "Le prix est affiché. Il ne dépend pas du nombre de points.",
+      "subtitle": "Prix hors taxes, France. Facturation annuelle. Vous restez propriétaire de vos données dans tous les cas."
+    },
     "demo": {
       "name": "Démo en ligne",
-      "tagline": "Survoler le produit en 60 secondes, sans rien installer.",
       "price": "0 €",
-      "period": "ponctuel",
-      "price_note": "pas d'inscription, pas de carte bancaire",
-      "cta": "Voir la démo"
+      "period": "",
+      "tagline": "Site industriel simulé, sans inscription, sans carte bancaire.",
+      "items": [
+        "Données simulées d'un site industriel",
+        "Pas d'inscription, pas de carte bancaire",
+        "Soixante secondes pour cliquer partout"
+      ]
     },
     "trial": {
       "name": "Essai 7 jours",
-      "tagline": "Câbler vos vrais automates, valider en conditions réelles.",
       "price": "0 €",
-      "period": "/ 7 jours",
-      "price_note": "licence par email, lecture seule à expiration",
-      "cta": "Essayer sur mon infra"
+      "period": "7 jours",
+      "tagline": "L'application complète sur votre infrastructure.",
+      "items": [
+        "Licence reçue par courriel",
+        "Cinq drivers, quinze machines, cinq cents points",
+        "Tous les protocoles, toutes les fonctions",
+        "À l'expiration, lecture seule, données conservées"
+      ]
     },
-    "on_premise": {
+    "onprem": {
       "name": "On-Premise",
-      "tagline": "Pour les clients avec une DSI ou un référent technique interne.",
       "price": "2 400 €",
-      "period": "/ an",
-      "price_note": "+ 1 200 € à la mise en service",
-      "cta": "Nous contacter"
+      "period": "par an",
+      "setup": "+ 1 200 € de mise en service",
+      "tagline": "La licence complète, hébergée chez vous.",
+      "items": [
+        "Acquisition, historisation, alarmes, tableaux de bord, synoptiques, logique, traçabilité",
+        "Points, machines et écrans sans limite",
+        "Authentification unique OIDC",
+        "Mises à jour pendant douze mois",
+        "Support par courriel, réponse sous deux jours ouvrés",
+        "Séquestre du code source proposé au contrat"
+      ],
+      "recommended": "Disponible"
     },
-    "managed_standard": {
-      "name": "Managed Standard",
-      "tagline": "Service clé en main pour TPE et PME sans DSI.",
-      "price": "4 200 €",
-      "period": "/ an",
-      "price_note": "+ 1 800 € à la mise en service, boîtier inclus",
-      "cta": "Nous contacter",
-      "legal_anchor": "Société française enregistrée. Données et support sous droit français.",
-      "continuity_link": "Et si vous fermez demain ? Lire la réponse honnête."
+    "managed": {
+      "name": "Exploitation déléguée",
+      "price": "Sur demande",
+      "tagline": "Pour les sites sans équipe technique.",
+      "body": "En cours de construction. Contactez-nous pour en discuter."
     },
-    "managed_premium": {
-      "name": "Managed Premium",
-      "tagline": "ETI ou environnement critique avec SLA contractuel.",
-      "price": "8 400 €",
-      "period": "/ an",
-      "price_note": "+ 3 200 € à la mise en service, boîtier premium",
-      "cta": "Nous contacter"
+    "setup_note_title": "Ce que couvre la mise en service",
+    "setup_note": "L'installation à distance sur votre serveur, la connexion de vos premiers équipements et une session de prise en main.",
+    "continuity_link": "Et si Meshvise disparaît ?"
+  },
+  "integrators": {
+    "meta": {
+      "title": "Intégrateurs · Une supervision à chiffrer avant le devis · Meshvise",
+      "description": "Douze protocoles dans un moteur unique, une licence par site, un prix indépendant du nombre de points. Votre marge se fait sur l'ingénierie, pas sur la licence."
     },
-    "feature": {
-      "demo_simulated": "Données simulées d'un site industriel",
-      "demo_no_signup": "Pas d'inscription, pas de carte bancaire",
-      "demo_quick_look": "60 secondes pour cliquer partout",
-      "trial_full_app": "L'app complète sur votre infra",
-      "trial_limits": "5 drivers · 15 machines · 500 points",
-      "trial_protocols": "<code>Modbus TCP</code> + <code>OPC-UA</code> + <code>BACnet/IP</code>",
-      "trial_duration": "7 jours puis lecture seule, données conservées",
-      "on_premise_license": "Licence Meshvise complète (runtime, gateway, dashboards)",
-      "on_premise_sso": "SSO standard <code>SAML 2.0 / OIDC</code> inclus",
-      "on_premise_updates": "Mises à jour applicatives incluses pendant 12 mois",
-      "on_premise_support": "Support email, réponse <strong>2 jours ouvrés</strong>",
-      "on_premise_hosting": "Hébergement chez vous, sur votre infra",
-      "managed_standard_includes": "<strong>Tout l'On-Premise</strong>, plus :",
-      "managed_standard_agent": "Boîtier industriel agent fanless livré et provisionné",
-      "managed_standard_hosting": "Hébergement managé <code>Cloudflare + Supabase</code>",
-      "managed_standard_ops": "Sauvegardes quotidiennes + monitoring 24/7",
-      "managed_standard_support": "Support email + téléphone, réponse <strong>1 jour ouvré</strong>",
-      "managed_standard_domain": "Sous-domaine <code>client.app.meshvise.com</code>",
-      "managed_premium_includes": "<strong>Tout le Managed Standard</strong>, plus :",
-      "managed_premium_supabase": "Projet Supabase dédié, isolation physique",
-      "managed_premium_sla": "<strong>SLA contractuel 99,5 %</strong>, intervention 4 h ouvrées",
-      "managed_premium_pitr": "PITR 7 jours + environnement de staging dédié",
-      "managed_premium_audit": "Audit log signé exportable (traçabilité écritures machine)",
-      "managed_premium_sso": "SSO avancé : SCIM, multi-IdP, page de login en marque blanche",
-      "managed_premium_support": "Support prioritaire 24/7 ouvrés + numéro direct"
+    "hero": {
+      "eyebrow": "Intégrateurs, bureaux d'études",
+      "title": "Une supervision que vous pouvez chiffrer avant le devis.",
+      "subtitle": "Douze protocoles dans un moteur unique, une licence par site, un prix indépendant du nombre de points. Votre marge se fait sur l'ingénierie, pas sur la licence."
+    },
+    "why": {
+      "title": "Sur un chantier",
+      "repro": {
+        "title": "Une plateforme reproductible",
+        "body": "D'un chantier à l'autre, la même base, à la place d'un assemblage de connecteurs à maintenir dix ans."
+      },
+      "points": {
+        "title": "Aucune négociation sur les points",
+        "body": "Le prix ne dépend pas du nombre de points. Le sujet le plus pénible de vos négociations disparaît."
+      },
+      "license": {
+        "title": "Pas de contrainte copyleft",
+        "body": "Intégrable dans votre offre, sous votre marque, par contrat."
+      },
+      "ui": {
+        "title": "Présentable en réunion",
+        "body": "Une interface claire, lisible en salle de direction, pas seulement en salle de contrôle."
+      }
+    },
+    "conditions": {
+      "title": "Conditions",
+      "items": [
+        "Remise revendeur",
+        "Engagement de ne pas démarcher en direct les clients apportés",
+        "Documentation technique complète",
+        "Session de formation"
+      ]
+    },
+    "cta": {
+      "title": "Voir Meshvise sur un de vos chantiers",
+      "body": "Trente minutes pour voir le produit sur un cas que vous connaissez, et poser vos conditions."
     }
   },
+  "about": {
+    "meta": {
+      "title": "À propos · Meshvise",
+      "description": "Meshvise est une supervision industrielle conçue et développée par une personne, ingénieur en digitalisation industrielle. Données chez vous, prix affiché, séquestre du code source."
+    },
+    "eyebrow": "À propos",
+    "title": "Une supervision industrielle construite par quelqu'un qui en avait besoin.",
+    "founder": {
+      "heading": "Le fondateur",
+      "p1": "Meshvise est conçu et développé par Bruno Crespo, ingénieur en digitalisation industrielle, en poste dans l'industrie. Le produit est né d'un constat de terrain : la supervision est trop chère au point, trop fermée, et trop souvent une console d'opérateur sombre qu'on ne peut pas montrer en réunion.",
+      "p2": "Meshvise est une entreprise d'une personne. Ce n'est pas caché, et c'est pour cela que le produit est construit sur une base standard, avec vos données chez vous et un séquestre du code source au contrat."
+    },
+    "commitments": {
+      "heading": "Ce à quoi Meshvise s'engage",
+      "data": {
+        "title": "Les données sont à vous.",
+        "body": "Base standard, schéma documenté, export à tout moment."
+      },
+      "price": {
+        "title": "Le prix est affiché.",
+        "body": "Pas de devis opaque, pas de facturation au point."
+      },
+      "honest": {
+        "title": "Ce qui n'est pas livré est dit.",
+        "body": "La page Produit décrit ce qui existe. Le reste n'est pas daté publiquement."
+      },
+      "telemetry": {
+        "title": "Aucune télémétrie.",
+        "body": "Rien ne sort de votre installation."
+      }
+    },
+    "coords": {
+      "heading": "Coordonnées",
+      "company": "Raison sociale",
+      "company_v": "À compléter",
+      "address": "Adresse",
+      "address_v": "À compléter",
+      "id": "Numéro d'identification",
+      "id_v": "À compléter",
+      "email": "Contact"
+    }
+  },
+  "guides": {
+    "meta": {
+      "title": "Guides · Mise en œuvre concrète · Meshvise",
+      "description": "Guides techniques de supervision industrielle : connexion d'automates, calcul de TRS, Power BI sur historique industriel, coût réel d'une supervision, énergie, audits."
+    },
+    "eyebrow": "Guides",
+    "title": "Guides de mise en œuvre",
+    "subtitle": "Un article toutes les deux semaines, sur des cas concrets. Chacun se termine par la démo, jamais par un formulaire.",
+    "coming": "À paraître",
+    "list": [
+      "Lire un automate Siemens S7 et historiser les valeurs en vingt minutes",
+      "Calculer un taux de rendement synthétique depuis des compteurs Modbus",
+      "Connecter Power BI à un historique industriel sans intermédiaire",
+      "Ce que coûte réellement une supervision à cinq mille points sur cinq ans",
+      "Détecter une fuite d'air comprimé avec trois compteurs",
+      "Sortir d'une supervision en fin de support sans perdre l'historique",
+      "Superviser un bâtiment tertiaire en BACnet",
+      "Alarmes industrielles : sévérités, hystérésis et acquittement",
+      "Préparer un audit qualité avec un historique de paramètres",
+      "Exposer ses données industrielles en OPC UA à un autre système"
+    ]
+  },
   "faq": {
+    "meta": {
+      "title": "FAQ · Meshvise",
+      "description": "Compatibilité automates, format des données, Power BI, matériel minimum, sécurité, audit du code, continuité, support, essai : les réponses."
+    },
     "eyebrow": "FAQ",
-    "title": "Les questions qu'on nous pose.",
-    "subtitle": "Si la vôtre n'y est pas, écrivez à contact@meshvise.com. Réponse sous 24 h ouvrées.",
-    "compatible_plc": {
-      "q": "Compatible avec mon Schneider M340 / Siemens S7-1500 / autre PLC ?",
-      "a_html": "Si votre PLC parle <code>Modbus TCP</code>, <code>OPC-UA</code> ou <code>BACnet/IP</code>, oui. Pour Modbus RTU sur série, prévoir une passerelle TCP. Voir aussi la <a href=\"#features\" class=\"text-brand hover:underline\">section Capacités</a>."
+    "title": "Questions fréquentes",
+    "subtitle": "Si la vôtre n'y est pas, écrivez à contact@meshvise.com.",
+    "compatible": {
+      "q": "Compatible avec mon automate ?",
+      "a": "Oui s'il parle l'un des douze protocoles : Modbus TCP et RTU, OPC UA, BACnet, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. Pour Modbus RTU sur liaison série, prévoir un convertisseur série vers TCP."
     },
-    "data_format": {
+    "format": {
       "q": "Dans quel format sont stockées les données ?",
-      "a_html": "Configuration : tables PostgreSQL standard. Historique : table TimescaleDB <code>point_history(ts, point_id, value, quality)</code>, partitionnée automatiquement par jour pour des requêtes rapides sur plusieurs années. Tout est requêtable en SQL standard, pas de dialecte propriétaire."
+      "a": "Tables Postgres standard pour la configuration, TimescaleDB pour l'historique, avec un schéma documenté. Rien de propriétaire."
     },
-    "powerbi": {
-      "q": "Comment je connecte Power BI ?",
-      "a_html": "Power BI Desktop &gt; Obtenir des données &gt; PostgreSQL. Vous renseignez l'IP de votre serveur Meshvise, un user en lecture seule, et vous voyez les tables. Connexion native, comme pour n'importe quelle base PostgreSQL standard."
+    "bi": {
+      "q": "Comment je connecte Power BI, Excel ou Grafana ?",
+      "a": "Par une connexion Postgres directe avec un compte en lecture seule. Vous voyez les tables, vous interrogez. Pas de connecteur propriétaire, pas d'export intermédiaire."
     },
-    "self_host": {
-      "q": "C'est en SaaS ou self-hosted ?",
-      "a_html": "Self-hosted. Vos données ne quittent jamais votre réseau. La démo en ligne tourne sur un environnement public mais c'est une démo, pas une offre de prod."
-    },
-    "sovereignty_data": {
+    "france": {
       "q": "Mes données restent-elles en France ?",
-      "a_html": "Oui, par construction. Meshvise est self-hosted : votre instance tourne sur l'infrastructure que vous choisissez, en France si c'est ce que vous décidez. Nous ne stockons aucune donnée client sur notre infrastructure. Aucune télémétrie ne sort de votre réseau, aucun phone-home, aucune dépendance cloud étranger. Compatible <strong>air-gap</strong> pour les sites coupés d'internet."
+      "a": "Elles restent où vous installez Meshvise. Rien ne sort de votre installation, aucune télémétrie, aucune dépendance à un service externe."
     },
-    "gdpr_compliance": {
-      "q": "Meshvise est-il conforme RGPD ?",
-      "a_html": "Oui. Meshvise est conçu RGPD by design : aucune donnée personnelle ne quitte votre instance par défaut. Pour le plan Standard, nous fournissons un <strong>DPA</strong> (Data Processing Agreement) au contrat. Données et support soumis au droit français, juridiction Paris."
-    },
-    "minimum_hardware": {
+    "hardware": {
       "q": "Quel matériel minimum ?",
-      "a_html": "2 vCPU, 4 Go RAM, 20 Go disque suffisent pour ~500 points avec 30 jours d'historique. Tient sur un mini-PC d'usine, un Raspberry Pi 4 ou un VPS à 5 €/mois."
+      "a": "Deux cœurs, quatre giga de mémoire, vingt giga de disque pour cinq cents points et trente jours d'historique. Un mini-PC d'atelier ou un serveur existant suffit."
     },
     "security": {
       "q": "Comment c'est sécurisé ?",
-      "a_html": "Auth par JWT (UI) ou API key (intégrations). Postgres et Redis bind sur localhost, jamais exposés. Si vous mettez la gateway derrière un reverse-proxy (Caddy, Nginx, Cloudflare Tunnel), vous avez TLS automatique."
+      "a": "Authentification par jeton pour l'interface, clés d'accès pour les intégrations, base de données et cache jamais exposés sur le réseau. Authentification unique OIDC et second facteur disponibles."
     },
-    "code_audit": {
+    "audit": {
       "q": "Puis-je auditer le code source ?",
-      "a_html": "Sur demande pour les clients Standard, accès en lecture au code source sous <strong>NDA</strong>. Cette possibilité existe pour les exigences de conformité spécifiques : audit sécurité, validation réglementaire, due diligence. Hors NDA, le code reste fermé conformément à notre licence propriétaire. Contact : <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>."
+      "a": "Sur demande, en lecture, sous accord de confidentialité. C'est distinct du séquestre, qui couvre la cessation d'activité."
     },
-    "safety_sil": {
-      "q": "Je peux faire de la sécurité fonctionnelle (SIL) avec ?",
-      "a_html": "<strong>Non</strong>, et ce ne sera jamais le cas. Meshvise supervise et historise. Vos interlocks de sécurité doivent rester dans votre PLC certifié."
+    "sil": {
+      "q": "Je peux faire de la sécurité fonctionnelle avec ?",
+      "a": "Non, et ce ne sera jamais le cas. Les sécurités restent dans l'automate certifié. Meshvise supervise, il ne protège pas."
     },
-    "company_disappears": {
-      "q": "Et si vous fermez la boîte demain ?",
-      "a_html": "Question légitime, et la raison principale pour laquelle Meshvise stocke tout en SQL standard. Concrètement : votre <code>postgres</code> tourne sur votre serveur. Vos dashboards Power BI continuent. Pour la couche acquisition, vous remplacez Meshvise par n'importe quelle autre plateforme qui parle Modbus / OPC-UA / BACnet."
+    "disappear": {
+      "q": "Et si vous fermez demain ?",
+      "a": "Vos données sont dans une base Postgres standard, sur votre serveur, avec un schéma documenté. La pile est standard, Postgres, MQTT, Docker, et n'importe quel intégrateur peut reprendre l'exploitation. Un séquestre du code source est proposé au contrat."
     },
-    "multi_site": {
-      "q": "Et la supervision multi-sites distants ?",
-      "a_html": "Aujourd'hui : multi-projet sur une instance, idéal pour multi-bâtiments d'un même groupe. Multi-sites distants avec gateway edge à chaque endroit + central qui consolide : sur la roadmap (Q4 2026)."
+    "alone": {
+      "q": "Vous êtes seul ?",
+      "a": "Oui. Meshvise est une entreprise d'une personne, et c'est précisément pour cela que le produit est construit sur une base standard, avec vos données chez vous et un séquestre du code au contrat. Voir la page À propos."
     },
-    "wiresheet_status": {
-      "q": "Le wiresheet (logique visuelle), il fait quoi exactement ?",
-      "a_html": "Une grille visuelle où vous composez la logique de votre site : math, logique booléenne, comparaison, timer, schedule, latch, ramp, PID, alarme. Drag-and-drop, connexions à la souris, palette à gauche. Chaque graphe est versionné en JSON, revert en un clic, audit trail complet. Pour les intégrations automatisées (CI, GMAO), tout est aussi pilotable via l'<code>API REST</code>."
+    "notfor": {
+      "q": "Pour qui Meshvise n'est pas fait ?",
+      "a": "Les très grands groupes multi-pays avec des cycles d'achat de douze mois, les projets de moins de cinquante points, et tout ce qui relève de la sécurité fonctionnelle."
+    },
+    "multisite": {
+      "q": "Et la supervision de plusieurs sites distants ?",
+      "a": "Aujourd'hui, plusieurs projets sur une même instance, ce qui couvre plusieurs bâtiments d'un même réseau. Le multi-site distant n'est pas livré et n'est pas daté."
+    },
+    "logic": {
+      "q": "La logique visuelle, ça fait quoi ?",
+      "a": "Composer la logique de votre site par blocs reliés : calcul, comparaison, temporisation, planification, régulation, alarme. Ou en Python pour les cas avancés."
     },
     "support": {
       "q": "À quoi ressemble le support ?",
-      "a_html": "Plan Découverte : documentation publique + email best-effort à <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>. Plan Standard : email avec engagement de réponse sous <strong>24 h ouvrées</strong> (jours fériés français exclus), visio sur demande, accès direct au développeur principal."
+      "a": "Par courriel, réponse sous deux jours ouvrés, par la personne qui a écrit le code."
     },
-    "support_language": {
-      "q": "Le support est-il en français ?",
-      "a_html": "Oui. Le support email à <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a> est assuré par une équipe française, sous 24 h ouvrées pour les clients Standard. La documentation publique est en français et en anglais. Les tickets en anglais sont aussi traités par la même équipe."
-    },
-    "trial": {
-      "q": "Combien de temps pour tester sérieusement ?",
-      "a_html": "Trois portes d'entrée selon votre besoin. La démo en ligne sert de POC instantané (60 secondes pour cliquer partout). L'<a href=\"/fr/trial/\" class=\"text-brand hover:underline\">essai 7 jours</a> vous donne l'app complète à installer sur votre infra, avec vos automates, pour valider en conditions réelles. Au-delà, on bascule sur une licence Standard annuelle (990 €)."
+    "trial_how": {
+      "q": "Comment se passe l'essai ?",
+      "a": "Vous remplissez un formulaire, vous recevez une licence par courriel avec un fichier Docker Compose prêt à l'emploi. Sept jours sur votre infrastructure, avec vos équipements. À l'expiration, lecture seule, données conservées."
     },
     "demo_vs_trial": {
-      "q": "Quelle différence entre la démo en ligne et l'essai 7 jours ?",
-      "a_html": "La <a href=\"https://app.meshvise.com\" class=\"text-brand hover:underline\">démo en ligne</a> est publique, tourne sur notre serveur avec des données simulées d'un site industriel. Vous cliquez où vous voulez, vous voyez l'UI, vous fermez l'onglet. Pas d'inscription, rien à installer. Idéal pour vous faire une première idée. L'<a href=\"/fr/trial/\" class=\"text-brand hover:underline\">essai 7 jours</a>, lui, vous donne l'app complète sur votre infra. Vous remplissez un formulaire, vous recevez un <code>license.jwt</code> et un <code>docker-compose.yml</code> par email, vous lancez <code>docker compose up -d</code> sur votre serveur, vous branchez vos vrais automates. C'est l'évaluation sérieuse avant achat."
-    },
-    "trial_what_happens": {
-      "q": "Comment se passe l'essai 7 jours ?",
-      "a_html": "Vous remplissez le formulaire sur <a href=\"/fr/trial/\" class=\"text-brand hover:underline\">/fr/trial/</a>. Vous recevez immédiatement un email avec votre <code>license.jwt</code>, un <code>docker-compose.yml</code> prêt à l'emploi, et la commande d'installation. Vous lancez <code>docker compose up -d</code> sur votre serveur, vous branchez vos automates, vous explorez. Pas de carte bancaire, pas d'auto-renouvellement, pas d'inscription par-dessus."
-    },
-    "trial_end": {
-      "q": "Que devient mon installation à la fin des 7 jours ?",
-      "a_html": "L'app passe en lecture seule. Vous gardez l'accès à vos données historisées, vous pouvez exporter votre configuration et votre historian. Les écritures (ajout d'un point, modification d'une alarme, déploiement d'une révision) sont bloquées jusqu'à activation d'une licence production. Rien n'est supprimé, rien n'est volatil. Si vous souhaitez prolonger, écrivez à contact@meshvise.com."
+      "q": "Quelle différence entre la démo et l'essai ?",
+      "a": "La démo est publique et tourne sur un site simulé, sans rien installer. L'essai tourne chez vous, sur vos vrais équipements."
     }
   },
-  "final_cta": {
-    "eyebrow": "Prêt à essayer ?",
-    "title": "Testez à votre rythme. Deux portes, zéro inscription.",
-    "subtitle": "Découvrez la démo en ligne en 60 secondes. Ou installez Meshvise sur votre infra pendant 7 jours, avec vos vrais automates. Sans carte bancaire, sans engagement.",
-    "cta_trial": "Essayer 7 jours sur mon infra",
-    "cta_demo": "Découvrir la démo en ligne",
-    "alt_cta": "Nous contacter"
+  "demo_page": {
+    "meta": {
+      "title": "Démo · Meshvise",
+      "description": "La démonstration publique de Meshvise arrive. En attendant, demandez une démonstration en visio sur vos équipements."
+    },
+    "eyebrow": "Démo en ligne",
+    "title": "La démo publique n'est pas encore en ligne",
+    "body": "Elle tournera sur un site industriel simulé, sans inscription ni carte bancaire. En attendant, une démonstration de trente minutes en visio, sur un cas proche du vôtre, est possible dès maintenant."
+  },
+  "footer": {
+    "tagline": "Supervision industrielle, hébergée chez vous. Douze protocoles inclus, prix affiché, données dans une base que vous possédez.",
+    "product": "Produit",
+    "resources": "Ressources",
+    "contact": "Contact",
+    "continuity": "Et si Meshvise disparaît ?",
+    "rights": "Tous droits réservés.",
+    "tech_line": "Contrat en français, droit français."
+  },
+  "a11y": {
+    "skip_to_content": "Aller au contenu",
+    "open_menu": "Ouvrir le menu",
+    "close_menu": "Fermer le menu",
+    "switch_language": "Basculer en {lang}"
+  },
+  "meta": {
+    "og_image_alt": "Meshvise · Tous vos équipements. Une seule supervision. Un prix affiché."
   },
   "trial": {
     "meta": {
@@ -539,7 +1001,7 @@
       "error_dedupe": "Une licence a déjà été émise pour cette adresse dans les 30 derniers jours. Vérifiez votre boîte mail (spam inclus) ou écrivez à contact@meshvise.com."
     },
     "disclaimer": {
-      "limits_html": "Limites de la licence d'essai : 5 drivers, 15 machines, 500 points, fonctionnalités complètes (acquisition, historian, alarmes, wiresheet, accès SQL).",
+      "limits_html": "Limites de la licence d'essai : 5 drivers, 15 machines, 500 points, fonctionnalités complètes (acquisition, historisation, alarmes, logique visuelle, accès SQL).",
       "duration_html": "Durée : 7 jours à compter de l'émission. À l'expiration, l'app passe en <strong>lecture seule</strong> : vos données restent vôtres, l'export reste actif.",
       "no_card_html": "Aucune carte bancaire. Aucun auto-renouvellement. Pas d'envoi commercial automatique au-delà du suivi de cet essai."
     },
@@ -554,95 +1016,5 @@
       "body_html": "On a envoyé un email à <strong class=\"font-mono\">{email}</strong> avec votre licence et la commande d'installation. Si rien n'arrive dans 5 minutes (spam inclus), écrivez à <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>.",
       "back": "Retour à l'accueil"
     }
-  },
-  "about": {
-    "meta": {
-      "title": "À propos · Meshvise",
-      "description": "Meshvise est une supervision industrielle française : forfait fixe, données chez vous, support en français. Société, mission, valeurs, coordonnées."
-    },
-    "eyebrow": "À propos",
-    "title": "Une supervision industrielle française.",
-    "subtitle": "Meshvise construit une alternative française aux supervisions tag-pricées et aux SaaS étrangers. Données chez vous, support chez nous, contrat de droit français.",
-    "founder": {
-      "heading": "Le fondateur",
-      "name": "<À COMPLÉTER PAR BRUNO : prénom + nom>",
-      "bio_html": "<À COMPLÉTER PAR BRUNO : 3 à 5 lignes de bio courte. Parcours pertinent (industrie, IT, automatisme), pourquoi Meshvise, ce qui motive le projet.>"
-    },
-    "mission": {
-      "heading": "La mission",
-      "body_html": "Meshvise est née d'un constat simple : la supervision industrielle est trop chère, trop fermée, trop dépendante de l'étranger. Nous construisons une alternative française, ouverte sur les données SQL, avec un pricing prévisible et une conformité par design. Tous les points inclus dans la licence Standard, pas de cloud étranger : un prix au renouvellement, posé une fois pour toutes."
-    },
-    "values": {
-      "heading": "Les valeurs",
-      "v1_html": "<strong>Souveraineté.</strong> Vos données sur votre serveur, vos clés sur votre bureau. Aucune télémétrie, aucun phone-home.",
-      "v2_html": "<strong>Transparence.</strong> Roadmap publique, pricing affiché, EULA en français lisible. Ce qui n'est pas livré est annoncé comme tel.",
-      "v3_html": "<strong>Pragmatisme.</strong> On livre ce qui marche aujourd'hui. On annonce ce qui arrive avec une date. On ne promet pas de SCADA universel."
-    },
-    "timeline": {
-      "heading": "Repères",
-      "t1": {
-        "date": "2026 Q2",
-        "body_html": "Première version production-ready de Meshvise 1.0. Acquisition Modbus / OPC-UA / BACnet, historian TimescaleDB, alarmes opérationnelles, accès SQL direct."
-      },
-      "t2": {
-        "date": "2026 Q3",
-        "body_html": "Éditeur visuel wiresheet (palette de blocs, drag-drop, connexions). Le moteur d'exécution tourne déjà, l'éditeur arrive."
-      },
-      "t3": {
-        "date": "2026 Q4",
-        "body_html": "Multi-site avec gateway edge à chaque endroit + central qui consolide. Scope réservé aux contrats multi-licences."
-      }
-    },
-    "coords": {
-      "heading": "Coordonnées",
-      "company": {
-        "label": "Société",
-        "value_html": "<À COMPLÉTER PAR BRUNO : raison sociale officielle>"
-      },
-      "address": {
-        "label": "Adresse",
-        "value_html": "<À COMPLÉTER PAR BRUNO : adresse postale officielle>"
-      },
-      "siren": {
-        "label": "SIREN",
-        "value_html": "<À COMPLÉTER PAR BRUNO : 9 chiffres>"
-      },
-      "contact": {
-        "label": "Contact",
-        "value_html": "<a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>"
-      },
-      "support": {
-        "label": "Support",
-        "value_html": "Email avec engagement de réponse sous <strong>24h ouvrées</strong> (jours fériés français exclus) pour les clients Standard."
-      }
-    },
-    "back": "Retour à l'accueil"
-  },
-  "footer": {
-    "product": "Produit",
-    "resources": "Ressources",
-    "compat": "Compatibilité",
-    "contact": "Contact",
-    "rights": "Tous droits réservés.",
-    "legal_box_html": "Meshvise by <strong>&lt;RAISON SOCIALE : À COMPLÉTER PAR BRUNO&gt;</strong>, société française enregistrée à <strong>&lt;VILLE : À COMPLÉTER PAR BRUNO&gt;</strong>. SIREN <strong>&lt;NUMÉRO : À COMPLÉTER PAR BRUNO&gt;</strong>.",
-    "continuity_link": "Et si vous fermez demain ? La réponse honnête est dans la FAQ.",
-    "tech_line": "Données françaises. Tech française.",
-    "tagline": "Une supervision SCADA web qui lit vos automates, historise, organise et alerte. Données accessibles en PostgreSQL standard via ODBC.",
-    "newsletter_title": "Newsletter trimestrielle",
-    "newsletter_desc": "Roadmap, retours d'expérience d'intégrateurs, nouveautés. 4 envois par an, pas plus.",
-    "newsletter_placeholder": "vous@société.fr",
-    "newsletter_cta": "S'abonner",
-    "newsletter_aria": "S'abonner à la newsletter Meshvise"
-  },
-  "meta": {
-    "og_image_alt": "Meshvise · Supervision SCADA, forfait fixe, données chez vous"
-  },
-  "a11y": {
-    "skip_to_content": "Aller au contenu",
-    "open_menu": "Ouvrir le menu",
-    "close_menu": "Fermer le menu",
-    "switch_language": "Basculer en {lang}"
   }
 }
-
-
