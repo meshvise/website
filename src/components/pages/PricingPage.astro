@@ -4,6 +4,7 @@ import PageHero from '../PageHero.astro';
 import PricingTable from '../PricingTable.astro';
 import Continuity from '../Continuity.astro';
 import FAQ from '../FAQ.astro';
+import ContactForm from '../ContactForm.astro';
 import { t, type Lang } from '../../i18n';
 
 interface Props { lang: Lang }
@@ -14,5 +15,13 @@ const { lang } = Astro.props;
   <PageHero title={t(lang, 'pricing.hero.title')} subtitle={t(lang, 'pricing.hero.subtitle')} />
   <PricingTable lang={lang} />
   <Continuity lang={lang} />
+  <ContactForm
+    lang={lang}
+    id="devis"
+    title={t(lang, 'pricing.quote.title')}
+    body={t(lang, 'pricing.quote.body')}
+    submitKey="contact_form.submit_quote"
+    subjectKey="contact_form.mailto_subject_quote"
+  />
   <FAQ lang={lang} />
 </Base>

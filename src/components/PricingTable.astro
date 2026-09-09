@@ -17,7 +17,7 @@ const d = (lang === 'fr' ? fr : en).pricing;
 const cols = [
   { id: 'demo',   href: href(lang, 'demo'),  cta: t(lang, 'common.cta_demo') },
   { id: 'trial',  href: href(lang, 'trial'), cta: t(lang, 'common.cta_trial') },
-  { id: 'onprem', href: href(lang, 'why', 'contact'), cta: t(lang, 'pricing.cta_quote') },
+  { id: 'onprem', href: '#devis', cta: t(lang, 'pricing.cta_quote') },
 ] as const;
 const get = (id: string) => (d as any)[id] as { name: string; price: string; period?: string; setup?: string; tagline: string; items: string[] };
 ---
@@ -50,7 +50,7 @@ const get = (id: string) => (d as any)[id] as { name: string; price: string; per
       <div class="mono text-[20px] font-medium text-ink mt-2">{d.managed.price}</div>
       <p class="t-body mt-2">{d.managed.tagline} {d.managed.body}</p>
     </div>
-    <a href={href(lang, 'why', 'contact')} class="btn btn-outline">{t(lang, 'common.cta_contact')}</a>
+    <a href="#devis" class="btn btn-outline">{t(lang, 'common.cta_contact')}</a>
   </div>
 
   <div class="mt-10 grid md:grid-cols-2 gap-8">

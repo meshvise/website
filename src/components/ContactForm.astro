@@ -10,9 +10,19 @@ interface Props {
   title: string;
   body: string;
   id?: string;
+  /** Libellé du bouton et objet du courriel, quand la demande n'est pas une démonstration. */
+  submitKey?: string;
+  subjectKey?: string;
 }
 
-const { lang, title, body, id = 'contact' } = Astro.props;
+const {
+  lang,
+  title,
+  body,
+  id = 'contact',
+  submitKey = 'contact_form.submit',
+  subjectKey = 'contact_form.mailto_subject',
+} = Astro.props;
 ---
 
 <section id={id} class="section border-t border-line scroll-mt-14">
@@ -21,7 +31,7 @@ const { lang, title, body, id = 'contact' } = Astro.props;
       <h2 class="t-page">{title}</h2>
       <p class="t-lede mt-5">{body}</p>
     </div>
-    <form class="lg:col-span-7 panel p-7 md:p-9 grid sm:grid-cols-2 gap-6" data-contact-form>
+    <form class="lg:col-span-7 panel p-7 md:p-9 grid sm:grid-cols-2 gap-6" data-contact-form data-subject={t(lang, subjectKey)}>
       <div>
         <label for={`${id}-name`} class="field-label">{t(lang, 'contact_form.name')}</label>
         <input id={`${id}-name`} name="name" type="text" required placeholder={t(lang, 'contact_form.name_ph')} class="field" />
@@ -39,19 +49,20 @@ const { lang, title, body, id = 'contact' } = Astro.props;
         <textarea id={`${id}-install`} name="install" rows="3" placeholder={t(lang, 'contact_form.install_ph')} class="field resize-y"></textarea>
       </div>
       <div class="sm:col-span-2 flex flex-col sm:flex-row sm:items-center gap-4 pt-1">
-        <button type="submit" class="btn btn-primary btn-lg">{t(lang, 'contact_form.submit')}</button>
+        <button type="submit" class="btn btn-primary btn-lg">{t(lang, submitKey)}</button>
         <p class="t-small">{t(lang, 'contact_form.note')}</p>
       </div>
     </form>
   </div>
 </section>
 
-<script is:inline define:vars={{ subject: t(lang, 'contact_form.mailto_subject') }}>
+<script is:inline>
   document.querySelectorAll('form[data-contact-form]').forEach((form) => {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const fd = new FormData(form);
       const body = [`Nom / Name: ${fd.get('name') || ''}`, `Entreprise / Company: ${fd.get('company') || ''}`, `Email: ${fd.get('email') || ''}`, '', `${fd.get('install') || ''}`].join('\n');
+      const subject = form.dataset.subject || 'Meshvise';
       window.location.href = 'mailto:contact@meshvise.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     });
   });

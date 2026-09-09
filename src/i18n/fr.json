@@ -300,7 +300,9 @@
     "install_ph": "Type de site, équipements, ce que vous aimeriez voir",
     "submit": "Demander une démonstration",
     "note": "Réponse sous deux jours ouvrés, par la personne qui a écrit le code.",
-    "mailto_subject": "Demande de démonstration Meshvise"
+    "mailto_subject": "Demande de démonstration Meshvise",
+    "submit_quote": "Demander un devis",
+    "mailto_subject_quote": "Demande de devis Meshvise"
   },
   "product": {
     "meta": {
@@ -764,7 +766,11 @@
     "setup_note_title": "Ce que couvre la mise en service",
     "setup_note": "L'installation à distance sur votre serveur, la connexion de vos équipements et une session de prise en main. Le montant est chiffré sur devis : il dépend du nombre d'équipements, de leurs protocoles et de la segmentation de votre réseau.",
     "continuity_link": "Et si Meshvise disparaît ?",
-    "cta_quote": "Demander une proposition"
+    "cta_quote": "Demander un devis",
+    "quote": {
+      "title": "Demander un devis",
+      "body": "Décrivez votre site : nombre d'équipements, protocoles, ce que vous voulez mesurer. Le devis reprend la licence au tarif catalogue et chiffre la mise en service. Réponse sous deux jours ouvrés."
+    }
   },
   "integrators": {
     "meta": {
