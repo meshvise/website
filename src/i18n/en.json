@@ -25,7 +25,7 @@
   "home": {
     "meta": {
       "title": "Meshvise · Industrial supervision, hosted on your premises",
-      "description": "All your equipment in one supervision system. Twelve industrial protocols included, one licence per site independent of point count, your data in a Postgres database you can read with Excel."
+      "description": "All your equipment in one supervision system. Thirteen industrial protocols included, one licence per site independent of point count, your data in a Postgres database you can read with Excel."
     },
     "hero": {
       "eyebrow": "Industrial supervision, hosted on your premises",
@@ -134,7 +134,7 @@
       "integrator": {
         "label": "Integrator",
         "pain": "Every project is a puzzle of licences and connectors, and per-point billing loses you deals.",
-        "gain": "A reproducible platform, twelve protocols in one engine, one licence per site that you can cost before drafting your quote.",
+        "gain": "A reproducible platform, thirteen protocols in one engine, one licence per site that you can cost before drafting your quote.",
         "cta": "Integrator area"
       }
     },
@@ -214,7 +214,7 @@
     },
     "final": {
       "title": "See Meshvise running",
-      "body": "A simulated industrial site: twenty-two machines, twelve protocols, thirty days of history. The alarms, history and dashboards are the ones in the application."
+      "body": "A simulated industrial site: twenty-two machines, thirteen protocols, thirty days of history. The alarms, history and dashboards are the ones in the application."
     }
   },
   "why": {
@@ -333,7 +333,7 @@
       "subtitle": "What Meshvise does with your data, from reading a sensor to the report emailed on Monday morning."
     },
     "acq": {
-      "title": "The twelve protocols",
+      "title": "The thirteen protocols",
       "intro": "No module to buy per brand. Every protocol is a driver of the same engine.",
       "link": "See the detail of each protocol",
       "after": "Automatic equipment discovery. Persistent buffer on network loss: nothing is lost, everything is replayed in order. Data quality carried by every value.",
@@ -397,6 +397,11 @@
           "name": "Sparkplug B",
           "covers": "Standardised industrial MQTT",
           "ex": "Edge gateways, UNS architectures"
+        },
+        {
+          "name": "MTConnect",
+          "covers": "CNC machine tools",
+          "ex": "Machining centres, CNC lathes, through the machine's agent"
         }
       ]
     },
@@ -448,11 +453,11 @@
   },
   "protocols": {
     "meta": {
-      "title": "Protocols · Twelve industrial protocols included · Meshvise",
+      "title": "Protocols · Thirteen industrial protocols included · Meshvise",
       "description": "Modbus TCP and RTU, OPC UA, BACnet/IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. Transport, addressing, direction and covered equipment for each."
     },
     "hero": {
-      "title": "Twelve protocols, one engine",
+      "title": "Thirteen protocols, one engine",
       "subtitle": "Every protocol is a driver of the same acquisition engine. All are included in the licence: no module to buy per PLC brand, no option to enable."
     },
     "table": {
@@ -477,7 +482,6 @@
       "title": "What is not supported",
       "intro": "Saying what is missing avoids a commissioning that goes wrong. These protocols are not implemented today and are not publicly dated.",
       "items": [
-        "MTConnect, for machine tools. See the proprietary protocols section: recent agents publish over MQTT.",
         "IEC 60870-5 and IEC 61850, for substations and power distribution.",
         "DNP3, for water and North American utility networks.",
         "M-Bus and wireless M-Bus, for sub-metering.",
@@ -534,7 +538,7 @@
         {
           "vendor": "Fanuc",
           "native": "FOCAS",
-          "route": "OPC UA option on recent controls, otherwise a FOCAS gateway to OPC UA or MQTT, or an MTConnect agent publishing over MQTT.",
+          "route": "OPC UA option on recent controls, an MTConnect agent read directly, otherwise a FOCAS gateway to OPC UA or MQTT.",
           "note": "The FOCAS library is licensed by Fanuc and is not redistributable: nobody can embed it in their product. Check whether the OPC UA option is already enabled, it sometimes is without anyone knowing. If it has to be bought, compare its quote with the first two routes of the ladder before deciding."
         },
         {
@@ -558,13 +562,13 @@
         {
           "vendor": "Other numerical controls",
           "native": "Varies by manufacturer",
-          "route": "MTConnect or OPC UA depending on the generation, then a gateway to MQTT.",
+          "route": "MTConnect or OPC UA depending on the generation, both read directly.",
           "note": "On a machine built after 2015, the question to ask the manufacturer is: can the machine output OPC UA or MTConnect, and under what conditions."
         }
       ],
       "gateway_title": "What a gateway changes, and what it does not",
       "gateway_body": "A gateway translates the manufacturer's protocol into an open one. It adds equipment to maintain and a point of failure, but it makes the machine readable by any system, not only by Meshvise. That investment stays valid if you change supervision.",
-      "mtconnect": "MTConnect, the machine-tool standard, is not yet read directly by Meshvise. Recent agents can publish over MQTT, which rebuilds the path while a dedicated driver is missing."
+      "mtconnect": "MTConnect has been read directly since September 2026: Meshvise queries the agent as a client, which yields the running program, the execution state and the part count without going through a cell PLC. The manufacturer's agent remains an installation prerequisite."
     },
     "opcua_security": {
       "title": "OPC UA security, in plain terms",
@@ -682,7 +686,7 @@
         "write": true,
         "desc": "Access to TwinCAT runtimes by naming program variables directly, for example a speed variable in the main block or a boolean in a global list.",
         "equipment": "CX embedded controllers, industrial PCs running TwinCAT 2 or 3",
-        "note": "The variable type is declared explicitly: the protocol does not expose it automatically."
+        "note": "The variable type is declared explicitly: the protocol does not expose it automatically. Two numbers not to be confused: the connection goes through the AMS router on TCP port 48898, whereas the AMS port designates the runtime being queried, 851 for TwinCAT 3 and 801 for TwinCAT 2."
       },
       {
         "name": "REST",
@@ -723,6 +727,16 @@
         "desc": "Standardised industrial MQTT. Meshvise acts as the host application, the supervisor role: it reads birth messages to build the metric table, then decodes the data messages. Equipment structure is discovered, not declared.",
         "equipment": "Edge gateways, unified namespace architectures",
         "note": "Automatic metric discovery is the main benefit: plugging in a gateway is enough for its points to appear."
+      },
+      {
+        "name": "MTConnect",
+        "transport": "HTTP / 5000",
+        "mode": "mode_poll",
+        "addressing": "Data item identifier",
+        "write": false,
+        "desc": "The de facto standard of the machine tool world, native on Haas, Mazak, Okuma and Doosan, available on Fanuc and Siemens through a manufacturer's adapter. Meshvise queries the agent as a client: the probe discovers the points, current state is polled at the chosen rate. The running program, execution state, part count and spindle load are read directly, without going through a cell PLC.",
+        "equipment": "Machining centres, CNC lathes, machines fitted with an MTConnect agent",
+        "note": "The standard is a three-tier architecture: the machine talks to an adapter, the adapter to an agent, the agent to Meshvise. The agent is therefore an installation prerequisite, stated in the quote; most recent controls ship with one. Read-only by nature: no agent accepts a write, and commanding a machine tool goes through its own numerical control."
       }
     ]
   },
@@ -768,12 +782,12 @@
   "integrators": {
     "meta": {
       "title": "Integrators · A supervision system you can price before the quote · Meshvise",
-      "description": "Twelve protocols in one engine, one licence per site, independent of point count. Your margin is on engineering, not on the licence."
+      "description": "Thirteen protocols in one engine, one licence per site, independent of point count. Your margin is on engineering, not on the licence."
     },
     "hero": {
       "eyebrow": "Integrators, engineering firms",
       "title": "A supervision system you can price before the quote.",
-      "subtitle": "Twelve protocols in one engine, one licence per site, independent of point count. Your margin is on engineering, not on the licence."
+      "subtitle": "Thirteen protocols in one engine, one licence per site, independent of point count. Your margin is on engineering, not on the licence."
     },
     "why": {
       "title": "On a project",
@@ -882,7 +896,7 @@
     "subtitle": "If yours is not here, write to contact@meshvise.com.",
     "compatible": {
       "q": "Compatible with my PLC?",
-      "a": "Yes if it speaks one of the twelve protocols: Modbus TCP and RTU, OPC UA, BACnet, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. For Modbus RTU over serial, plan a serial-to-TCP converter."
+      "a": "Yes if it speaks one of the thirteen protocols: Modbus TCP and RTU, OPC UA, BACnet, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. For Modbus RTU over serial, plan a serial-to-TCP converter."
     },
     "format": {
       "q": "In what format is the data stored?",
@@ -955,7 +969,7 @@
     "body": "It will run on a simulated industrial site, with direct access. Meanwhile, a thirty-minute video demonstration on a case close to yours is available now."
   },
   "footer": {
-    "tagline": "Industrial supervision, hosted on your premises. Twelve protocols included, data in a database you own.",
+    "tagline": "Industrial supervision, hosted on your premises. Thirteen protocols included, data in a database you own.",
     "product": "Product",
     "resources": "Resources",
     "contact": "Contact",

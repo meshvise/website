@@ -25,7 +25,7 @@
   "home": {
     "meta": {
       "title": "Meshvise · Supervision industrielle, hébergée chez vous",
-      "description": "Tous vos équipements dans une seule supervision. Douze protocoles industriels inclus, une licence par site indépendante du nombre de points, données dans une base Postgres que vous lisez avec Excel."
+      "description": "Tous vos équipements dans une seule supervision. Treize protocoles industriels inclus, une licence par site indépendante du nombre de points, données dans une base Postgres que vous lisez avec Excel."
     },
     "hero": {
       "eyebrow": "Supervision industrielle, hébergée chez vous",
@@ -134,7 +134,7 @@
       "integrator": {
         "label": "Intégrateur",
         "pain": "Chaque chantier est un puzzle de licences et de connecteurs, et la facturation au point vous fait perdre des affaires.",
-        "gain": "Une plateforme reproductible, douze protocoles dans un seul moteur, une licence par site que vous chiffrez avant d'établir votre devis.",
+        "gain": "Une plateforme reproductible, treize protocoles dans un seul moteur, une licence par site que vous chiffrez avant d'établir votre devis.",
         "cta": "Espace intégrateurs"
       }
     },
@@ -214,7 +214,7 @@
     },
     "final": {
       "title": "Voir Meshvise fonctionner",
-      "body": "Un site industriel simulé : vingt-deux machines, douze protocoles, trente jours d'historique. Les alarmes, l'historique et les tableaux de bord sont ceux de l'application."
+      "body": "Un site industriel simulé : vingt-deux machines, treize protocoles, trente jours d'historique. Les alarmes, l'historique et les tableaux de bord sont ceux de l'application."
     }
   },
   "why": {
@@ -333,7 +333,7 @@
       "subtitle": "Ce que Meshvise fait de vos données, de la lecture d'un capteur jusqu'au rapport envoyé par courriel le lundi matin."
     },
     "acq": {
-      "title": "Les douze protocoles",
+      "title": "Les treize protocoles",
       "intro": "Aucun module à acheter par marque. Chaque protocole est un driver du même moteur.",
       "link": "Voir le détail de chaque protocole",
       "after": "Découverte automatique des équipements. Mémoire tampon persistante en cas de coupure réseau : rien n'est perdu, tout est rejoué dans l'ordre. Qualité de donnée portée par chaque valeur.",
@@ -397,6 +397,11 @@
           "name": "Sparkplug B",
           "covers": "MQTT industriel normalisé",
           "ex": "Passerelles edge, architectures UNS"
+        },
+        {
+          "name": "MTConnect",
+          "covers": "Machines-outils à commande numérique",
+          "ex": "Centres d'usinage, tours CN, via l'agent de la machine"
         }
       ]
     },
@@ -448,11 +453,11 @@
   },
   "protocols": {
     "meta": {
-      "title": "Protocoles · Douze protocoles industriels inclus · Meshvise",
+      "title": "Protocoles · Treize protocoles industriels inclus · Meshvise",
       "description": "Modbus TCP et RTU, OPC UA, BACnet/IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. Transport, adressage, sens de communication et équipements couverts pour chacun."
     },
     "hero": {
-      "title": "Douze protocoles, un seul moteur",
+      "title": "Treize protocoles, un seul moteur",
       "subtitle": "Chaque protocole est un driver du même moteur d'acquisition. Tous sont inclus dans la licence : aucun module à acheter par marque d'automate, aucune option à activer."
     },
     "table": {
@@ -477,7 +482,6 @@
       "title": "Ce qui n'est pas supporté",
       "intro": "Dire ce qui manque évite une mise en service qui tourne mal. Ces protocoles ne sont pas implémentés à ce jour et ne sont pas datés publiquement.",
       "items": [
-        "MTConnect, pour les machines-outils. Voir la section sur les protocoles propriétaires : les agents récents publient en MQTT.",
         "IEC 60870-5 et IEC 61850, pour les postes électriques et la distribution.",
         "DNP3, pour l'eau et les réseaux d'énergie nord-américains.",
         "M-Bus et M-Bus sans fil, pour le comptage divisionnaire.",
@@ -534,7 +538,7 @@
         {
           "vendor": "Fanuc",
           "native": "FOCAS",
-          "route": "Option OPC UA sur les commandes récentes, sinon passerelle FOCAS vers OPC UA ou MQTT, ou agent MTConnect publiant en MQTT.",
+          "route": "Option OPC UA sur les commandes récentes, agent MTConnect lu en direct, sinon passerelle FOCAS vers OPC UA ou MQTT.",
           "note": "La bibliothèque FOCAS est sous licence Fanuc et n'est pas redistribuable : personne ne peut l'embarquer dans son produit. Vérifier si l'option OPC UA est déjà activée, elle l'est parfois sans qu'on le sache. Si elle doit être achetée, comparer son devis aux deux premières voies de l'échelle avant de décider."
         },
         {
@@ -558,13 +562,13 @@
         {
           "vendor": "Autres commandes numériques",
           "native": "Variable selon le constructeur",
-          "route": "MTConnect ou OPC UA selon la génération, puis passerelle vers MQTT.",
+          "route": "MTConnect ou OPC UA selon la génération, l'un et l'autre lus en direct.",
           "note": "Sur une machine d'après 2015, la question à poser au constructeur est : « la machine sait-elle sortir de l'OPC UA ou du MTConnect, et à quelle condition »."
         }
       ],
       "gateway_title": "Ce qu'une passerelle change, et ce qu'elle ne change pas",
       "gateway_body": "Une passerelle traduit le protocole du constructeur vers un protocole ouvert. Elle ajoute un équipement à maintenir et un point de panne, mais elle rend la machine lisible par n'importe quel système, pas seulement par Meshvise. C'est un investissement qui reste valable si vous changez de supervision.",
-      "mtconnect": "MTConnect, le standard des machines-outils, n'est pas encore lu en direct par Meshvise. Les agents récents savent publier en MQTT, ce qui reconstitue le chemin en attendant un driver dédié."
+      "mtconnect": "MTConnect est lu en direct depuis septembre 2026 : Meshvise interroge l'agent en client, ce qui donne le programme en cours, l'état d'exécution et le compteur de pièces sans passer par un automate d'îlot. L'agent du constructeur reste un prérequis d'installation."
     },
     "opcua_security": {
       "title": "La sécurité OPC UA, en clair",
@@ -682,7 +686,7 @@
         "write": true,
         "desc": "Accès aux runtimes TwinCAT en nommant directement les variables du programme, par exemple une variable de vitesse dans le bloc principal ou un booléen dans une liste globale.",
         "equipment": "Contrôleurs embarqués CX, PC industriels sous TwinCAT 2 ou 3",
-        "note": "Le type de la variable est déclaré explicitement : le protocole ne l'expose pas automatiquement."
+        "note": "Le type de la variable est déclaré explicitement : le protocole ne l'expose pas automatiquement. Deux numéros à ne pas confondre : la connexion passe par le routeur AMS sur le port TCP 48898, alors que le port AMS désigne le runtime interrogé, 851 pour TwinCAT 3 et 801 pour TwinCAT 2."
       },
       {
         "name": "REST",
@@ -723,6 +727,16 @@
         "desc": "MQTT industriel normalisé. Meshvise tient le rôle d'application hôte, celui du superviseur : il lit les messages de naissance pour construire la table des métriques, puis décode les messages de données. La structure des équipements est découverte, pas déclarée.",
         "equipment": "Passerelles de périphérie, architectures d'espace de noms unifié",
         "note": "La découverte automatique des métriques est le principal intérêt : brancher une passerelle suffit à voir apparaître ses points."
+      },
+      {
+        "name": "MTConnect",
+        "transport": "HTTP / 5000",
+        "mode": "mode_poll",
+        "addressing": "Identifiant d'élément de donnée",
+        "write": false,
+        "desc": "Le standard de fait de la machine-outil, natif chez Haas, Mazak, Okuma et Doosan, disponible sur Fanuc et Siemens par un adaptateur du constructeur. Meshvise interroge l'agent en client : la sonde découvre les points, l'état courant est relevé à la cadence choisie. Le programme en cours, l'état d'exécution, le compteur de pièces et la charge de broche se lisent directement, sans passer par un automate d'îlot.",
+        "equipment": "Centres d'usinage, tours à commande numérique, machines équipées d'un agent MTConnect",
+        "note": "Le standard est une architecture à trois étages : la machine parle à un adaptateur, l'adaptateur à un agent, l'agent à Meshvise. L'agent est donc un prérequis d'installation, annoncé au devis ; la plupart des commandes récentes en embarquent un. Lecture seule par nature : aucun agent n'accepte d'écriture, et commander une machine-outil passe par sa propre commande numérique."
       }
     ]
   },
@@ -768,12 +782,12 @@
   "integrators": {
     "meta": {
       "title": "Intégrateurs · Une supervision à chiffrer avant le devis · Meshvise",
-      "description": "Douze protocoles dans un moteur unique, une licence par site, indépendante du nombre de points. Votre marge se fait sur l'ingénierie, pas sur la licence."
+      "description": "Treize protocoles dans un moteur unique, une licence par site, indépendante du nombre de points. Votre marge se fait sur l'ingénierie, pas sur la licence."
     },
     "hero": {
       "eyebrow": "Intégrateurs, bureaux d'études",
       "title": "Une supervision que vous pouvez chiffrer avant le devis.",
-      "subtitle": "Douze protocoles dans un moteur unique, une licence par site, indépendante du nombre de points. Votre marge se fait sur l'ingénierie, pas sur la licence."
+      "subtitle": "Treize protocoles dans un moteur unique, une licence par site, indépendante du nombre de points. Votre marge se fait sur l'ingénierie, pas sur la licence."
     },
     "why": {
       "title": "Sur un chantier",
@@ -882,7 +896,7 @@
     "subtitle": "Si la vôtre n'y est pas, écrivez à contact@meshvise.com.",
     "compatible": {
       "q": "Compatible avec mon automate ?",
-      "a": "Oui s'il parle l'un des douze protocoles : Modbus TCP et RTU, OPC UA, BACnet, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. Pour Modbus RTU sur liaison série, prévoir un convertisseur série vers TCP."
+      "a": "Oui s'il parle l'un des treize protocoles : Modbus TCP et RTU, OPC UA, BACnet, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. Pour Modbus RTU sur liaison série, prévoir un convertisseur série vers TCP."
     },
     "format": {
       "q": "Dans quel format sont stockées les données ?",
@@ -955,7 +969,7 @@
     "body": "Elle tournera sur un site industriel simulé, en accès direct. En attendant, une démonstration de trente minutes en visio, sur un cas proche du vôtre, est possible dès maintenant."
   },
   "footer": {
-    "tagline": "Supervision industrielle, hébergée chez vous. Douze protocoles inclus, données dans une base que vous possédez.",
+    "tagline": "Supervision industrielle, hébergée chez vous. Treize protocoles inclus, données dans une base que vous possédez.",
     "product": "Produit",
     "resources": "Ressources",
     "contact": "Contact",
