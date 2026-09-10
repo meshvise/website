@@ -421,7 +421,7 @@
     },
     "alarms": {
       "title": "Les alarmes",
-      "body": "Seuils haut et bas, écarts, changements d'état, avec temporisation et hystérésis pour éviter le clignotement. Quatre niveaux de criticité, acquittement par un opérateur identifié, mise en veille d'une alarme connue pendant une intervention. Notification par courriel ou par webhook vers l'outil de votre choix. Chaque transition est journalisée, y compris qui a acquitté et quand."
+      "body": "Seuils haut et bas, écarts, changements d'état, avec temporisation et hystérésis pour éviter le clignotement. Trois niveaux de criticité, acquittement par un opérateur identifié, mise en veille d'une alarme connue pendant une intervention. Notification par courriel ou par webhook vers l'outil de votre choix. Chaque transition est journalisée, y compris qui a acquitté et quand."
     },
     "kpi": {
       "title": "Les indicateurs",
@@ -898,7 +898,12 @@
       "Alarmes industrielles : sévérités, hystérésis et acquittement",
       "Préparer un audit qualité avec un historique de paramètres",
       "Exposer ses données industrielles en OPC UA à un autre système"
-    ]
+    ],
+    "back": "Tous les guides",
+    "for_whom": "Pour qui",
+    "reading": "Lecture",
+    "minutes": "min",
+    "published": "Publié le"
   },
   "faq": {
     "meta": {

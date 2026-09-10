@@ -1,4 +1,10 @@
 ---
+/**
+ * La liste des guides. Ceux qui sont écrits mènent à leur page, ceux qui
+ * restent à écrire gardent leur ligne et leur mention : annoncer un sommaire
+ * et le tenir vaut mieux que de le cacher.
+ */
+import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../PageHero.astro';
 import FinalCTA from '../FinalCTA.astro';
@@ -8,22 +14,82 @@ import { t, type Lang } from '../../i18n';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
-const list = (lang === 'fr' ? fr : en).guides.list as string[];
+
+const publies = (await getCollection('guides', (g) => g.data.lang === lang)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+// Les titres annoncés qui n'ont pas encore leur article.
+const annonces = (lang === 'fr' ? fr : en).guides.list as string[];
+const titresPublies = new Set(publies.map((g) => g.data.title));
+const restants = annonces.filter((titre) => !titresPublies.has(titre));
+
+const slug = (id: string) => id.replace(/^(fr|en)\//, '').replace(/\.md$/, '');
 ---
 
 <Base lang={lang} title={t(lang, 'guides.meta.title')} description={t(lang, 'guides.meta.description')}>
   <PageHero title={t(lang, 'guides.title')} subtitle={t(lang, 'guides.subtitle')} />
+
   <section class="section">
     <div class="wrap">
-      <ol class="border-t border-line max-w-3xl">
-        {list.map((title) => (
-          <li class="flex items-baseline gap-5 py-4 border-b border-line">
-            <span class="flex-1 text-[16px] text-ink">{title}</span>
-            <span class="t-small shrink-0">{t(lang, 'guides.coming')}</span>
+      <ol class="list">
+        {publies.map((g) => (
+          <li>
+            <a href={`/${lang}/guides/${slug(g.id)}/`}>
+              <h2>{g.data.title}</h2>
+              <p class="desc">{g.data.description}</p>
+              <p class="meta">
+                <span>{g.data.audience}</span>
+                <span class="dot" aria-hidden="true">·</span>
+                <span>{g.data.minutes} {t(lang, 'guides.minutes')}</span>
+              </p>
+            </a>
+          </li>
+        ))}
+
+        {restants.map((titre) => (
+          <li class="soon">
+            <h2>{titre}</h2>
+            <span class="badge-soon">{t(lang, 'guides.coming')}</span>
           </li>
         ))}
       </ol>
     </div>
   </section>
+
   <FinalCTA lang={lang} />
 </Base>
+
+<style>
+  .list { max-width: 52rem; border-top: 1px solid var(--color-line); list-style: none; padding: 0; margin: 0; }
+  .list > li { border-bottom: 1px solid var(--color-line); }
+
+  .list a {
+    display: block;
+    padding: 1.6rem 0;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 120ms;
+  }
+  .list a:hover { background: var(--color-n-50); }
+  .list h2 { font-size: 1.125rem; font-weight: 500; color: var(--color-ink); margin: 0; line-height: 1.35; }
+  .list a:hover h2 { color: var(--color-accent); }
+  .desc { font-size: 0.9375rem; line-height: 1.55; color: var(--color-ink-2); margin: 0.4rem 0 0; max-width: 62ch; }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    font-family: var(--font-mono); font-size: 0.6875rem;
+    color: var(--color-muted); margin: 0.7rem 0 0;
+  }
+  .meta .dot { color: var(--color-n-300); }
+
+  /* Ce qui reste à écrire : même place, sans lien, sans survol. */
+  .soon {
+    display: flex; align-items: baseline; gap: 1.25rem;
+    padding: 1.15rem 0;
+  }
+  .soon h2 { font-size: 1rem; font-weight: 400; color: var(--color-muted); margin: 0; flex: 1; }
+  .badge-soon {
+    font-family: var(--font-mono); font-size: 0.6875rem;
+    color: var(--color-muted); white-space: nowrap;
+  }
+</style>

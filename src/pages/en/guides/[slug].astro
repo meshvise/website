@@ -1,0 +1,19 @@
+---
+/**
+ * Une page par guide anglais. Le nom du fichier Markdown donne la route.
+ */
+import { getCollection } from 'astro:content';
+import GuidePage from '../../../components/pages/GuidePage.astro';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides', (g) => g.data.lang === 'en');
+  return guides.map((guide) => ({
+    params: { slug: guide.id.replace(/^en\//, '').replace(/\.md$/, '') },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+---
+
+<GuidePage guide={guide} lang="en" />

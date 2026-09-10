@@ -9,6 +9,8 @@
  * fichier et se marchaient dessus.
  */
 import { describe, it, expect } from 'vitest';
+import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
+import { resolve } from 'node:path';
 import fr from '../src/i18n/fr.json';
 import en from '../src/i18n/en.json';
 import motionFr from '../src/i18n/motion.fr.json';
@@ -77,5 +79,44 @@ describe.each(PAIRS)('dictionnaire $name', ({ fr: frDict, en: enDict }) => {
       }
     }
     expect(fautifs).toEqual([]);
+  });
+});
+
+/**
+ * Les guides sont du contenu long, hors dictionnaires. Ils obéissent aux mêmes
+ * règles typographiques, et leur en-tête doit être complet : une route sans
+ * durée de lecture ou sans public visé se construit quand même, et se voit
+ * seulement en production.
+ */
+describe('guides', () => {
+  const dossier = resolve(__dirname, '..', 'src', 'content', 'guides');
+  const fichiers = existsSync(dossier)
+    ? readdirSync(dossier).flatMap((langue) => {
+        const sous = resolve(dossier, langue);
+        return statSync(sous).isDirectory()
+          ? readdirSync(sous).filter((f) => f.endsWith('.md')).map((f) => resolve(sous, f))
+          : [];
+      })
+    : [];
+
+  it('il y a au moins un guide à vérifier', () => {
+    expect(fichiers.length).toBeGreaterThan(0);
+  });
+
+  it.each(fichiers)('%s ne contient ni tiret cadratin ni demi-cadratin', (fichier) => {
+    const texte = readFileSync(fichier, 'utf-8');
+    const fautifs = [...texte.matchAll(/^.*[—–].*$/gm)].map((m) =>
+      m[0].trim().slice(0, 70),
+    );
+    expect(fautifs).toEqual([]);
+  });
+
+  it.each(fichiers)('%s porte un en-tête complet', (fichier) => {
+    const texte = readFileSync(fichier, 'utf-8');
+    const entete = texte.split('---')[1] ?? '';
+    const manquants = ['title', 'description', 'date', 'lang', 'audience', 'minutes'].filter(
+      (champ) => !new RegExp(`^${champ}:`, 'm').test(entete),
+    );
+    expect(manquants).toEqual([]);
   });
 });

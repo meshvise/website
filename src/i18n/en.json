@@ -421,7 +421,7 @@
     },
     "alarms": {
       "title": "Alarms",
-      "body": "High and low limits, deviations, state changes, with delay and hysteresis to stop flapping. Four severity levels, acknowledgement by a named operator, shelving of a known alarm during maintenance. Notification by email or webhook to the tool of your choice. Every transition is journaled, including who acknowledged it and when."
+      "body": "High and low limits, deviations, state changes, with delay and hysteresis to stop flapping. Three severity levels, acknowledgement by a named operator, shelving of a known alarm during maintenance. Notification by email or webhook to the tool of your choice. Every transition is journaled, including who acknowledged it and when."
     },
     "kpi": {
       "title": "Indicators",
@@ -898,7 +898,12 @@
       "Industrial alarms: severities, hysteresis and acknowledgement",
       "Prepare a quality audit with a parameter history",
       "Expose industrial data over OPC UA to another system"
-    ]
+    ],
+    "back": "All guides",
+    "for_whom": "Who it is for",
+    "reading": "Reading",
+    "minutes": "min",
+    "published": "Published"
   },
   "faq": {
     "meta": {
