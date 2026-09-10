@@ -1,0 +1,318 @@
+---
+/**
+ * V-05 · Treize protocoles, un seul moteur.
+ *
+ * L'argument central du produit, écrit partout et jamais montré. Ce n'est
+ * pas une courbe, donc ce n'est pas un graphe : c'est un inventaire qui se
+ * range, puis converge.
+ *
+ * Acte 1, treize liaisons listées avec leur transport, telles qu'elles
+ * apparaissent au catalogue. Acte 2, les treize lignes se déplacent et
+ * deviennent trois familles : huit protocoles que l'on interroge, un
+ * auquel on s'abonne, quatre qui poussent leurs valeurs. C'est cette
+ * distinction qui compte pour un intégrateur, pas la liste alphabétique.
+ * Acte 3, les treize se rejoignent sur un seul moteur et publient le même
+ * fait, dont le message est affiché en toutes lettres. Acte 4, ce fait
+ * unique sert l'écran, l'historique et la règle d'alarme, sans qu'aucun
+ * des trois n'aille interroger l'équipement.
+ *
+ * Les transports affichés sont ceux du parc de démonstration de
+ * Bellecombe (`apps/gateway-py/data/fleet.seed.json`) et non des valeurs
+ * de catalogue : vingt pilotes, treize protocoles, quatre-vingt-quatorze
+ * points. Le message est celui du contrat `message-fait.md`, champ pour
+ * champ.
+ */
+import { t, type Lang } from '../../i18n';
+import Head from './Head.astro';
+import Cartouche from './Cartouche.astro';
+import { W, H, X0, X1, Y0, CARD_Y, CARD_H } from './frame';
+import './motion.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// ── Le parc, tel que le seed le déclare ────────────────────────────────
+type Mode = 'poll' | 'sub' | 'push';
+type Ligne = { nom: string; transport: string; mode: Mode; pilotes: number };
+
+/** Ordre du catalogue : celui de la page Protocoles, plus MTConnect. */
+const catalogue: Ligne[] = [
+  { nom: 'Modbus TCP', transport: 'TCP 502', mode: 'poll', pilotes: 6 },
+  { nom: 'Modbus RTU', transport: 'RS-485', mode: 'poll', pilotes: 1 },
+  { nom: 'OPC UA', transport: 'TCP 4840', mode: 'sub', pilotes: 2 },
+  { nom: 'BACnet/IP', transport: 'UDP 47808', mode: 'poll', pilotes: 2 },
+  { nom: 'Siemens S7', transport: 'TCP 102', mode: 'poll', pilotes: 1 },
+  { nom: 'MQTT', transport: 'TCP 1883', mode: 'push', pilotes: 1 },
+  { nom: 'EtherNet/IP', transport: 'TCP 44818', mode: 'poll', pilotes: 1 },
+  { nom: 'Beckhoff ADS', transport: 'TCP 851', mode: 'poll', pilotes: 1 },
+  { nom: 'REST', transport: 'HTTP', mode: 'poll', pilotes: 1 },
+  { nom: 'WebSocket', transport: 'WS 9090', mode: 'push', pilotes: 1 },
+  { nom: 'Webhook', transport: 'HTTP 9092', mode: 'push', pilotes: 1 },
+  { nom: 'Sparkplug B', transport: 'MQTT 1883', mode: 'push', pilotes: 1 },
+  { nom: 'MTConnect', transport: 'HTTP 5000', mode: 'poll', pilotes: 1 },
+];
+
+const modes: Mode[] = ['poll', 'sub', 'push'];
+const groupes = modes.map((m) => ({
+  mode: m,
+  lignes: catalogue.filter((l) => l.mode === m),
+}));
+
+const NB_PROTOCOLES = catalogue.length;
+const NB_PILOTES = catalogue.reduce((n, l) => n + l.pilotes, 0);
+const NB_POINTS = 94; // points de pilote déclarés dans `fleet.seed.json`
+
+// ── Géométrie ──────────────────────────────────────────────────────────
+const ROW_H = 16;
+const GROUP_GAP = 22;
+const X_BRACKET = X0;
+const X_NAME = X0 + 12;
+const X_TRANSPORT = 300;
+const X_WIRE = 308;
+const ENG_X0 = 378;
+const ENG_X1 = 514;
+const ENG_MID = 200;
+const ENG_TOP = 176;
+const ENG_H = 48;
+const X_CONS = 540;
+
+/** Ordonnée d'une ligne au catalogue, puis une fois rangée. */
+const yCatalogue = (i: number) => 84 + i * ROW_H;
+const rangees: Array<{ ligne: Ligne; yA: number; yB: number }> = [];
+let curseur = 84;
+const entetes: Array<{ mode: Mode; y: number; haut: number; bas: number }> = [];
+for (const g of groupes) {
+  const haut = curseur;
+  entetes.push({ mode: g.mode, y: curseur - 9, haut, bas: haut + g.lignes.length * ROW_H });
+  for (const l of g.lignes) {
+    rangees.push({ ligne: l, yA: yCatalogue(catalogue.indexOf(l)), yB: curseur + 12 });
+    curseur += ROW_H;
+  }
+  curseur += GROUP_GAP;
+}
+// Les crochets couvrent exactement leurs lignes.
+entetes.forEach((e, i) => {
+  const n = groupes[i].lignes.length;
+  e.bas = e.haut + n * ROW_H;
+});
+
+/** Le faisceau : une courbe par protocole, de sa ligne rangée au moteur. */
+const fil = (y: number) =>
+  `M ${X_WIRE} ${y.toFixed(1)} C ${X_WIRE + 40} ${y.toFixed(1)} ${ENG_X0 - 34} ${ENG_MID} ${ENG_X0} ${ENG_MID}`;
+
+const consommateurs = [
+  { cle: 'motion.engine.cons_live', y: 140 },
+  { cle: 'motion.engine.cons_hist', y: 200 },
+  { cle: 'motion.engine.cons_alarm', y: 260 },
+];
+const fourche = (y: number) =>
+  `M ${ENG_X1} ${ENG_MID} C ${ENG_X1 + 14} ${ENG_MID} ${X_CONS - 14} ${y} ${X_CONS} ${y}`;
+
+const acts = [
+  t(lang, 'motion.engine.act1'),
+  t(lang, 'motion.engine.act2'),
+  t(lang, 'motion.engine.act3'),
+  t(lang, 'motion.engine.act4'),
+];
+
+---
+
+<figure class="mvf">
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" class="mvf-svg pe" aria-label={t(lang, 'motion.engine.alt')}>
+    <Head acts={acts} actWord={t(lang, 'motion.act')} />
+
+    <!-- Acte 2 : les trois familles, avec leur crochet et leur cadence. -->
+    <g class="pe-group mv-a" style="animation-name: mv-from-2">
+      {
+        entetes.map((e, i) => (
+          <>
+            <line class="pe-bracket" x1={X_BRACKET} y1={e.haut + 2} x2={X_BRACKET} y2={e.bas} />
+            <text class="pe-group-t" x={X_NAME} y={e.y}>
+              {t(lang, `motion.engine.mode_${e.mode}`)} · {groupes[i].lignes.length}
+            </text>
+            <text class="pe-cadence" x={X_TRANSPORT} y={e.y} text-anchor="end">
+              {t(lang, `motion.engine.rate_${e.mode}`)}
+            </text>
+          </>
+        ))
+      }
+    </g>
+
+    <!-- Les treize liaisons. Chacune porte sa place au catalogue et sa
+         place une fois rangée : c'est le déplacement qui raconte. -->
+    {
+      rangees.map((r) => (
+        <g
+          class="pe-row mv-pin mv-a mv-ease"
+          style={`animation-name: mv-regroup;--row-a:translate(0px, ${(r.yA - r.yB).toFixed(1)}px);--row-b:translate(0px, 0px)`}
+        >
+          <text class="pe-name" x={X_NAME} y={r.yB}>{r.ligne.nom}</text>
+          <text class="pe-transport" x={X_TRANSPORT} y={r.yB} text-anchor="end">{r.ligne.transport}</text>
+        </g>
+      ))
+    }
+
+    <!-- Acte 3 : le faisceau, et le fait qui remonte par chaque liaison. -->
+    <g class="pe-wires mv-a mv-transient" style="animation-name: pe-wires-in">
+      {rangees.map((r) => <path class="pe-wire" d={fil(r.yB - 4)} />)}
+      {rangees.map((r) => <path class="pe-pulse mv-a" d={fil(r.yB - 4)} />)}
+    </g>
+
+    <g class="pe-engine mv-a" style="animation-name: mv-from-3">
+      <rect x={ENG_X0} y={ENG_TOP} width={ENG_X1 - ENG_X0} height={ENG_H} rx="5" />
+      <text class="pe-engine-t" x={(ENG_X0 + ENG_X1) / 2} y={ENG_MID + 5} text-anchor="middle">
+        {t(lang, 'motion.engine.engine')}
+      </text>
+      <text class="pe-engine-s" x={(ENG_X0 + ENG_X1) / 2} y={ENG_TOP + ENG_H + 18} text-anchor="middle">
+        {t(lang, 'motion.engine.engine_sub')}
+      </text>
+    </g>
+
+    <!-- Acte 4 : un seul fait, trois usages. Aucun des trois ne retourne
+         interroger l'équipement. -->
+    <g class="pe-cons mv-a" style="animation-name: mv-from-4">
+      {consommateurs.map((c) => <path class="pe-fork" d={fourche(c.y)} />)}
+      {
+        consommateurs.map((c) => (
+          <>
+            <rect x={X_CONS} y={c.y - 15} width={X1 - X_CONS} height="30" rx="4" />
+            <rect class="pe-cons-rail" x={X_CONS} y={c.y - 15} width="2.5" height="30" />
+            <text class="pe-cons-t" x={X_CONS + 14} y={c.y + 4}>{t(lang, c.cle)}</text>
+          </>
+        ))
+      }
+    </g>
+
+    <!-- Le fait publié, champ pour champ. -->
+    <g class="pe-fact mv-card--brass mv-a" style="animation-name: pe-fact-in" transform={`translate(${X0} ${CARD_Y})`}>
+      <rect width={X1 - X0} height={CARD_H} rx="4" />
+      <rect class="mv-card-rail" width="3" height={CARD_H} />
+      <text class="mv-card-title" x="18" y="19">{t(lang, 'motion.engine.fact_title')}</text>
+      <text class="pe-topic" x={X1 - X0 - 18} y="19" text-anchor="end">meshvise/p/293/value</text>
+      <text class="pe-json" x="18" y="35">
+        {'{ "v": 1, "id": 293, "ts": 1755950400000, "q": { "cat": 0 }, "num": 42.3 }'}
+      </text>
+    </g>
+
+    <!-- Ce que ces treize liaisons desservent réellement. -->
+    <text class="pe-total mv-a mv-transient" style="animation-name: mv-act-1" x={X1} y={Y0 - 10} text-anchor="end">
+      {NB_PROTOCOLES} {t(lang, 'motion.engine.protocols')} · {NB_PILOTES} {t(lang, 'motion.engine.drivers')} · {NB_POINTS} {t(lang, 'motion.engine.points')}
+    </text>
+    <text class="pe-total mv-a" style="animation-name: mv-from-3" x={X1} y={Y0 - 10} text-anchor="end">
+      {t(lang, 'motion.engine.single')}
+    </text>
+
+    <Cartouche
+      fig={t(lang, 'motion.engine.fig')}
+      caption={t(lang, 'motion.engine.caption')}
+      source={t(lang, 'motion.source')}
+    />
+  </svg>
+</figure>
+
+<style>
+  .pe { --mv-cycle: 18s; }
+
+  .pe-name {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    fill: var(--color-ink);
+  }
+  .pe-transport {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    fill: var(--color-n-400);
+    letter-spacing: 0.02em;
+  }
+
+  .pe-bracket { stroke: var(--color-brass-light); stroke-width: 2; }
+  .pe-group-t {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    fill: var(--color-brass);
+    letter-spacing: 0.09em;
+  }
+  .pe-cadence {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    fill: var(--color-n-400);
+    letter-spacing: 0.02em;
+  }
+
+  .pe-wire { fill: none; stroke: var(--color-n-200); stroke-width: 1; }
+  /* Le fait qui remonte : un éclat court qui parcourt le fil. Une seule
+     passe, calée sur l'acte, pas une boucle décorative. */
+  .pe-pulse {
+    fill: none;
+    stroke: var(--color-brass);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-dasharray: 14 400;
+    stroke-dashoffset: 414;
+  }
+
+  .pe-engine rect {
+    fill: var(--color-brass-bg);
+    stroke: var(--color-brass-light);
+    stroke-width: 1.5;
+  }
+  .pe-engine-t { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
+  .pe-engine-s {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    fill: var(--color-brass);
+    letter-spacing: 0.06em;
+  }
+
+  .pe-fork { fill: none; stroke: var(--color-brass-light); stroke-width: 1.5; }
+  .pe-cons rect { fill: var(--color-n-50); }
+  .pe-cons .pe-cons-rail { fill: var(--color-brass-light); }
+  .pe-cons-t { font-size: 12px; fill: var(--color-ink); }
+
+  .pe-topic {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-brass);
+    letter-spacing: 0.02em;
+  }
+  .pe-json {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--color-ink-2);
+  }
+
+  .pe-total {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-n-500);
+    letter-spacing: 0.04em;
+  }
+</style>
+
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes pe-wires-in {
+      0%, 46% { opacity: 0; }
+      52%, 100% { opacity: 1; }
+    }
+    @keyframes pe-fact-in {
+      0%, 56% { opacity: 0; transform: translate(76px, 442px); }
+      64%, 100% { opacity: 1; transform: translate(76px, 434px); }
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .pe-pulse {
+      animation-name: pe-pulse-run;
+    }
+    @keyframes pe-pulse-run {
+      0%, 50% { stroke-dashoffset: 414; opacity: 0; }
+      54% { opacity: 1; }
+      70% { stroke-dashoffset: 0; opacity: 1; }
+      74%, 100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+  }
+</style>

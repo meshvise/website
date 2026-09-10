@@ -9,6 +9,8 @@ import SpindleWear from '../../components/motion/SpindleWear.astro';
 import AirLeak from '../../components/motion/AirLeak.astro';
 import MeterDropout from '../../components/motion/MeterDropout.astro';
 import TightThreshold from '../../components/motion/TightThreshold.astro';
+import ProtocolEngine from '../../components/motion/ProtocolEngine.astro';
+import DataChain from '../../components/motion/DataChain.astro';
 
 const lang = 'fr' as const;
 ---
@@ -122,6 +124,28 @@ const lang = 'fr' as const;
           cause : 24,0 °C, hystérésis d'un degré. Le procédé, lui, n'a jamais eu
           tort.
         </p>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-5">
+        <h2 class="t-page">Treize protocoles, un seul moteur</h2>
+        <p class="t-lede mt-6">Bloc de travail, texte provisoire.</p>
+      </div>
+      <div class="lg:col-span-7">
+        <ProtocolEngine lang={lang} />
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-5">
+        <h2 class="t-page">La chaîne de la donnée</h2>
+        <p class="t-lede mt-6">Bloc de travail, texte provisoire.</p>
+      </div>
+      <div class="lg:col-span-7">
+        <DataChain lang={lang} />
       </div>
     </div>
   </section>

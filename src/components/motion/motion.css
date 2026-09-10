@@ -291,6 +291,26 @@
   }
 }
 
+/*
+ * Le regroupement. Une ligne d'inventaire qui va rejoindre son groupe : elle
+ * porte sa position de départ et sa position d'arrivée, et se déplace sur la
+ * borne du deuxième acte. C'est le seul mouvement de la figure des
+ * protocoles, et il vaut mieux qu'un fondu : le lecteur voit treize lignes
+ * devenir trois familles au lieu de les trouver déjà rangées.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes mv-regroup {
+    0%,
+    22% {
+      transform: var(--row-a);
+    }
+    30%,
+    100% {
+      transform: var(--row-b);
+    }
+  }
+}
+
 /* ── Le cadrage : une seule grammaire pour les six figures ────────────── */
 
 /*
@@ -518,6 +538,18 @@
 }
 .mv-card--plain .mv-card-meta {
   fill: var(--color-normal);
+}
+/* Le laiton du dessin, pour une carte qui énonce une propriété de la
+   figure et non un état de la donnée. */
+.mv-card--brass rect {
+  fill: var(--color-brass-bg);
+}
+.mv-card--brass .mv-card-rail {
+  fill: var(--color-brass);
+}
+.mv-card--brass .mv-card-meta,
+.mv-card--brass .mv-card-sum {
+  fill: var(--color-brass);
 }
 
 /* Une étiquette qui doit rester lisible par-dessus un tracé ou une grille :
