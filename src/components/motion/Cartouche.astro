@@ -1,0 +1,25 @@
+---
+/**
+ * Le cartouche de plan technique, commun aux six figures : numéro et titre
+ * à gauche, provenance à droite, sous un filet. C'est le vocabulaire d'un
+ * dossier d'exécution, pas celui d'une plaquette.
+ */
+import { X0, X1, CART_RULE, CART_BASE } from './frame';
+
+interface Props {
+  fig: string;
+  caption: string;
+  source: string;
+}
+
+const { fig, caption, source } = Astro.props;
+---
+
+<g class="mv-cart">
+  <line x1={X0} y1={CART_RULE} x2={X1} y2={CART_RULE} />
+  <text x={X0} y={CART_BASE}>
+    <tspan class="mv-cart-strong">{fig}</tspan>
+    {` · ${caption}`}
+  </text>
+  <text x={X1} y={CART_BASE} text-anchor="end">{source}</text>
+</g>
