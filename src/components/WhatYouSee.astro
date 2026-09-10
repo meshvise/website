@@ -1,6 +1,7 @@
 ---
 import { t, type Lang } from '../i18n';
 import ScreenPlaceholder from './ScreenPlaceholder.astro';
+import LiveTable from './LiveTable.astro';
 
 interface Props {
   lang: Lang;
@@ -30,5 +31,10 @@ const screens = [
       ))}
     </div>
     <p class="t-small mt-8">{t(lang, 'home.see.note')}</p>
+
+    <div class="mt-14 md:mt-20">
+      <p class="t-small mb-3">{t(lang, 'home.live.caption')}</p>
+      <LiveTable lang={lang} />
+    </div>
   </div>
 </section>

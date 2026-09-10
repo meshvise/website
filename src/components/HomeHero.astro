@@ -1,7 +1,15 @@
 ---
+/**
+ * Premier écran. Il n'a qu'un travail : faire choisir entre les deux portes.
+ *
+ * Les portes sont l'action, pas un rappel plus bas dans la page. Elles ont
+ * remplacé les deux boutons qui occupaient cette place, lesquels posaient déjà
+ * un choix binaire mais sans dire au visiteur lequel le concernait. Rien ne
+ * s'intercale entre l'accroche et ce choix : la table de points, elle, prouve
+ * quelque chose à quelqu'un qui a déjà décidé de lire, donc elle vit plus bas.
+ */
 import { t, type Lang } from '../i18n';
 import { href } from '../i18n/routes';
-import LiveTable from './LiveTable.astro';
 import TrendBackground from './bg/TrendBackground.astro';
 
 interface Props {
@@ -13,17 +21,35 @@ const { lang } = Astro.props;
 
 <section class="relative overflow-hidden bg-surface border-b border-line isolate">
   <TrendBackground />
-  <div class="wrap relative pt-20 pb-14 md:pt-28 md:pb-20">
-    <h1 class="t-hero max-w-[26ch]">{t(lang, 'home.hero.title')}</h1>
+  <div class="wrap relative pt-16 pb-14 md:pt-24 md:pb-20">
+    <h1 class="t-hero max-w-[24ch]">{t(lang, 'home.hero.title')}</h1>
     <p class="t-lede mt-6">{t(lang, 'home.hero.subtitle')}</p>
-    <div class="mt-8 flex flex-col sm:flex-row gap-3">
-      <a href={href(lang, 'demo')} class="btn btn-primary btn-lg">{t(lang, 'common.cta_demo')}</a>
-      <a href={href(lang, 'why', 'calc')} class="btn btn-outline btn-lg">{t(lang, 'common.cta_calc')}</a>
+
+    <div class="mt-10 md:mt-12 grid md:grid-cols-2 panel">
+      <a href={href(lang, 'why')} class="door md:border-r border-line">
+        <h2 class="t-section">{t(lang, 'home.doors.left.title')}</h2>
+        <p class="t-body mt-3">{t(lang, 'home.doors.left.body')}</p>
+        <span class="link mt-5 inline-block text-[15px]">{t(lang, 'home.doors.left.cta')}</span>
+      </a>
+      <a href={href(lang, 'product')} class="door border-t md:border-t-0 border-line">
+        <h2 class="t-section">{t(lang, 'home.doors.right.title')}</h2>
+        <p class="t-body mt-3">{t(lang, 'home.doors.right.body')}</p>
+        <span class="link mt-5 inline-block text-[15px]">{t(lang, 'home.doors.right.cta')}</span>
+      </a>
     </div>
   </div>
 </section>
 
-<section class="wrap py-14 md:py-20">
-  <p class="t-small mb-3">{t(lang, 'home.live.caption')}</p>
-  <LiveTable lang={lang} />
-</section>
+<style>
+  .door {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 120ms;
+  }
+  @media (min-width: 768px) { .door { padding: 2rem; } }
+  .door:hover { background: var(--color-n-50); }
+  .door .link { margin-top: auto; padding-top: 1.25rem; }
+</style>
