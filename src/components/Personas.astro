@@ -77,6 +77,7 @@ const roles = [
       <!-- L'axe, une seule fois en bas : la position de chaque point s'y lit,
            ce qui évite d'étiqueter huit marques. -->
       <div class="axis" aria-hidden="true">
+        <span class="axis-name">{t(lang, 'home.personas.axis_name')}</span>
         <div class="axis-track">
           {scale.map((label, i) => (
             <span class="tick" style={`left:${(i / (scale.length - 1)) * 100}%`}>
@@ -130,7 +131,7 @@ const roles = [
   }
   .move {
     position: absolute; top: 50%;
-    height: 2px; background: var(--color-accent); opacity: 0.35;
+    height: 2px; background: var(--color-accent); opacity: 0.55;
     transform: translateY(-50%);
   }
   .dot {
@@ -149,16 +150,36 @@ const roles = [
     box-shadow: 0 0 0 3px var(--color-accent-bg);
   }
 
-  /* L'axe gradué, aligné sur la piste. */
-  .axis { display: grid; grid-template-columns: 15rem 1fr; gap: 2.5rem; margin-top: 0.875rem; }
-  .axis-track { grid-column: 2; position: relative; height: 2.25rem; }
+  /* L'axe gradué, aligné sur la piste. Il porte son nom à gauche, dans la
+     colonne des métiers, plutôt que d'y laisser un trou. */
+  .axis {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    gap: 2.5rem;
+    align-items: start;
+    margin-top: 1rem;
+  }
+  .axis-name {
+    font-family: var(--font-mono); font-size: 0.6875rem;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--color-muted); padding-top: 0.75rem;
+  }
+  .axis-track {
+    grid-column: 2;
+    position: relative;
+    height: 2.5rem;
+    border-top: 1px solid var(--color-line-strong);
+  }
   .tick { position: absolute; top: 0; transform: translateX(-50%); text-align: center; }
-  .tick i { display: block; width: 1px; height: 5px; background: var(--color-line-strong); margin: 0 auto 0.375rem; }
+  /* Le tiret part de la ligne d'axe, vers le bas. */
+  .tick i { display: block; width: 1px; height: 6px; background: var(--color-line-strong); margin: 0 auto 0.5rem; }
   .tick b {
     display: block;
     font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400;
     color: var(--color-muted); white-space: nowrap;
   }
+  /* Les deux extrémités se rangent à l'intérieur de l'axe : sans cela le
+     premier libellé sort à gauche et le dernier dépasse à droite. */
   .tick:first-child { transform: none; text-align: left; }
   .tick:first-child i { margin-inline-start: 0; }
   .tick:last-child { transform: translateX(-100%); text-align: right; }
@@ -182,6 +203,7 @@ const roles = [
   @media (max-width: 900px) {
     .row { grid-template-columns: 1fr; gap: 0.875rem; align-items: start; }
     .gain, .axis-track { grid-column: 1; }
-    .axis { grid-template-columns: 1fr; gap: 0; }
+    .axis { grid-template-columns: 1fr; gap: 0.5rem; }
+    .axis-name { padding-top: 0; }
   }
 </style>

@@ -56,12 +56,12 @@
   /* Accent de marque : tout ce qui accompagne, jamais ce qui agit. Teinte
      254°, à 38° du bleu d'information : le seul écart franc disponible une
      fois le vert, l'ambre, le rouge et le bleu réservés aux états. */
-  --color-accent:        #6d5ba6;
-  --color-accent-strong: #54428a;
+  --color-accent:        #5b4a94;
+  --color-accent-strong: #45356f;
   --color-accent-bg:     #efecf8;
   --color-accent-border: #d8d1ec;
   /* Sur graphite, le violet plein tombe sous le contraste lisible. */
-  --color-accent-soft:   #b3a8dc;
+  --color-accent-soft:   #c6b9ee;
 
   /* Laiton : la couleur des figures et des tracés. Trop proche de l'ambre de
      l'avertissement (12°) pour vivre à côté d'un badge, parfaitement à sa

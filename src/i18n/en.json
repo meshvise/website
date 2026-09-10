@@ -145,7 +145,8 @@
         "right away"
       ],
       "aria": "Axis of how long it takes to find out, from a month to right away. For each role, one point marks the current situation and a second one what Meshvise changes.",
-      "integrator_label": "And for a systems integrator"
+      "integrator_label": "And for a systems integrator",
+      "axis_name": "Time before you know"
     },
     "see": {
       "title": "What you see in Meshvise",

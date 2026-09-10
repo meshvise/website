@@ -145,7 +145,8 @@
         "l'instant"
       ],
       "aria": "Axe du délai avant de savoir, du mois à l'instant. Pour chaque métier, un point marque la situation actuelle et un second ce que Meshvise change.",
-      "integrator_label": "Et pour un intégrateur"
+      "integrator_label": "Et pour un intégrateur",
+      "axis_name": "Délai avant de savoir"
     },
     "see": {
       "title": "Ce que vous voyez dans Meshvise",
