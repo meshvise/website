@@ -787,6 +787,10 @@
     "quote": {
       "title": "Demander un devis",
       "body": "Décrivez votre site : nombre d'équipements, protocoles, ce que vous voulez mesurer. Le devis reprend la licence au tarif catalogue et chiffre la mise en service. Réponse sous deux jours ouvrés."
+    },
+    "trial": {
+      "name": "Essai 7 jours",
+      "tagline": "L'application complète sur votre infrastructure, pendant sept jours."
     }
   },
   "integrators": {

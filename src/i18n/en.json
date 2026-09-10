@@ -787,6 +787,10 @@
     "quote": {
       "title": "Request a quote",
       "body": "Describe your site: number of devices, protocols, what you want to measure. The quote states the licence at list rate and prices the commissioning. Answer within two business days."
+    },
+    "trial": {
+      "name": "7-day trial",
+      "tagline": "The full application on your own infrastructure, for seven days."
     }
   },
   "integrators": {
