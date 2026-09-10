@@ -11,6 +11,7 @@
 import { t, type Lang } from '../i18n';
 import { href } from '../i18n/routes';
 import TrendBackground from './bg/TrendBackground.astro';
+import HeroGains from './HeroGains.astro';
 
 interface Props {
   lang: Lang;
@@ -21,9 +22,9 @@ const { lang } = Astro.props;
 
 <section class="relative overflow-hidden border-b border-line isolate">
   <TrendBackground />
-  <div class="wrap relative pt-16 pb-14 md:pt-24 md:pb-20">
-    <h1 class="t-hero max-w-[24ch]">{t(lang, 'home.hero.title')}</h1>
-    <p class="t-lede mt-6">{t(lang, 'home.hero.subtitle')}</p>
+  <div class="wrap relative pt-12 pb-12 md:pt-16 md:pb-16">
+    <HeroGains lang={lang} />
+    <p class="t-lede mt-7">{t(lang, 'home.hero.subtitle')}</p>
 
     <div class="mt-10 md:mt-12 grid md:grid-cols-2 doors dark-block relative">
       <a href={href(lang, 'why')} class="door md:border-r border-n-700">
