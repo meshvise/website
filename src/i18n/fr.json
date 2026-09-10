@@ -990,5 +990,19 @@
       "body_html": "Un courriel vient d'être envoyé à <strong class=\"font-mono\">{email}</strong>, avec votre licence et la commande d'installation. Sans réception dans les cinq minutes, courrier indésirable compris, écrivez à <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>.",
       "back": "Retour à l'accueil"
     }
+  },
+  "motion": {
+    "spindle": {
+      "alt": "Trente jours de vibration de broche sur le centre d'usinage CU1 : la valeur efficace dérive de 2,1 à 4,9 mm/s, franchit le seuil ISO 10816 de 4,5 mm/s au vingt-sixième jour, déclenche une alarme critique et une intervention programmée avant la casse.",
+      "day_zero": "J",
+      "threshold": "ISO 10816",
+      "alarm_title": "Vibration broche CU1",
+      "alarm_meta": "CRITIQUE · mar. 14:02 · seuil franchi",
+      "fix_title": "Intervention programmée",
+      "fix_meta": "samedi · broche déposée avant la casse",
+      "fig": "FIG. V-01",
+      "caption": "Usure de broche, trente jours de vibration efficace",
+      "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
+    }
   }
 }

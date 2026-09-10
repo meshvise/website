@@ -1,0 +1,39 @@
+---
+/**
+ * Page de jugement, hors navigation : l'animation dans la composition
+ * qu'elle est censée servir, texte à gauche, séquence à droite. À retirer
+ * une fois la direction arrêtée.
+ */
+import Base from '../../layouts/Base.astro';
+import SpindleWear from '../../components/motion/SpindleWear.astro';
+
+const lang = 'fr' as const;
+---
+
+<Base lang={lang} title="Aperçu motion" description="Page de travail, hors navigation.">
+  <section class="section">
+    <div class="wrap grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-5">
+        <h2 class="t-page">Ce qui se voit avant la panne</h2>
+        <p class="t-lede mt-6">
+          Une broche ne casse pas d'un coup. Sa vibration monte pendant des semaines,
+          et personne ne la mesure parce que personne ne la regarde.
+        </p>
+        <p class="t-body mt-5">
+          Meshvise lit la valeur efficace de vibration sur le centre d'usinage, la
+          garde jour après jour, et la compare au seuil de la norme ISO 10816. Le
+          jour où le seuil est franchi, l'alarme part par courriel avec l'historique
+          des semaines précédentes.
+        </p>
+        <p class="t-body mt-5">
+          L'intervention se programme le samedi, machine froide, au lieu de subir un
+          arrêt en pleine série. C'est la différence entre une broche déposée et une
+          broche cassée.
+        </p>
+      </div>
+      <div class="lg:col-span-7">
+        <SpindleWear lang={lang} />
+      </div>
+    </div>
+  </section>
+</Base>

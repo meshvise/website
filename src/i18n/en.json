@@ -990,5 +990,19 @@
       "body_html": "An email has been sent to <strong class=\"font-mono\">{email}</strong> with your licence and the install command. If nothing arrives within five minutes, junk folder included, write to <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>.",
       "back": "Back to home"
     }
+  },
+  "motion": {
+    "spindle": {
+      "alt": "Thirty days of spindle vibration on machining centre CU1: the RMS value drifts from 2.1 to 4.9 mm/s, crosses the ISO 10816 threshold of 4.5 mm/s on the twenty-sixth day, raises a critical alarm and a scheduled intervention before failure.",
+      "day_zero": "D",
+      "threshold": "ISO 10816",
+      "alarm_title": "CU1 spindle vibration",
+      "alarm_meta": "CRITICAL · Tue 14:02 · threshold crossed",
+      "fix_title": "Intervention scheduled",
+      "fix_meta": "Saturday · spindle pulled before failure",
+      "fig": "FIG. V-01",
+      "caption": "Spindle wear, thirty days of RMS vibration",
+      "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE"
+    }
   }
 }
