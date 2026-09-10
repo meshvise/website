@@ -1,23 +1,20 @@
 ---
 /**
- * Cinq métiers, en liste. Tout est visible : pas d'onglets. Chaque ligne
- * est un relevé à deux colonnes, le problème et ce que Meshvise change.
+ * Cinq métiers, en tableau. Tout est visible, pas d'onglets.
+ *
+ * La version précédente donnait dix paragraphes de même poids, qui ne se
+ * lisaient ni ne se survolaient. Le visiteur doit se reconnaître en une
+ * seconde : son métier à gauche, sa situation, ce qui change. Le détail vit
+ * sur les pages Produit et Pourquoi superviser, pas ici.
  */
 import { t, type Lang } from '../i18n';
-import { href } from '../i18n/routes';
 
 interface Props {
   lang: Lang;
 }
 
 const { lang } = Astro.props;
-const personas = [
-  { id: 'director',    cta: href(lang, 'why', 'calc') },
-  { id: 'maintenance', cta: null },
-  { id: 'production',  cta: null },
-  { id: 'quality',     cta: null },
-  { id: 'integrator',  cta: href(lang, 'integrators') },
-] as const;
+const roles = ['director', 'maintenance', 'production', 'quality', 'integrator'] as const;
 ---
 
 <section id="personas" class="section">
@@ -26,21 +23,68 @@ const personas = [
       <h2 class="t-page">{t(lang, 'home.personas.title')}</h2>
     </div>
 
-    <div class="border-t border-line">
-      {personas.map((p) => (
-        <div class="grid lg:grid-cols-12 gap-x-10 gap-y-3 py-7 border-b border-line">
-          <h3 class="lg:col-span-3 text-[17px] font-medium text-ink">{t(lang, `home.personas.${p.id}.label`)}</h3>
-          <div class="lg:col-span-4">
-            <div class="text-[12px] text-muted mb-1.5">{t(lang, 'common.the_problem')}</div>
-            <p class="t-body">{t(lang, `home.personas.${p.id}.pain`)}</p>
-          </div>
-          <div class="lg:col-span-5">
-            <div class="text-[12px] text-muted mb-1.5">{t(lang, 'common.with_meshvise')}</div>
-            <p class="t-body text-ink">{t(lang, `home.personas.${p.id}.gain`)}</p>
-            {p.cta && <a href={p.cta} class="link inline-block mt-3 text-[14px]">{t(lang, `home.personas.${p.id}.cta`)}</a>}
-          </div>
-        </div>
-      ))}
+    <div class="overflow-x-auto">
+      <table class="pt">
+        <thead>
+          <tr>
+            <th class="w-[15%]"></th>
+            <th class="w-[38%]">{t(lang, 'common.the_problem')}</th>
+            <th class="w-[47%]">{t(lang, 'common.with_meshvise')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {roles.map((id) => (
+            <tr>
+              <th scope="row">{t(lang, `home.personas.${id}.label`)}</th>
+              <td class="pain">{t(lang, `home.personas.${id}.pain`)}</td>
+              <td class="gain">{t(lang, `home.personas.${id}.gain`)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
+
+<style>
+  .pt { width: 100%; min-width: 44rem; border-collapse: collapse; }
+
+  /* Les en-têtes nomment les deux colonnes une fois, au lieu de répéter
+     « le problème » et « avec Meshvise » cinq fois chacun. */
+  .pt thead th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    padding: 0 1.25rem 0.75rem 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .pt thead th:first-child { padding-inline-start: 0; }
+
+  .pt tbody th {
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    padding: 1.375rem 1.25rem 1.375rem 0;
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+  }
+  .pt td {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    padding: 1.375rem 1.25rem 1.375rem 0;
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+  }
+
+  /* La situation actuelle en gris, ce qui change en encre pleine : la
+     lecture en diagonale suffit alors à voir de quel côté on veut être. */
+  .pt .pain { color: var(--color-muted); }
+  .pt .gain { color: var(--color-ink); }
+  .pt tbody tr:last-child th,
+  .pt tbody tr:last-child td { border-bottom: 0; }
+</style>

@@ -111,30 +111,28 @@
       "title": "What it changes, role by role",
       "director": {
         "label": "Managing director",
-        "pain": "You decide on numbers reconstructed at month end, and you don't know what not knowing costs you.",
-        "gain": "This month's figures available continuously, and the cost of a stoppage finally measured instead of estimated from memory.",
-        "cta": "Calculate the cost of doing nothing"
+        "pain": "Figures pieced back together at month end.",
+        "gain": "This month's figures continuously, and the cost of a stoppage measured instead of guessed."
       },
       "maintenance": {
         "label": "Maintenance",
-        "pain": "Your alarms are scattered between the PLC screen, the shift leader's emails and a weekly export you compile by hand. A night alarm means driving in to have a look.",
-        "gain": "Every alarm in one place, the minutes before the stop on record, and the answer to \"is it serious?\" from your phone."
+        "pain": "Alarms scattered around, and a call-out for every night alert.",
+        "gain": "Every alarm in one place, with the minutes that led to the stoppage."
       },
       "production": {
         "label": "Production, methods",
-        "pain": "Your OEE is computed in a spreadsheet, from memory, at the end of the week. Four-minute stops don't exist because nobody writes them down.",
-        "gain": "OEE computed continuously from the counters, micro-stops made visible, and the same indicator definition for every shift."
+        "pain": "An OEE figure worked out from memory, in a spreadsheet.",
+        "gain": "OEE computed continuously from the counters, micro-stoppages included."
       },
       "quality": {
         "label": "Quality",
-        "pain": "Before every audit you rebuild evidence by hand from binders. When a batch is in doubt, you don't know whether a parameter moved, so you suspect everything.",
-        "gain": "Every parameter is timestamped, every threshold change is signed, the history exports in one query. You no longer prove compliance with binders."
+        "pain": "Evidence pieced together by hand before every audit.",
+        "gain": "Every parameter timestamped, every threshold signed, history exported in one query."
       },
       "integrator": {
-        "label": "Integrator",
-        "pain": "Every project is a puzzle of licences and connectors, and per-point billing loses you deals.",
-        "gain": "A reproducible platform, thirteen protocols in one engine, one licence per site that you can cost before drafting your quote.",
-        "cta": "Integrator area"
+        "label": "Systems integrator",
+        "pain": "A puzzle of licences, and per-point billing that loses deals.",
+        "gain": "Thirteen protocols in one engine, one licence per site, costed before the quote."
       }
     },
     "see": {

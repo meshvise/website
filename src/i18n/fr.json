@@ -111,30 +111,28 @@
       "title": "Ce que ça change, poste par poste",
       "director": {
         "label": "Dirigeant",
-        "pain": "Vous décidez sur des chiffres reconstitués en fin de mois, et vous ne savez pas ce que vous coûte de ne pas savoir.",
-        "gain": "Les chiffres du mois disponibles en continu, et le coût d'un arrêt enfin mesuré au lieu d'être estimé de mémoire.",
-        "cta": "Calculer le coût de l'inaction"
+        "pain": "Des chiffres reconstitués en fin de mois.",
+        "gain": "Les chiffres du mois en continu, et le coût d'un arrêt mesuré au lieu d'être estimé."
       },
       "maintenance": {
         "label": "Maintenance",
-        "pain": "Vos alarmes sont éparpillées entre l'écran de l'automate, les courriels du chef d'équipe et un export hebdomadaire que vous compilez à la main. Une alarme de nuit veut dire un déplacement pour aller voir.",
-        "gain": "Toutes les alarmes au même endroit, l'historique des minutes précédant l'arrêt, et la réponse à « c'est grave ? » depuis votre téléphone."
+        "pain": "Des alarmes éparpillées, et un déplacement à chaque alerte de nuit.",
+        "gain": "Toutes les alarmes au même endroit, avec les minutes qui ont précédé l'arrêt."
       },
       "production": {
         "label": "Production, méthodes",
-        "pain": "Votre taux de rendement est calculé dans un tableur, de mémoire, en fin de semaine. Les arrêts de quatre minutes n'existent pas parce que personne ne les note.",
-        "gain": "Le taux de rendement calculé en continu depuis les compteurs, les micro-arrêts visibles, et la même définition de l'indicateur pour toutes les équipes."
+        "pain": "Un taux de rendement calculé de mémoire, dans un tableur.",
+        "gain": "Le rendement calculé en continu depuis les compteurs, micro-arrêts compris."
       },
       "quality": {
         "label": "Qualité",
-        "pain": "Avant chaque audit, vous reconstituez des preuves à la main dans des classeurs. Lors d'un doute sur un lot, vous ne savez pas si un paramètre a bougé, donc vous suspectez tout.",
-        "gain": "Chaque paramètre est horodaté, chaque modification de seuil est signée, l'historique s'exporte en une requête. Vous ne prouvez plus votre conformité avec des classeurs."
+        "pain": "Des preuves reconstituées à la main avant chaque audit.",
+        "gain": "Chaque paramètre horodaté, chaque seuil signé, l'historique exporté en une requête."
       },
       "integrator": {
         "label": "Intégrateur",
-        "pain": "Chaque chantier est un puzzle de licences et de connecteurs, et la facturation au point vous fait perdre des affaires.",
-        "gain": "Une plateforme reproductible, treize protocoles dans un seul moteur, une licence par site que vous chiffrez avant d'établir votre devis.",
-        "cta": "Espace intégrateurs"
+        "pain": "Un puzzle de licences, et une facturation au point qui fait perdre des affaires.",
+        "gain": "Treize protocoles dans un moteur, une licence par site, chiffrable avant le devis."
       }
     },
     "see": {
