@@ -1,0 +1,293 @@
+---
+/**
+ * Fuite d'air comprimé : deuxième des six scénarios inscrits dans les trente
+ * jours d'historique du parc de Bellecombe, déroulé comme une séquence.
+ *
+ * Le parcours raconté : une semaine de débit d'air, cinq journées de
+ * production et deux jours d'arrêt, et un débit qui ne retombe jamais à la
+ * veille du compresseur. Ce qui reste sous la courbe la nuit et le week-end
+ * n'est pas de la production, c'est une fuite, et elle se chiffre.
+ *
+ * Différence assumée avec l'usure de broche : là-bas le seuil normalisé
+ * préexiste à la dérive, il est donc posé avant la courbe. Ici le plancher
+ * n'est pas une norme, c'est une constatation : il n'apparaît qu'une fois la
+ * semaine tracée, parce que c'est l'ordre dans lequel on le découvre.
+ *
+ * Toutes les valeurs viennent du scénario `air-leak` du jeu de démonstration
+ * (`seed_demo_history.py`) : plancher de débit à 255 m³/h contre 45 m³/h de
+ * veille, plancher de puissance à 24 kW au sous-compteur d'air contre 4,5 kW.
+ * Le tracé est calculé à la construction, de façon déterministe.
+ *
+ * Le mouvement se joue en boucle sur une seule durée : chaque élément porte
+ * ses temps en pourcentage de ce cycle, ce qui garde la séquence synchronisée
+ * sans script. Sous `prefers-reduced-motion`, tout est posé dans son état
+ * final dès l'affichage.
+ */
+import { t, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// Géométrie du tracé, en unités du viewBox. Celle de l'usure de broche.
+const X0 = 66, X1 = 610, Y0 = 74, Y1 = 396;
+const V_MAX = 700;          // pleine échelle de l'axe, en m³/h
+const HEURES = 168;         // une semaine, au pas horaire
+
+const x = (h: number) => X0 + (h / HEURES) * (X1 - X0);
+const y = (v: number) => Y1 - (v / V_MAX) * (Y1 - Y0);
+
+// Les chiffres du scénario. Tout ce qui est affiché descend de ces six lignes.
+const VEILLE = 45;          // m³/h, le compresseur au repos avant la fuite
+const PLANCHER = 255;       // m³/h, le plancher observé depuis vingt et un jours
+const FUITE = PLANCHER - VEILLE;
+const KW_FUITE = 19.5;      // 24 kW relevés au sous-compteur, 4,5 kW de veille
+const HEURES_HORS_PROD = 5096; // 98 h par semaine hors production, sur 52 semaines
+const TARIF = 0.14;         // euro par kWh, contrat industriel
+const COUT = Math.round((KW_FUITE * HEURES_HORS_PROD * TARIF) / 100) * 100;
+
+/**
+ * L'atelier tourne de 06:00 à 20:00 du lundi au vendredi. Hors de cette
+ * fenêtre, le débit devrait tomber à la veille du compresseur ; le plancher
+ * de fuite l'en empêche. Suite déterministe : deux constructions du site
+ * produisent exactement le même tracé.
+ */
+const serie = Array.from({ length: HEURES + 1 }, (_, h) => {
+  const jour = Math.floor(h / 24);
+  const heure = h % 24;
+  const production = jour < 5 && heure >= 6 && heure < 20;
+  const oscill =
+    Math.sin(h * 2.399) * 18 + Math.sin(h * 0.817) * 11 + Math.sin(h * 1.213) * 7;
+  let v = VEILLE;
+  if (production) {
+    const p = (heure - 6) / 14;
+    // Montée du matin, creux de la pause méridienne, pointe de l'après-midi.
+    v =
+      380 +
+      92 * Math.sin(Math.PI * p) -
+      74 * Math.exp(-Math.pow((heure - 12.5) / 0.85, 2)) +
+      oscill;
+  }
+  const plancher = PLANCHER + oscill * 0.3;
+  return Math.round(Math.max(v, plancher) * 10) / 10;
+});
+
+const points = serie.map((v, h) => `${x(h).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+
+// Le tracé est révélé par son propre trait : il faut sa longueur exacte.
+const longueur = serie.reduce((acc, v, h) => {
+  if (h === 0) return 0;
+  return acc + Math.hypot(x(h) - x(h - 1), y(v) - y(serie[h - 1]));
+}, 0);
+
+// Les plages hors production, complément des cinq journées d'atelier.
+const horsProduction: Array<[number, number]> = [];
+let curseur = 0;
+for (let d = 0; d < 5; d += 1) {
+  horsProduction.push([curseur, d * 24 + 6]);
+  curseur = d * 24 + 20;
+}
+horsProduction.push([curseur, HEURES]);
+
+const graduations = [0, 100, 200, 300, 400, 500, 600, 700];
+const jours = t(lang, 'motion.air.days').split(',');
+
+const dec = (v: number, n = 1) =>
+  v.toFixed(n).replace('.', lang === 'fr' ? ',' : '.');
+const ent = (v: number) =>
+  Math.round(v)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'fr' ? ' ' : ',');
+
+const yPlancher = y(PLANCHER);
+const yVeille = y(VEILLE);
+---
+
+<figure class="al">
+  <svg
+    viewBox="0 0 676 520"
+    role="img"
+    class="al-svg"
+    aria-label={t(lang, 'motion.air.alt')}
+    style={`--al-len:${longueur.toFixed(0)}`}
+  >
+    <!-- Les plages sans production, posées sous la grille : elles cadrent
+         la lecture avant que la moindre valeur ne soit tracée. -->
+    <g class="al-off">
+      {horsProduction.map(([a, b]) => (
+        <rect x={x(a)} y={Y0} width={x(b) - x(a)} height={Y1 - Y0} />
+      ))}
+    </g>
+
+    <g class="al-grid">
+      {graduations.map((v) => (
+        <line x1={X0} y1={y(v)} x2={X1} y2={y(v)} />
+      ))}
+      {jours.map((_, d) => (
+        <line x1={x(d * 24)} y1={Y0} x2={x(d * 24)} y2={Y1} />
+      ))}
+      <line x1={X1} y1={Y0} x2={X1} y2={Y1} />
+    </g>
+
+    <g class="al-axis">
+      {graduations.filter((v) => v % 200 === 0).map((v) => (
+        <text x={X0 - 12} y={y(v) + 4} text-anchor="end">{ent(v)}</text>
+      ))}
+      <text x={X0 - 12} y={Y0 - 18} text-anchor="end" class="al-unit">m³/h</text>
+      {jours.map((nom, d) => (
+        <text x={x(d * 24 + 12)} y={Y1 + 22} text-anchor="middle">{nom}</text>
+      ))}
+      <text x={x(142)} y={Y0 + 15} text-anchor="middle" class="al-off-label">
+        {t(lang, 'motion.air.off_hours')}
+      </text>
+    </g>
+
+    <polyline class="al-trace" points={points} />
+
+    <!-- Ce que la semaine révèle : entre la veille attendue et le plancher
+         observé, un débit permanent que rien ne consomme. -->
+    <g class="al-band">
+      <rect x={X0} y={yPlancher} width={X1 - X0} height={yVeille - yPlancher} />
+      <line class="al-band-top" x1={X0} y1={yPlancher} x2={X1} y2={yPlancher} />
+      <line class="al-band-low" x1={X0} y1={yVeille} x2={X1} y2={yVeille} />
+      <text x={X1 - 6} y={yPlancher - 8} text-anchor="end" class="al-band-top-t">
+        {t(lang, 'motion.air.floor_seen')} · {ent(PLANCHER)} m³/h
+      </text>
+      <text x={X0 + 6} y={yVeille - 8} class="al-band-low-t">
+        {t(lang, 'motion.air.floor_expected')} · {ent(VEILLE)} m³/h
+      </text>
+      <text x={(X0 + X1) / 2} y={(yPlancher + yVeille) / 2 + 6} text-anchor="middle" class="al-band-t">
+        {t(lang, 'motion.air.leak')} · {ent(FUITE)} m³/h
+      </text>
+    </g>
+
+    <!-- Ce que ce plancher coûte, avec ses hypothèses affichées. -->
+    <g class="al-cost" transform="translate(66 432)">
+      <rect width="344" height="44" rx="4" />
+      <rect class="al-cost-rail" width="3" height="44" />
+      <text x="18" y="19" class="al-cost-title">{t(lang, 'motion.air.cost_title')}</text>
+      <text x="18" y="35" class="al-cost-meta">
+        {ent(FUITE)} m³/h · {dec(KW_FUITE)} kW · {ent(HEURES_HORS_PROD)} {t(lang, 'motion.air.h_per_year')} · {dec(TARIF, 2)} €/kWh
+      </text>
+      <text x="326" y="24" text-anchor="end" class="al-cost-sum">{ent(COUT)} €/{t(lang, 'motion.air.per_year')}</text>
+    </g>
+
+    <g class="al-fix" transform="translate(434 432)">
+      <text x="0" y="19" class="al-fix-title">{t(lang, 'motion.air.fix_title')}</text>
+      <text x="0" y="35" class="al-fix-meta">{t(lang, 'motion.air.fix_meta')}</text>
+    </g>
+
+    <g class="al-cart">
+      <line x1="66" y1="496" x2="610" y2="496" />
+      <text x="66" y="512">
+        <tspan class="al-cart-strong">{t(lang, 'motion.air.fig')}</tspan>
+        · {t(lang, 'motion.air.caption')}
+      </text>
+      <text x="610" y="512" text-anchor="end">{t(lang, 'motion.air.source')}</text>
+    </g>
+  </svg>
+</figure>
+
+<style>
+  .al {
+    margin: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    padding: 0.5rem;
+  }
+  .al-svg { display: block; width: 100%; height: auto; }
+
+  /* Une seule horloge : chaque groupe lit ses temps dans ce cycle. */
+  .al-svg { --al-cycle: 15s; }
+
+  .al-off rect { fill: var(--color-n-100); }
+  .al-off-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-n-400);
+    letter-spacing: 0.04em;
+  }
+
+  .al-grid line { stroke: var(--color-n-150); stroke-width: 1; }
+  .al-axis text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--color-muted);
+  }
+  .al-axis .al-unit { fill: var(--color-n-400); font-size: 10px; letter-spacing: 0.04em; }
+
+  .al-trace {
+    fill: none;
+    stroke: var(--color-info);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .al-band rect { fill: var(--color-warn); opacity: 0.1; }
+  .al-band-top { stroke: var(--color-warn); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .al-band-low { stroke: var(--color-n-400); stroke-width: 1.5; stroke-dasharray: 3 4; }
+  .al-band text { font-family: var(--font-mono); letter-spacing: 0.02em; }
+  .al-band-top-t { font-size: 11px; fill: var(--color-warn); }
+  .al-band-low-t { font-size: 11px; fill: var(--color-n-500); }
+  .al-band-t { font-size: 14px; font-weight: 500; fill: var(--color-warn); }
+
+  .al-cost rect { fill: var(--color-warn-bg); }
+  .al-cost .al-cost-rail { fill: var(--color-warn); }
+  .al-cost-title { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
+  .al-cost-meta { font-family: var(--font-mono); font-size: 10px; fill: var(--color-warn); }
+  .al-cost-sum {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 500;
+    fill: var(--color-warn);
+  }
+
+  .al-fix-title { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
+  .al-fix-meta { font-family: var(--font-mono); font-size: 10px; fill: var(--color-normal); }
+
+  .al-cart line { stroke: var(--color-line); stroke-width: 1; }
+  .al-cart text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-n-400);
+    letter-spacing: 0.03em;
+  }
+  .al-cart .al-cart-strong { fill: var(--color-muted); }
+
+  /* La séquence. La semaine se trace, le plancher se révèle, le coût tombe,
+     l'intervention se programme : l'ordre est celui de la découverte. */
+  @media (prefers-reduced-motion: no-preference) {
+    .al-trace {
+      stroke-dasharray: var(--al-len);
+      animation: al-draw var(--al-cycle) linear infinite;
+    }
+    .al-band { animation: al-reveal var(--al-cycle) linear infinite; }
+    .al-cost { animation: al-rise var(--al-cycle) linear infinite; }
+    .al-fix { animation: al-rise-late var(--al-cycle) linear infinite; }
+
+    @keyframes al-draw {
+      0% { stroke-dashoffset: var(--al-len); opacity: 1; }
+      48%, 96% { stroke-dashoffset: 0; opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+    @keyframes al-reveal {
+      0%, 50% { opacity: 0; }
+      60%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes al-rise {
+      0%, 68% { opacity: 0; transform: translate(66px, 440px); }
+      76%, 96% { opacity: 1; transform: translate(66px, 432px); }
+      100% { opacity: 0; transform: translate(66px, 432px); }
+    }
+    @keyframes al-rise-late {
+      0%, 84% { opacity: 0; transform: translate(434px, 440px); }
+      91%, 96% { opacity: 1; transform: translate(434px, 432px); }
+      100% { opacity: 0; transform: translate(434px, 432px); }
+    }
+  }
+</style>

@@ -1003,6 +1003,56 @@
       "fig": "FIG. V-01",
       "caption": "Spindle wear, thirty days of RMS vibration",
       "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE"
+    },
+    "air": {
+      "alt": "One week of compressed air flow on the workshop compressor station: production peaks near 450 m³/h during weekdays, but flow never falls below 255 m³/h at night or over the weekend, when an idle compressor should draw 45 m³/h. That 210 m³/h floor is a permanent leak, measured at 19.5 kW on the sub-meter, or 13,900 € a year over the 5,096 non-production hours alone, at 0.14 € per kWh.",
+      "days": "Mon,Tue,Wed,Thu,Fri,Sat,Sun",
+      "off_hours": "OUTSIDE PRODUCTION",
+      "floor_seen": "measured floor",
+      "floor_expected": "expected idle",
+      "leak": "permanent leak",
+      "cost_title": "Air paid for, never used",
+      "h_per_year": "h/yr",
+      "per_year": "yr",
+      "fix_title": "Leak survey",
+      "fix_meta": "Saturday · zone by zone",
+      "fig": "FIG. V-02",
+      "caption": "Compressed air leak",
+      "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE"
+    },
+    "meter": {
+      "alt": "Thirty minutes of active power on conventional milling machine FU1, a machine with no digital interface tracked by electrical sub-metering. The value follows the machining cycles until 11:42, then freezes at 7.7 kW. For five minutes it still reads as a normal value. At 11:47 data quality turns stale, at 11:50 driver SUBM1 is declared unreachable and the link alarm fires across eight points and four machines. The link returns at 11:53, after eleven minutes of recorded gap.",
+      "held": "value held, no sample received",
+      "window": "the frozen value still reads as good",
+      "quality": "data quality",
+      "q_good": "good",
+      "q_stale": "stale",
+      "q_fail": "comm_fail",
+      "alarm_title": "Sub-metering link lost",
+      "alarm_scope": "8 points, 4 machines",
+      "fix_title": "Gap recorded, not filled",
+      "fig": "FIG. V-03",
+      "caption": "Sub-meter dropout",
+      "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE"
+    },
+    "threshold": {
+      "alt": "Twenty-one days of daily maximum cutting-oil temperature on the workshop chiller. The curve does not change: it swings between 22.3 and 22.7 °C from the first day to the last, and rises above 22.5 °C fifteen times. What changed is the alarm threshold, lowered from 24.0 to 22.5 °C by a signed revision sixteen days before today. Eight alarms fire in eleven days, each closing again within minutes, one single acknowledgement. A rollback revision puts the threshold back at 24.0 °C with 1.0 °C of hysteresis six days before today, and the log goes quiet while the peaks carry on.",
+      "day_zero": "D",
+      "series": "daily maximum",
+      "limit": "alarm threshold",
+      "rev_lane": "REVISIONS",
+      "rev_tight": "threshold",
+      "rev_back": "back to",
+      "alarm_lane": "ALARMS",
+      "peaks": "peaks above",
+      "fires": "alarms in",
+      "days": "days",
+      "alarm_meta": "6 min average · 1 acknowledgement",
+      "fix_title": "Signed rollback",
+      "hyst": "hysteresis",
+      "fig": "FIG. V-04",
+      "caption": "Threshold set too tight",
+      "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE"
     }
   }
 }

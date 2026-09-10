@@ -1003,6 +1003,56 @@
       "fig": "FIG. V-01",
       "caption": "Usure de broche, trente jours de vibration efficace",
       "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
+    },
+    "air": {
+      "alt": "Une semaine de débit d'air comprimé sur la centrale de l'atelier : la production monte vers 450 m³/h en journée du lundi au vendredi, mais le débit ne retombe jamais sous 255 m³/h la nuit ni le week-end, alors que le compresseur au repos devrait consommer 45 m³/h. Ce talon de 210 m³/h est une fuite permanente, mesurée à 19,5 kW au sous-compteur, soit 13 900 € par an sur les seules 5 096 heures hors production, au tarif de 0,14 € le kWh.",
+      "days": "lun,mar,mer,jeu,ven,sam,dim",
+      "off_hours": "HORS PRODUCTION",
+      "floor_seen": "plancher observé",
+      "floor_expected": "veille attendue",
+      "leak": "fuite permanente",
+      "cost_title": "Air payé, jamais utilisé",
+      "h_per_year": "h/an",
+      "per_year": "an",
+      "fix_title": "Recherche de fuite",
+      "fix_meta": "samedi · réseau tronçonné",
+      "fig": "FIG. V-02",
+      "caption": "Fuite d'air comprimé",
+      "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
+    },
+    "meter": {
+      "alt": "Trente minutes de puissance active sur la fraiseuse conventionnelle FU1, machine sans interface numérique suivie par sous-comptage électrique. La valeur vit au rythme des cycles d'usinage jusqu'à 11:42, puis se fige à 7,7 kW. Pendant cinq minutes elle passe encore pour une valeur normale. À 11:47 la qualité de la donnée bascule à stale, à 11:50 le pilote SUBM1 est déclaré injoignable et l'alarme de liaison part sur huit points et quatre machines. La liaison revient à 11:53, après onze minutes de trou daté.",
+      "held": "valeur maintenue, aucun échantillon reçu",
+      "window": "la valeur figée passe encore pour bonne",
+      "quality": "qualité de la donnée",
+      "q_good": "good",
+      "q_stale": "stale",
+      "q_fail": "comm_fail",
+      "alarm_title": "Liaison sous-comptage perdue",
+      "alarm_scope": "8 points, 4 machines",
+      "fix_title": "Trou daté, pas comblé",
+      "fig": "FIG. V-03",
+      "caption": "Décrochage de sous-compteur",
+      "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
+    },
+    "threshold": {
+      "alt": "Vingt et un jours de maximum journalier de température d'huile de coupe sur le groupe froid de l'atelier. La courbe ne change pas : elle oscille entre 22,3 et 22,7 °C du premier au dernier jour, et dépasse quinze fois 22,5 °C. Ce qui change, c'est le seuil d'alarme, abaissé de 24,0 à 22,5 °C par une révision signée au seizième jour avant aujourd'hui. Huit alarmes partent en onze jours, chacune refermée en quelques minutes, une seule acquittée. Une révision de retour arrière remet le seuil à 24,0 °C avec une hystérésis de 1,0 °C au sixième jour, et le journal redevient silencieux alors que les pics, eux, continuent.",
+      "day_zero": "J",
+      "series": "maximum journalier",
+      "limit": "seuil d'alarme",
+      "rev_lane": "RÉVISIONS",
+      "rev_tight": "seuil",
+      "rev_back": "retour à",
+      "alarm_lane": "ALARMES",
+      "peaks": "pics au-dessus de",
+      "fires": "déclenchements en",
+      "days": "jours",
+      "alarm_meta": "6 min en moyenne · 1 acquittement",
+      "fix_title": "Retour arrière signé",
+      "hyst": "hystérésis",
+      "fig": "FIG. V-04",
+      "caption": "Alarme au seuil trop serré",
+      "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
     }
   }
 }

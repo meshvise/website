@@ -1,0 +1,394 @@
+---
+/**
+ * Alarme au seuil trop serré : troisième des six scénarios inscrits dans les
+ * trente jours d'historique du parc de Bellecombe, déroulé comme une séquence.
+ *
+ * Le parcours raconté : le maximum journalier de température d'huile de coupe
+ * ne bouge pas de trois semaines. Ce qui bouge, c'est le seuil. Quelqu'un le
+ * resserre de 24,0 à 22,5 °C, l'alarme se met à tirer presque chaque jour et
+ * à se refermer en quelques minutes, les opérateurs cessent de la lire, puis
+ * une révision de retour arrière la remet à 24,0 °C avec une hystérésis d'un
+ * degré. Les pics, eux, continuent : le procédé était innocent.
+ *
+ * C'est le seul des trois scénarios où la courbe est l'élément immobile et le
+ * seuil l'élément qui se déplace. D'où le choix de dessiner le seuil en
+ * marches et de le révéler en trois temps, et celui de montrer le journal
+ * d'alarmes comme une voie séparée : c'est le journal qui raconte, pas la
+ * mesure.
+ *
+ * Valeurs issues du scénario `crying-wolf` du jeu de démonstration : seuil
+ * haut de l'alarme « Huile de coupe » à 24,0 °C, resserré à 22,5 °C par une
+ * révision signée au seizième jour avant aujourd'hui, remis à 24,0 °C avec
+ * une hystérésis de 1,0 °C par une révision de retour arrière au sixième.
+ * La série est calculée à la construction, de façon déterministe, et les
+ * jours de déclenchement en sont déduits : ce ne sont pas huit dates posées
+ * à la main, ce sont les jours où le maximum dépasse le seuil du moment.
+ *
+ * Le mouvement se joue en boucle sur une seule durée : chaque élément porte
+ * ses temps en pourcentage de ce cycle, ce qui garde la séquence synchronisée
+ * sans script. Sous `prefers-reduced-motion`, tout est posé dans son état
+ * final dès l'affichage.
+ */
+import { t, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// Géométrie du tracé, en unités du viewBox.
+const X0 = 66, X1 = 610, Y0 = 74, Y1 = 294;
+const V_MIN = 22.0, V_MAX = 24.5;   // axe tronqué : l'écart utile est de 0,2 °C
+const JOURS = 21;
+
+const x = (j: number) => X0 + (j / JOURS) * (X1 - X0);
+const y = (v: number) => Y1 - ((v - V_MIN) / (V_MAX - V_MIN)) * (Y1 - Y0);
+
+// Les chiffres du scénario.
+const SEUIL_LARGE = 24.0;
+const SEUIL_SERRE = 22.5;
+const HYSTERESIS = 1.0;
+const J_SERRAGE = 5;    // seize jours avant aujourd'hui
+const J_RETOUR = 15;    // six jours avant aujourd'hui
+const FENETRE = J_RETOUR - J_SERRAGE + 1;
+
+/**
+ * Maximum journalier de la température de départ d'huile de coupe. La série
+ * ne porte aucune rupture : le groupe froid fait le même après-midi du
+ * premier au dernier jour. Suite déterministe, pour que deux constructions
+ * du site produisent exactement la même courbe.
+ */
+const serie = Array.from({ length: JOURS + 1 }, (_, j) => {
+  const v =
+    22.54 + Math.sin(j * 0.911) * 0.14 + Math.sin(j * 3.113) * 0.1 + Math.sin(j * 0.617) * 0.07;
+  return Math.round(v * 100) / 100;
+});
+
+// Le seuil en vigueur ce jour-là, et les jours où il a été franchi. Les
+// déclenchements sont déduits de la série, pas posés à la main.
+const seuilDuJour = (j: number) =>
+  j >= J_SERRAGE && j <= J_RETOUR ? SEUIL_SERRE : SEUIL_LARGE;
+const declenchements = serie
+  .map((v, j) => (v > seuilDuJour(j) ? j : -1))
+  .filter((j) => j >= 0);
+const picsAuDessus = serie.filter((v) => v > SEUIL_SERRE).length;
+
+const points = serie.map((v, j) => `${x(j).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+const longueur = serie.reduce((acc, v, j) => {
+  if (j === 0) return 0;
+  return acc + Math.hypot(x(j) - x(j - 1), y(v) - y(serie[j - 1]));
+}, 0);
+
+// Le seuil, en trois marches : avant le resserrage, pendant, après.
+const yLarge = y(SEUIL_LARGE);
+const ySerre = y(SEUIL_SERRE);
+const marcheAvant = `${x(0).toFixed(1)},${yLarge.toFixed(1)} ${x(J_SERRAGE).toFixed(1)},${yLarge.toFixed(1)}`;
+const marchePendant = `${x(J_SERRAGE).toFixed(1)},${yLarge.toFixed(1)} ${x(J_SERRAGE).toFixed(1)},${ySerre.toFixed(1)} ${x(J_RETOUR).toFixed(1)},${ySerre.toFixed(1)}`;
+const marcheApres = `${x(J_RETOUR).toFixed(1)},${ySerre.toFixed(1)} ${x(J_RETOUR).toFixed(1)},${yLarge.toFixed(1)} ${x(JOURS).toFixed(1)},${yLarge.toFixed(1)}`;
+
+const graduations = [22.0, 22.5, 23.0, 23.5, 24.0, 24.5];
+const semaines = [0, 7, 14, 21];
+
+const dec = (v: number, n = 1) =>
+  v.toFixed(n).replace('.', lang === 'fr' ? ',' : '.');
+
+const RUB_HAUT = 368, RUB_BAS = 386;
+---
+
+<figure class="tt">
+  <svg
+    viewBox="0 0 676 520"
+    role="img"
+    class="tt-svg"
+    aria-label={t(lang, 'motion.threshold.alt')}
+    style={`--tt-len:${longueur.toFixed(0)}`}
+  >
+    <g class="tt-grid">
+      {graduations.map((v) => (
+        <line x1={X0} y1={y(v)} x2={X1} y2={y(v)} />
+      ))}
+      {semaines.map((j) => (
+        <line x1={x(j)} y1={Y0} x2={x(j)} y2={Y1} />
+      ))}
+    </g>
+
+    <g class="tt-axis">
+      {graduations.map((v) => (
+        <text x={X0 - 12} y={y(v) + 4} text-anchor="end">{dec(v)}</text>
+      ))}
+      <text x={X0 - 12} y={Y0 - 18} text-anchor="end" class="tt-unit">°C</text>
+      {semaines.map((j) => (
+        <text x={x(j)} y={Y1 + 20} text-anchor="middle">
+          {j === JOURS ? t(lang, 'motion.threshold.day_zero') : `J-${JOURS - j}`}
+        </text>
+      ))}
+    </g>
+
+    <!-- Le procédé. Il est là dès la première image et il ne bougera plus :
+         c'est l'élément fixe de la figure. -->
+    <polyline class="tt-trace" points={points} />
+    <g class="tt-dots">
+      {serie.map((v, j) => (
+        <circle cx={x(j)} cy={y(v)} r="2.6" />
+      ))}
+    </g>
+    <text class="tt-series-t" x={X0 + 6} y={y(Math.max(...serie)) - 12}>
+      {t(lang, 'motion.threshold.series')}
+    </text>
+
+    <!-- Le seuil, en trois marches. C'est lui qui se déplace. -->
+    <g class="tt-limit tt-limit-1">
+      <polyline points={marcheAvant} />
+      <text x={X0 + 6} y={yLarge - 10}>
+        {t(lang, 'motion.threshold.limit')} · {dec(SEUIL_LARGE)} °C
+      </text>
+    </g>
+    <g class="tt-limit tt-limit-2">
+      <rect
+        class="tt-window"
+        x={x(J_SERRAGE)}
+        y={Y0}
+        width={x(J_RETOUR) - x(J_SERRAGE)}
+        height={Y1 - Y0}
+      />
+      <polyline points={marchePendant} />
+    </g>
+    <text class="tt-peaks-t tt-limit-2" x={X1 - 6} y={Y0 + 16} text-anchor="end">
+      {picsAuDessus} {t(lang, 'motion.threshold.peaks')} {dec(SEUIL_SERRE)} °C
+    </text>
+    <g class="tt-limit tt-limit-3"><polyline points={marcheApres} /></g>
+
+    <!-- Les deux révisions, sur leur propre voie, reliées au seuil par un
+         filet vertical : c'est ce filet qui rend la cause visible. -->
+    <g class="tt-rev tt-rev-1">
+      <line x1={x(J_SERRAGE)} y1={ySerre} x2={x(J_SERRAGE)} y2="334" />
+      <circle cx={x(J_SERRAGE)} cy="334" r="3.5" />
+      <text x={x(J_SERRAGE) + 9} y="338">
+        {t(lang, 'motion.threshold.rev_tight')} {dec(SEUIL_SERRE)} °C
+      </text>
+    </g>
+    <g class="tt-rev tt-rev-2">
+      <line x1={x(J_RETOUR)} y1={ySerre} x2={x(J_RETOUR)} y2="334" />
+      <circle cx={x(J_RETOUR)} cy="334" r="3.5" />
+      <text x={x(J_RETOUR) + 9} y="338">
+        {t(lang, 'motion.threshold.rev_back')} {dec(SEUIL_LARGE)} °C
+      </text>
+    </g>
+    <text class="tt-lane-t" x={X0} y="338">{t(lang, 'motion.threshold.rev_lane')}</text>
+
+    <!-- Le journal d'alarmes. Un trait par déclenchement, révélé par le
+         passage d'un cache : le temps avance, le journal se remplit. -->
+    <g class="tt-fires">
+      {declenchements.map((j) => (
+        <rect x={x(j) - 1.5} y={RUB_HAUT} width="3" height={RUB_BAS - RUB_HAUT} />
+      ))}
+    </g>
+    <rect class="tt-mask" x={X0} y="358" width="548" height="34" />
+    <line class="tt-lane-rule" x1={X0} y1={RUB_BAS} x2={X1} y2={RUB_BAS} />
+    <text class="tt-lane-t" x={X0} y="364">{t(lang, 'motion.threshold.alarm_lane')}</text>
+
+    <!-- Ce que ce réglage a produit. -->
+    <g class="tt-alarm" transform="translate(66 428)">
+      <rect width="344" height="44" rx="4" />
+      <rect class="tt-alarm-rail" width="3" height="44" />
+      <text x="18" y="19" class="tt-alarm-title">
+        {declenchements.length} {t(lang, 'motion.threshold.fires')} {FENETRE} {t(lang, 'motion.threshold.days')}
+      </text>
+      <text x="18" y="35" class="tt-alarm-meta">{t(lang, 'motion.threshold.alarm_meta')}</text>
+    </g>
+
+    <g class="tt-fix" transform="translate(434 428)">
+      <text x="0" y="19" class="tt-fix-title">{t(lang, 'motion.threshold.fix_title')}</text>
+      <text x="0" y="35" class="tt-fix-meta">
+        {dec(SEUIL_LARGE)} °C · {t(lang, 'motion.threshold.hyst')} {dec(HYSTERESIS)} °C
+      </text>
+    </g>
+
+    <g class="tt-cart">
+      <line x1="66" y1="496" x2="610" y2="496" />
+      <text x="66" y="512">
+        <tspan class="tt-cart-strong">{t(lang, 'motion.threshold.fig')}</tspan>
+        · {t(lang, 'motion.threshold.caption')}
+      </text>
+      <text x="610" y="512" text-anchor="end">{t(lang, 'motion.threshold.source')}</text>
+    </g>
+  </svg>
+</figure>
+
+<style>
+  .tt {
+    margin: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    padding: 0.5rem;
+  }
+  .tt-svg { display: block; width: 100%; height: auto; }
+
+  /* Une seule horloge : chaque groupe lit ses temps dans ce cycle. */
+  .tt-svg { --tt-cycle: 15s; }
+
+  .tt-grid line { stroke: var(--color-n-150); stroke-width: 1; }
+  .tt-axis text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--color-muted);
+  }
+  .tt-axis .tt-unit { fill: var(--color-n-400); font-size: 10px; letter-spacing: 0.04em; }
+
+  .tt-trace {
+    fill: none;
+    stroke: var(--color-info);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .tt-dots circle { fill: var(--color-info); }
+  .tt-series-t {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-info);
+    letter-spacing: 0.03em;
+  }
+
+  .tt-limit polyline {
+    fill: none;
+    stroke: var(--color-warn);
+    stroke-width: 1.8;
+    stroke-dasharray: 5 4;
+  }
+  /* La fenêtre où le seuil valait 22,5 : une zone, pas seulement un trait.
+     C'est elle qui rend la coïncidence avec la salve d'alarmes évidente. */
+  .tt-window { fill: var(--color-warn); opacity: 0.07; }
+  .tt-limit text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--color-warn);
+    letter-spacing: 0.02em;
+  }
+
+  .tt-rev line {
+    stroke: var(--color-info);
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+    opacity: 0.5;
+  }
+  .tt-rev circle { fill: var(--color-info); }
+  .tt-rev text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-info);
+    letter-spacing: 0.03em;
+  }
+
+  .tt-lane-t {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-n-400);
+    letter-spacing: 0.04em;
+  }
+  .tt-peaks-t {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-muted);
+    letter-spacing: 0.03em;
+  }
+  .tt-lane-rule { stroke: var(--color-line-strong); stroke-width: 1; }
+  .tt-fires rect { fill: var(--color-crit); }
+  /* Le cache qui découvre le journal. Au repos il est rangé à droite : sous
+     `prefers-reduced-motion` aucune animation ne le déplace, et un cache
+     laissé sur sa position de départ effacerait la salve d'alarmes. */
+  .tt-mask { fill: var(--color-surface); transform: translateX(548px); }
+
+  .tt-alarm rect { fill: var(--color-crit-bg); }
+  .tt-alarm .tt-alarm-rail { fill: var(--color-crit); }
+  .tt-alarm-title { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
+  .tt-alarm-meta { font-family: var(--font-mono); font-size: 11px; fill: var(--color-crit); }
+
+  .tt-fix-title { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
+  .tt-fix-meta { font-family: var(--font-mono); font-size: 10px; fill: var(--color-normal); }
+
+  .tt-cart line { stroke: var(--color-line); stroke-width: 1; }
+  .tt-cart text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-n-400);
+    letter-spacing: 0.03em;
+  }
+  .tt-cart .tt-cart-strong { fill: var(--color-muted); }
+
+  /* La séquence. Le procédé d'abord, parce qu'il est le témoin ; le seuil
+     large ensuite ; le resserrage et sa salve ; le retour arrière et le
+     silence. L'ordre est celui du journal. */
+  @media (prefers-reduced-motion: no-preference) {
+    .tt-trace {
+      stroke-dasharray: var(--tt-len);
+      animation: tt-draw var(--tt-cycle) linear infinite;
+    }
+    .tt-dots, .tt-series-t { animation: tt-after-trace var(--tt-cycle) linear infinite; }
+    .tt-limit-1 { animation: tt-step-1 var(--tt-cycle) linear infinite; }
+    .tt-rev-1 { animation: tt-rev-in-1 var(--tt-cycle) linear infinite; }
+    .tt-limit-2 { animation: tt-step-2 var(--tt-cycle) linear infinite; }
+    .tt-mask { animation: tt-sweep var(--tt-cycle) linear infinite; }
+    .tt-rev-2 { animation: tt-rev-in-2 var(--tt-cycle) linear infinite; }
+    .tt-limit-3 { animation: tt-step-3 var(--tt-cycle) linear infinite; }
+    .tt-alarm { animation: tt-rise var(--tt-cycle) linear infinite; }
+    .tt-fix { animation: tt-rise-late var(--tt-cycle) linear infinite; }
+    .tt-fires { animation: tt-fade-out var(--tt-cycle) linear infinite; }
+
+    @keyframes tt-draw {
+      0% { stroke-dashoffset: var(--tt-len); opacity: 1; }
+      20%, 96% { stroke-dashoffset: 0; opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+    @keyframes tt-after-trace {
+      0%, 18% { opacity: 0; }
+      24%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes tt-step-1 {
+      0%, 4% { opacity: 0; }
+      10%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes tt-rev-in-1 {
+      0%, 26% { opacity: 0; }
+      31%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes tt-step-2 {
+      0%, 31% { opacity: 0; }
+      37%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes tt-sweep {
+      0%, 38% { transform: translateX(0); }
+      64%, 100% { transform: translateX(548px); }
+    }
+    @keyframes tt-rev-in-2 {
+      0%, 64% { opacity: 0; }
+      69%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes tt-step-3 {
+      0%, 67% { opacity: 0; }
+      73%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes tt-fade-out {
+      0%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes tt-rise {
+      0%, 76% { opacity: 0; transform: translate(66px, 436px); }
+      83%, 96% { opacity: 1; transform: translate(66px, 428px); }
+      100% { opacity: 0; transform: translate(66px, 428px); }
+    }
+    @keyframes tt-rise-late {
+      0%, 87% { opacity: 0; transform: translate(434px, 436px); }
+      93%, 96% { opacity: 1; transform: translate(434px, 428px); }
+      100% { opacity: 0; transform: translate(434px, 428px); }
+    }
+  }
+</style>

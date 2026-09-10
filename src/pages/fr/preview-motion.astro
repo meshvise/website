@@ -6,6 +6,9 @@
  */
 import Base from '../../layouts/Base.astro';
 import SpindleWear from '../../components/motion/SpindleWear.astro';
+import AirLeak from '../../components/motion/AirLeak.astro';
+import MeterDropout from '../../components/motion/MeterDropout.astro';
+import TightThreshold from '../../components/motion/TightThreshold.astro';
 
 const lang = 'fr' as const;
 ---
@@ -33,6 +36,92 @@ const lang = 'fr' as const;
       </div>
       <div class="lg:col-span-7">
         <SpindleWear lang={lang} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--color-surface); border-block: 1px solid var(--color-line);">
+    <div class="wrap grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7 lg:order-2">
+        <AirLeak lang={lang} />
+      </div>
+      <div class="lg:col-span-5 lg:order-1">
+        <h2 class="t-page">La facture que personne ne lit</h2>
+        <p class="t-lede mt-6">
+          Le compresseur tourne la nuit et le week-end. L'atelier est vide, la
+          production est à l'arrêt, et le débit d'air ne retombe jamais à zéro.
+        </p>
+        <p class="t-body mt-5">
+          Meshvise enregistre le débit de la centrale au pas de trente secondes et
+          le garde. Sur une semaine, le dessin est sans ambiguïté : cinq journées
+          de production, deux jours d'arrêt, et un talon de 210 m³/h qui traverse
+          les sept jours. Un compresseur au repos consomme 45 m³/h. Le reste part
+          dans le réseau par des raccords que personne n'entend.
+        </p>
+        <p class="t-body mt-5">
+          Ce talon se pèse : 19,5 kW au sous-compteur d'air, sur les seules heures
+          hors production, à 0,14 € le kWh. La recherche de fuite se programme un
+          samedi, réseau tronçonné, et le talon se compare avant et après sur la
+          même courbe.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-5">
+        <h2 class="t-page">Une valeur figée ressemble à une valeur normale</h2>
+        <p class="t-lede mt-6">
+          La fraiseuse FU1 n'a aucune interface numérique. Elle est suivie par
+          sous-comptage électrique, et le sous-compteur s'est tu.
+        </p>
+        <p class="t-body mt-5">
+          À 11:42, la dernière valeur arrive : 7,7 kW. Elle reste affichée. Rien ne
+          clignote, rien ne change de couleur, et pendant cinq minutes une
+          supervision qui ne regarde que la valeur ne voit strictement rien. C'est
+          la fenêtre où l'on se trompe.
+        </p>
+        <p class="t-body mt-5">
+          Meshvise ne surveille pas seulement la valeur, il surveille sa fraîcheur.
+          À 11:47 la qualité du point bascule à <code>stale</code>, à 11:50 le
+          pilote est déclaré injoignable et l'alarme part sur les huit points des
+          quatre machines conventionnelles. Les onze minutes de trou sont datées et
+          restent des minutes de trou : la valeur maintenue n'est jamais comptée
+          comme une mesure.
+        </p>
+      </div>
+      <div class="lg:col-span-7">
+        <MeterDropout lang={lang} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--color-surface); border-block: 1px solid var(--color-line);">
+    <div class="wrap grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7 lg:order-2">
+        <TightThreshold lang={lang} />
+      </div>
+      <div class="lg:col-span-5 lg:order-1">
+        <h2 class="t-page">L'alarme que plus personne ne lit</h2>
+        <p class="t-lede mt-6">
+          Une alarme qui tire tous les jours et se referme en six minutes
+          n'informe plus personne. Elle apprend seulement à ne plus regarder.
+        </p>
+        <p class="t-body mt-5">
+          Le groupe froid d'huile de coupe fait le même après-midi depuis trois
+          semaines : le maximum journalier oscille entre 22,3 et 22,7 °C, et
+          dépasse quinze fois 22,5 °C sur les vingt et un jours. Ce qui a bougé,
+          c'est le seuil. Quelqu'un l'a resserré de 24,0 à 22,5 °C pour affiner un
+          réglage, et l'alarme s'est mise à tirer huit fois en onze jours.
+        </p>
+        <p class="t-body mt-5">
+          Chaque modification de seuil est une révision datée et signée. Celle-ci
+          porte un nom et une date, donc la salve d'alarmes qui l'a suivie a une
+          cause, et la révision de retour arrière se rédige en connaissance de
+          cause : 24,0 °C, hystérésis d'un degré. Le procédé, lui, n'a jamais eu
+          tort.
+        </p>
       </div>
     </div>
   </section>
