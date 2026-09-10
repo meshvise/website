@@ -303,7 +303,9 @@ h1, h2, h3 { font-weight: 500; }
 
 /* Bloc sombre : un seul par page, pour le contraste. Texte clair sur graphite profond,
    avec la trame d'un écran de supervision. Le bloc doit être positionné. */
-.dark-block { background: var(--color-n-900); color: var(--color-n-0); isolation: isolate; }
+/* Le bloc sombre prend le graphite de la marque, celui des boutons, et non
+   le noir de fin d'échelle : un seul noir sur le site, et il est le nôtre. */
+.dark-block { background: var(--color-brand); color: var(--color-n-0); isolation: isolate; }
 .dark-block::before {
   content: "";
   position: absolute; inset: 0; z-index: -1;
