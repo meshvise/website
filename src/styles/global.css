@@ -53,6 +53,22 @@
   --color-off:           #5d6675;
   --color-off-bg:        #f0f3f7;
 
+  /* Accent de marque : tout ce qui accompagne, jamais ce qui agit. Teinte
+     254°, à 38° du bleu d'information : le seul écart franc disponible une
+     fois le vert, l'ambre, le rouge et le bleu réservés aux états. */
+  --color-accent:        #6d5ba6;
+  --color-accent-strong: #54428a;
+  --color-accent-bg:     #efecf8;
+  --color-accent-border: #d8d1ec;
+
+  /* Laiton : la couleur des figures et des tracés. Trop proche de l'ambre de
+     l'avertissement (12°) pour vivre à côté d'un badge, parfaitement à sa
+     place dans un dessin, où un trait est un trait et non un état. */
+  --color-brass:       #8a7431;
+  --color-brass-light: #c4b454;
+  --color-brass-soft:  #e2d69b;
+  --color-brass-bg:    #f7f2e4;
+
   /* Alias sémantiques utilisés par les composants */
   --color-canvas:  var(--color-n-50);
   --color-surface: var(--color-n-0);
@@ -98,13 +114,13 @@ html {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-info);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
 ::selection {
-  background-color: var(--color-info-bg);
+  background-color: var(--color-accent-bg);
   color: var(--color-ink);
 }
 
@@ -206,19 +222,20 @@ h1, h2, h3 { font-weight: 500; }
 .btn-outline:hover { border-color: var(--color-n-300); background: var(--color-n-50); }
 .btn-lg { padding: 0.8125rem 1.5rem; font-size: 1rem; }
 
-/* Lien texte : bleu, souligné fin. Pas de chevron. */
+/* Lien texte : accent de marque, souligné fin. Pas de chevron. */
 .link {
-  color: var(--color-info);
+  color: var(--color-accent);
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--color-info) 30%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
   text-underline-offset: 0.25em;
   text-decoration-thickness: 1px;
   transition: text-decoration-color 160ms ease;
 }
-.link:hover { text-decoration-color: var(--color-info); }
+.link:hover { color: var(--color-accent-strong); text-decoration-color: var(--color-accent-strong); }
 
-/* Chiffre mis en avant : mono, bleu, léger. */
-.metric { font-family: var(--font-mono); font-feature-settings: "tnum" 1; color: var(--color-info); font-weight: 400; letter-spacing: -0.03em; }
+/* Chiffre mis en avant : mono, accent, léger. Ce n'est pas un état, donc
+   pas une couleur d'état. */
+.metric { font-family: var(--font-mono); font-feature-settings: "tnum" 1; color: var(--color-accent); font-weight: 400; letter-spacing: -0.03em; }
 
 /* Badges d'état : ceux du produit. Forme + couleur, jamais la couleur seule. */
 .badge {
@@ -312,5 +329,5 @@ h1, h2, h3 { font-weight: 500; }
   transition: border-color 160ms ease, box-shadow 160ms ease;
 }
 .field::placeholder { color: var(--color-n-400); }
-.field:focus { outline: none; border-color: var(--color-info); box-shadow: 0 0 0 3px var(--color-info-bg); }
+.field:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px var(--color-accent-bg); }
 .field-label { display: block; font-size: 0.8125rem; font-weight: 400; color: var(--color-muted); margin-bottom: 0.4375rem; }

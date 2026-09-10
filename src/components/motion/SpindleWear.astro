@@ -93,7 +93,7 @@ const fmt = (v: number) => v.toFixed(1).replace('.', lang === 'fr' ? ',' : '.');
     <!-- Le seuil normalisé, posé avant la courbe : il préexiste à la dérive. -->
     <g class="sw-limit">
       <line x1={X0} y1={y(SEUIL)} x2={X1} y2={y(SEUIL)} />
-      <text x={X1} y={y(SEUIL) - 10} text-anchor="end">
+      <text x={X0 + 8} y={y(SEUIL) - 9} text-anchor="start">
         {t(lang, 'motion.spindle.threshold')} · {fmt(SEUIL)} mm/s
       </text>
     </g>
@@ -104,7 +104,7 @@ const fmt = (v: number) => v.toFixed(1).replace('.', lang === 'fr' ? ',' : '.');
     <g class="sw-hit" transform={`translate(${xAlarme.toFixed(1)} ${yAlarme.toFixed(1)})`}>
       <circle class="sw-halo" r="7" />
       <circle class="sw-dot" r="4.5" />
-      <text x="0" y="-18" text-anchor="middle">{fmt(valeurAlarme)} mm/s</text>
+      <text x="-13" y="-8" text-anchor="end">{fmt(valeurAlarme)} mm/s</text>
     </g>
 
     <!-- Ce que la supervision fait de ce franchissement. -->
@@ -167,7 +167,7 @@ const fmt = (v: number) => v.toFixed(1).replace('.', lang === 'fr' ? ',' : '.');
 
   .sw-trace {
     fill: none;
-    stroke: var(--color-info);
+    stroke: var(--color-brass);
     stroke-width: 2;
     stroke-linejoin: round;
     stroke-linecap: round;

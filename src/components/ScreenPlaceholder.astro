@@ -58,7 +58,7 @@ const arc = (cx: number, cy: number, r: number, a0: number, a1: number) => {
         </div>
         <div class="border border-line rounded-md p-2 flex flex-col justify-between">
           <span class="text-muted">{fr ? 'Puissance' : 'Power'}</span>
-          <span class="mono text-[22px] font-medium text-info leading-none">412 <span class="text-[12px] text-muted">kW</span></span>
+          <span class="mono text-[22px] font-medium text-brass leading-none">412 <span class="text-[12px] text-muted">kW</span></span>
           <span class="text-muted text-[10px]">{fr ? 'talon nuit' : 'night base'} <span class="text-warn mono">38 kW</span></span>
         </div>
         <div class="col-span-3 row-span-2 border border-line rounded-md p-2 flex flex-col">
@@ -66,8 +66,8 @@ const arc = (cx: number, cy: number, r: number, a0: number, a1: number) => {
           <svg viewBox="0 0 300 80" class="w-full flex-1" preserveAspectRatio="none" aria-hidden="true">
             <rect x="0" y="0" width="60" height="80" fill="var(--color-n-100)"/><rect x="250" y="0" width="50" height="80" fill="var(--color-n-100)"/>
             <line x1="0" y1="26" x2="300" y2="26" stroke="var(--color-line)"/><line x1="0" y1="53" x2="300" y2="53" stroke="var(--color-line)"/>
-            <path d="M0 62 L60 60 L70 30 L100 34 L130 22 L160 28 L190 18 L220 25 L250 20 L260 58 L300 60 L300 80 L0 80 Z" fill="var(--color-info)" opacity="0.18"/>
-            <path d="M0 62 L60 60 L70 30 L100 34 L130 22 L160 28 L190 18 L220 25 L250 20 L260 58 L300 60" fill="none" stroke="var(--color-info)" stroke-width="2"/>
+            <path d="M0 62 L60 60 L70 30 L100 34 L130 22 L160 28 L190 18 L220 25 L250 20 L260 58 L300 60 L300 80 L0 80 Z" fill="var(--color-brass)" opacity="0.18"/>
+            <path d="M0 62 L60 60 L70 30 L100 34 L130 22 L160 28 L190 18 L220 25 L250 20 L260 58 L300 60" fill="none" stroke="var(--color-brass)" stroke-width="2"/>
             <path d="M0 62 L60 60" stroke="var(--color-warn)" stroke-width="2.5"/><path d="M260 58 L300 60" stroke="var(--color-warn)" stroke-width="2.5"/>
           </svg>
         </div>
@@ -94,14 +94,14 @@ const arc = (cx: number, cy: number, r: number, a0: number, a1: number) => {
     {kind === 'synoptic' && (
       <svg viewBox="0 0 320 170" class="w-full h-full" aria-hidden="true" font-family="var(--font-mono)" font-size="9">
         <rect x="20" y="40" width="70" height="95" rx="3" fill="var(--color-n-50)" stroke="var(--color-ink-2)" stroke-width="1.25"/>
-        <rect x="21" y="76" width="68" height="58" fill="var(--color-info)" opacity="0.55"/>
+        <rect x="21" y="76" width="68" height="58" fill="var(--color-brass)" opacity="0.55"/>
         <rect x="130" y="40" width="70" height="95" rx="3" fill="var(--color-n-50)" stroke="var(--color-ink-2)" stroke-width="1.25"/>
-        <rect x="131" y="58" width="68" height="76" fill="var(--color-info)" opacity="0.55"/>
-        <path d="M90 88 H130" stroke="var(--color-info)" stroke-width="3"/>
-        <path d="M200 88 H238" stroke="var(--color-info)" stroke-width="3"/>
+        <rect x="131" y="58" width="68" height="76" fill="var(--color-brass)" opacity="0.55"/>
+        <path d="M90 88 H130" stroke="var(--color-brass)" stroke-width="3"/>
+        <path d="M200 88 H238" stroke="var(--color-brass)" stroke-width="3"/>
         <circle cx="252" cy="88" r="14" fill="var(--color-normal-bg)" stroke="var(--color-normal)" stroke-width="2"/>
         <path d="M246 82 L260 88 L246 94 Z" fill="var(--color-normal)"/>
-        <path d="M266 88 H278" stroke="var(--color-info)" stroke-width="3"/>
+        <path d="M266 88 H278" stroke="var(--color-brass)" stroke-width="3"/>
         <rect x="278" y="52" width="30" height="72" rx="3" fill="var(--color-warn-bg)" stroke="var(--color-warn)" stroke-width="1.5"/>
         <rect x="279" y="100" width="28" height="23" fill="var(--color-warn)" opacity="0.5"/>
         <text x="55" y="30" fill="var(--color-ink-2)" text-anchor="middle">T1 · 62 %</text>
@@ -115,14 +115,14 @@ const arc = (cx: number, cy: number, r: number, a0: number, a1: number) => {
     )}
     {kind === 'history' && (
       <div class="flex flex-col h-full gap-2">
-        <div class="flex items-center gap-3 text-[11px]"><span class="mono text-info font-medium">Boiler1/FlueTemp</span><span class="text-muted">7 j</span><span class="ml-auto mono text-muted">min <span class="text-ink">98,2</span> · max <span class="text-crit">131,0</span></span></div>
+        <div class="flex items-center gap-3 text-[11px]"><span class="mono text-brass font-medium">Boiler1/FlueTemp</span><span class="text-muted">7 j</span><span class="ml-auto mono text-muted">min <span class="text-ink">98,2</span> · max <span class="text-crit">131,0</span></span></div>
         <div class="flex-1 border border-line rounded-md p-2">
           <svg viewBox="0 0 300 90" class="w-full h-full" preserveAspectRatio="none" aria-hidden="true">
             <rect x="0" y="0" width="300" height="18" fill="var(--color-crit-bg)"/>
             <line x1="0" y1="18" x2="300" y2="18" stroke="var(--color-crit)" stroke-dasharray="4 3"/>
             <line x1="0" y1="45" x2="300" y2="45" stroke="var(--color-line)"/><line x1="0" y1="70" x2="300" y2="70" stroke="var(--color-line)"/>
-            <path d="M0 70 C40 65 60 45 100 50 S150 12 190 30 S260 55 300 40 L300 90 L0 90 Z" fill="var(--color-info)" opacity="0.15"/>
-            <path d="M0 70 C40 65 60 45 100 50 S150 12 190 30 S260 55 300 40" fill="none" stroke="var(--color-info)" stroke-width="2"/>
+            <path d="M0 70 C40 65 60 45 100 50 S150 12 190 30 S260 55 300 40 L300 90 L0 90 Z" fill="var(--color-brass)" opacity="0.15"/>
+            <path d="M0 70 C40 65 60 45 100 50 S150 12 190 30 S260 55 300 40" fill="none" stroke="var(--color-brass)" stroke-width="2"/>
             <circle cx="163" cy="15" r="3" fill="var(--color-crit)"/>
             <line x1="163" y1="0" x2="163" y2="90" stroke="var(--color-warn)" stroke-width="1" stroke-dasharray="2 2"/>
           </svg>

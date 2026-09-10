@@ -57,7 +57,7 @@ const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(
             <tbody>
               {list.map((p) => (
                 <tr>
-                  <td><a href={`#${slug(p.name)}`} class="mono text-ink font-medium whitespace-nowrap hover:text-info">{p.name}</a></td>
+                  <td><a href={`#${slug(p.name)}`} class="mono text-ink font-medium whitespace-nowrap hover:text-accent">{p.name}</a></td>
                   <td class="mono text-[13px] text-muted whitespace-nowrap">{p.transport}</td>
                   <td><span class={`badge ${modeBadge[p.mode]}`}>{t(lang, `protocols.table.${p.mode}`)}</span></td>
                   <td class="text-ink-2">{p.addressing}</td>
@@ -143,7 +143,7 @@ const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(
         <p class="t-lede">{t(lang, 'protocols.proprietary.intro')}</p>
       </div>
 
-      <p class="t-body text-ink max-w-3xl mb-12 pl-5 border-l-2 border-info">{t(lang, 'protocols.proprietary.principle')}</p>
+      <p class="t-body text-ink max-w-3xl mb-12 pl-5 border-l-2 border-accent">{t(lang, 'protocols.proprietary.principle')}</p>
 
       <h3 class="t-section">{t(lang, 'protocols.proprietary.ladder_title')}</h3>
       <p class="t-body mt-3 max-w-3xl">{t(lang, 'protocols.proprietary.ladder_intro')}</p>

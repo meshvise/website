@@ -17,9 +17,9 @@
     {['lun', 'mar', 'mer', 'jeu', 'ven', 'sam', 'dim'].map((d, i) => <text x={i * 205 + 8} y="512">{d}</text>)}
   </g>
   <!-- Aire sous la courbe -->
-  <path class="trend-fill" d="M0 380 C60 372 100 340 160 350 S260 300 320 318 S420 250 480 262 S560 300 620 288 S700 200 760 214 S860 262 920 250 S1000 170 1060 186 S1160 240 1220 226 S1320 150 1380 168 L1440 176 L1440 520 L0 520 Z" fill="var(--color-info)" opacity="0.06"/>
+  <path class="trend-fill" d="M0 380 C60 372 100 340 160 350 S260 300 320 318 S420 250 480 262 S560 300 620 288 S700 200 760 214 S860 262 920 250 S1000 170 1060 186 S1160 240 1220 226 S1320 150 1380 168 L1440 176 L1440 520 L0 520 Z" fill="var(--color-brass)" opacity="0.06"/>
   <!-- La courbe, dessinée au chargement -->
-  <path class="trend-line" pathLength="1" d="M0 380 C60 372 100 340 160 350 S260 300 320 318 S420 250 480 262 S560 300 620 288 S700 200 760 214 S860 262 920 250 S1000 170 1060 186 S1160 240 1220 226 S1320 150 1380 168 L1440 176" fill="none" stroke="var(--color-info)" stroke-width="2" stroke-linecap="round" opacity="0.28"/>
+  <path class="trend-line" pathLength="1" d="M0 380 C60 372 100 340 160 350 S260 300 320 318 S420 250 480 262 S560 300 620 288 S700 200 760 214 S860 262 920 250 S1000 170 1060 186 S1160 240 1220 226 S1320 150 1380 168 L1440 176" fill="none" stroke="var(--color-brass)" stroke-width="2" stroke-linecap="round" opacity="0.28"/>
   <!-- Seuil haut -->
   <line x1="0" y1="150" x2="1440" y2="150" stroke="var(--color-crit)" stroke-width="1" stroke-dasharray="6 6" opacity="0.18"/>
   <!-- Voile : dégage la colonne de texte à gauche, laisse la courbe respirer à droite -->

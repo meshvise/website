@@ -23,7 +23,7 @@ const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(
     {list.map((p, i) => (
       <li class={`px-5 py-4 border-line ${i % 3 !== 2 ? 'lg:border-r' : ''} ${i % 2 === 0 ? 'sm:border-r lg:border-r' : ''} ${i < list.length - 1 ? 'border-b' : ''}`}>
         <a href={`${href(lang, 'protocols')}#${slug(p.name)}`} class="group flex items-baseline justify-between gap-3">
-          <span class="mono text-[15px] font-medium text-ink group-hover:text-info transition-colors">{p.name}</span>
+          <span class="mono text-[15px] font-medium text-ink group-hover:text-accent transition-colors">{p.name}</span>
           <span class="t-small mono whitespace-nowrap">{p.transport}</span>
         </a>
       </li>
