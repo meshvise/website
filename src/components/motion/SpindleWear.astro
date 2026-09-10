@@ -151,7 +151,9 @@ const libellesY = (e: Echelle) =>
     .filter((p) => dansPlan(p.sy, Y0, Y1));
 
 const jourLabel = (d: number) =>
-  d === 0 ? t(lang, 'motion.spindle.day_zero') : `J+${d % 1 === 0 ? d : dec(d)}`;
+  d === 0
+    ? t(lang, 'motion.day_zero')
+    : `${t(lang, 'motion.day_after')}${d % 1 === 0 ? d : dec(d)}`;
 
 // ── La corroboration : le deuxième point de la même broche ─────────────
 // Le scénario `spindle-wear` du seed porte sur deux points, pas un : la
@@ -268,7 +270,7 @@ const bandeW = x(DAYS) - x(jFranchi);
     <g class="mv-a mv-recycle">
       <!-- Acte 1 : le seuil nommé, et l'ampleur de la dérive. -->
       <g class="mv-a" style="animation-name: sw-limit-in">
-        <text class="sw-limit-t mv-a" style="animation-name: mv-scale-1" x={X0 + 8} y={y(SEUIL) - 9}>
+        <text class="sw-limit-t mv-halo-t mv-a" style="animation-name: mv-scale-1" x={X0 + 8} y={y(SEUIL) - 9}>
           {t(lang, 'motion.spindle.threshold')} · {dec(SEUIL)} mm/s
         </text>
       </g>

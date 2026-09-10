@@ -1,6 +1,6 @@
 ---
 /**
- * Page de jugement des figures animées, hors navigation, française.
+ * Page de jugement des figures animées, hors navigation, anglaise.
  * Le gabarit et le texte sont partagés avec la version anglaise : juger le
  * rendu anglais ne doit pas demander de maintenir une deuxième page.
  * À retirer quand les figures descendront dans les vraies pages.
@@ -9,7 +9,7 @@ import Base from '../../layouts/Base.astro';
 import PreviewSections from '../../components/motion/PreviewSections.astro';
 import { t } from '../../i18n';
 
-const lang = 'fr' as const;
+const lang = 'en' as const;
 ---
 
 <Base lang={lang} title={t(lang, 'motion.preview.title')} description={t(lang, 'motion.preview.lede')}>

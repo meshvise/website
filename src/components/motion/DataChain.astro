@@ -93,11 +93,11 @@ const acts = [
     </g>
 
     <!-- Ce qui circule : un fait, une fois, dans un sens. -->
-    <g class="dc-flow mv-a mv-transient" style="animation-name: dc-flow-in">
+    <g class="dc-flow mv-a" style="animation-name: dc-flow-in">
       <path class="dc-pulse mv-a" style="animation-name: dc-run-1" d={lien1} />
       <path class="dc-pulse mv-a" style="animation-name: dc-run-2" d={lien2} />
     </g>
-    <g class="dc-flow-fan mv-a mv-transient" style="animation-name: dc-fan-in">
+    <g class="dc-flow-fan mv-a" style="animation-name: dc-fan-in">
       {consommateurs.map((c) => <path class="dc-pulse mv-a" style="animation-name: dc-run-3" d={fourche(c.y)} />)}
     </g>
 

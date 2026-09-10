@@ -156,7 +156,7 @@ const acts = [
     }
 
     <!-- Acte 3 : le faisceau, et le fait qui remonte par chaque liaison. -->
-    <g class="pe-wires mv-a mv-transient" style="animation-name: pe-wires-in">
+    <g class="pe-wires mv-a" style="animation-name: pe-wires-in">
       {rangees.map((r) => <path class="pe-wire" d={fil(r.yB - 4)} />)}
       {rangees.map((r) => <path class="pe-pulse mv-a" d={fil(r.yB - 4)} />)}
     </g>
@@ -263,7 +263,7 @@ const acts = [
   .pe-engine-t { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
   .pe-engine-s {
     font-family: var(--font-mono);
-    font-size: 9.5px;
+    font-size: 8.5px;
     fill: var(--color-brass);
     letter-spacing: 0.06em;
   }

@@ -40,6 +40,26 @@
   height: auto;
 }
 
+/*
+ * En dessous d'une certaine largeur, une figure de sept cent vingt unités
+ * ramenée à trois cent cinquante pixels rend sa mono de dix pixels à moins
+ * de cinq : illisible. Plutôt que d'appauvrir le dessin, la figure garde sa
+ * densité et se parcourt latéralement, comme un plan qu'on déplace sous les
+ * yeux. Le débordement est porté par la figure elle-même, ce qui ne gêne
+ * pas la `view-timeline` : la piste est cherchée sur le défilement du
+ * document, pas sur celui du sujet.
+ */
+@media (max-width: 720px) {
+  .mvf {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+  .mvf-svg {
+    min-width: 600px;
+  }
+}
+
 /* ── Les deux horloges ────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: no-preference) {

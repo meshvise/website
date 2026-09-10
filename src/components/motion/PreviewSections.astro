@@ -1,0 +1,64 @@
+---
+/**
+ * Les six figures dans la composition qu'elles sont censées servir : texte
+ * à gauche ou à droite, figure en face, une section par scénario.
+ *
+ * Ce gabarit sert les deux pages d'aperçu, française et anglaise, pour que
+ * juger le rendu anglais ne demande pas de maintenir une deuxième page.
+ * Le texte vit sous la clé `motion.` : quand les figures descendront dans
+ * les vraies pages, il descendra avec elles.
+ */
+import { t, type Lang } from '../../i18n';
+import SpindleWear from './SpindleWear.astro';
+import AirLeak from './AirLeak.astro';
+import MeterDropout from './MeterDropout.astro';
+import TightThreshold from './TightThreshold.astro';
+import ProtocolEngine from './ProtocolEngine.astro';
+import DataChain from './DataChain.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const sections = [
+  { cle: 'spindle', figure: SpindleWear },
+  { cle: 'air', figure: AirLeak },
+  { cle: 'meter', figure: MeterDropout },
+  { cle: 'threshold', figure: TightThreshold },
+  { cle: 'engine', figure: ProtocolEngine },
+  { cle: 'chain', figure: DataChain },
+] as const;
+---
+
+<section class="section">
+  <div class="wrap">
+    <h1 class="t-page">{t(lang, 'motion.preview.title')}</h1>
+    <p class="t-lede mt-6">{t(lang, 'motion.preview.lede')}</p>
+    <p class="t-small mono mt-8">{t(lang, 'motion.preview.hint')}</p>
+  </div>
+</section>
+
+{
+  sections.map(({ cle, figure: Figure }, i) => (
+    <section
+      class="section"
+      style={i % 2 === 1
+        ? 'background: var(--color-surface); border-block: 1px solid var(--color-line);'
+        : undefined}
+    >
+      <div class="wrap grid lg:grid-cols-12 gap-12 items-center">
+        <div class={`lg:col-span-5 ${i % 2 === 1 ? 'lg:order-2' : ''}`}>
+          <h2 class="t-page">{t(lang, `motion.${cle}.title`)}</h2>
+          <p class="t-lede mt-6">{t(lang, `motion.${cle}.lede`)}</p>
+          <p class="t-body mt-5">{t(lang, `motion.${cle}.p1`)}</p>
+          <p class="t-body mt-5">{t(lang, `motion.${cle}.p2`)}</p>
+        </div>
+        <div class={`lg:col-span-7 ${i % 2 === 1 ? 'lg:order-1' : ''}`}>
+          <Figure lang={lang} />
+        </div>
+      </div>
+    </section>
+  ))
+}

@@ -240,7 +240,7 @@ const acts = [
       {
         semaines.map((j) => (
           <text x={x(j)} y={YB + 22} text-anchor="middle">
-            {j === JOURS ? t(lang, 'motion.threshold.day_zero') : `J-${JOURS - j}`}
+            {j === JOURS ? t(lang, 'motion.day_zero') : `${t(lang, 'motion.day_before')}${JOURS - j}`}
           </text>
         ))
       }
