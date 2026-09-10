@@ -1034,6 +1034,25 @@
       "fig": "FIG. V-03",
       "caption": "Décrochage de sous-compteur",
       "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
+    },
+    "threshold": {
+      "alt": "Vingt et un jours de maximum journalier de température d'huile de coupe sur le groupe froid de l'atelier. La courbe ne change pas : elle oscille entre 22,3 et 22,7 °C du premier au dernier jour, et dépasse quinze fois 22,5 °C. Ce qui change, c'est le seuil d'alarme, abaissé de 24,0 à 22,5 °C par une révision signée au seizième jour avant aujourd'hui. Huit alarmes partent en onze jours, chacune refermée en quelques minutes, une seule acquittée. Une révision de retour arrière remet le seuil à 24,0 °C avec une hystérésis de 1,0 °C au sixième jour, et le journal redevient silencieux alors que les pics, eux, continuent.",
+      "day_zero": "J",
+      "series": "maximum journalier",
+      "limit": "seuil d'alarme",
+      "rev_lane": "RÉVISIONS",
+      "rev_tight": "seuil",
+      "rev_back": "retour à",
+      "alarm_lane": "ALARMES",
+      "peaks": "pics au-dessus de",
+      "fires": "déclenchements en",
+      "days": "jours",
+      "alarm_meta": "6 min en moyenne · 1 acquittement",
+      "fix_title": "Retour arrière signé",
+      "hyst": "hystérésis",
+      "fig": "FIG. V-04",
+      "caption": "Alarme au seuil trop serré",
+      "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
     }
   }
 }

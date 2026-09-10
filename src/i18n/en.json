@@ -1034,6 +1034,25 @@
       "fig": "FIG. V-03",
       "caption": "Sub-meter dropout",
       "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE"
+    },
+    "threshold": {
+      "alt": "Twenty-one days of daily maximum cutting-oil temperature on the workshop chiller. The curve does not change: it swings between 22.3 and 22.7 °C from the first day to the last, and rises above 22.5 °C fifteen times. What changed is the alarm threshold, lowered from 24.0 to 22.5 °C by a signed revision sixteen days before today. Eight alarms fire in eleven days, each closing again within minutes, one single acknowledgement. A rollback revision puts the threshold back at 24.0 °C with 1.0 °C of hysteresis six days before today, and the log goes quiet while the peaks carry on.",
+      "day_zero": "D",
+      "series": "daily maximum",
+      "limit": "alarm threshold",
+      "rev_lane": "REVISIONS",
+      "rev_tight": "threshold",
+      "rev_back": "back to",
+      "alarm_lane": "ALARMS",
+      "peaks": "peaks above",
+      "fires": "alarms in",
+      "days": "days",
+      "alarm_meta": "6 min average · 1 acknowledgement",
+      "fix_title": "Signed rollback",
+      "hyst": "hysteresis",
+      "fig": "FIG. V-04",
+      "caption": "Threshold set too tight",
+      "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE"
     }
   }
 }

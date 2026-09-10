@@ -8,6 +8,7 @@ import Base from '../../layouts/Base.astro';
 import SpindleWear from '../../components/motion/SpindleWear.astro';
 import AirLeak from '../../components/motion/AirLeak.astro';
 import MeterDropout from '../../components/motion/MeterDropout.astro';
+import TightThreshold from '../../components/motion/TightThreshold.astro';
 
 const lang = 'fr' as const;
 ---
@@ -92,6 +93,35 @@ const lang = 'fr' as const;
       </div>
       <div class="lg:col-span-7">
         <MeterDropout lang={lang} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--color-surface); border-block: 1px solid var(--color-line);">
+    <div class="wrap grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7 lg:order-2">
+        <TightThreshold lang={lang} />
+      </div>
+      <div class="lg:col-span-5 lg:order-1">
+        <h2 class="t-page">L'alarme que plus personne ne lit</h2>
+        <p class="t-lede mt-6">
+          Une alarme qui tire tous les jours et se referme en six minutes
+          n'informe plus personne. Elle apprend seulement à ne plus regarder.
+        </p>
+        <p class="t-body mt-5">
+          Le groupe froid d'huile de coupe fait le même après-midi depuis trois
+          semaines : le maximum journalier oscille entre 22,3 et 22,7 °C, et
+          dépasse quinze fois 22,5 °C sur les vingt et un jours. Ce qui a bougé,
+          c'est le seuil. Quelqu'un l'a resserré de 24,0 à 22,5 °C pour affiner un
+          réglage, et l'alarme s'est mise à tirer huit fois en onze jours.
+        </p>
+        <p class="t-body mt-5">
+          Chaque modification de seuil est une révision datée et signée. Celle-ci
+          porte un nom et une date, donc la salve d'alarmes qui l'a suivie a une
+          cause, et la révision de retour arrière se rédige en connaissance de
+          cause : 24,0 °C, hystérésis d'un degré. Le procédé, lui, n'a jamais eu
+          tort.
+        </p>
       </div>
     </div>
   </section>
