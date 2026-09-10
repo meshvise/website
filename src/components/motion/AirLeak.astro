@@ -160,6 +160,24 @@ const echelles: Echelle[] = [
 ];
 
 const dansPlan = (v: number, min: number, max: number) => v >= min - 0.5 && v <= max + 0.5;
+/** Les plages hors production, bornées au cadre, sous un cadrage donné. */
+const plages = (e: Echelle): Array<[number, number]> =>
+  horsProduction
+    .map(([a, b]): [number, number] => [
+      Math.max(X0, screenAt(x(a), 0, e.k, e.cx, e.cy).x),
+      Math.min(X1, screenAt(x(b), 0, e.k, e.cx, e.cy).x),
+    ])
+    .filter(([sx0, sx1]) => sx1 - sx0 > 0.5);
+
+/** Les traits de grille, en coordonnées d'écran sous un cadrage donné. */
+const grilleH = (e: Echelle) =>
+  e.gv
+    .map((v) => screenAt(0, y(v), e.k, e.cx, e.cy).y)
+    .filter((sy) => dansPlan(sy, Y0, Y1));
+const grilleV = (e: Echelle) =>
+  e.gh
+    .map((h) => screenAt(x(h), 0, e.k, e.cx, e.cy).x)
+    .filter((sx) => dansPlan(sx, X0, X1));
 const libH = (e: Echelle) =>
   e.lh
     .map((h) => ({ h, sx: screenAt(x(h), 0, e.k, e.cx, e.cy).x }))
@@ -235,31 +253,34 @@ const acts = [
 
     <Head acts={acts} actWord={t(lang, 'motion.act')} />
 
-    <g clip-path="url(#al-plot)">
-      <g class="mv-cam mv-a mv-ease" style="animation-name: mv-cam3">
-        <!-- Les plages sans production, sous la grille : elles cadrent la
-             lecture avant que la moindre valeur ne soit lue. -->
-        <g class="al-off">
+    <!-- Les plages sans production, sous la grille : elles cadrent la
+         lecture avant que la moindre valeur ne soit lue. Comme la grille,
+         elles suivent le cadrage par calcul et non par transformation. -->
+    {
+      echelles.map((e, i) => (
+        <g class={`al-off mv-a${i > 0 ? ' mv-transient' : ''}`} style={`animation-name: mv-scale-${i + 1}`}>
           {
-            horsProduction.map(([a, b]) => (
-              <rect x={x(a)} y={y(V_MAX * 3)} width={x(b) - x(a)} height={Y1 - y(V_MAX * 3)} />
+            plages(e).map(([sx0, sx1]) => (
+              <rect x={sx0} y={Y0} width={sx1 - sx0} height={Y1 - Y0} />
             ))
           }
         </g>
+      ))
+    }
 
-        {
-          echelles.map((e, i) => (
-            <g class={`mv-grid mv-a${i > 0 ? ' mv-transient' : ''}`} style={`animation-name: mv-scale-${i + 1}`}>
-              {e.gv.map((v) => (
-                <line x1={x(-8)} y1={y(v)} x2={x(176)} y2={y(v)} />
-              ))}
-              {e.gh.map((h) => (
-                <line x1={x(h)} y1={y(V_MAX * 3)} x2={x(h)} y2={y(-V_MAX)} />
-              ))}
-            </g>
-          ))
-        }
+    <!-- Grille et libellés se relaient ensemble, hors du cadrage : une
+         grille transformée est retracée à chaque image du déplacement. -->
+    {
+      echelles.map((e, i) => (
+        <g class={`mv-grid mv-a${i > 0 ? ' mv-transient' : ''}`} style={`animation-name: mv-scale-${i + 1}`}>
+          {grilleH(e).map((sy) => <line x1={X0} y1={sy} x2={X1} y2={sy} />)}
+          {grilleV(e).map((sx) => <line x1={sx} y1={Y0} x2={sx} y2={Y1} />)}
+        </g>
+      ))
+    }
 
+    <g clip-path="url(#al-plot)">
+      <g class="mv-cam mv-a mv-ease" style="animation-name: mv-cam3">
         <g class="mv-a mv-recycle">
           <!-- Ce que la semaine révèle : entre la veille attendue et le
                plancher observé, un débit permanent que rien ne consomme.

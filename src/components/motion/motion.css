@@ -3,21 +3,27 @@
  *
  * Une seule règle gouverne tout : chaque élément animé porte la classe
  * `mv-a` et déclare uniquement son `animation-name`, avec des images clés
- * exprimées en pourcentage d'un cycle unique. C'est ce fichier qui décide
- * d'où vient ce cycle.
+ * exprimées en pourcentage d'un cycle unique. Ce cycle est le temps, en
+ * boucle.
  *
- *   Navigateur à jour  : le cycle est le défilement. La figure porte une
- *                        `view-timeline`, l'histoire avance quand le lecteur
- *                        avance, et s'arrête quand il s'arrête. Aucun script.
- *   Navigateur ancien  : le cycle est le temps, en boucle, comme avant.
- *   Mouvement réduit   : aucune animation. L'état de repos des figures est
- *                        leur état final, donc la figure reste complète et
- *                        lisible, simplement immobile.
+ * Le défilement a servi d'horloge pendant une version, et c'était une
+ * fausse bonne idée : une molette avance par paliers d'une centaine de
+ * pixels, donc l'histoire avançait par à-coups. Aucun réglage ne rattrape
+ * ça, c'est le geste lui-même qui est discret. La fluidité vaut mieux que
+ * le pilotage.
+ *
+ * Ce que le défilement apportait vraiment, c'était de ne pas faire tomber
+ * le lecteur au milieu d'une séquence. Ça, `observe.ts` le rend sans
+ * saccade : le cycle démarre quand la figure entre dans l'écran et se met
+ * en pause quand elle en sort. Sans script, tout tourne quand même.
+ *
+ *   Mouvement réduit : aucune animation. L'état de repos des figures est
+ *   leur état final, donc la figure reste complète et lisible, immobile.
  *
  * Conséquence sur l'écriture des images clés : elles vont de l'état nu
- * (0 %) à l'état complet (100 %), sans queue de fondu. La boucle temporelle
- * récupère la couture avec `mv-recycle`, posé sur le seul groupe des
- * éléments de récit ; le fond de plan, lui, ne clignote jamais.
+ * (0 %) à l'état complet (100 %), sans queue de fondu. La boucle récupère
+ * la couture avec `mv-recycle`, posé sur le seul groupe des éléments de
+ * récit ; le fond de plan, lui, ne clignote jamais.
  *
  * Les quatre actes ont des bornes fixes, communes aux six figures : 0, 22,
  * 48, 74, 100. Une figure ne choisit pas son découpage, elle choisit ce
@@ -45,9 +51,7 @@
  * ramenée à trois cent cinquante pixels rend sa mono de dix pixels à moins
  * de cinq : illisible. Plutôt que d'appauvrir le dessin, la figure garde sa
  * densité et se parcourt latéralement, comme un plan qu'on déplace sous les
- * yeux. Le débordement est porté par la figure elle-même, ce qui ne gêne
- * pas la `view-timeline` : la piste est cherchée sur le défilement du
- * document, pas sur celui du sujet.
+ * yeux.
  */
 @media (max-width: 720px) {
   .mvf {
@@ -60,7 +64,7 @@
   }
 }
 
-/* ── Les deux horloges ────────────────────────────────────────────────── */
+/* ── L'horloge ────────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: no-preference) {
   .mv-a {
@@ -73,10 +77,9 @@
     animation-timing-function: cubic-bezier(0.62, 0, 0.32, 1);
   }
 
-  /* La couture de la boucle temporelle : le récit s'efface juste avant le
-     retour à zéro. Sans horloge de temps, il n'y a pas de couture. Le
-     groupe qui la porte enveloppe le récit et rien d'autre : le fond de
-     plan, lui, ne clignote jamais. */
+  /* La couture de la boucle : le récit s'efface juste avant le retour à
+     zéro. Le groupe qui la porte enveloppe le récit et rien d'autre, pour
+     que le fond de plan ne clignote jamais. */
   .mv-recycle {
     animation-name: mv-recycle;
   }
@@ -91,25 +94,6 @@
     }
   }
 
-  @supports (animation-timeline: view()) {
-    .mvf {
-      view-timeline-name: --mvf;
-      view-timeline-axis: block;
-    }
-    .mv-a {
-      animation-timeline: --mvf;
-      animation-duration: auto;
-      animation-iteration-count: 1;
-      /* L'histoire commence dès que le bandeau d'acte apparaît en bas de
-         l'écran et se termine exactement quand la figure entière est posée
-         sous l'entête : le dernier acte est donc toujours lu en entier, et
-         ce qui reste du défilement se fait sur l'image complète. */
-      animation-range: entry 55% exit 0%;
-    }
-    .mv-recycle {
-      animation-name: none;
-    }
-  }
 }
 
 /*
@@ -323,10 +307,16 @@
     0%,
     22% {
       transform: var(--row-a);
+      opacity: 1;
+    }
+    25%,
+    27% {
+      opacity: 0.3;
     }
     30%,
     100% {
       transform: var(--row-b);
+      opacity: 1;
     }
   }
 }
@@ -481,6 +471,10 @@
 .mv-cam {
   transform-box: view-box;
   transform-origin: 0 0;
+  /* Le déplacement de cadre est le seul mouvement de la page qui touche
+     une géométrie entière à chaque image : autant prévenir le compositeur
+     plutôt que de le laisser découvrir la transformation en cours. */
+  will-change: transform;
 }
 /* Un trait reste un trait quel que soit l'agrandissement : c'est ce qui
    distingue un déplacement de caméra d'un simple zoom d'image. */

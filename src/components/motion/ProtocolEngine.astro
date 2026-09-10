@@ -125,7 +125,7 @@ const acts = [
     <Head acts={acts} actWord={t(lang, 'motion.act')} />
 
     <!-- Acte 2 : les trois familles, avec leur crochet et leur cadence. -->
-    <g class="pe-group mv-a" style="animation-name: mv-from-2">
+    <g class="pe-group mv-a" style="animation-name: pe-group-in">
       {
         entetes.map((e, i) => (
           <>
@@ -295,6 +295,10 @@ const acts = [
 
 <style is:global>
   @media (prefers-reduced-motion: no-preference) {
+    @keyframes pe-group-in {
+      0%, 30% { opacity: 0; }
+      35%, 100% { opacity: 1; }
+    }
     @keyframes pe-wires-in {
       0%, 46% { opacity: 0; }
       52%, 100% { opacity: 1; }

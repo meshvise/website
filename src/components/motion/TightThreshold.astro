@@ -124,6 +124,11 @@ const echelles: Echelle[] = [
 const semaines = [0, 7, 14, 21];
 
 const dansPlan = (v: number, min: number, max: number) => v >= min - 0.5 && v <= max + 0.5;
+/** Les traits de grille horizontaux, en coordonnées d'écran. */
+const grilleH = (e: Echelle) =>
+  e.gv
+    .map((v) => screenAt(0, y(v), 1, (X0 + X1) / 2, e.cy, e.ky, AY).y)
+    .filter((sy) => dansPlan(sy, Y0, YB));
 const libV = (e: Echelle) =>
   e.lv
     .map((v) => ({ v, sy: screenAt(0, y(v), 1, (X0 + X1) / 2, e.cy, e.ky, AY).y }))
@@ -169,18 +174,22 @@ const acts = [
 
     <Head acts={acts} actWord={t(lang, 'motion.act')} />
 
+    <!-- La grille vit hors du cadrage : transformée, elle serait retracée à
+         chaque image. Les verticales de semaine sont fixes, puisque le
+         resserrement ne touche que l'ordonnée. -->
+    <g class="mv-grid">
+      {semaines.map((j) => <line x1={x(j)} y1={Y0} x2={x(j)} y2={YB} />)}
+    </g>
+    {
+      echelles.map((e, i) => (
+        <g class={`mv-grid mv-a${i > 0 ? ' mv-transient' : ''}`} style={`animation-name: ${i === 0 ? 'mv-scale-1' : 'mv-mid'}`}>
+          {grilleH(e).map((sy) => <line x1={X0} y1={sy} x2={X1} y2={sy} />)}
+        </g>
+      ))
+    }
+
     <g clip-path="url(#tt-plot)">
       <g class="mv-cam mv-a mv-ease" style="animation-name: mv-cam3">
-        <g class="mv-grid mv-a" style="animation-name: mv-scale-1">
-          {echelles[0].gv.map((v) => <line x1={X0} y1={y(v)} x2={X1} y2={y(v)} />)}
-        </g>
-        <g class="mv-grid mv-a mv-transient" style="animation-name: mv-mid">
-          {echelles[1].gv.map((v) => <line x1={X0} y1={y(v)} x2={X1} y2={y(v)} />)}
-        </g>
-        <g class="mv-grid">
-          {semaines.map((j) => <line x1={x(j)} y1={y(V_MAX * 2)} x2={x(j)} y2={y(0)} />)}
-        </g>
-
         <!-- La fenêtre où le seuil valait 22,5 : une zone, pas seulement un
              trait. C'est elle qui rend la coïncidence avec la salve
              d'alarmes évidente. -->
@@ -202,7 +211,7 @@ const acts = [
 
         <!-- Le seuil, en trois marches. C'est lui qui se déplace. -->
         <g class="tt-limit">
-          <polyline class="mv-a" style="animation-name: tt-step-1" points={marcheAvant} />
+          <polyline points={marcheAvant} />
           <polyline class="mv-a" style="animation-name: mv-from-2" points={marchePendant} />
           <polyline class="mv-a" style="animation-name: mv-from-4" points={marcheApres} />
         </g>
@@ -381,11 +390,6 @@ const acts = [
 
 <style is:global>
   @media (prefers-reduced-motion: no-preference) {
-    @keyframes tt-step-1 {
-      0% { opacity: 0; }
-      8%, 73% { opacity: 1; }
-      78%, 100% { opacity: 0; }
-    }
     @keyframes tt-sweep {
       0%, 46% { transform: translateX(0); }
       72%, 100% { transform: translateX(620px); }
