@@ -113,9 +113,10 @@ const acts = [
       ))
     }
 
-    <!-- Les trois consommateurs. Ils lisent le bus, ils ne redemandent
-         rien à personne : c'est tout l'intérêt d'un fait publié une fois. -->
-    <g class="dc-cons mv-a" style="animation-name: mv-from-3">
+    <!-- Les trois consommateurs. Ils sont là dès le premier acte, sinon la
+         chaîne annoncée n'en est pas une ; ce qui arrive au troisième, c'est
+         la liaison qui les sert, et le fait qui la parcourt. -->
+    <g class="dc-cons mv-a" style="animation-name: dc-cons-in">
       {
         consommateurs.map((c) => (
           <g class="dc-box">
@@ -270,6 +271,10 @@ const acts = [
     @keyframes dc-flow-in {
       0%, 21% { opacity: 0; }
       26%, 100% { opacity: 1; }
+    }
+    @keyframes dc-cons-in {
+      0%, 47% { opacity: 0.4; }
+      52%, 100% { opacity: 1; }
     }
     @keyframes dc-fan-in {
       0%, 47% { opacity: 0; }
