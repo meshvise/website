@@ -26,7 +26,8 @@ const arc = (cx: number, cy: number, r: number, a0: number, a1: number) => {
 };
 ---
 
-<figure class={`panel ${cls}`} aria-label={label}>
+<figure class={`panel overflow-x-auto ${cls}`} aria-label={label}>
+  <div class="min-w-[26rem]">
   <div class="flex items-center justify-between px-3 h-9 border-b border-line bg-n-50">
     <span class="text-[12px] font-medium text-ink-2">{title}</span>
     <span class="t-small mono">11:09</span>
@@ -132,4 +133,5 @@ const arc = (cx: number, cy: number, r: number, a0: number, a1: number) => {
     )}
   </div>
   <figcaption class="px-3 py-1.5 border-t border-line t-small">{label}</figcaption>
+  </div>
 </figure>

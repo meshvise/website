@@ -36,7 +36,10 @@ const gains = (lang === 'fr' ? fr : en).home.hero.gains as { word: string; proof
 </div>
 
 <style>
-  .hg { max-width: 46ch; }
+  /* Largeur en rem et non en ch : le ch se mesure sur la police du bloc,
+     16 px, alors que l'accroche est à 64 px. Le bloc faisait 405 px, deux des
+     cinq gains passaient sur deux lignes et débordaient. */
+  .hg { max-width: 44rem; }
   .hg h1 { margin: 0; }
   .hg-lead { display: block; }
   .hg-words { color: var(--color-accent); display: block; }
@@ -50,17 +53,16 @@ const gains = (lang === 'fr' ? fr : en).home.hero.gains as { word: string; proof
     max-width: 52ch;
   }
 
-  /* Une pile : les éléments occupent la même place, un seul est visible. La
-     hauteur est réservée pour que rien ne saute d'un item à l'autre. */
-  .hg-stack { position: relative; }
-  .hg-words { height: 1.14em; }
-  .hg-proofs { height: 3em; }
-  .hg-item { position: absolute; inset-inline: 0; top: 0; }
+  /* Une pile : tous les éléments dans la même cellule de grille, un seul
+     visible. La grille prend d'elle-même la hauteur du plus grand, donc rien
+     ne déborde quand un gain passe sur deux lignes. */
+  .hg-stack { display: grid; }
+  .hg-item { grid-area: 1 / 1; }
 
   @media (prefers-reduced-motion: no-preference) {
     .hg-item {
       opacity: 0;
-      transform: translateY(0.35em);
+      transform: translateY(0.22em);
       animation: hg-roll 20s cubic-bezier(0.22, 1, 0.36, 1) infinite;
     }
     /* Retard négatif sur le premier : à l'affichage il a déjà passé sa phase
@@ -73,18 +75,18 @@ const gains = (lang === 'fr' ? fr : en).home.hero.gains as { word: string; proof
     .hg-item:nth-child(5) { animation-delay: 15.6s; }
 
     @keyframes hg-roll {
-      0%   { opacity: 0; transform: translateY(0.35em); }
+      0%   { opacity: 0; transform: translateY(0.22em); }
       2%   { opacity: 1; transform: translateY(0); }
       18%  { opacity: 1; transform: translateY(0); }
-      20%  { opacity: 0; transform: translateY(-0.35em); }
-      100% { opacity: 0; transform: translateY(-0.35em); }
+      20%  { opacity: 0; transform: translateY(-0.22em); }
+      100% { opacity: 0; transform: translateY(-0.22em); }
     }
   }
 
   /* Sans mouvement, la pile redevient une liste : les cinq gains se lisent. */
   @media (prefers-reduced-motion: reduce) {
-    .hg-words, .hg-proofs { height: auto; }
-    .hg-item { position: static; display: block; }
+    .hg-stack { display: block; }
+    .hg-item { display: block; }
     .hg-proofs .hg-item { margin-bottom: 0.35rem; }
   }
 

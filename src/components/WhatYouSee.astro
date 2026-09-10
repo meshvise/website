@@ -3,6 +3,10 @@ import { t, type Lang } from '../i18n';
 import ScreenPlaceholder from './ScreenPlaceholder.astro';
 import LiveTable from './LiveTable.astro';
 
+// `min-w-0` sur chaque cellule : un enfant de grille garde sinon la largeur
+// de son contenu, et le defilement interne du faux ecran ne s'applique pas.
+// La page entiere se met alors a deborder sur telephone.
+
 interface Props {
   lang: Lang;
 }
@@ -23,7 +27,7 @@ const screens = [
     </div>
     <div class="grid md:grid-cols-2 gap-x-10 gap-y-14">
       {screens.map((s) => (
-        <div>
+        <div class="min-w-0">
           <ScreenPlaceholder kind={s.kind} lang={lang} label={t(lang, 'home.see.placeholder')} />
           <h3 class="mt-4 text-[17px] font-medium text-ink">{t(lang, `home.see.${s.id}.title`)}</h3>
           <p class="t-body mt-1">{t(lang, `home.see.${s.id}.body`)}</p>
