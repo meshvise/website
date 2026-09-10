@@ -108,32 +108,44 @@
       }
     },
     "personas": {
-      "title": "What it changes, role by role",
+      "title": "When do you find out?",
       "director": {
         "label": "Managing director",
-        "pain": "Figures pieced back together at month end.",
-        "gain": "This month's figures continuously, and the cost of a stoppage measured instead of guessed."
+        "gain": "This month's figures continuously, and the cost of a stoppage measured instead of guessed.",
+        "today": "Figures pieced back together at month end."
       },
       "maintenance": {
         "label": "Maintenance",
-        "pain": "Alarms scattered around, and a call-out for every night alert.",
-        "gain": "Every alarm in one place, with the minutes that led to the stoppage."
+        "gain": "The alarm goes out within the minute, with the minutes that led to the stoppage.",
+        "today": "Drift is discovered when the machine fails, often the next day."
       },
       "production": {
         "label": "Production, methods",
-        "pain": "An OEE figure worked out from memory, in a spreadsheet.",
-        "gain": "OEE computed continuously from the counters, micro-stoppages included."
+        "gain": "OEE computed continuously from the counters, micro-stoppages included.",
+        "today": "OEE is worked out on Friday, from memory, in a spreadsheet."
       },
       "quality": {
         "label": "Quality",
-        "pain": "Evidence pieced together by hand before every audit.",
-        "gain": "Every parameter timestamped, every threshold signed, history exported in one query."
+        "gain": "Every parameter timestamped to the second, history exported in one query.",
+        "today": "A parameter that moved surfaces weeks later, during the audit."
       },
       "integrator": {
         "label": "Systems integrator",
-        "pain": "A puzzle of licences, and per-point billing that loses deals.",
-        "gain": "Thirteen protocols in one engine, one licence per site, costed before the quote."
-      }
+        "body": "The same lag, on the commercial side: thirteen protocols in one engine and one licence per site can be costed before writing the quote, rather than after negotiating it."
+      },
+      "lede": "Meshvise rarely tells you something you did not know. It tells you sooner, and that is where everything is decided.",
+      "today": "Today",
+      "with": "With Meshvise",
+      "scale": [
+        "a month",
+        "a week",
+        "a day",
+        "an hour",
+        "a minute",
+        "right away"
+      ],
+      "aria": "Axis of how long it takes to find out, from a month to right away. For each role, one point marks the current situation and a second one what Meshvise changes.",
+      "integrator_label": "And for a systems integrator"
     },
     "see": {
       "title": "What you see in Meshvise",

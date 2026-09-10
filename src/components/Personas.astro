@@ -1,12 +1,23 @@
 ---
 /**
- * Cinq métiers, en tableau. Tout est visible, pas d'onglets.
+ * Quand le savez-vous ? Les métiers posés sur un axe de délai.
  *
- * La version précédente donnait dix paragraphes de même poids, qui ne se
- * lisaient ni ne se survolaient. Le visiteur doit se reconnaître en une
- * seconde : son métier à gauche, sa situation, ce qui change. Le détail vit
- * sur les pages Produit et Pourquoi superviser, pas ici.
+ * Le gain de Meshvise est presque toujours un gain de latence : la question
+ * n'est pas ce qu'on sait, mais quand. Chaque métier porte donc deux points
+ * sur une même échelle, du mois à l'instant, et le trajet de l'un à l'autre
+ * se lit sans lire une ligne.
+ *
+ * Un graphe en haltère, la forme juste pour comparer deux états sur une
+ * échelle commune. Les deux états se distinguent par la forme autant que par
+ * la couleur, cercle creux contre cercle plein, pour que l'information ne
+ * dépende jamais de la seule teinte.
+ *
+ * L'intégrateur n'est pas sur l'axe : son gain n'est pas un délai de donnée
+ * mais un moment de chiffrage. L'y mêler fausserait l'échelle, donc il a sa
+ * ligne sous le graphique.
  */
+import fr from '../i18n/fr.json';
+import en from '../i18n/en.json';
 import { t, type Lang } from '../i18n';
 
 interface Props {
@@ -14,77 +25,163 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const roles = ['director', 'maintenance', 'production', 'quality', 'integrator'] as const;
+const dict = (lang === 'fr' ? fr : en).home.personas;
+const scale = dict.scale as string[];
+
+/**
+ * Position sur l'axe, de 0 pour « un mois » à 100 pour « l'instant ».
+ * Les graduations tombent tous les vingt points, et chaque métier est placé
+ * sur ce que décrit sa phrase, pas au jugé.
+ */
+const roles = [
+  { id: 'director',    today: 4,  now: 100 },
+  { id: 'maintenance', today: 40, now: 82 },
+  { id: 'production',  today: 22, now: 100 },
+  { id: 'quality',     today: 12, now: 96 },
+] as const;
 ---
 
 <section id="personas" class="section">
   <div class="wrap">
     <div class="section-head">
       <h2 class="t-page">{t(lang, 'home.personas.title')}</h2>
+      <p class="t-lede">{t(lang, 'home.personas.lede')}</p>
     </div>
 
-    <div class="overflow-x-auto">
-      <table class="pt">
-        <thead>
-          <tr>
-            <th class="w-[15%]"></th>
-            <th class="w-[38%]">{t(lang, 'common.the_problem')}</th>
-            <th class="w-[47%]">{t(lang, 'common.with_meshvise')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {roles.map((id) => (
-            <tr>
-              <th scope="row">{t(lang, `home.personas.${id}.label`)}</th>
-              <td class="pain">{t(lang, `home.personas.${id}.pain`)}</td>
-              <td class="gain">{t(lang, `home.personas.${id}.gain`)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <!-- Deux états, deux formes : la légende est toujours là, l'identité ne
+         repose jamais sur la couleur seule. -->
+    <div class="legend">
+      <span class="key"><i class="dot dot-today" aria-hidden="true"></i>{t(lang, 'home.personas.today')}</span>
+      <span class="key"><i class="dot dot-now" aria-hidden="true"></i>{t(lang, 'home.personas.with')}</span>
     </div>
+
+    <div class="chart" role="img" aria-label={t(lang, 'home.personas.aria')}>
+      <div class="rows">
+        {roles.map((r) => (
+          <div class="row">
+            <div class="who">
+              <h3>{t(lang, `home.personas.${r.id}.label`)}</h3>
+              <p class="then">{t(lang, `home.personas.${r.id}.today`)}</p>
+            </div>
+            <div class="track">
+              <span class="rail" aria-hidden="true"></span>
+              <span class="move" style={`left:${r.today}%; right:${100 - r.now}%`} aria-hidden="true"></span>
+              <span class="dot dot-today" style={`left:${r.today}%`} aria-hidden="true"></span>
+              <span class="dot dot-now" style={`left:${r.now}%`} aria-hidden="true"></span>
+            </div>
+            <p class="gain">{t(lang, `home.personas.${r.id}.gain`)}</p>
+          </div>
+        ))}
+      </div>
+
+      <!-- L'axe, une seule fois en bas : la position de chaque point s'y lit,
+           ce qui évite d'étiqueter huit marques. -->
+      <div class="axis" aria-hidden="true">
+        <div class="axis-track">
+          {scale.map((label, i) => (
+            <span class="tick" style={`left:${(i / (scale.length - 1)) * 100}%`}>
+              <i></i><b>{label}</b>
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <p class="also">
+      <span class="also-label">{t(lang, 'home.personas.integrator_label')}</span>
+      {t(lang, 'home.personas.integrator.body')}
+    </p>
   </div>
 </section>
 
 <style>
-  .pt { width: 100%; min-width: 44rem; border-collapse: collapse; }
+  .legend { display: flex; gap: 1.75rem; margin-bottom: 1.5rem; }
+  .key {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--font-mono); font-size: 0.6875rem;
+    letter-spacing: 0.07em; text-transform: uppercase; color: var(--color-muted);
+  }
+  .key .dot { position: static; transform: none; }
 
-  /* Les en-têtes nomment les deux colonnes une fois, au lieu de répéter
-     « le problème » et « avec Meshvise » cinq fois chacun. */
-  .pt thead th {
-    text-align: left;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 400;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-    padding: 0 1.25rem 0.75rem 0;
+  .rows { border-top: 1px solid var(--color-line); }
+  .row {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    gap: 0.75rem 2.5rem;
+    align-items: center;
+    padding: 1.5rem 0;
     border-bottom: 1px solid var(--color-line);
   }
-  .pt thead th:first-child { padding-inline-start: 0; }
-
-  .pt tbody th {
-    text-align: left;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--color-ink);
-    padding: 1.375rem 1.25rem 1.375rem 0;
-    border-bottom: 1px solid var(--color-line);
-    vertical-align: top;
-  }
-  .pt td {
+  .who h3 { font-size: 1rem; font-weight: 500; color: var(--color-ink); margin: 0; }
+  .who .then { font-size: 0.8125rem; line-height: 1.45; color: var(--color-muted); margin: 0.3rem 0 0; }
+  .gain {
+    grid-column: 2;
     font-size: 0.9375rem;
     line-height: 1.55;
-    padding: 1.375rem 1.25rem 1.375rem 0;
-    border-bottom: 1px solid var(--color-line);
-    vertical-align: top;
+    color: var(--color-ink);
+    margin: 0;
   }
 
-  /* La situation actuelle en gris, ce qui change en encre pleine : la
-     lecture en diagonale suffit alors à voir de quel côté on veut être. */
-  .pt .pain { color: var(--color-muted); }
-  .pt .gain { color: var(--color-ink); }
-  .pt tbody tr:last-child th,
-  .pt tbody tr:last-child td { border-bottom: 0; }
+  /* La piste : un filet complet, le segment parcouru en accent, deux marques. */
+  .track { position: relative; height: 1.25rem; }
+  .rail {
+    position: absolute; inset-inline: 0; top: 50%;
+    height: 1px; background: var(--color-line-strong); transform: translateY(-50%);
+  }
+  .move {
+    position: absolute; top: 50%;
+    height: 2px; background: var(--color-accent); opacity: 0.35;
+    transform: translateY(-50%);
+  }
+  .dot {
+    position: absolute; top: 50%;
+    width: 11px; height: 11px; border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+  /* Creux contre plein : la forme suffit à distinguer les deux états, la
+     couleur ne fait que confirmer. */
+  .dot-today {
+    background: var(--color-surface);
+    border: 2px solid var(--color-n-400);
+  }
+  .dot-now {
+    background: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-bg);
+  }
+
+  /* L'axe gradué, aligné sur la piste. */
+  .axis { display: grid; grid-template-columns: 15rem 1fr; gap: 2.5rem; margin-top: 0.875rem; }
+  .axis-track { grid-column: 2; position: relative; height: 2.25rem; }
+  .tick { position: absolute; top: 0; transform: translateX(-50%); text-align: center; }
+  .tick i { display: block; width: 1px; height: 5px; background: var(--color-line-strong); margin: 0 auto 0.375rem; }
+  .tick b {
+    display: block;
+    font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400;
+    color: var(--color-muted); white-space: nowrap;
+  }
+  .tick:first-child { transform: none; text-align: left; }
+  .tick:first-child i { margin-inline-start: 0; }
+  .tick:last-child { transform: translateX(-100%); text-align: right; }
+  .tick:last-child i { margin-inline-end: 0; }
+
+  .also {
+    margin-top: 2.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-ink-2);
+    max-width: 68ch;
+  }
+  .also-label {
+    display: block;
+    font-family: var(--font-mono); font-size: 0.6875rem;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--color-muted); margin-bottom: 0.35rem;
+  }
+
+  /* Sous 900 px la piste passe sous le métier, l'axe la suit. */
+  @media (max-width: 900px) {
+    .row { grid-template-columns: 1fr; gap: 0.875rem; align-items: start; }
+    .gain, .axis-track { grid-column: 1; }
+    .axis { grid-template-columns: 1fr; gap: 0; }
+  }
 </style>

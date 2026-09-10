@@ -108,32 +108,44 @@
       }
     },
     "personas": {
-      "title": "Ce que ça change, poste par poste",
+      "title": "Quand le savez-vous ?",
       "director": {
         "label": "Dirigeant",
-        "pain": "Des chiffres reconstitués en fin de mois.",
-        "gain": "Les chiffres du mois en continu, et le coût d'un arrêt mesuré au lieu d'être estimé."
+        "gain": "Les chiffres du mois en continu, et le coût d'un arrêt mesuré au lieu d'être estimé.",
+        "today": "Des chiffres reconstitués en fin de mois."
       },
       "maintenance": {
         "label": "Maintenance",
-        "pain": "Des alarmes éparpillées, et un déplacement à chaque alerte de nuit.",
-        "gain": "Toutes les alarmes au même endroit, avec les minutes qui ont précédé l'arrêt."
+        "gain": "L'alarme part dans la minute, avec les minutes qui ont précédé l'arrêt.",
+        "today": "La dérive se découvre à la panne, souvent le lendemain."
       },
       "production": {
         "label": "Production, méthodes",
-        "pain": "Un taux de rendement calculé de mémoire, dans un tableur.",
-        "gain": "Le rendement calculé en continu depuis les compteurs, micro-arrêts compris."
+        "gain": "Le rendement calculé en continu depuis les compteurs, micro-arrêts compris.",
+        "today": "Le rendement se calcule le vendredi, de mémoire, dans un tableur."
       },
       "quality": {
         "label": "Qualité",
-        "pain": "Des preuves reconstituées à la main avant chaque audit.",
-        "gain": "Chaque paramètre horodaté, chaque seuil signé, l'historique exporté en une requête."
+        "gain": "Chaque paramètre horodaté à la seconde, l'historique exporté en une requête.",
+        "today": "Un paramètre qui a bougé se découvre des semaines plus tard, à l'audit."
       },
       "integrator": {
         "label": "Intégrateur",
-        "pain": "Un puzzle de licences, et une facturation au point qui fait perdre des affaires.",
-        "gain": "Treize protocoles dans un moteur, une licence par site, chiffrable avant le devis."
-      }
+        "body": "Le même décalage, côté commerce : treize protocoles dans un moteur et une licence par site se chiffrent avant d'écrire le devis, plus après l'avoir négocié."
+      },
+      "lede": "Meshvise ne vous apprend pas grand-chose que vous ignorez. Il vous l'apprend plus tôt, et c'est là que tout se joue.",
+      "today": "Aujourd'hui",
+      "with": "Avec Meshvise",
+      "scale": [
+        "un mois",
+        "une semaine",
+        "un jour",
+        "une heure",
+        "une minute",
+        "l'instant"
+      ],
+      "aria": "Axe du délai avant de savoir, du mois à l'instant. Pour chaque métier, un point marque la situation actuelle et un second ce que Meshvise change.",
+      "integrator_label": "Et pour un intégrateur"
     },
     "see": {
       "title": "Ce que vous voyez dans Meshvise",
