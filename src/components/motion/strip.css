@@ -1,0 +1,119 @@
+/*
+ * Le registre dépouillé : une courbe, deux niveaux, un écart.
+ *
+ * Le registre précédent empruntait au plan d'exécution : grille
+ * d'enregistreur, cartouche daté, cotes, bandeau d'acte, jauge de
+ * progression, mono de dix pixels partout. Cent cinquante éléments pour
+ * une idée, dix-huit secondes pour la dire, et une deuxième langue
+ * visuelle en travers de celle du site, qui est celle du produit.
+ *
+ * Ici, tout ce qui n'est pas l'argument est retiré. Pas de grille, pas de
+ * cadre, pas de cartouche, deux repères d'axe, un trait épais. Ce qui
+ * reste bouge vite : trois secondes pour poser l'idée, puis plus rien.
+ *
+ * L'animation ne boucle pas. Elle joue une fois et tient sa dernière
+ * image, qui est complète : une figure qui se vide toutes les six
+ * secondes fait perdre à un lecteur sur deux ce qu'elle voulait dire.
+ * `observe.ts` la rejoue quand elle revient à l'écran, ce qui suffit.
+ */
+
+.mvs {
+  /* Ni cadre ni fond : le dessin est posé sur la page, pas encadré. */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  --mv-cycle: 3s;
+}
+.mvs .mvs-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Sous cette largeur, une bande de sept cent vingt unités rend sa mono de
+   onze pixels à moins de six : elle se parcourt latéralement plutôt que
+   de devenir illisible. Moins dense que l'ancien registre, elle a besoin
+   de moins de largeur pour tenir. */
+@media (max-width: 720px) {
+  .mvs {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+  .mvs .mvs-svg {
+    min-width: 520px;
+  }
+}
+
+/* ── Le mouvement ─────────────────────────────────────────────────────── */
+
+/*
+ * Une seule sortie, rapide et qui se pose : c'est ce qui distingue un
+ * mouvement qui claque d'un fondu qui s'étire. Chaque élément déclare son
+ * `animation-name` et rien d'autre.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .mvs-a {
+    animation-duration: var(--mv-cycle);
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+  }
+}
+
+/* ── Le dessin ────────────────────────────────────────────────────────── */
+
+.mvs-trace {
+  fill: none;
+  stroke: var(--color-brass);
+  stroke-width: 2.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* Le niveau constaté : un trait plein, épais, qui traverse tout. */
+.mvs-floor {
+  stroke: var(--color-warn);
+  stroke-width: 2;
+}
+/* Le niveau attendu : pointillé, neutre. Ce n'est pas un état, c'est une
+   référence. */
+.mvs-idle {
+  stroke: var(--color-n-400);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+}
+
+/* L'écart, qui s'ouvre du haut vers le bas. */
+.mvs-gap {
+  fill: var(--color-warn);
+  fill-opacity: 0.1;
+  transform-box: fill-box;
+  transform-origin: top;
+}
+
+.mvs-level {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+.mvs-level--floor {
+  fill: var(--color-warn);
+}
+.mvs-level--idle {
+  fill: var(--color-n-500);
+}
+/* Le chiffre est la chute de la figure : il a la taille d'une chute. */
+.mvs-sum {
+  font-size: 22px;
+  font-weight: 500;
+  fill: var(--color-warn);
+}
+.mvs-day {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--color-n-400);
+  letter-spacing: 0.03em;
+}

@@ -15,6 +15,7 @@ import MeterDropout from './MeterDropout.astro';
 import TightThreshold from './TightThreshold.astro';
 import ProtocolEngine from './ProtocolEngine.astro';
 import DataChain from './DataChain.astro';
+import AirLeakStrip from './AirLeakStrip.astro';
 
 interface Props {
   lang: Lang;
@@ -37,6 +38,25 @@ const sections = [
     <h1 class="t-page">{t(lang, 'motion.preview.title')}</h1>
     <p class="t-lede mt-6">{t(lang, 'motion.preview.lede')}</p>
     <p class="t-small mono mt-8">{t(lang, 'motion.preview.hint')}</p>
+  </div>
+</section>
+
+<!-- La figure témoin, dans le registre dépouillé. Les six autres, plus
+     bas, sont dans l'ancien : la comparaison est le but de la page. -->
+<section class="section" style="background: var(--color-surface); border-block: 1px solid var(--color-line);">
+  <div class="wrap">
+    <p class="mono text-[11px] tracking-[0.09em] text-n-400">{t(lang, 'motion.strip.section')}</p>
+    <div class="grid lg:grid-cols-12 gap-12 items-center mt-8">
+      <div class="lg:col-span-5">
+        <h2 class="t-page">{t(lang, 'motion.strip.title')}</h2>
+        <p class="t-lede mt-6">{t(lang, 'motion.strip.lede')}</p>
+        <p class="t-body mt-5">{t(lang, 'motion.strip.p1')}</p>
+        <p class="t-body mt-5">{t(lang, 'motion.strip.p2')}</p>
+      </div>
+      <div class="lg:col-span-7">
+        <AirLeakStrip lang={lang} />
+      </div>
+    </div>
   </div>
 </section>
 

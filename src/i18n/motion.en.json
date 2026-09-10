@@ -173,6 +173,15 @@
     },
     "day_zero": "D",
     "day_after": "D+",
-    "day_before": "D-"
+    "day_before": "D-",
+    "strip": {
+      "always": "around the clock",
+      "section": "WITNESS FIGURE · STRIPPED REGISTER",
+      "title": "The bill nobody reads",
+      "lede": "The compressor runs at night and over the weekend. The shop is empty, production is stopped, and the air flow never drops back to idle.",
+      "p1": "A compressor at rest draws 45 m³/h. This one never goes below 255, not at night, not on Saturday, not on Sunday. The remaining 210 m³/h go into the network through fittings nobody can hear.",
+      "p2": "That floor can be weighed at the air sub-meter: 24 kW where idle asks for 4.5. Across the 5,096 non-production hours of the year, at 0.14 euro per kWh, that is 13,900 euros a year.",
+      "alt": "One week of compressed air flow on the workshop plant. Production climbs to 430 m³/h Monday to Friday, but the flow never drops below 255 m³/h at night or over the weekend, while a compressor at rest draws 45 m³/h. The gap between the two levels, 210 m³/h, is a permanent leak."
+    }
   }
 }

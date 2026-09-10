@@ -1,0 +1,162 @@
+---
+/**
+ * V-02, registre dépouillé. Figure témoin.
+ *
+ * Le même scénario que `AirLeak.astro`, avec tout ce qui n'est pas
+ * l'argument retiré : ni grille, ni cadre, ni cartouche, ni bandeau
+ * d'acte, ni caméra, ni voie basse, ni carte de conclusion. Une semaine de
+ * débit, deux niveaux, l'écart entre les deux.
+ *
+ * Trois secondes de mouvement, puis plus rien. Le tracé se pose, le
+ * plancher constaté glisse depuis la droite, la veille attendue pointille,
+ * l'écart s'ouvre du haut vers le bas et se chiffre.
+ *
+ * Ce que la figure ne dit pas : ce que ça coûte. C'est au texte de le
+ * dire. Une image, une idée.
+ *
+ * Les valeurs restent celles du jeu de démonstration : rythme d'atelier du
+ * seed, profil `airflow` (base 430 m³/h, veille 45), scénario `air-leak`
+ * (`floor` à 255 m³/h). Le plancher du seed module, il n'est pas plat.
+ */
+import { mt as t, type Lang } from './text';
+import { toPoints, polylineLength, thousands } from './frame';
+import './strip.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ent = (v: number) => thousands(v, lang);
+
+// ── Le cadre : une bande, pas un panneau ───────────────────────────────
+const W = 720;
+const H = 276;
+const X0 = 10;
+const X1 = 710;
+const Y0 = 34;
+const Y1 = 236;
+const V_MAX = 500;
+
+const HEURES = 168;
+const VEILLE = 45;
+const PLANCHER = 255;
+const FUITE = PLANCHER - VEILLE;
+
+const x = (h: number) => X0 + (h / HEURES) * (X1 - X0);
+const y = (v: number) => Y1 - (v / V_MAX) * (Y1 - Y0);
+
+/** Le débit heure par heure, formule du seed. Au pas horaire : sans
+ *  resserrement de cadre, la demi-heure ne se voit plus. */
+const debit = (h: number) => {
+  const jour = Math.floor(h / 24);
+  const heure = h % 24;
+  const oscill = Math.sin(h * 2.399) * 16 + Math.sin(h * 0.817) * 10 + Math.sin(h * 1.213) * 6;
+  let v = VEILLE + oscill * 0.12;
+  if (jour < 5 && heure >= 6 && heure < 20) {
+    const p = (heure - 6) / 14;
+    const rampe = Math.min(1, (p * 14) / 0.75, ((1 - p) * 14) / 0.75);
+    const pause = 1 - 0.35 * Math.exp(-Math.pow((heure - 12.5) / 0.55, 2));
+    v = 430 * rampe * pause + oscill;
+  }
+  const modulation = PLANCHER * (1 + Math.sin(h * 3.117) * 0.045 + Math.sin(h * 1.913) * 0.025);
+  return Math.max(v, modulation);
+};
+
+const serie: Array<[number, number]> = Array.from({ length: HEURES + 1 }, (_, h) => [
+  x(h),
+  y(debit(h)),
+]);
+const points = toPoints(serie);
+const longueur = polylineLength(serie);
+
+const yPlancher = y(PLANCHER);
+const yVeille = y(VEILLE);
+const jours = t(lang, 'motion.air.days').split(',');
+---
+
+<figure class="mvf mvs">
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" class="mvs-svg" aria-label={t(lang, 'motion.strip.alt')}>
+    <!-- L'écart entre les deux niveaux. Il s'ouvre du haut vers le bas,
+         donc dans le sens où on le découvre : on part du plancher constaté
+         et on descend vers ce qu'on aurait dû lire. -->
+    <rect
+      class="mvs-gap mvs-a"
+      style="animation-name: as-gap"
+      x={X0}
+      y={yPlancher}
+      width={X1 - X0}
+      height={yVeille - yPlancher}
+    />
+
+    <polyline
+      class="mvs-trace mvs-a"
+      style={`animation-name: as-draw; --len: ${longueur.toFixed(0)}; stroke-dasharray: var(--len)`}
+      points={points}
+    />
+
+    <g class="mvs-a" style="animation-name: as-floor">
+      <line class="mvs-floor" x1={X0} y1={yPlancher} x2={X1} y2={yPlancher} />
+      <text class="mvs-level mvs-level--floor" x={X0 + 10} y={yPlancher + 21}>
+        {ent(PLANCHER)} m³/h · {t(lang, 'motion.air.floor_seen')}
+      </text>
+    </g>
+
+    <g class="mvs-a" style="animation-name: as-idle">
+      <line class="mvs-idle" x1={X0} y1={yVeille} x2={X1} y2={yVeille} />
+      <text class="mvs-level mvs-level--idle" x={X0 + 10} y={yVeille - 9}>
+        {ent(VEILLE)} m³/h · {t(lang, 'motion.air.floor_expected')}
+      </text>
+    </g>
+
+    <text
+      class="mvs-sum mvs-a"
+      style="animation-name: as-sum"
+      x={(X0 + X1) / 2}
+      y={(yPlancher + yVeille) / 2 + 6}
+      text-anchor="middle"
+    >
+      {ent(FUITE)} m³/h · {t(lang, 'motion.strip.always')}
+    </text>
+
+    <g class="mvs-day">
+      {
+        jours.map((nom, d) => (
+          <text x={x(d * 24 + 12)} y={Y1 + 16} text-anchor="middle">
+            {nom}
+          </text>
+        ))
+      }
+    </g>
+  </svg>
+</figure>
+
+<style is:global>
+  /*
+   * Le découpage, sur trois secondes. Chaque geste se pose avant que le
+   * suivant ne parte : c'est ce qui donne un rythme plutôt qu'un fondu
+   * général.
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes as-draw {
+      0% { stroke-dashoffset: var(--len); }
+      34%, 100% { stroke-dashoffset: 0; }
+    }
+    @keyframes as-floor {
+      0%, 33% { opacity: 0; transform: translateX(34px); }
+      46%, 100% { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes as-idle {
+      0%, 45% { opacity: 0; }
+      56%, 100% { opacity: 1; }
+    }
+    @keyframes as-gap {
+      0%, 55% { transform: scaleY(0); }
+      78%, 100% { transform: scaleY(1); }
+    }
+    @keyframes as-sum {
+      0%, 70% { opacity: 0; transform: translateY(8px); }
+      88%, 100% { opacity: 1; transform: translateY(0); }
+    }
+  }
+</style>

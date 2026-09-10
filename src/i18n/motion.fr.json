@@ -173,6 +173,15 @@
     },
     "day_zero": "J",
     "day_after": "J+",
-    "day_before": "J-"
+    "day_before": "J-",
+    "strip": {
+      "always": "en permanence",
+      "section": "FIGURE TÉMOIN · REGISTRE DÉPOUILLÉ",
+      "title": "La facture que personne ne lit",
+      "lede": "Le compresseur tourne la nuit et le week-end. L'atelier est vide, la production est à l'arrêt, et le débit d'air ne retombe jamais à la veille.",
+      "p1": "Un compresseur au repos consomme 45 m³/h. Celui-ci ne descend jamais sous 255, ni la nuit, ni le samedi, ni le dimanche. Les 210 m³/h qui restent partent dans le réseau par des raccords que personne n'entend.",
+      "p2": "Ce talon se pèse au sous-compteur d'air : 24 kW là où la veille en demande 4,5. Sur les 5 096 heures hors production de l'année, à 0,14 € le kWh, cela fait 13 900 € par an.",
+      "alt": "Une semaine de débit d'air comprimé sur la centrale de l'atelier. La production monte vers 430 m³/h du lundi au vendredi, mais le débit ne retombe jamais sous 255 m³/h la nuit ni le week-end, alors qu'un compresseur au repos consomme 45 m³/h. L'écart entre les deux niveaux, 210 m³/h, est une fuite permanente."
+    }
   }
 }
