@@ -113,6 +113,9 @@ d'erreur la plus fréquente dans les rapports industriels.
 | Un compteur de pièces | Différence, en tenant compte des remises à zéro |
 | Un état de marche | Temps cumulé dans l'état, pas moyenne du booléen |
 
+Ce dernier cas est celui du [taux de rendement](/fr/guides/calculer-un-trs-depuis-des-compteurs-modbus/),
+dont le calcul repose entièrement sur des temps cumulés.
+
 La moyenne d'un index d'énergie n'a aucun sens et donne pourtant un nombre, ce
 qui est le pire des cas : personne ne s'aperçoit de rien.
 
@@ -187,4 +190,6 @@ toute intégration future :
 3. **Un accès en lecture est-il prévu, ou faut-il acheter un module ?**
 
 Une supervision qui répond oui aux trois vous laisse choisir votre outil
-décisionnel aujourd'hui, et en changer dans cinq ans sans rien renégocier.
+décisionnel aujourd'hui, et en changer dans cinq ans sans rien renégocier. Pour
+un système qui a besoin du temps réel plutôt que du reporting, voyez le guide sur
+[l'exposition des données en OPC UA](/fr/guides/exposer-ses-donnees-en-opc-ua/).

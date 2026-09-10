@@ -97,9 +97,9 @@ OPC UA prévoit trois réglages indépendants :
 Ces trois réglages sont séparés dans la norme, et c'est délibéré : un serveur
 peut demander un compte sans chiffrer le canal, ou l'inverse.
 
-**Où en est Meshvise.** Son client descendant, celui qui lit les automates, sait
-signer et chiffrer, vérifier le certificat du serveur, et refuse une
-configuration incomplète plutôt que de retomber silencieusement en clair. C'est
+**Où en est Meshvise.** Son [client descendant](/fr/protocoles/#securite-opcua), celui qui lit les
+automates, sait signer et chiffrer, vérifier le certificat du serveur, et refuse
+une configuration incomplète plutôt que de retomber silencieusement en clair. C'est
 une exigence des automates récents, dont les S7-1500 livrés configurés pour
 refuser une session non protégée.
 
@@ -145,6 +145,9 @@ connaître le modèle, et ce modèle appartient au produit, donc il peut évolue
 L'interface REST, elle, est un contrat stable. Pour un usage durable, préférez
 l'interface ; pour une extraction ponctuelle ou une exploration, la base est plus
 directe.
+
+Le guide sur la [connexion d'un outil décisionnel à un historique industriel](/fr/guides/connecter-power-bi-a-un-historique-industriel/)
+entre dans le détail de cette voie.
 
 ## Comment choisir
 

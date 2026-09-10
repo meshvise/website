@@ -7,13 +7,17 @@ import { t, type Lang } from '../i18n';
 import { alternateHref, href } from '../i18n/routes';
 
 interface Props {
+  /** `article` sur un guide, `website` partout ailleurs. */
+  ogType?: 'website' | 'article';
+  /** Balisage propre à la page, ajouté à celui du site. */
+  extraLd?: Record<string, unknown> | null;
   title: string;
   description: string;
   lang: Lang;
   ogImage?: string;
 }
 
-const { title, description, lang, ogImage = '/og-image.svg' } = Astro.props;
+const { title, description, lang, ogImage = '/og-image.svg', ogType = 'website', extraLd = null } = Astro.props;
 
 const SITE_ORIGIN = 'https://meshvise.com';
 const alternateLang: Lang = lang === 'fr' ? 'en' : 'fr';
@@ -109,7 +113,7 @@ const faqLd = {
     <link rel="alternate" hreflang={alternateLang} href={alternateUrl} />
     <link rel="alternate" hreflang="x-default" href={`${SITE_ORIGIN}/`} />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Meshvise" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -131,6 +135,7 @@ const faqLd = {
     <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(softwareLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+    {extraLd && <script type="application/ld+json" set:html={JSON.stringify(extraLd)} />}
   </head>
   <body class="bg-canvas text-ink antialiased">
     <a

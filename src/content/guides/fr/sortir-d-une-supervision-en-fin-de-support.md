@@ -108,7 +108,7 @@ distinguer un arrêt réel d'une panne de réseau.
 
 **Les seuils d'alarme et leur historique.** Les valeurs seules ne disent pas
 quelles limites s'appliquaient à l'époque. En audit, c'est exactement ce qu'on
-vous demandera.
+[vous demandera](/fr/guides/preparer-un-audit-qualite/).
 
 **Le journal des alarmes.** Les déclenchements, les acquittements, les auteurs.
 C'est de la preuve, et c'est souvent stocké ailleurs que les mesures.
@@ -172,4 +172,6 @@ Trois questions à poser au prochain fournisseur, avant de signer :
    perte de patrimoine.
 
 Ces trois réponses valent plus que n'importe quelle liste de fonctions. Une
-supervision se choisit aussi sur la façon dont on en sort.
+supervision se choisit aussi sur la façon dont on en sort, et sur ce qu'elle
+coûte réellement : le guide sur le [coût d'une supervision sur cinq ans](/fr/guides/cout-reel-d-une-supervision-sur-cinq-ans/)
+détaille les onze postes.

@@ -67,7 +67,8 @@ plusieurs jours par an, chargés.
 
 **11. La sortie.** Le coût de récupérer ses données le jour où l'on change. Il
 est nul si la base est standard et documentée, et il se chiffre en semaines dans
-le cas contraire.
+le cas contraire : le guide sur la [sortie d'une supervision](/fr/guides/sortir-d-une-supervision-en-fin-de-support/)
+décrit les quatre voies possibles.
 
 ## Le tableau à remplir
 
@@ -153,7 +154,8 @@ interne aussi. Un prix fixe ne supprime pas le travail, il supprime la
 négociation.
 
 Sur cinq ans, cela fait 12 000 € de licence, plus la mise en service, plus votre
-serveur. Trois nombres, dont deux sont connus d'avance.
+serveur. Trois nombres, dont deux sont connus d'avance, et le détail est sur la
+page [tarifs](/fr/tarifs/).
 
 ## Trois questions qui valent le reste
 

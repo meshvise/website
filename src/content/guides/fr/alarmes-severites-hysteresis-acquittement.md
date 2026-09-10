@@ -93,7 +93,8 @@ L'hystérésis traite le bruit **en amplitude**, la temporisation traite le brui
 souvent besoin des deux.
 
 Un ordre de grandeur utile : la temporisation se règle sur la constante de temps
-du phénomène surveillé. Quelques secondes pour une pression, une minute pour une
+du phénomène surveillé, la même logique qui sert à régler la cadence de lecture
+d'un point, décrite dans le guide sur la [lecture d'un automate Siemens S7](/fr/guides/lire-un-automate-siemens-s7/). Quelques secondes pour une pression, une minute pour une
 température de fluide, plusieurs minutes pour une température d'ambiance.
 
 ## L'ordre dans lequel les régler
@@ -169,7 +170,8 @@ Ce qu'on lui demande, en pratique :
 
 Si votre supervision ne répond pas à ces quatre questions, vous ne pourrez
 jamais démontrer qu'une alarme est mal réglée, et vous continuerez donc à
-la subir.
+la subir. C'est aussi ce journal qu'un auditeur demandera, comme l'explique le
+guide sur la [préparation d'un audit qualité](/fr/guides/preparer-un-audit-qualite/).
 
 ## Le cas qui piège tout le monde : une alarme qui conclut sur une valeur morte
 

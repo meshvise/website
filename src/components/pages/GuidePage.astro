@@ -27,9 +27,39 @@ const publie = date.toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-GB', {
   month: 'long',
   day: 'numeric',
 });
+
+const SITE = 'https://meshvise.com';
+const url = `${SITE}/${lang}/guides/${guide.id.replace(/^(fr|en)\//, '').replace(/\.md$/, '')}/`;
+
+/**
+ * `TechArticle` plutôt qu'`Article` : ces guides décrivent des procédures
+ * techniques, et le type précis aide un moteur à les servir sur une question
+ * de mise en oeuvre plutôt que sur une actualité.
+ */
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description,
+  datePublished: date.toISOString().slice(0, 10),
+  inLanguage: lang,
+  url,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+  author: { '@type': 'Organization', name: 'Meshvise', url: SITE },
+  publisher: { '@type': 'Organization', name: 'Meshvise', url: SITE },
+  audience: { '@type': 'Audience', audienceType: audience },
+  keywords: tags.join(', '),
+  timeRequired: `PT${minutes}M`,
+};
 ---
 
-<Base lang={lang} title={`${title} · Meshvise`} description={description}>
+<Base
+  lang={lang}
+  title={`${title} · Meshvise`}
+  description={description}
+  ogType="article"
+  extraLd={articleLd}
+>
   <article>
     <header class="wrap pt-12 pb-8 md:pt-16 md:pb-10 border-b border-line">
       <p class="t-small mb-5">

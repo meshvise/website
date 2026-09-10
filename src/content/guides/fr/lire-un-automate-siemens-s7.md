@@ -101,8 +101,8 @@ recopie les valeurs à exposer. C'est plus propre : le reste du programme garde
 l'optimisation, et vous obtenez une interface stable, dont vous maîtrisez le
 plan. C'est la solution à privilégier sur une installation en service.
 
-Une troisième option existe sur les gammes récentes, l'activation du serveur OPC
-UA embarqué. Elle évite la question du bloc, mais elle est souvent payante et
+Une troisième option existe sur les gammes récentes, l'activation du [serveur OPC
+UA](/fr/guides/exposer-ses-donnees-en-opc-ua/) embarqué. Elle évite la question du bloc, mais elle est souvent payante et
 demande une licence sur la commande. Comparez son devis au coût d'un bloc dédié
 avant de la choisir.
 
@@ -148,7 +148,7 @@ l'installation, c'est ce qui vient après.
 **La qualité de la donnée.** Une supervision doit distinguer une valeur lue à
 l'instant d'une valeur figée depuis dix minutes parce que la liaison est tombée.
 Sans cette distinction, une valeur morte ressemble exactement à une valeur
-saine, et vos alarmes concluent sur un fossile.
+saine, et vos [alarmes concluent sur un fossile](/fr/guides/alarmes-severites-hysteresis-acquittement/).
 
 **La politique d'enregistrement.** Enregistrer chaque lecture d'un point stable
 remplit la base sans rien apprendre. Enregistrer sur variation, avec une bande

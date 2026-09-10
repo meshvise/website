@@ -63,8 +63,8 @@ vous avez un trou.
 
 C'est le point qui dit **que c'est bien une fuite**.
 
-Les trois se raccordent en Modbus TCP sur un automate ou une passerelle
-d'atelier. Le débitmètre et le compteur d'énergie communicants coûtent quelques
+Les trois se raccordent en [Modbus TCP](/fr/protocoles/) sur un automate ou une
+passerelle d'atelier. Le débitmètre et le compteur d'énergie communicants coûtent quelques
 centaines d'euros pièce, et se posent en une matinée.
 
 ## Lire le résultat
@@ -151,7 +151,9 @@ Une fois le talon sous contrôle, la même mesure sert à trois autres choses :
   poste n'en souffre, ce que seule une mesure continue permet.
 - **Le dossier ISO 50001**, si vous êtes engagé dans une démarche énergie. Un
   historique de consommation par usage est exactement la preuve que demande
-  l'audit, et le sous-comptage divisionnaire en est le socle.
+  l'audit, et le sous-comptage divisionnaire en est le socle. Le guide sur la
+  [préparation d'un audit](/fr/guides/preparer-un-audit-qualite/) détaille ce qu'un
+  auditeur cherche vraiment.
 
 Trois compteurs, une semaine de mesure, et un calcul à trois termes. C'est le
 meilleur rapport entre ce que ça coûte et ce que ça rapporte de tout ce qu'on

@@ -42,7 +42,8 @@ marque. Trois signaux suffisent, et la plupart des machines les fournissent déj
 
 Un booléen : la machine produit, ou elle ne produit pas.
 
-Sur une machine récente, il se lit dans un registre Modbus ou un bit d'état.
+Sur une machine récente, il se lit dans un registre [Modbus ou un autre
+protocole ouvert](/fr/protocoles/), ou dans un bit d'état.
 Sur une machine ancienne, il se prend au bornier : un contact sec de cycle
 automatique, un relais de puissance broche, ou le voyant vert de la colonne
 lumineuse. Un petit module d'entrées Modbus le relève pour le prix d'un
@@ -95,7 +96,8 @@ discuter. Un TRS calculé sans lui est un TRS auquel il faut croire.
 
 En pratique, si votre temps inconnu dépasse quelques pour cent du temps
 d'ouverture, ce n'est pas votre production qui a un problème, c'est votre
-acquisition. Et c'est une information en soi.
+acquisition. Et c'est une information en soi, qui mérite sa propre alarme de
+liaison : voir le guide sur les [alarmes et leur réglage](/fr/guides/alarmes-severites-hysteresis-acquittement/).
 
 ## Les micro-arrêts, ceux qui n'existent pas
 
@@ -160,6 +162,9 @@ sont calculés pareil. Trois points à fixer par écrit, une fois :
 Ces trois réglages appartiennent au service méthodes, pas à l'outil. Ce que
 l'outil doit garantir, c'est qu'ils sont écrits quelque part, datés, et qu'on
 sait qui les a changés le jour où le TRS bouge de cinq points sans raison.
+
+Une fois les compteurs en place, ils s'exploitent dans un outil décisionnel,
+comme le décrit le guide sur la [connexion d'un historique industriel](/fr/guides/connecter-power-bi-a-un-historique-industriel/).
 
 ## Le raccordement, en pratique
 

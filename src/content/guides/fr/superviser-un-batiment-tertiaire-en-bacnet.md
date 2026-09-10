@@ -74,7 +74,8 @@ d'adressage.
 
 C'est le choix que fait Meshvise : les équipements BACnet se déclarent par
 adresse, jamais par diffusion, précisément pour éviter les surprises en réseau
-segmenté et en conteneur.
+segmenté et en conteneur. Le [détail de chaque protocole](/fr/protocoles/) précise
+ce que chacun sait faire.
 
 ## Ce qu'il faut demander à l'installateur
 
@@ -103,8 +104,8 @@ chaude et de la batterie froide, état du ventilateur, pression différentielle 
 filtre.
 
 Cette dernière est la plus rentable : elle monte lentement à mesure que le filtre
-s'encrasse, et un seuil bien placé remplace un changement calendaire par un
-changement au bon moment.
+s'encrasse, et un [seuil bien placé](/fr/guides/alarmes-severites-hysteresis-acquittement/)
+remplace un changement calendaire par un changement au bon moment.
 
 **Sur un groupe froid** : température de départ et de retour d'eau glacée, état
 des compresseurs, consigne, et si l'équipement l'expose, la puissance absorbée.

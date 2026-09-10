@@ -73,7 +73,9 @@ seul, où chaque événement porte un horodatage et un opérateur identifié, y
 répond sans discussion.
 
 Un acquittement anonyme vaut zéro en audit. Vous savez qu'une alarme a été vue,
-jamais par qui, donc jamais à qui demander ce qui a été fait.
+jamais par qui, donc jamais à qui demander ce qui a été fait. Le guide sur les
+[alarmes](/fr/guides/alarmes-severites-hysteresis-acquittement/) détaille la machine
+d'état complète.
 
 ### 3. L'historique des changements de configuration
 
@@ -123,7 +125,9 @@ quatre-vingt-dix jours suffisent pour diagnostiquer et régler.
 nombre de points et de la politique d'enregistrement, pas du logiciel.
 
 Un ordre de grandeur pour calibrer : cinq cents points enregistrés à la minute
-produisent environ vingt-six millions de lignes par an. C'est modeste pour une
+produisent environ vingt-six millions de lignes par an. Si vous devez un jour
+les emporter ailleurs, le guide sur la [sortie d'une supervision](/fr/guides/sortir-d-une-supervision-en-fin-de-support/)
+explique comment s'y prendre. C'est modeste pour une
 base de séries temporelles moderne, et cela tient sur un disque ordinaire.
 
 La règle pratique : gardez tous les points à la durée utile, et **seuls les
