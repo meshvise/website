@@ -1003,6 +1003,22 @@
       "fig": "FIG. V-01",
       "caption": "Usure de broche, trente jours de vibration efficace",
       "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
+    },
+    "air": {
+      "alt": "Une semaine de débit d'air comprimé sur la centrale de l'atelier : la production monte vers 450 m³/h en journée du lundi au vendredi, mais le débit ne retombe jamais sous 255 m³/h la nuit ni le week-end, alors que le compresseur au repos devrait consommer 45 m³/h. Ce talon de 210 m³/h est une fuite permanente, mesurée à 19,5 kW au sous-compteur, soit 13 900 € par an sur les seules 5 096 heures hors production, au tarif de 0,14 € le kWh.",
+      "days": "lun,mar,mer,jeu,ven,sam,dim",
+      "off_hours": "HORS PRODUCTION",
+      "floor_seen": "plancher observé",
+      "floor_expected": "veille attendue",
+      "leak": "fuite permanente",
+      "cost_title": "Air payé, jamais utilisé",
+      "h_per_year": "h/an",
+      "per_year": "an",
+      "fix_title": "Recherche de fuite",
+      "fix_meta": "samedi · réseau tronçonné",
+      "fig": "FIG. V-02",
+      "caption": "Fuite d'air comprimé",
+      "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
     }
   }
 }

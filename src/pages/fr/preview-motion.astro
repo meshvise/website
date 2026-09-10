@@ -6,6 +6,7 @@
  */
 import Base from '../../layouts/Base.astro';
 import SpindleWear from '../../components/motion/SpindleWear.astro';
+import AirLeak from '../../components/motion/AirLeak.astro';
 
 const lang = 'fr' as const;
 ---
@@ -33,6 +34,34 @@ const lang = 'fr' as const;
       </div>
       <div class="lg:col-span-7">
         <SpindleWear lang={lang} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--color-surface); border-block: 1px solid var(--color-line);">
+    <div class="wrap grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7 lg:order-2">
+        <AirLeak lang={lang} />
+      </div>
+      <div class="lg:col-span-5 lg:order-1">
+        <h2 class="t-page">La facture que personne ne lit</h2>
+        <p class="t-lede mt-6">
+          Le compresseur tourne la nuit et le week-end. L'atelier est vide, la
+          production est à l'arrêt, et le débit d'air ne retombe jamais à zéro.
+        </p>
+        <p class="t-body mt-5">
+          Meshvise enregistre le débit de la centrale au pas de trente secondes et
+          le garde. Sur une semaine, le dessin est sans ambiguïté : cinq journées
+          de production, deux jours d'arrêt, et un talon de 210 m³/h qui traverse
+          les sept jours. Un compresseur au repos consomme 45 m³/h. Le reste part
+          dans le réseau par des raccords que personne n'entend.
+        </p>
+        <p class="t-body mt-5">
+          Ce talon se pèse : 19,5 kW au sous-compteur d'air, sur les seules heures
+          hors production, à 0,14 € le kWh. La recherche de fuite se programme un
+          samedi, réseau tronçonné, et le talon se compare avant et après sur la
+          même courbe.
+        </p>
       </div>
     </div>
   </section>

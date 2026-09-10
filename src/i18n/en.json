@@ -1003,6 +1003,22 @@
       "fig": "FIG. V-01",
       "caption": "Spindle wear, thirty days of RMS vibration",
       "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE"
+    },
+    "air": {
+      "alt": "One week of compressed air flow on the workshop compressor station: production peaks near 450 m³/h during weekdays, but flow never falls below 255 m³/h at night or over the weekend, when an idle compressor should draw 45 m³/h. That 210 m³/h floor is a permanent leak, measured at 19.5 kW on the sub-meter, or 13,900 € a year over the 5,096 non-production hours alone, at 0.14 € per kWh.",
+      "days": "Mon,Tue,Wed,Thu,Fri,Sat,Sun",
+      "off_hours": "OUTSIDE PRODUCTION",
+      "floor_seen": "measured floor",
+      "floor_expected": "expected idle",
+      "leak": "permanent leak",
+      "cost_title": "Air paid for, never used",
+      "h_per_year": "h/yr",
+      "per_year": "yr",
+      "fix_title": "Leak survey",
+      "fix_meta": "Saturday · zone by zone",
+      "fig": "FIG. V-02",
+      "caption": "Compressed air leak",
+      "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE"
     }
   }
 }
