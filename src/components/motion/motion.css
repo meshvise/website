@@ -54,9 +54,11 @@
   }
 
   /* La couture de la boucle temporelle : le récit s'efface juste avant le
-     retour à zéro. Sans horloge de temps, il n'y a pas de couture. */
+     retour à zéro. Sans horloge de temps, il n'y a pas de couture. Le
+     groupe qui la porte enveloppe le récit et rien d'autre : le fond de
+     plan, lui, ne clignote jamais. */
   .mv-recycle {
-    animation: mv-recycle var(--mv-cycle) linear infinite both;
+    animation-name: mv-recycle;
   }
   @keyframes mv-recycle {
     0%,
@@ -78,13 +80,14 @@
       animation-timeline: --mvf;
       animation-duration: auto;
       animation-iteration-count: 1;
-      /* L'histoire commence quand la figure est aux deux tiers entrée et se
-         termine avant qu'elle ne quitte l'écran : le lecteur voit toujours
-         la dernière image, il n'a pas à la rattraper. */
-      animation-range: entry 70% exit 30%;
+      /* L'histoire commence dès que le bandeau d'acte apparaît en bas de
+         l'écran et se termine exactement quand la figure entière est posée
+         sous l'entête : le dernier acte est donc toujours lu en entier, et
+         ce qui reste du défilement se fait sur l'image complète. */
+      animation-range: entry 55% exit 0%;
     }
     .mv-recycle {
-      animation: none;
+      animation-name: none;
     }
   }
 }
@@ -205,6 +208,163 @@
   }
 }
 
+/* ── Présences : le vocabulaire d'apparition partagé ──────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* À partir de l'acte n, et pour de bon. */
+  @keyframes mv-from-2 {
+    0%,
+    21% {
+      opacity: 0;
+    }
+    26%,
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes mv-from-3 {
+    0%,
+    47% {
+      opacity: 0;
+    }
+    52%,
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes mv-from-4 {
+    0%,
+    73% {
+      opacity: 0;
+    }
+    78%,
+    100% {
+      opacity: 1;
+    }
+  }
+  /* Les deux actes du milieu, ceux où la caméra est resserrée. */
+  @keyframes mv-mid {
+    0%,
+    22% {
+      opacity: 0;
+    }
+    28%,
+    74% {
+      opacity: 1;
+    }
+    80%,
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+/* ── Le cadrage : une seule grammaire pour les six figures ────────────── */
+
+/*
+ * Trois positions de caméra, portées par les propriétés `--cam-1/2/3` de la
+ * figure : vue d'ensemble, resserrement, instant. La caméra tient chaque
+ * position pendant son acte et se déplace sur les bornes, ce qui laisse au
+ * lecteur le temps de lire avant que le cadre ne bouge. Une figure qui n'a
+ * besoin que de deux positions donne la même valeur à `--cam-2` et
+ * `--cam-3`.
+ *
+ * `mv-pin3` suit exactement le même découpage pour les annotations qui
+ * doivent rester collées à un point du dessin : comme la caméra n'applique
+ * qu'un déplacement et un agrandissement, interpoler la position à l'écran
+ * revient au même que d'interpoler le cadrage, et les deux restent
+ * verrouillés sans script.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes mv-cam3 {
+    0%,
+    22% {
+      transform: var(--cam-1);
+    }
+    30%,
+    48% {
+      transform: var(--cam-2);
+    }
+    56%,
+    74% {
+      transform: var(--cam-3);
+    }
+    84%,
+    100% {
+      transform: var(--cam-1);
+    }
+  }
+  @keyframes mv-pin3 {
+    0%,
+    22% {
+      transform: var(--pin-1);
+    }
+    30%,
+    48% {
+      transform: var(--pin-2);
+    }
+    56%,
+    74% {
+      transform: var(--pin-3);
+    }
+    84%,
+    100% {
+      transform: var(--pin-1);
+    }
+  }
+
+  /* Les trois échelles, calées sur les mouvements de caméra et non sur les
+     bornes d'acte : une grille ne doit jamais se densifier avant que le
+     cadre ne se resserre. */
+  @keyframes mv-scale-1 {
+    0%,
+    22% {
+      opacity: 1;
+    }
+    27%,
+    79% {
+      opacity: 0;
+    }
+    84%,
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes mv-scale-2 {
+    0%,
+    25% {
+      opacity: 0;
+    }
+    30%,
+    48% {
+      opacity: 1;
+    }
+    53%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes mv-scale-3 {
+    0%,
+    51% {
+      opacity: 0;
+    }
+    56%,
+    74% {
+      opacity: 1;
+    }
+    79%,
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+.mv-pin {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
 /* ── Le fond de plan : grille d'enregistreur, axes, cartouche ─────────── */
 
 .mv-grid line {
@@ -286,7 +446,7 @@
 }
 .mv-card-meta {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: 0.01em;
 }
 .mv-card-sum {

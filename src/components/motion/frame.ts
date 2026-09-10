@@ -29,7 +29,7 @@ export const Y0 = 74;
 export const Y1 = 332;
 
 /** Voies annexes : rubans de qualité, journaux d'alarmes, échelles. */
-export const LANE_Y = 352;
+export const LANE_Y = 376;
 
 /** Cartes de conclusion : ce que la supervision fait du fait. */
 export const CARD_Y = 434;

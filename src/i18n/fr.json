@@ -993,16 +993,24 @@
   },
   "motion": {
     "spindle": {
-      "alt": "Trente jours de vibration de broche sur le centre d'usinage CU1 : la valeur efficace dérive de 2,1 à 4,9 mm/s, franchit le seuil ISO 10816 de 4,5 mm/s au vingt-sixième jour, déclenche une alarme critique et une intervention programmée avant la casse.",
+      "alt": "Trente jours de vibration de broche sur le centre d'usinage CU1. La valeur efficace tient à 2,2 mm/s pendant neuf jours, puis dérive de 3,1 mm/s en trois semaines pour atteindre 5,3 mm/s. Elle franchit le seuil ISO 10816 de 4,5 mm/s au vingt-sixième jour, à 4,53 mm/s, quatre jours avant la fin de la fenêtre. L'alarme critique part, elle est acquittée, et la dépose de broche se programme un samedi au lieu de subir un arrêt en pleine série.",
       "day_zero": "J",
       "threshold": "ISO 10816",
       "alarm_title": "Vibration broche CU1",
-      "alarm_meta": "CRITIQUE · mar. 14:02 · seuil franchi",
+      "alarm_meta": "CRITIQUE · seuil ISO franchi · acquittée",
       "fix_title": "Intervention programmée",
       "fix_meta": "samedi · broche déposée avant la casse",
       "fig": "FIG. V-01",
       "caption": "Usure de broche, 30 jours",
-      "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
+      "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE",
+      "act1": "Trente jours de vibration",
+      "act2": "Les huit derniers jours",
+      "act3": "Le franchissement",
+      "act4": "La dépose programmée",
+      "in_days": "en 21 jours",
+      "days_margin": "jours d'anticipation",
+      "days": "jours",
+      "lane": "TEMPÉRATURE DE ROULEMENT, MÊME BROCHE"
     },
     "air": {
       "alt": "Une semaine de débit d'air comprimé sur la centrale de l'atelier : la production monte vers 450 m³/h en journée du lundi au vendredi, mais le débit ne retombe jamais sous 255 m³/h la nuit ni le week-end, alors que le compresseur au repos devrait consommer 45 m³/h. Ce talon de 210 m³/h est une fuite permanente, mesurée à 19,5 kW au sous-compteur, soit 13 900 € par an sur les seules 5 096 heures hors production, au tarif de 0,14 € le kWh.",
@@ -1053,6 +1061,8 @@
       "fig": "FIG. V-04",
       "caption": "Alarme au seuil trop serré",
       "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
-    }
+    },
+    "act": "ACTE",
+    "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
   }
 }

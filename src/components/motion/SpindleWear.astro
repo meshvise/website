@@ -1,253 +1,398 @@
 ---
 /**
- * Usure de broche : le premier des six scénarios inscrits dans les trente
- * jours d'historique du parc de Bellecombe, déroulé comme une séquence.
+ * V-01 · Usure de broche.
  *
- * L'animation ne décore pas, elle raconte un parcours complet : une dérive
- * que personne ne voit, un seuil normalisé, le franchissement, l'alarme,
- * l'intervention avant la casse. Chaque valeur affichée est celle du
- * scénario, et le tracé est calculé à la construction, pas dessiné à vue.
+ * Quatre actes, une caméra à trois positions : les trente jours, les huit
+ * derniers, l'instant du franchissement, puis le recul qui remet le tout en
+ * perspective avec sa conséquence. C'est le déplacement du cadre qui porte
+ * la démonstration : la même donnée, regardée de plus près, devient une
+ * décision de maintenance.
  *
- * Le mouvement se joue en boucle sur une seule durée : chaque élément
- * porte ses temps en pourcentage de ce cycle, ce qui garde la séquence
- * synchronisée sans script. Sous `prefers-reduced-motion`, tout est posé
- * dans son état final dès l'affichage.
+ * La première image n'est jamais vide : la courbe des trente jours est là
+ * dès le repos, et l'histoire ajoute le seuil, le franchissement et
+ * l'intervention. Sous `prefers-reduced-motion`, cet état complet est
+ * exactement ce qui s'affiche, immobile.
+ *
+ * La série reproduit la formule du jeu de démonstration, pas une
+ * approximation : profil `mm/s` (base 2,2 mm/s, broche saine en zone A/B),
+ * scénario `spindle-wear` (`ramp`, amount 3,1 mm/s sur les 21 derniers
+ * jours, progression puissance 1,35). Le franchissement des 4,5 mm/s
+ * d'ISO 10816 tombe au vingt-sixième jour, soit quatre jours avant la fin
+ * de la fenêtre, ce qui est bien le J-5 du seed.
  */
 import { t, type Lang } from '../../i18n';
+import Head from './Head.astro';
+import Cartouche from './Cartouche.astro';
+import {
+  W,
+  H,
+  X0,
+  X1,
+  Y0,
+  Y1,
+  LANE_Y,
+  CARD_Y,
+  CARD_H,
+  cam,
+  CAM_WIDE,
+  toPoints,
+  decimal,
+} from './frame';
+import './motion.css';
 
 interface Props {
   lang: Lang;
 }
 
 const { lang } = Astro.props;
+const dec = (v: number, n = 1) => decimal(v, n, lang);
 
-// Géométrie du tracé, en unités du viewBox.
-const X0 = 66, X1 = 610, Y0 = 74, Y1 = 396;
-const V_MAX = 6;            // pleine échelle de l'axe, en mm/s
-const SEUIL = 4.5;          // ISO 10816, entrée en zone C pour cette classe
+// ── La série, telle que le seed la fabrique ────────────────────────────
 const DAYS = 30;
+const BASE = 2.2; // profil `mm/s` : une broche saine tient sous 2,8
+const RAMPE = 3.1; // scénario `spindle-wear`, amount
+const DEBUT = 9; // la rampe court sur les 21 derniers jours
+const SPAN = DAYS - DEBUT;
+const SEUIL = 4.5; // ISO 10816
+const V_MAX = 6;
 
 const x = (d: number) => X0 + (d / DAYS) * (X1 - X0);
 const y = (v: number) => Y1 - (v / V_MAX) * (Y1 - Y0);
 
-/**
- * Vibration efficace jour par jour : une dérive lente de 2,1 à 4,9 mm/s,
- * plus le bruit de mesure. Suite déterministe, pour que deux constructions
- * du site produisent exactement la même courbe.
- */
 const serie = Array.from({ length: DAYS + 1 }, (_, d) => {
-  const derive = 2.1 + Math.pow(d / DAYS, 1.7) * 2.8;
+  const p = d <= DEBUT ? 0 : Math.min(1, (d - DEBUT) / SPAN);
   const bruit = Math.sin(d * 2.399) * 0.055 + Math.sin(d * 0.817) * 0.035;
-  return Math.round((derive + bruit) * 100) / 100;
+  return Math.round((BASE + RAMPE * Math.pow(p, 1.35) + bruit) * 100) / 100;
 });
 
-const jourFranchissement = serie.findIndex((v) => v >= SEUIL);
-const valeurAlarme = serie[jourFranchissement];
-const points = serie.map((v, d) => `${x(d).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+const jFranchi = serie.findIndex((v) => v >= SEUIL);
+const vFranchi = serie[jFranchi];
+const vFin = serie[DAYS];
+const avance = DAYS - jFranchi;
+const points = toPoints(serie.map((v, d) => [x(d), y(v)]));
 
-// Le tracé est révélé par son propre trait : il faut sa longueur exacte.
-const longueur = serie.reduce((acc, v, d) => {
-  if (d === 0) return 0;
-  const dx = x(d) - x(d - 1);
-  const dy = y(v) - y(serie[d - 1]);
-  return acc + Math.hypot(dx, dy);
-}, 0);
+// ── Les trois cadrages ─────────────────────────────────────────────────
+// Acte 2 : les huit derniers jours. Acte 3 : trois jours autour du
+// franchissement. Le facteur se déduit de la largeur voulue, jamais choisi
+// à vue.
+const K2 = DAYS / 8;
+const K3 = DAYS / 3;
+const CAM_2 = cam(x(26), y(4.57), K2);
+const CAM_3 = cam(x(jFranchi), y(4.55), K3);
 
-const graduations = [0, 1, 2, 3, 4, 5, 6];
-const semaines = [0, 7, 14, 21, 28];
-const xAlarme = x(jourFranchissement);
-const yAlarme = y(valeurAlarme);
-const fmt = (v: number) => v.toFixed(1).replace('.', lang === 'fr' ? ',' : '.');
+/** Position à l'écran d'un point du dessin, sous un cadrage donné. */
+const at = (d: number, v: number, k: number, cx: number, cy: number) => ({
+  x: (X0 + X1) / 2 - k * cx + k * x(d),
+  y: (Y0 + Y1) / 2 - k * cy + k * y(v),
+});
+const pin = (d: number, v: number, k: number, cx: number, cy: number) => {
+  const p = at(d, v, k, cx, cy);
+  return `translate(${(p.x - x(d)).toFixed(2)}px, ${(p.y - y(v)).toFixed(2)}px)`;
+};
+
+const HIT_1 = 'translate(0px, 0px)';
+const HIT_2 = pin(jFranchi, vFranchi, K2, x(26), y(4.57));
+const HIT_3 = pin(jFranchi, vFranchi, K3, x(jFranchi), y(4.55));
+
+// ── Les trois échelles ─────────────────────────────────────────────────
+type Echelle = {
+  gv: number[]; // lignes horizontales, en mm/s
+  gd: number[]; // lignes verticales, en jours
+  lv: number[]; // libellés d'ordonnée
+  ld: number[]; // libellés d'abscisse
+  k: number;
+  cx: number;
+  cy: number;
+};
+const pas = (a: number, b: number, s: number) => {
+  const out: number[] = [];
+  for (let v = a; v <= b + 1e-9; v += s) out.push(Math.round(v * 1000) / 1000);
+  return out;
+};
+
+const echelles: Echelle[] = [
+  {
+    gv: pas(0, 6, 1),
+    gd: pas(0, 30, 7),
+    lv: [0, 2, 4, 6],
+    ld: [0, 7, 14, 21, 28],
+    k: 1,
+    cx: (X0 + X1) / 2,
+    cy: (Y0 + Y1) / 2,
+  },
+  {
+    gv: pas(3.75, 5.5, 0.25),
+    gd: pas(22, 30, 1),
+    lv: [4, 4.5, 5],
+    ld: [22, 24, 26, 28, 30],
+    k: K2,
+    cx: x(26),
+    cy: y(4.57),
+  },
+  {
+    gv: pas(4.2, 4.9, 0.1),
+    gd: pas(24.5, 27.5, 0.5),
+    lv: [4.3, 4.5, 4.7],
+    ld: [25, 26, 27],
+    k: K3,
+    cx: x(jFranchi),
+    cy: y(4.55),
+  },
+];
+
+const dansPlan = (v: number, min: number, max: number) => v >= min - 0.5 && v <= max + 0.5;
+const libellesX = (e: Echelle) =>
+  e.ld
+    .map((d) => ({ d, sx: at(d, 0, e.k, e.cx, e.cy).x }))
+    .filter((p) => dansPlan(p.sx, X0 - 14, X1 + 14));
+const libellesY = (e: Echelle) =>
+  e.lv
+    .map((v) => ({ v, sy: at(0, v, e.k, e.cx, e.cy).y }))
+    .filter((p) => dansPlan(p.sy, Y0, Y1));
+
+const jourLabel = (d: number) =>
+  d === 0 ? t(lang, 'motion.spindle.day_zero') : `J+${d % 1 === 0 ? d : dec(d)}`;
+
+// ── La corroboration : le deuxième point de la même broche ─────────────
+// Le scénario `spindle-wear` du seed porte sur deux points, pas un : la
+// vitesse vibratoire et la température de roulement (`ramp`, +17 °C sur les
+// douze derniers jours). Deux mesures indépendantes qui concluent pareil,
+// c'est ce qui transforme une courbe en décision.
+const T_BASE = 57;
+const T_RAMPE = 17;
+const T_DEBUT = 18;
+const LANE_H = 42;
+const LANE_MIN = 54;
+const LANE_MAX = 78;
+const ty = (v: number) => LANE_Y + LANE_H - ((v - LANE_MIN) / (LANE_MAX - LANE_MIN)) * LANE_H;
+const temp = Array.from({ length: DAYS + 1 }, (_, d) => {
+  const p = d <= T_DEBUT ? 0 : Math.min(1, (d - T_DEBUT) / (DAYS - T_DEBUT));
+  const bruit = Math.sin(d * 1.771) * 0.42 + Math.sin(d * 0.643) * 0.3;
+  return Math.round((T_BASE + T_RAMPE * Math.pow(p, 1.35) + bruit) * 10) / 10;
+});
+const tempPoints = toPoints(temp.map((v, d) => [x(d), ty(v)]));
+
+const acts = [
+  t(lang, 'motion.spindle.act1'),
+  t(lang, 'motion.spindle.act2'),
+  t(lang, 'motion.spindle.act3'),
+  t(lang, 'motion.spindle.act4'),
+];
+
+// La bande d'anticipation : du jour du franchissement au bout de la fenêtre.
+const bandeX = x(jFranchi);
+const bandeW = x(DAYS) - x(jFranchi);
 ---
 
-<figure class="sw">
+<figure class="mvf">
   <svg
-    viewBox="0 0 676 520"
+    viewBox={`0 0 ${W} ${H}`}
     role="img"
-    class="sw-svg"
+    class="mvf-svg sw"
     aria-label={t(lang, 'motion.spindle.alt')}
-    style={`--sw-len:${longueur.toFixed(0)}`}
+    style={`--cam-1:${CAM_WIDE};--cam-2:${CAM_2};--cam-3:${CAM_3}`}
   >
-    <!-- Grille d'enregistreur : une ligne par mm/s, un filet par semaine. -->
-    <g class="sw-grid">
-      {graduations.map((v) => (
-        <line x1={X0} y1={y(v)} x2={X1} y2={y(v)} />
-      ))}
-      {semaines.map((d) => (
-        <line x1={x(d)} y1={Y0} x2={x(d)} y2={Y1} />
-      ))}
+    <defs>
+      <clipPath id="sw-plot">
+        <rect x={X0} y={Y0} width={X1 - X0} height={Y1 - Y0} />
+      </clipPath>
+    </defs>
+
+    <Head acts={acts} actWord={t(lang, 'motion.act')} />
+
+    <!-- Le dessin, sous la caméra. La grille et le tracé y vivent ; les
+         libellés restent dehors pour ne pas grossir avec le cadrage. -->
+    <g clip-path="url(#sw-plot)">
+      <g class="mv-cam mv-a mv-ease" style="animation-name: mv-cam3">
+        {
+          echelles.map((e, i) => (
+            <g class="mv-grid mv-a" style={`animation-name: mv-scale-${i + 1}`}>
+              {e.gv.map((v) => (
+                <line x1={x(-2)} y1={y(v)} x2={x(32)} y2={y(v)} />
+              ))}
+              {e.gd.map((d) => (
+                <line x1={x(d)} y1={y(-2)} x2={x(d)} y2={y(8)} />
+              ))}
+            </g>
+          ))
+        }
+
+        <g class="mv-a mv-recycle">
+          <!-- Le seuil normalisé : il préexiste à la dérive, il entre donc
+               avant que la caméra ne bouge. -->
+          <line class="sw-limit mv-a" style="animation-name: sw-limit-in" x1={x(-2)} y1={y(SEUIL)} x2={x(32)} y2={y(SEUIL)} />
+          <!-- Ce que le franchissement a laissé comme marge de manœuvre. -->
+          <rect
+            class="sw-band mv-a"
+            style="animation-name: mv-from-4"
+            x={bandeX}
+            y={Y0 - 40}
+            width={bandeW}
+            height={Y1 - Y0 + 80}
+          />
+        </g>
+
+        <polyline class="mv-trace" points={points} />
+
+        <!-- Un point par maximum journalier, visible seulement quand le
+             cadre est resserré : de loin, ce serait du bruit. Tracé en
+             segment nul à bout rond pour garder sa taille au zoom. -->
+        <g class="sw-dots mv-a" style="animation-name: mv-mid">
+          {serie.map((v, d) => <path d={`M ${x(d).toFixed(1)} ${y(v).toFixed(1)} l 0.01 0`} />)}
+        </g>
+      </g>
     </g>
 
-    <g class="sw-axis">
-      {graduations.filter((v) => v % 2 === 0).map((v) => (
-        <text x={X0 - 12} y={y(v) + 4} text-anchor="end">{fmt(v)}</text>
-      ))}
-      <text x={X0 - 12} y={Y0 - 18} text-anchor="end" class="sw-unit">mm/s</text>
-      {semaines.map((d) => (
-        <text x={x(d)} y={Y1 + 22} text-anchor="middle">
-          {d === 0 ? t(lang, 'motion.spindle.day_zero') : `J+${d}`}
+    <!-- Les échelles : trois jeux de libellés qui se relaient sur les
+         mouvements de caméra. -->
+    <g class="mv-axis">
+      {
+        echelles.map((e, i) => (
+          <g class="mv-a" style={`animation-name: mv-scale-${i + 1}`}>
+            {libellesY(e).map((p) => (
+              <text x={X0 - 12} y={p.sy + 4} text-anchor="end">
+                {dec(p.v, i === 0 ? 0 : 1)}
+              </text>
+            ))}
+            {libellesX(e).map((p) => (
+              <text x={p.sx} y={Y1 + 22} text-anchor="middle">
+                {jourLabel(p.d)}
+              </text>
+            ))}
+          </g>
+        ))
+      }
+      <text class="mv-unit" x={X0 - 12} y={Y0 - 10} text-anchor="end">mm/s</text>
+    </g>
+
+    <g class="mv-a mv-recycle">
+      <!-- Acte 1 : le seuil nommé, et l'ampleur de la dérive. -->
+      <g class="mv-a" style="animation-name: sw-limit-in">
+        <text class="sw-limit-t mv-a" style="animation-name: mv-scale-1" x={X0 + 8} y={y(SEUIL) - 9}>
+          {t(lang, 'motion.spindle.threshold')} · {dec(SEUIL)} mm/s
         </text>
-      ))}
-    </g>
-
-    <!-- Le seuil normalisé, posé avant la courbe : il préexiste à la dérive. -->
-    <g class="sw-limit">
-      <line x1={X0} y1={y(SEUIL)} x2={X1} y2={y(SEUIL)} />
-      <text x={X0 + 8} y={y(SEUIL) - 9} text-anchor="start">
-        {t(lang, 'motion.spindle.threshold')} · {fmt(SEUIL)} mm/s
+      </g>
+      <text class="sw-rise mv-a" style="animation-name: mv-act-1" x={X1} y={Y0 - 10} text-anchor="end">
+        {dec(BASE)} → {dec(vFin)} mm/s · +{dec(RAMPE)} {t(lang, 'motion.spindle.in_days')}
       </text>
+
+      <!-- Acte 3 : le franchissement, collé au point quel que soit le
+           cadrage. -->
+      <g
+        class="mv-pin mv-a mv-ease"
+        style={`animation-name: mv-pin3;--pin-1:${HIT_1};--pin-2:${HIT_2};--pin-3:${HIT_3}`}
+      >
+        <g class="sw-hit mv-a" style="animation-name: mv-from-3" transform={`translate(${x(jFranchi).toFixed(1)} ${y(vFranchi).toFixed(1)})`}>
+          <circle class="sw-halo mv-a" style="animation-name: sw-pulse" r="7" />
+          <circle class="sw-dot" r="4.5" />
+          <text class="mv-value" x="-13" y="-9" text-anchor="end">{dec(vFranchi, 2)} mm/s</text>
+        </g>
+      </g>
+
+      <!-- Acte 4 : la marge que la mesure a rendue disponible, et le second
+           point qui dit la même chose. -->
+      <g class="sw-margin mv-a" style="animation-name: mv-from-4">
+        <text x={X1} y={Y0 - 10} text-anchor="end">
+          {avance} {t(lang, 'motion.spindle.days_margin')}
+        </text>
+      </g>
+
+      <g class="sw-lane mv-a" style="animation-name: mv-from-4">
+        <text class="mv-lane-t" x={X0} y={LANE_Y - 6}>
+          {t(lang, 'motion.spindle.lane')}
+        </text>
+        <text class="sw-lane-sum" x={X1} y={LANE_Y - 6} text-anchor="end">
+          {dec(temp[0], 0)} → {dec(temp[DAYS], 0)} °C · {DAYS - T_DEBUT} {t(lang, 'motion.spindle.days')}
+        </text>
+        <line class="sw-lane-rule" x1={X0} y1={LANE_Y + LANE_H} x2={X1} y2={LANE_Y + LANE_H} />
+        <polyline class="mv-trace-soft" points={tempPoints} />
+      </g>
+
+      <!-- Ce que la supervision fait de ce franchissement. -->
+      <g class="mv-card--crit mv-a" style="animation-name: sw-card-1" transform={`translate(${X0} ${CARD_Y})`}>
+        <rect width="344" height={CARD_H} rx="4" />
+        <rect class="mv-card-rail" width="3" height={CARD_H} />
+        <text class="mv-card-title" x="18" y="19">{t(lang, 'motion.spindle.alarm_title')}</text>
+        <text class="mv-card-meta" x="18" y="35">{t(lang, 'motion.spindle.alarm_meta')}</text>
+      </g>
+      <g class="mv-card--plain mv-a" style="animation-name: sw-card-2" transform={`translate(452 ${CARD_Y})`}>
+        <text class="mv-card-title" x="0" y="19">{t(lang, 'motion.spindle.fix_title')}</text>
+        <text class="mv-card-meta" x="0" y="35">{t(lang, 'motion.spindle.fix_meta')}</text>
+      </g>
     </g>
 
-    <polyline class="sw-trace" points={points} />
-
-    <!-- Le franchissement : halo, point, valeur. -->
-    <g class="sw-hit" transform={`translate(${xAlarme.toFixed(1)} ${yAlarme.toFixed(1)})`}>
-      <circle class="sw-halo" r="7" />
-      <circle class="sw-dot" r="4.5" />
-      <text x="-13" y="-8" text-anchor="end">{fmt(valeurAlarme)} mm/s</text>
-    </g>
-
-    <!-- Ce que la supervision fait de ce franchissement. -->
-    <g class="sw-alarm" transform="translate(66 432)">
-      <rect width="330" height="44" rx="4" />
-      <rect class="sw-alarm-rail" width="3" height="44" />
-      <text x="18" y="19" class="sw-alarm-title">{t(lang, 'motion.spindle.alarm_title')}</text>
-      <text x="18" y="35" class="sw-alarm-meta">{t(lang, 'motion.spindle.alarm_meta')}</text>
-    </g>
-
-    <g class="sw-fix" transform="translate(414 432)">
-      <text x="0" y="19" class="sw-fix-title">{t(lang, 'motion.spindle.fix_title')}</text>
-      <text x="0" y="35" class="sw-fix-meta">{t(lang, 'motion.spindle.fix_meta')}</text>
-    </g>
-
-    <!-- Cartouche, comme sur les figures du dossier. -->
-    <g class="sw-cart">
-      <line x1="66" y1="496" x2="610" y2="496" />
-      <text x="66" y="512">
-        <tspan class="sw-cart-strong">{t(lang, 'motion.spindle.fig')}</tspan>
-        · {t(lang, 'motion.spindle.caption')}
-      </text>
-      <text x="610" y="512" text-anchor="end">{t(lang, 'motion.spindle.source')}</text>
-    </g>
+    <Cartouche
+      fig={t(lang, 'motion.spindle.fig')}
+      caption={t(lang, 'motion.spindle.caption')}
+      source={t(lang, 'motion.source')}
+    />
   </svg>
 </figure>
 
 <style>
-  .sw {
-    margin: 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-line);
-    border-radius: 10px;
-    padding: 0.5rem;
-  }
-  .sw-svg { display: block; width: 100%; height: auto; }
+  .sw { --mv-cycle: 18s; }
 
-  /* Une seule horloge : chaque groupe lit ses temps dans ce cycle. */
-  .sw-svg { --sw-cycle: 13s; }
-
-  .sw-grid line { stroke: var(--color-n-150); stroke-width: 1; }
-  .sw-axis text {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    fill: var(--color-muted);
-  }
-  .sw-axis .sw-unit { fill: var(--color-n-400); font-size: 10px; letter-spacing: 0.04em; }
-
-  .sw-limit line {
-    stroke: var(--color-warn);
-    stroke-width: 1.5;
-    stroke-dasharray: 5 4;
-  }
-  .sw-limit text {
+  .sw-limit { stroke: var(--color-warn); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .sw-limit-t {
     font-family: var(--font-mono);
     font-size: 11px;
     fill: var(--color-warn);
     letter-spacing: 0.02em;
   }
-
-  .sw-trace {
-    fill: none;
-    stroke: var(--color-brass);
-    stroke-width: 2;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-  }
-
-  .sw-hit text {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    font-weight: 500;
-    fill: var(--color-crit);
-  }
-  .sw-dot { fill: var(--color-crit); }
-  .sw-halo { fill: var(--color-crit); opacity: 0.18; }
-
-  .sw-alarm rect { fill: var(--color-crit-bg); }
-  .sw-alarm .sw-alarm-rail { fill: var(--color-crit); }
-  .sw-alarm-title {
-    font-size: 13px;
-    font-weight: 500;
-    fill: var(--color-ink);
-  }
-  .sw-alarm-meta {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    fill: var(--color-crit);
-  }
-
-  .sw-fix-title { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
-  .sw-fix-meta { font-family: var(--font-mono); font-size: 11px; fill: var(--color-normal); }
-
-  .sw-cart line { stroke: var(--color-line); stroke-width: 1; }
-  .sw-cart text {
+  /* L'opacité du groupe est prise par l'animation : la transparence de
+     l'aplat passe donc par `fill-opacity`, pas par `opacity`. */
+  .sw-band { fill: var(--color-normal); fill-opacity: 0.08; }
+  .sw-margin text {
     font-family: var(--font-mono);
     font-size: 10px;
-    fill: var(--color-n-400);
+    fill: var(--color-normal);
+    letter-spacing: 0.04em;
+  }
+
+  .sw-lane-rule { stroke: var(--color-line); stroke-width: 1; }
+  .sw-lane-sum {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-brass);
     letter-spacing: 0.03em;
   }
-  .sw-cart .sw-cart-strong { fill: var(--color-muted); }
 
-  /* La séquence. Le seuil d'abord, la dérive ensuite, le franchissement,
-     l'alarme, l'intervention : l'ordre est celui des faits. */
+  .sw-dots path { stroke: var(--color-brass); stroke-width: 5; stroke-linecap: round; }
+
+  .sw-rise {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-n-500);
+    letter-spacing: 0.03em;
+  }
+
+  .sw-hit .mv-value { fill: var(--color-crit); }
+  .sw-hit-day { fill: var(--color-crit); opacity: 0.75; }
+  .sw-dot { fill: var(--color-crit); }
+  .sw-halo { fill: var(--color-crit); opacity: 0.18; }
+</style>
+
+<style is:global>
+  /* Les images clés propres à cette figure. Elles vont de l'état nu à
+     l'état complet : aucune queue de fondu, c'est `mv-recycle` qui
+     rattrape la couture de la boucle temporelle quand il y en a une. */
   @media (prefers-reduced-motion: no-preference) {
-    .sw-limit { animation: sw-fade var(--sw-cycle) linear infinite; }
-    .sw-trace {
-      stroke-dasharray: var(--sw-len);
-      animation: sw-draw var(--sw-cycle) linear infinite;
-    }
-    .sw-hit { animation: sw-pop var(--sw-cycle) linear infinite; }
-    .sw-halo { animation: sw-pulse 1.8s ease-out infinite; transform-origin: center; }
-    .sw-alarm { animation: sw-rise var(--sw-cycle) linear infinite; }
-    .sw-fix { animation: sw-rise-late var(--sw-cycle) linear infinite; }
-
-    @keyframes sw-fade {
-      0%, 4% { opacity: 0; }
-      10%, 96% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-    @keyframes sw-draw {
-      0%, 10% { stroke-dashoffset: var(--sw-len); opacity: 1; }
-      62%, 96% { stroke-dashoffset: 0; opacity: 1; }
-      100% { stroke-dashoffset: 0; opacity: 0; }
-    }
-    @keyframes sw-pop {
-      0%, 56% { opacity: 0; }
-      62%, 96% { opacity: 1; }
-      100% { opacity: 0; }
+    @keyframes sw-limit-in {
+      0% { opacity: 0; }
+      9%, 100% { opacity: 1; }
     }
     @keyframes sw-pulse {
-      0% { r: 7; opacity: 0.3; }
-      70%, 100% { r: 17; opacity: 0; }
+      0%, 55% { r: 7; opacity: 0; }
+      58% { r: 7; opacity: 0.32; }
+      72%, 100% { r: 19; opacity: 0; }
     }
-    @keyframes sw-rise {
-      0%, 66% { opacity: 0; transform: translate(66px, 440px); }
-      74%, 96% { opacity: 1; transform: translate(66px, 432px); }
-      100% { opacity: 0; transform: translate(66px, 432px); }
+    @keyframes sw-card-1 {
+      0%, 57% { opacity: 0; transform: translate(76px, 442px); }
+      64%, 100% { opacity: 1; transform: translate(76px, 434px); }
     }
-    @keyframes sw-rise-late {
-      0%, 80% { opacity: 0; transform: translate(414px, 440px); }
-      88%, 96% { opacity: 1; transform: translate(414px, 432px); }
-      100% { opacity: 0; transform: translate(414px, 432px); }
+    @keyframes sw-card-2 {
+      0%, 80% { opacity: 0; transform: translate(452px, 442px); }
+      87%, 100% { opacity: 1; transform: translate(452px, 434px); }
     }
   }
 </style>
