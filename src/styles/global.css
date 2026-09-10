@@ -18,7 +18,7 @@
 @theme {
   /* Neutres graphite (n-*) */
   --color-n-0:   #ffffff;
-  --color-n-50:  #f7f9fb;
+  --color-n-50:  #f8f7fb;
   --color-n-100: #f0f3f7;
   --color-n-150: #e8ecf2;
   --color-n-200: #dfe4ec;
@@ -52,6 +52,12 @@
   --color-crit-border:   #f6cccc;
   --color-off:           #5d6675;
   --color-off-bg:        #f0f3f7;
+
+  /* Le haut de page, teinté. Un fond blanc pur ne donne aucune température à
+     la marque, et l'écart entre le fond et les surfaces blanches était de deux
+     points, donc invisible. Le voile se résorbe avant la première section. */
+  --color-canvas-top: #efeaf9;
+  --color-canvas-mid: #f4f1fb;
 
   /* Accent de marque : tout ce qui accompagne, jamais ce qui agit. Teinte
      254°, à 38° du bleu d'information : le seul écart franc disponible une
@@ -90,6 +96,17 @@
 
   --shadow-subtle: 0 1px 2px rgb(22 27 35 / 0.03);
   --shadow-card: 0 1px 2px rgb(22 27 35 / 0.04), 0 12px 32px -16px rgb(22 27 35 / 0.10);
+}
+
+body {
+  background:
+    linear-gradient(
+      180deg,
+      var(--color-canvas-top) 0px,
+      var(--color-canvas-mid) 420px,
+      var(--color-canvas) 900px
+    ) no-repeat,
+    var(--color-canvas);
 }
 
 html {

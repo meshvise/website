@@ -13,7 +13,7 @@ const { title, subtitle } = Astro.props;
 const hasBg = Astro.slots.has('bg');
 ---
 
-<section class={`bg-surface border-b border-line ${hasBg ? 'relative overflow-hidden isolate' : ''}`}>
+<section class={`border-b border-line ${hasBg ? 'relative overflow-hidden isolate' : ''}`}>
   {/* Pleine largeur : chaque fond se positionne lui-même et gère son propre voile. */}
   {hasBg && <div class="absolute inset-0 -z-10 hidden lg:block"><slot name="bg" /></div>}
   <div class="wrap relative py-16 md:py-24">
