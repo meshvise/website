@@ -49,21 +49,20 @@ export const ACTS = [0, 22, 48, 74, 100] as const;
  * du dessin au centre de l'aire de tracé, agrandi k fois. Le groupe visé
  * porte `transform-box: view-box` et `transform-origin: 0 0`, donc le calcul
  * est exact et lisible plutôt que laissé à la boîte englobante.
+ *
+ * Le second facteur permet de resserrer une seule dimension. Sur un graphe,
+ * ce n'est pas de la triche : agrandir le temps sans toucher à l'échelle des
+ * grandeurs évite de faire relire l'axe des ordonnées au lecteur alors que
+ * la question posée porte sur la durée.
  */
-export function cam(
-  cx: number,
-  cy: number,
-  k: number,
-  ax: number = (X0 + X1) / 2,
-  ay: number = (Y0 + Y1) / 2,
-): string {
-  const tx = ax - k * cx;
-  const ty = ay - k * cy;
-  return `translate(${tx.toFixed(2)}px, ${ty.toFixed(2)}px) scale(${k})`;
+export function cam(cx: number, cy: number, k: number, ky: number = k): string {
+  const tx = (X0 + X1) / 2 - k * cx;
+  const ty = (Y0 + Y1) / 2 - ky * cy;
+  return `translate(${tx.toFixed(2)}px, ${ty.toFixed(2)}px) scale(${k}, ${ky})`;
 }
 
 /** Le cadrage d'ensemble : aucun déplacement, aucun agrandissement. */
-export const CAM_WIDE = 'translate(0px, 0px) scale(1)';
+export const CAM_WIDE = 'translate(0px, 0px) scale(1, 1)';
 
 /** Longueur d'une polyligne, pour la révéler par son propre trait. */
 export function polylineLength(pts: Array<[number, number]>): number {
@@ -96,10 +95,17 @@ export function thousands(v: number, lang: 'fr' | 'en'): string {
  * l'inverse de `cam` : `cam` fabrique la transformation, `screenAt` dit où
  * atterrit un point une fois cette transformation appliquée.
  */
-export function screenAt(px: number, py: number, k: number, cx: number, cy: number) {
+export function screenAt(
+  px: number,
+  py: number,
+  k: number,
+  cx: number,
+  cy: number,
+  ky: number = k,
+) {
   return {
     x: (X0 + X1) / 2 - k * cx + k * px,
-    y: (Y0 + Y1) / 2 - k * cy + k * py,
+    y: (Y0 + Y1) / 2 - ky * cy + ky * py,
   };
 }
 
@@ -107,8 +113,15 @@ export function screenAt(px: number, py: number, k: number, cx: number, cy: numb
  * Le déplacement à donner à une annotation posée en coordonnées de dessin
  * pour qu'elle suive un point sous un cadrage donné, sans grossir avec lui.
  */
-export function pinTo(px: number, py: number, k: number, cx: number, cy: number): string {
-  const s = screenAt(px, py, k, cx, cy);
+export function pinTo(
+  px: number,
+  py: number,
+  k: number,
+  cx: number,
+  cy: number,
+  ky: number = k,
+): string {
+  const s = screenAt(px, py, k, cx, cy, ky);
   return `translate(${(s.x - px).toFixed(2)}px, ${(s.y - py).toFixed(2)}px)`;
 }
 
@@ -131,4 +144,14 @@ export function step(a: number, b: number, s: number): number[] {
 export function pinY(py: number, k: number, cy: number): string {
   const sy = (Y0 + Y1) / 2 - k * cy + k * py;
   return `translate(0px, ${(sy - py).toFixed(2)}px)`;
+}
+
+/**
+ * Comme `pinY`, mais sur la seule abscisse : pour une étiquette qui doit
+ * rester au-dessus de ce qu'elle nomme quand la caméra resserre le temps,
+ * sans être étirée avec lui.
+ */
+export function pinX(px: number, k: number, cx: number): string {
+  const sx = (X0 + X1) / 2 - k * cx + k * px;
+  return `translate(${(sx - px).toFixed(2)}px, 0px)`;
 }

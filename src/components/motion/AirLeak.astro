@@ -249,7 +249,7 @@ const acts = [
 
         {
           echelles.map((e, i) => (
-            <g class="mv-grid mv-a" style={`animation-name: mv-scale-${i + 1}`}>
+            <g class={`mv-grid mv-a${i > 0 ? ' mv-transient' : ''}`} style={`animation-name: mv-scale-${i + 1}`}>
               {e.gv.map((v) => (
                 <line x1={x(-8)} y1={y(v)} x2={x(176)} y2={y(v)} />
               ))}
@@ -284,7 +284,7 @@ const acts = [
     <g class="mv-axis">
       {
         echelles.map((e, i) => (
-          <g class="mv-a" style={`animation-name: mv-scale-${i + 1}`}>
+          <g class={`mv-a${i > 0 ? ' mv-transient' : ''}`} style={`animation-name: mv-scale-${i + 1}`}>
             {libV(e).map((p) => (
               <text x={X0 - 12} y={p.sy + 4} text-anchor="end">
                 {ent(p.v)}
@@ -303,12 +303,12 @@ const acts = [
 
     <g class="mv-a mv-recycle">
       <!-- Acte 1 : le rythme de l'atelier, posé avant toute interprétation. -->
-      <text class="al-off-t mv-a" style="animation-name: mv-act-1" x={X1} y={Y0 - 10} text-anchor="end">
+      <text class="al-off-t mv-a mv-transient" style="animation-name: mv-act-1" x={X1} y={Y0 - 10} text-anchor="end">
         {t(lang, 'motion.air.off_hours')} · {H_SEMAINE} {t(lang, 'motion.air.h_per_week')}
       </text>
       <!-- Le cadrage bas coupe les pointes de production : le dire, plutôt
            que de laisser le lecteur soupçonner une mesure abîmée. -->
-      <text class="al-off-t mv-a" style="animation-name: mv-act-2" x={X1} y={Y0 - 10} text-anchor="end">
+      <text class="al-off-t mv-a mv-transient" style="animation-name: mv-act-2" x={X1} y={Y0 - 10} text-anchor="end">
         {t(lang, 'motion.air.above')}
       </text>
 
@@ -333,7 +333,7 @@ const acts = [
 
       <!-- Acte 3 : ce que la nuit prouve. Le plancher n'est pas une valeur
            figée, c'est un compresseur qui travaille pour rien. -->
-      <text class="al-night mv-a" style="animation-name: al-night-in" x={X1} y={Y0 - 10} text-anchor="end">
+      <text class="al-night mv-a mv-transient" style="animation-name: al-night-in" x={X1} y={Y0 - 10} text-anchor="end">
         {t(lang, 'motion.air.night')}
       </text>
 

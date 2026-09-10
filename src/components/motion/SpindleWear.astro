@@ -206,7 +206,7 @@ const bandeW = x(DAYS) - x(jFranchi);
       <g class="mv-cam mv-a mv-ease" style="animation-name: mv-cam3">
         {
           echelles.map((e, i) => (
-            <g class="mv-grid mv-a" style={`animation-name: mv-scale-${i + 1}`}>
+            <g class={`mv-grid mv-a${i > 0 ? ' mv-transient' : ''}`} style={`animation-name: mv-scale-${i + 1}`}>
               {e.gv.map((v) => (
                 <line x1={x(-2)} y1={y(v)} x2={x(32)} y2={y(v)} />
               ))}
@@ -237,7 +237,7 @@ const bandeW = x(DAYS) - x(jFranchi);
         <!-- Un point par maximum journalier, visible seulement quand le
              cadre est resserré : de loin, ce serait du bruit. Tracé en
              segment nul à bout rond pour garder sa taille au zoom. -->
-        <g class="sw-dots mv-a" style="animation-name: mv-mid">
+        <g class="sw-dots mv-a mv-transient" style="animation-name: mv-mid">
           {serie.map((v, d) => <path d={`M ${x(d).toFixed(1)} ${y(v).toFixed(1)} l 0.01 0`} />)}
         </g>
       </g>
@@ -248,7 +248,7 @@ const bandeW = x(DAYS) - x(jFranchi);
     <g class="mv-axis">
       {
         echelles.map((e, i) => (
-          <g class="mv-a" style={`animation-name: mv-scale-${i + 1}`}>
+          <g class={`mv-a${i > 0 ? ' mv-transient' : ''}`} style={`animation-name: mv-scale-${i + 1}`}>
             {libellesY(e).map((p) => (
               <text x={X0 - 12} y={p.sy + 4} text-anchor="end">
                 {dec(p.v, i === 0 ? 0 : 1)}
@@ -272,7 +272,7 @@ const bandeW = x(DAYS) - x(jFranchi);
           {t(lang, 'motion.spindle.threshold')} · {dec(SEUIL)} mm/s
         </text>
       </g>
-      <text class="sw-rise mv-a" style="animation-name: mv-act-1" x={X1} y={Y0 - 10} text-anchor="end">
+      <text class="sw-rise mv-a mv-transient" style="animation-name: mv-act-1" x={X1} y={Y0 - 10} text-anchor="end">
         {dec(BASE)} → {dec(vFin)} mm/s · +{dec(RAMPE)} {t(lang, 'motion.spindle.in_days')}
       </text>
 

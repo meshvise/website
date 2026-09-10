@@ -92,7 +92,19 @@
   }
 }
 
-/* ── Le bandeau d'acte ────────────────────────────────────────────────── */
+/*
+ * L'état de repos d'une figure est son état final : c'est ce qui la rend
+ * lisible sous `prefers-reduced-motion`, où aucune animation ne tourne. Tout
+ * ce qui n'existe qu'à un moment du récit doit donc être caché par défaut,
+ * sans quoi les quatre titres d'acte s'empileraient et deux annotations
+ * successives se superposeraient. La règle : une image clé qui finit à
+ * zéro exige `mv-transient` sur son élément.
+ */
+.mv-transient {
+  opacity: 0;
+}
+
+/* ── Le bandeau d'acte ───────────────────────────────────────── */
 
 .mv-head-n {
   font-family: var(--font-mono);

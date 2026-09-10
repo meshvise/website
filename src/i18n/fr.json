@@ -1037,10 +1037,10 @@
       "above": "production au-dessus du cadre"
     },
     "meter": {
-      "alt": "Trente minutes de puissance active sur la fraiseuse conventionnelle FU1, machine sans interface numérique suivie par sous-comptage électrique. La valeur vit au rythme des cycles d'usinage jusqu'à 11:42, puis se fige à 7,7 kW. Pendant cinq minutes elle passe encore pour une valeur normale. À 11:47 la qualité de la donnée bascule à stale, à 11:50 le pilote SUBM1 est déclaré injoignable et l'alarme de liaison part sur huit points et quatre machines. La liaison revient à 11:53, après onze minutes de trou daté.",
+      "alt": "Trente minutes de puissance active sur la fraiseuse conventionnelle FU1, machine sans interface numérique suivie par sous-comptage électrique. Le tracé est d'abord d'un seul tenant et d'une seule encre : rien ne distingue les mesures de la valeur répétée. À 11:42 le dernier échantillon arrive, 7,7 kW, et pendant cinq minutes la valeur figée passe encore pour bonne. À 11:47 la qualité du point bascule à stale, à 11:50 le pilote SUBM1 est déclaré injoignable et l'alarme de liaison part sur huit points et quatre machines. La liaison revient à 11:53, après onze minutes de trou daté, et la valeur maintenue n'est jamais comptée comme une mesure.",
       "held": "valeur maintenue, aucun échantillon reçu",
       "window": "la valeur figée passe encore pour bonne",
-      "quality": "qualité de la donnée",
+      "quality": "QUALITÉ DE LA DONNÉE",
       "q_good": "good",
       "q_stale": "stale",
       "q_fail": "comm_fail",
@@ -1048,8 +1048,13 @@
       "alarm_scope": "8 points, 4 machines",
       "fix_title": "Trou daté, pas comblé",
       "fig": "FIG. V-03",
-      "caption": "Décrochage de sous-compteur",
-      "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
+      "caption": "Décrochage de sous-compteur, 30 min",
+      "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE",
+      "act1": "Trente minutes de puissance",
+      "act2": "Onze minutes qui n'en sont pas",
+      "act3": "Cinq minutes où l'on se trompe",
+      "act4": "Le trou est daté",
+      "machine": "FU1 · FRAISEUSE CONVENTIONNELLE · SOUS-COMPTAGE"
     },
     "threshold": {
       "alt": "Vingt et un jours de maximum journalier de température d'huile de coupe sur le groupe froid de l'atelier. La courbe ne change pas : elle oscille entre 22,3 et 22,7 °C du premier au dernier jour, et dépasse quinze fois 22,5 °C. Ce qui change, c'est le seuil d'alarme, abaissé de 24,0 à 22,5 °C par une révision signée au seizième jour avant aujourd'hui. Huit alarmes partent en onze jours, chacune refermée en quelques minutes, une seule acquittée. Une révision de retour arrière remet le seuil à 24,0 °C avec une hystérésis de 1,0 °C au sixième jour, et le journal redevient silencieux alors que les pics, eux, continuent.",

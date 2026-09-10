@@ -28,7 +28,7 @@ const gx = X1 - GAUGE_W;
 <g class="mv-head">
   {
     acts.map((label, i) => (
-      <text class="mv-a" x={X0} y={HEAD_BASE} style={`animation-name: mv-act-${i + 1}`}>
+      <text class={`mv-a${i < acts.length - 1 ? ' mv-transient' : ''}`} x={X0} y={HEAD_BASE} style={`animation-name: mv-act-${i + 1}`}>
         <tspan class="mv-head-n">{actWord} {i + 1}</tspan>
         <tspan class="mv-head-label" dx="10">{label}</tspan>
       </text>
