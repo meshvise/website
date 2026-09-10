@@ -7,6 +7,7 @@
 import Base from '../../layouts/Base.astro';
 import SpindleWear from '../../components/motion/SpindleWear.astro';
 import AirLeak from '../../components/motion/AirLeak.astro';
+import MeterDropout from '../../components/motion/MeterDropout.astro';
 
 const lang = 'fr' as const;
 ---
@@ -62,6 +63,35 @@ const lang = 'fr' as const;
           samedi, réseau tronçonné, et le talon se compare avant et après sur la
           même courbe.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-5">
+        <h2 class="t-page">Une valeur figée ressemble à une valeur normale</h2>
+        <p class="t-lede mt-6">
+          La fraiseuse FU1 n'a aucune interface numérique. Elle est suivie par
+          sous-comptage électrique, et le sous-compteur s'est tu.
+        </p>
+        <p class="t-body mt-5">
+          À 11:42, la dernière valeur arrive : 7,7 kW. Elle reste affichée. Rien ne
+          clignote, rien ne change de couleur, et pendant cinq minutes une
+          supervision qui ne regarde que la valeur ne voit strictement rien. C'est
+          la fenêtre où l'on se trompe.
+        </p>
+        <p class="t-body mt-5">
+          Meshvise ne surveille pas seulement la valeur, il surveille sa fraîcheur.
+          À 11:47 la qualité du point bascule à <code>stale</code>, à 11:50 le
+          pilote est déclaré injoignable et l'alarme part sur les huit points des
+          quatre machines conventionnelles. Les onze minutes de trou sont datées et
+          restent des minutes de trou : la valeur maintenue n'est jamais comptée
+          comme une mesure.
+        </p>
+      </div>
+      <div class="lg:col-span-7">
+        <MeterDropout lang={lang} />
       </div>
     </div>
   </section>

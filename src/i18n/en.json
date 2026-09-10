@@ -1019,6 +1019,21 @@
       "fig": "FIG. V-02",
       "caption": "Compressed air leak",
       "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE"
+    },
+    "meter": {
+      "alt": "Thirty minutes of active power on conventional milling machine FU1, a machine with no digital interface tracked by electrical sub-metering. The value follows the machining cycles until 11:42, then freezes at 7.7 kW. For five minutes it still reads as a normal value. At 11:47 data quality turns stale, at 11:50 driver SUBM1 is declared unreachable and the link alarm fires across eight points and four machines. The link returns at 11:53, after eleven minutes of recorded gap.",
+      "held": "value held, no sample received",
+      "window": "the frozen value still reads as good",
+      "quality": "data quality",
+      "q_good": "good",
+      "q_stale": "stale",
+      "q_fail": "comm_fail",
+      "alarm_title": "Sub-metering link lost",
+      "alarm_scope": "8 points, 4 machines",
+      "fix_title": "Gap recorded, not filled",
+      "fig": "FIG. V-03",
+      "caption": "Sub-meter dropout",
+      "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE"
     }
   }
 }

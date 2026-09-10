@@ -1,0 +1,430 @@
+---
+/**
+ * Décrochage de sous-compteur : cinquième des six scénarios inscrits dans les
+ * trente jours d'historique du parc de Bellecombe, déroulé comme une séquence.
+ *
+ * Le parcours raconté : une fraiseuse conventionnelle, sans interface
+ * numérique, suivie par sous-comptage électrique. Le sous-compteur cesse
+ * d'émettre. La valeur se fige, et pendant cinq minutes elle passe encore
+ * pour une valeur normale : c'est exactement la fenêtre où une supervision
+ * qui ne surveille que la valeur ne voit rien. La qualité bascule ensuite à
+ * `stale`, puis le pilote est déclaré injoignable et l'alarme de liaison
+ * part.
+ *
+ * Trois pièces de tracé, pas une : ce qui est mesuré est bleu, ce qui est
+ * seulement maintenu est gris. La distinction est le sujet du dessin.
+ *
+ * Les valeurs viennent du pilote `SUBM1` du jeu de démonstration : Modbus TCP,
+ * interrogation toutes les deux secondes, historisation à la minute, huit
+ * points sur quatre machines conventionnelles, coupures de quatre à onze
+ * minutes. Le tracé est calculé à la construction, de façon déterministe.
+ *
+ * Le mouvement se joue en boucle sur une seule durée : chaque élément porte
+ * ses temps en pourcentage de ce cycle, ce qui garde la séquence synchronisée
+ * sans script. Sous `prefers-reduced-motion`, tout est posé dans son état
+ * final dès l'affichage.
+ */
+import { t, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+// Géométrie du tracé, en unités du viewBox.
+const X0 = 66, X1 = 610, Y0 = 74, Y1 = 328;
+const V_MAX = 20;           // pleine échelle de l'axe, en kW
+const MINUTES = 30;         // fenêtre de 11:30 à 12:00
+const PAS = 0.5;            // un échantillon toutes les trente secondes
+
+// Les quatre instants du scénario, en minutes depuis 11:30.
+const GEL = 12;             // 11:42, dernière valeur nouvelle
+const PERIME = 17;          // 11:47, la fraîcheur est dépassée
+const COUPURE = 20;         // 11:50, le pilote est déclaré injoignable
+const RETOUR = 23;          // 11:53, la liaison revient
+const TOLERANCE = PERIME - GEL;
+const TROU = RETOUR - GEL;
+
+const x = (m: number) => X0 + (m / MINUTES) * (X1 - X0);
+const y = (v: number) => Y1 - (v / V_MAX) * (Y1 - Y0);
+
+/**
+ * Puissance active de la fraiseuse : des cycles d'usinage de quatre minutes,
+ * une passe en charge puis un dégagement à vide, plus le bruit de mesure.
+ * Suite déterministe, pour que deux constructions du site produisent
+ * exactement le même tracé.
+ */
+const brut = (m: number) => {
+  const p = ((m + 2.35) % 4.2) / 4.2;
+  const socle = p < 0.66 ? 9.4 + 2.7 * Math.sin(p * 8.2 + 0.4) : 1.8;
+  const bruit =
+    Math.sin(m * 7.31) * 0.42 + Math.sin(m * 2.91) * 0.28 + Math.sin(m * 1.13) * 0.19;
+  return Math.round(Math.max(0.5, socle + bruit) * 10) / 10;
+};
+
+const pas = (a: number, b: number) => {
+  const out: Array<[number, number]> = [];
+  for (let m = a; m <= b + 1e-9; m += PAS) out.push([m, brut(m)]);
+  return out;
+};
+
+const mesureAvant = pas(0, GEL);
+const mesureApres = pas(RETOUR, MINUTES);
+const V_GEL = mesureAvant[mesureAvant.length - 1][1];
+
+const trace = (pts: Array<[number, number]>) =>
+  pts.map(([m, v]) => `${x(m).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+
+const longueur = (pts: Array<[number, number]>) =>
+  pts.reduce((acc, [m, v], i) => {
+    if (i === 0) return 0;
+    const [pm, pv] = pts[i - 1];
+    return acc + Math.hypot(x(m) - x(pm), y(v) - y(pv));
+  }, 0);
+
+const ptsAvant = trace(mesureAvant);
+const ptsApres = trace(mesureApres);
+const lenAvant = longueur(mesureAvant);
+const lenApres = longueur(mesureApres);
+
+const graduations = [0, 4, 8, 12, 16, 20];
+const reperes = [0, 5, 10, 15, 20, 25, 30];
+const horodate = (m: number) => {
+  const total = 11 * 60 + 30 + m;
+  const h = Math.floor(total / 60);
+  const mn = Math.round(total % 60);
+  return `${h}:${mn.toString().padStart(2, '0')}`;
+};
+
+const dec = (v: number, n = 1) =>
+  v.toFixed(n).replace('.', lang === 'fr' ? ',' : '.');
+
+// La bande de qualité : quatre segments, un par état traversé.
+const RUB_Y = 374, RUB_H = 18;
+const segments = [
+  { etat: 'good', a: 0, b: PERIME, cle: 'motion.meter.q_good' },
+  { etat: 'stale', a: PERIME, b: COUPURE, cle: 'motion.meter.q_stale' },
+  { etat: 'fail', a: COUPURE, b: RETOUR, cle: 'motion.meter.q_fail' },
+  { etat: 'good2', a: RETOUR, b: MINUTES, cle: 'motion.meter.q_good' },
+];
+
+const yGel = y(V_GEL);
+---
+
+<figure class="md">
+  <svg
+    viewBox="0 0 676 520"
+    role="img"
+    class="md-svg"
+    aria-label={t(lang, 'motion.meter.alt')}
+    style={`--md-len-a:${lenAvant.toFixed(0)};--md-len-c:${lenApres.toFixed(0)}`}
+  >
+    <g class="md-grid">
+      {graduations.map((v) => (
+        <line x1={X0} y1={y(v)} x2={X1} y2={y(v)} />
+      ))}
+      {reperes.map((m) => (
+        <line x1={x(m)} y1={Y0} x2={x(m)} y2={Y1} />
+      ))}
+    </g>
+
+    <g class="md-axis">
+      {graduations.map((v) => (
+        <text x={X0 - 12} y={y(v) + 4} text-anchor="end">{v}</text>
+      ))}
+      <text x={X0 - 12} y={Y0 - 18} text-anchor="end" class="md-unit">kW</text>
+      {reperes.map((m) => (
+        <text x={x(m)} y={Y1 + 20} text-anchor="middle">{horodate(m)}</text>
+      ))}
+    </g>
+
+    <!-- Ce qui est mesuré. -->
+    <polyline class="md-live md-live-a" points={ptsAvant} />
+
+    <!-- Ce qui n'est que maintenu : même hauteur, autre couleur. La ligne
+         est plate parce que la dernière valeur reçue ne bouge plus. -->
+    <g class="md-held">
+      <line x1={x(GEL)} y1={yGel} x2={x(RETOUR)} y2={yGel} />
+      <text x={(x(GEL) + x(RETOUR)) / 2} y={yGel + 20} text-anchor="middle">
+        {t(lang, 'motion.meter.held')}
+      </text>
+    </g>
+
+    <polyline class="md-live md-live-c" points={ptsApres} />
+
+    <!-- Le dernier échantillon reçu. -->
+    <g class="md-last" transform={`translate(${x(GEL).toFixed(1)} ${yGel.toFixed(1)})`}>
+      <circle class="md-halo" r="6" />
+      <circle class="md-dot" r="4" />
+      <text x="12" y="-12">{dec(V_GEL)} kW</text>
+    </g>
+
+    <!-- Les cinq minutes où la valeur figée passe encore pour bonne : c'est
+         le cœur du scénario, donc c'est la seule cote du dessin. -->
+    <g class="md-window">
+      <path d={`M ${x(GEL)} 118 L ${x(GEL)} 108 L ${(x(GEL) + x(PERIME)) / 2 - 24} 108`} />
+      <path d={`M ${(x(GEL) + x(PERIME)) / 2 + 24} 108 L ${x(PERIME)} 108 L ${x(PERIME)} 118`} />
+      <line class="md-window-drop" x1={x(GEL)} y1={118} x2={x(GEL)} y2={Y1} />
+      <text class="md-window-len" x={(x(GEL) + x(PERIME)) / 2} y="112" text-anchor="middle">
+        {TOLERANCE} min
+      </text>
+      <text x={(x(GEL) + x(PERIME)) / 2} y="92" text-anchor="middle">
+        {t(lang, 'motion.meter.window')}
+      </text>
+    </g>
+
+    <!-- La qualité de la donnée, sur sa propre voie. -->
+    <g class="md-ribbon">
+      {segments.map((s) => (
+        <g class={`md-seg md-seg-${s.etat}`}>
+          <rect x={x(s.a)} y={RUB_Y} width={x(s.b) - x(s.a)} height={RUB_H} />
+          <rect class="md-seg-rail" x={x(s.a)} y={RUB_Y + RUB_H - 2.5} width={x(s.b) - x(s.a)} height="2.5" />
+        </g>
+      ))}
+    </g>
+    <g class="md-ribbon-t">
+      <text x={X0} y="368" class="md-ribbon-cap">{t(lang, 'motion.meter.quality')}</text>
+      {segments.map((s) => (
+        <text
+          class={`md-seg-t md-seg-t-${s.etat}`}
+          x={(x(s.a) + x(s.b)) / 2}
+          y="406"
+          text-anchor="middle"
+        >{t(lang, s.cle)}</text>
+      ))}
+    </g>
+
+    <!-- Ce que la supervision fait de ce silence. -->
+    <g class="md-alarm" transform="translate(66 428)">
+      <rect width="344" height="44" rx="4" />
+      <rect class="md-alarm-rail" width="3" height="44" />
+      <text x="18" y="19" class="md-alarm-title">{t(lang, 'motion.meter.alarm_title')}</text>
+      <text x="18" y="35" class="md-alarm-meta">
+        {horodate(COUPURE)} · SUBM1 · {t(lang, 'motion.meter.alarm_scope')}
+      </text>
+    </g>
+
+    <g class="md-fix" transform="translate(434 428)">
+      <text x="0" y="19" class="md-fix-title">{t(lang, 'motion.meter.fix_title')}</text>
+      <text x="0" y="35" class="md-fix-meta">
+        {horodate(GEL)} → {horodate(RETOUR)} · {TROU} min
+      </text>
+    </g>
+
+    <g class="md-cart">
+      <line x1="66" y1="496" x2="610" y2="496" />
+      <text x="66" y="512">
+        <tspan class="md-cart-strong">{t(lang, 'motion.meter.fig')}</tspan>
+        · {t(lang, 'motion.meter.caption')}
+      </text>
+      <text x="610" y="512" text-anchor="end">{t(lang, 'motion.meter.source')}</text>
+    </g>
+  </svg>
+</figure>
+
+<style>
+  .md {
+    margin: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    padding: 0.5rem;
+  }
+  .md-svg { display: block; width: 100%; height: auto; }
+
+  /* Une seule horloge : chaque groupe lit ses temps dans ce cycle. */
+  .md-svg { --md-cycle: 16s; }
+
+  .md-grid line { stroke: var(--color-n-150); stroke-width: 1; }
+  .md-axis text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--color-muted);
+  }
+  .md-axis .md-unit { fill: var(--color-n-400); font-size: 10px; letter-spacing: 0.04em; }
+
+  .md-live {
+    fill: none;
+    stroke: var(--color-info);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .md-held line { stroke: var(--color-off); stroke-width: 2; stroke-linecap: round; }
+  .md-held text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-off);
+    letter-spacing: 0.03em;
+  }
+
+  .md-last text {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    fill: var(--color-off);
+  }
+  .md-dot { fill: var(--color-off); }
+  .md-halo { fill: var(--color-off); opacity: 0.2; }
+
+  .md-window path { fill: none; stroke: var(--color-warn); stroke-width: 1.5; }
+  .md-window .md-window-drop {
+    stroke: var(--color-warn);
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+    opacity: 0.55;
+  }
+  .md-window text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--color-warn);
+    letter-spacing: 0.02em;
+  }
+  .md-window .md-window-len { font-size: 10px; font-weight: 500; }
+
+  .md-seg-good rect, .md-seg-good2 rect { fill: var(--color-normal-bg); }
+  .md-seg-good .md-seg-rail, .md-seg-good2 .md-seg-rail { fill: var(--color-normal); }
+  .md-seg-stale rect { fill: var(--color-warn-bg); }
+  .md-seg-stale .md-seg-rail { fill: var(--color-warn); }
+  .md-seg-fail rect { fill: var(--color-crit-bg); }
+  .md-seg-fail .md-seg-rail { fill: var(--color-crit); }
+
+  .md-ribbon-t text { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.03em; }
+  .md-ribbon-cap { fill: var(--color-n-400); }
+  .md-seg-t-good, .md-seg-t-good2 { fill: var(--color-normal); }
+  .md-seg-t-stale { fill: var(--color-warn); }
+  .md-seg-t-fail { fill: var(--color-crit); }
+
+  .md-alarm rect { fill: var(--color-crit-bg); }
+  .md-alarm .md-alarm-rail { fill: var(--color-crit); }
+  .md-alarm-title { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
+  .md-alarm-meta { font-family: var(--font-mono); font-size: 11px; fill: var(--color-crit); }
+
+  .md-fix-title { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
+  .md-fix-meta { font-family: var(--font-mono); font-size: 10px; fill: var(--color-normal); }
+
+  .md-cart line { stroke: var(--color-line); stroke-width: 1; }
+  .md-cart text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-n-400);
+    letter-spacing: 0.03em;
+  }
+  .md-cart .md-cart-strong { fill: var(--color-muted); }
+
+  /* La séquence. Le tracé et la voie de qualité avancent ensemble sur la
+     même horloge : le rythme du dessin est celui de l'horodatage, pas une
+     cadence choisie. Les quatre segments de qualité s'ouvrent depuis leur
+     bord gauche, dans l'ordre où le scénario les traverse. */
+  @media (prefers-reduced-motion: no-preference) {
+    .md-live-a {
+      stroke-dasharray: var(--md-len-a);
+      animation: md-draw-a var(--md-cycle) linear infinite;
+    }
+    .md-held { animation: md-hold var(--md-cycle) linear infinite; }
+    .md-live-c {
+      stroke-dasharray: var(--md-len-c);
+      animation: md-draw-c var(--md-cycle) linear infinite;
+    }
+    .md-last { animation: md-pop var(--md-cycle) linear infinite; }
+    .md-halo { animation: md-pulse 2s ease-out infinite; transform-origin: center; }
+    .md-window { animation: md-window-in var(--md-cycle) linear infinite; }
+
+    .md-seg { transform-box: fill-box; transform-origin: left center; }
+    .md-seg-good { animation: md-seg-1 var(--md-cycle) linear infinite; }
+    .md-seg-stale { animation: md-seg-2 var(--md-cycle) linear infinite; }
+    .md-seg-fail { animation: md-seg-3 var(--md-cycle) linear infinite; }
+    .md-seg-good2 { animation: md-seg-4 var(--md-cycle) linear infinite; }
+    .md-seg-t-good { animation: md-label-1 var(--md-cycle) linear infinite; }
+    .md-seg-t-stale { animation: md-label-2 var(--md-cycle) linear infinite; }
+    .md-seg-t-fail { animation: md-label-3 var(--md-cycle) linear infinite; }
+    .md-seg-t-good2 { animation: md-label-4 var(--md-cycle) linear infinite; }
+
+    .md-alarm { animation: md-rise var(--md-cycle) linear infinite; }
+    .md-fix { animation: md-rise-late var(--md-cycle) linear infinite; }
+
+    @keyframes md-draw-a {
+      0%, 4% { stroke-dashoffset: var(--md-len-a); opacity: 1; }
+      30%, 96% { stroke-dashoffset: 0; opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+    @keyframes md-hold {
+      0%, 30% { opacity: 0; }
+      55%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes md-draw-c {
+      0%, 55% { stroke-dashoffset: var(--md-len-c); opacity: 1; }
+      70%, 96% { stroke-dashoffset: 0; opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+    @keyframes md-pop {
+      0%, 30% { opacity: 0; }
+      34%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes md-pulse {
+      0% { r: 6; opacity: 0.35; }
+      70%, 100% { r: 15; opacity: 0; }
+    }
+    @keyframes md-window-in {
+      0%, 42% { opacity: 0; }
+      47%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes md-seg-1 {
+      0%, 4% { transform: scaleX(0); opacity: 1; }
+      41%, 96% { transform: scaleX(1); opacity: 1; }
+      100% { transform: scaleX(1); opacity: 0; }
+    }
+    @keyframes md-seg-2 {
+      0%, 41% { transform: scaleX(0); opacity: 1; }
+      48%, 96% { transform: scaleX(1); opacity: 1; }
+      100% { transform: scaleX(1); opacity: 0; }
+    }
+    @keyframes md-seg-3 {
+      0%, 48% { transform: scaleX(0); opacity: 1; }
+      55%, 96% { transform: scaleX(1); opacity: 1; }
+      100% { transform: scaleX(1); opacity: 0; }
+    }
+    @keyframes md-seg-4 {
+      0%, 55% { transform: scaleX(0); opacity: 1; }
+      70%, 96% { transform: scaleX(1); opacity: 1; }
+      100% { transform: scaleX(1); opacity: 0; }
+    }
+    @keyframes md-label-1 {
+      0%, 16% { opacity: 0; }
+      22%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes md-label-2 {
+      0%, 44% { opacity: 0; }
+      49%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes md-label-3 {
+      0%, 51% { opacity: 0; }
+      56%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes md-label-4 {
+      0%, 62% { opacity: 0; }
+      67%, 96% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes md-rise {
+      0%, 72% { opacity: 0; transform: translate(66px, 436px); }
+      79%, 96% { opacity: 1; transform: translate(66px, 428px); }
+      100% { opacity: 0; transform: translate(66px, 428px); }
+    }
+    @keyframes md-rise-late {
+      0%, 85% { opacity: 0; transform: translate(434px, 436px); }
+      91%, 96% { opacity: 1; transform: translate(434px, 428px); }
+      100% { opacity: 0; transform: translate(434px, 428px); }
+    }
+  }
+</style>

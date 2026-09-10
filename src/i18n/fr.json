@@ -1019,6 +1019,21 @@
       "fig": "FIG. V-02",
       "caption": "Fuite d'air comprimé",
       "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
+    },
+    "meter": {
+      "alt": "Trente minutes de puissance active sur la fraiseuse conventionnelle FU1, machine sans interface numérique suivie par sous-comptage électrique. La valeur vit au rythme des cycles d'usinage jusqu'à 11:42, puis se fige à 7,7 kW. Pendant cinq minutes elle passe encore pour une valeur normale. À 11:47 la qualité de la donnée bascule à stale, à 11:50 le pilote SUBM1 est déclaré injoignable et l'alarme de liaison part sur huit points et quatre machines. La liaison revient à 11:53, après onze minutes de trou daté.",
+      "held": "valeur maintenue, aucun échantillon reçu",
+      "window": "la valeur figée passe encore pour bonne",
+      "quality": "qualité de la donnée",
+      "q_good": "good",
+      "q_stale": "stale",
+      "q_fail": "comm_fail",
+      "alarm_title": "Liaison sous-comptage perdue",
+      "alarm_scope": "8 points, 4 machines",
+      "fix_title": "Trou daté, pas comblé",
+      "fig": "FIG. V-03",
+      "caption": "Décrochage de sous-compteur",
+      "source": "MESHVISE · SITE DE DÉMONSTRATION · BELLECOMBE"
     }
   }
 }
