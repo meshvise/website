@@ -520,7 +520,17 @@
   fill: var(--color-normal);
 }
 
-/* ── Menue typographie de figure ──────────────────────────────────────── */
+/* Une étiquette qui doit rester lisible par-dessus un tracé ou une grille :
+   le texte est d'abord cerné de la couleur du fond, puis rempli. C'est ce
+   que fait un plan quand une cote croise une ligne. */
+.mv-halo-t {
+  paint-order: stroke;
+  stroke: var(--color-surface);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+}
+
+/* ── Menue typographie de figure ─────────────────────────────────── */
 
 .mv-note {
   font-family: var(--font-mono);

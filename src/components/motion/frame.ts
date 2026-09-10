@@ -50,14 +50,23 @@ export const ACTS = [0, 22, 48, 74, 100] as const;
  * porte `transform-box: view-box` et `transform-origin: 0 0`, donc le calcul
  * est exact et lisible plutôt que laissé à la boîte englobante.
  *
+ * Le dernier argument déplace le point d'arrivée en ordonnée, pour une
+ * figure dont l'aire de tracé est plus basse que celle du cadre commun.
+ *
  * Le second facteur permet de resserrer une seule dimension. Sur un graphe,
  * ce n'est pas de la triche : agrandir le temps sans toucher à l'échelle des
  * grandeurs évite de faire relire l'axe des ordonnées au lecteur alors que
  * la question posée porte sur la durée.
  */
-export function cam(cx: number, cy: number, k: number, ky: number = k): string {
+export function cam(
+  cx: number,
+  cy: number,
+  k: number,
+  ky: number = k,
+  ay: number = (Y0 + Y1) / 2,
+): string {
   const tx = (X0 + X1) / 2 - k * cx;
-  const ty = (Y0 + Y1) / 2 - ky * cy;
+  const ty = ay - ky * cy;
   return `translate(${tx.toFixed(2)}px, ${ty.toFixed(2)}px) scale(${k}, ${ky})`;
 }
 
@@ -102,10 +111,11 @@ export function screenAt(
   cx: number,
   cy: number,
   ky: number = k,
+  ay: number = (Y0 + Y1) / 2,
 ) {
   return {
     x: (X0 + X1) / 2 - k * cx + k * px,
-    y: (Y0 + Y1) / 2 - ky * cy + ky * py,
+    y: ay - ky * cy + ky * py,
   };
 }
 
@@ -120,8 +130,9 @@ export function pinTo(
   cx: number,
   cy: number,
   ky: number = k,
+  ay: number = (Y0 + Y1) / 2,
 ): string {
-  const s = screenAt(px, py, k, cx, cy, ky);
+  const s = screenAt(px, py, k, cx, cy, ky, ay);
   return `translate(${(s.x - px).toFixed(2)}px, ${(s.y - py).toFixed(2)}px)`;
 }
 
@@ -141,8 +152,8 @@ export function step(a: number, b: number, s: number): number[] {
  * la ligne qu'elle nomme : la caméra la fait monter ou descendre, elle ne
  * l'emmène jamais hors cadre.
  */
-export function pinY(py: number, k: number, cy: number): string {
-  const sy = (Y0 + Y1) / 2 - k * cy + k * py;
+export function pinY(py: number, k: number, cy: number, ay: number = (Y0 + Y1) / 2): string {
+  const sy = ay - k * cy + k * py;
   return `translate(0px, ${(sy - py).toFixed(2)}px)`;
 }
 

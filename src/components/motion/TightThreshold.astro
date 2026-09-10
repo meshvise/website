@@ -1,72 +1,85 @@
 ---
 /**
- * Alarme au seuil trop serré : troisième des six scénarios inscrits dans les
- * trente jours d'historique du parc de Bellecombe, déroulé comme une séquence.
+ * V-04 · Alarme au seuil trop serré.
  *
- * Le parcours raconté : le maximum journalier de température d'huile de coupe
- * ne bouge pas de trois semaines. Ce qui bouge, c'est le seuil. Quelqu'un le
- * resserre de 24,0 à 22,5 °C, l'alarme se met à tirer presque chaque jour et
- * à se refermer en quelques minutes, les opérateurs cessent de la lire, puis
- * une révision de retour arrière la remet à 24,0 °C avec une hystérésis d'un
- * degré. Les pics, eux, continuent : le procédé était innocent.
+ * Seule figure de la série où la courbe est l'élément immobile et le seuil
+ * l'élément qui bouge. Le cadrage en tire les conséquences : il ne resserre
+ * que l'ordonnée. Vu de loin, avec un axe qui va de 22 à 24,5 °C, le
+ * maximum journalier est une ligne plate très en dessous de l'alarme, et
+ * c'est déjà l'argument. Vu à 3,5 fois, sur les sept dixièmes de degré où
+ * la mesure vit réellement, les mêmes pics traversent le seuil resserré une
+ * fois sur deux. La donnée n'a pas changé, l'échelle non plus, seul le
+ * cadre a bougé, et c'est exactement ce qui s'est passé dans l'atelier.
  *
- * C'est le seul des trois scénarios où la courbe est l'élément immobile et le
- * seuil l'élément qui se déplace. D'où le choix de dessiner le seuil en
- * marches et de le révéler en trois temps, et celui de montrer le journal
- * d'alarmes comme une voie séparée : c'est le journal qui raconte, pas la
- * mesure.
+ * Valeurs du scénario `crying-wolf` du jeu de démonstration : le seuil haut
+ * de l'alarme « Huile de coupe » passe de 24,0 à 22,5 °C par une révision
+ * signée au seizième jour avant aujourd'hui, revient à 24,0 °C avec une
+ * hystérésis de 1,0 °C au sixième. Le seed n'infléchit délibérément aucune
+ * valeur sur ce scénario : les huit déclenchements et les deux révisions
+ * portent l'histoire, la tendance prouve que le procédé était innocent.
  *
- * Valeurs issues du scénario `crying-wolf` du jeu de démonstration : seuil
- * haut de l'alarme « Huile de coupe » à 24,0 °C, resserré à 22,5 °C par une
- * révision signée au seizième jour avant aujourd'hui, remis à 24,0 °C avec
- * une hystérésis de 1,0 °C par une révision de retour arrière au sixième.
- * La série est calculée à la construction, de façon déterministe, et les
- * jours de déclenchement en sont déduits : ce ne sont pas huit dates posées
- * à la main, ce sont les jours où le maximum dépasse le seuil du moment.
- *
- * Le mouvement se joue en boucle sur une seule durée : chaque élément porte
- * ses temps en pourcentage de ce cycle, ce qui garde la séquence synchronisée
- * sans script. Sous `prefers-reduced-motion`, tout est posé dans son état
- * final dès l'affichage.
+ * Les jours de déclenchement ne sont pas huit dates posées à la main : ce
+ * sont les jours où le maximum dépasse le seuil en vigueur, déduits de la
+ * série. Il s'en trouve huit, comme dans le seed.
  */
 import { t, type Lang } from '../../i18n';
+import Head from './Head.astro';
+import Cartouche from './Cartouche.astro';
+import {
+  W,
+  H,
+  X0,
+  X1,
+  Y0,
+  CARD_Y,
+  CARD_H,
+  cam,
+  CAM_WIDE,
+  screenAt,
+  pinY,
+  PIN_WIDE,
+  toPoints,
+  step,
+  decimal,
+} from './frame';
+import './motion.css';
 
 interface Props {
   lang: Lang;
 }
 
 const { lang } = Astro.props;
+const dec = (v: number, n = 1) => decimal(v, n, lang);
 
-// Géométrie du tracé, en unités du viewBox.
-const X0 = 66, X1 = 610, Y0 = 74, Y1 = 294;
-const V_MIN = 22.0, V_MAX = 24.5;   // axe tronqué : l'écart utile est de 0,2 °C
+// ── Géométrie locale : l'aire de tracé est plus basse que le cadre commun,
+//    parce que cette figure porte deux journaux au lieu d'une voie. ──────
+const YB = 300;
+const AY = (Y0 + YB) / 2;
+
 const JOURS = 21;
-
-const x = (j: number) => X0 + (j / JOURS) * (X1 - X0);
-const y = (v: number) => Y1 - ((v - V_MIN) / (V_MAX - V_MIN)) * (Y1 - Y0);
-
-// Les chiffres du scénario.
+const V_MIN = 22.0;
+const V_MAX = 24.5;
 const SEUIL_LARGE = 24.0;
 const SEUIL_SERRE = 22.5;
 const HYSTERESIS = 1.0;
-const J_SERRAGE = 5;    // seize jours avant aujourd'hui
-const J_RETOUR = 15;    // six jours avant aujourd'hui
+const J_SERRAGE = 5; // seize jours avant aujourd'hui
+const J_RETOUR = 15; // six jours avant aujourd'hui
 const FENETRE = J_RETOUR - J_SERRAGE + 1;
 
+const x = (j: number) => X0 + (j / JOURS) * (X1 - X0);
+const y = (v: number) => YB - ((v - V_MIN) / (V_MAX - V_MIN)) * (YB - Y0);
+
 /**
- * Maximum journalier de la température de départ d'huile de coupe. La série
- * ne porte aucune rupture : le groupe froid fait le même après-midi du
- * premier au dernier jour. Suite déterministe, pour que deux constructions
- * du site produisent exactement la même courbe.
+ * Maximum journalier de la température de départ d'huile de coupe. Le
+ * groupe froid fait le même après-midi du premier au dernier jour : la
+ * série ne porte aucune rupture, et c'est la démonstration.
  */
 const serie = Array.from({ length: JOURS + 1 }, (_, j) => {
   const v =
-    22.54 + Math.sin(j * 0.911) * 0.14 + Math.sin(j * 3.113) * 0.1 + Math.sin(j * 0.617) * 0.07;
+    22.66 + Math.sin(j * 0.911) * 0.22 + Math.sin(j * 3.113) * 0.13 + Math.sin(j * 0.617) * 0.09;
   return Math.round(v * 100) / 100;
 });
 
-// Le seuil en vigueur ce jour-là, et les jours où il a été franchi. Les
-// déclenchements sont déduits de la série, pas posés à la main.
 const seuilDuJour = (j: number) =>
   j >= J_SERRAGE && j <= J_RETOUR ? SEUIL_SERRE : SEUIL_LARGE;
 const declenchements = serie
@@ -74,183 +87,252 @@ const declenchements = serie
   .filter((j) => j >= 0);
 const picsAuDessus = serie.filter((v) => v > SEUIL_SERRE).length;
 
-const points = serie.map((v, j) => `${x(j).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
-const longueur = serie.reduce((acc, v, j) => {
-  if (j === 0) return 0;
-  return acc + Math.hypot(x(j) - x(j - 1), y(v) - y(serie[j - 1]));
-}, 0);
+const points = toPoints(serie.map((v, j) => [x(j), y(v)]));
 
 // Le seuil, en trois marches : avant le resserrage, pendant, après.
 const yLarge = y(SEUIL_LARGE);
 const ySerre = y(SEUIL_SERRE);
-const marcheAvant = `${x(0).toFixed(1)},${yLarge.toFixed(1)} ${x(J_SERRAGE).toFixed(1)},${yLarge.toFixed(1)}`;
-const marchePendant = `${x(J_SERRAGE).toFixed(1)},${yLarge.toFixed(1)} ${x(J_SERRAGE).toFixed(1)},${ySerre.toFixed(1)} ${x(J_RETOUR).toFixed(1)},${ySerre.toFixed(1)}`;
-const marcheApres = `${x(J_RETOUR).toFixed(1)},${ySerre.toFixed(1)} ${x(J_RETOUR).toFixed(1)},${yLarge.toFixed(1)} ${x(JOURS).toFixed(1)},${yLarge.toFixed(1)}`;
+const marcheAvant = toPoints([
+  [x(0), yLarge],
+  [x(J_SERRAGE), yLarge],
+]);
+const marchePendant = toPoints([
+  [x(J_SERRAGE), yLarge],
+  [x(J_SERRAGE), ySerre],
+  [x(J_RETOUR), ySerre],
+]);
+const marcheApres = toPoints([
+  [x(J_RETOUR), ySerre],
+  [x(J_RETOUR), yLarge],
+  [x(JOURS), yLarge],
+]);
 
-const graduations = [22.0, 22.5, 23.0, 23.5, 24.0, 24.5];
+// ── Un seul resserrement, et il est vertical ───────────────────────────
+// La question posée porte sur des dixièmes de degré, pas sur des jours :
+// le temps ne bouge pas, l'échelle des températures oui. Les journaux du
+// bas partagent l'abscisse du tracé et resteraient donc alignés même si
+// l'on zoomait le temps, mais ce serait un mouvement sans objet.
+const KY = 2.5 / 0.7;
+const CY = y(22.65);
+const CAM_Z = cam((X0 + X1) / 2, CY, 1, KY, AY);
+
+type Echelle = { gv: number[]; lv: number[]; ky: number; cy: number };
+const echelles: Echelle[] = [
+  { gv: step(22, 24.5, 0.5), lv: [22, 23, 24], ky: 1, cy: (Y0 + YB) / 2 },
+  { gv: step(22.3, 23, 0.1), lv: [22.4, 22.5, 22.6, 22.8], ky: KY, cy: CY },
+];
 const semaines = [0, 7, 14, 21];
 
-const dec = (v: number, n = 1) =>
-  v.toFixed(n).replace('.', lang === 'fr' ? ',' : '.');
+const dansPlan = (v: number, min: number, max: number) => v >= min - 0.5 && v <= max + 0.5;
+const libV = (e: Echelle) =>
+  e.lv
+    .map((v) => ({ v, sy: screenAt(0, y(v), 1, (X0 + X1) / 2, e.cy, e.ky, AY).y }))
+    .filter((p) => dansPlan(p.sy, Y0, YB));
 
-const RUB_HAUT = 368, RUB_BAS = 386;
+const PIN_SERRE = pinY(ySerre, KY, CY, AY);
+const PIN_LARGE = pinY(yLarge, KY, CY, AY);
+
+// ── Les deux journaux ──────────────────────────────────────────────────
+const REV_CAP = 344;
+const REV_RULE = 352;
+const REV_LBL = 366;
+const AL_CAP = 386;
+const AL_TOP = 390;
+const AL_RULE = 406;
+
+const revisions = [
+  { j: J_SERRAGE, cle: 'motion.threshold.rev_tight', v: SEUIL_SERRE },
+  { j: J_RETOUR, cle: 'motion.threshold.rev_back', v: SEUIL_LARGE },
+];
+
+const acts = [
+  t(lang, 'motion.threshold.act1'),
+  t(lang, 'motion.threshold.act2'),
+  t(lang, 'motion.threshold.act3'),
+  t(lang, 'motion.threshold.act4'),
+];
 ---
 
-<figure class="tt">
+<figure class="mvf">
   <svg
-    viewBox="0 0 676 520"
+    viewBox={`0 0 ${W} ${H}`}
     role="img"
-    class="tt-svg"
+    class="mvf-svg tt"
     aria-label={t(lang, 'motion.threshold.alt')}
-    style={`--tt-len:${longueur.toFixed(0)}`}
+    style={`--cam-1:${CAM_WIDE};--cam-2:${CAM_Z};--cam-3:${CAM_Z}`}
   >
-    <g class="tt-grid">
-      {graduations.map((v) => (
-        <line x1={X0} y1={y(v)} x2={X1} y2={y(v)} />
-      ))}
-      {semaines.map((j) => (
-        <line x1={x(j)} y1={Y0} x2={x(j)} y2={Y1} />
-      ))}
+    <defs>
+      <clipPath id="tt-plot">
+        <rect x={X0} y={Y0} width={X1 - X0} height={YB - Y0} />
+      </clipPath>
+    </defs>
+
+    <Head acts={acts} actWord={t(lang, 'motion.act')} />
+
+    <g clip-path="url(#tt-plot)">
+      <g class="mv-cam mv-a mv-ease" style="animation-name: mv-cam3">
+        <g class="mv-grid mv-a" style="animation-name: mv-scale-1">
+          {echelles[0].gv.map((v) => <line x1={X0} y1={y(v)} x2={X1} y2={y(v)} />)}
+        </g>
+        <g class="mv-grid mv-a mv-transient" style="animation-name: mv-mid">
+          {echelles[1].gv.map((v) => <line x1={X0} y1={y(v)} x2={X1} y2={y(v)} />)}
+        </g>
+        <g class="mv-grid">
+          {semaines.map((j) => <line x1={x(j)} y1={y(V_MAX * 2)} x2={x(j)} y2={y(0)} />)}
+        </g>
+
+        <!-- La fenêtre où le seuil valait 22,5 : une zone, pas seulement un
+             trait. C'est elle qui rend la coïncidence avec la salve
+             d'alarmes évidente. -->
+        <rect
+          class="tt-window mv-a"
+          style="animation-name: mv-from-2"
+          x={x(J_SERRAGE)}
+          y={y(V_MAX * 2)}
+          width={x(J_RETOUR) - x(J_SERRAGE)}
+          height={y(0) - y(V_MAX * 2)}
+        />
+
+        <!-- Le procédé. Il est là dès la première image et il ne bougera
+             plus : c'est l'élément fixe de la figure. -->
+        <polyline class="mv-trace" points={points} />
+        <g class="tt-dots">
+          {serie.map((v, j) => <path d={`M ${x(j).toFixed(1)} ${y(v).toFixed(1)} l 0.01 0`} />)}
+        </g>
+
+        <!-- Le seuil, en trois marches. C'est lui qui se déplace. -->
+        <g class="tt-limit">
+          <polyline class="mv-a" style="animation-name: tt-step-1" points={marcheAvant} />
+          <polyline class="mv-a" style="animation-name: mv-from-2" points={marchePendant} />
+          <polyline class="mv-a" style="animation-name: mv-from-4" points={marcheApres} />
+        </g>
+
+        <!-- Le filet vertical qui relie chaque révision à son seuil : c'est
+             lui qui rend la cause visible. -->
+        {
+          revisions.map((r, i) => (
+            <line
+              class="tt-drop mv-a"
+              style={`animation-name: ${i === 0 ? 'mv-from-2' : 'mv-from-4'}`}
+              x1={x(r.j)}
+              y1={y(r.v)}
+              x2={x(r.j)}
+              y2={y(0)}
+            />
+          ))
+        }
+      </g>
     </g>
 
-    <g class="tt-axis">
-      {graduations.map((v) => (
-        <text x={X0 - 12} y={y(v) + 4} text-anchor="end">{dec(v)}</text>
-      ))}
-      <text x={X0 - 12} y={Y0 - 18} text-anchor="end" class="tt-unit">°C</text>
-      {semaines.map((j) => (
-        <text x={x(j)} y={Y1 + 20} text-anchor="middle">
-          {j === JOURS ? t(lang, 'motion.threshold.day_zero') : `J-${JOURS - j}`}
+    <g class="mv-axis">
+      {
+        echelles.map((e, i) => (
+          <g class={`mv-a${i > 0 ? ' mv-transient' : ''}`} style={`animation-name: ${i === 0 ? 'mv-scale-1' : 'mv-mid'}`}>
+            {libV(e).map((p) => (
+              <text x={X0 - 12} y={p.sy + 4} text-anchor="end">
+                {dec(p.v, i === 0 ? 0 : 1)}
+              </text>
+            ))}
+          </g>
+        ))
+      }
+      <text class="mv-unit" x={X0 - 12} y={Y0 - 10} text-anchor="end">°C</text>
+      {
+        semaines.map((j) => (
+          <text x={x(j)} y={YB + 22} text-anchor="middle">
+            {j === JOURS ? t(lang, 'motion.threshold.day_zero') : `J-${JOURS - j}`}
+          </text>
+        ))
+      }
+    </g>
+
+    <g class="mv-a mv-recycle">
+      <!-- Acte 1 : ce que la série vaut, avant toute interprétation. -->
+      <text class="tt-note mv-a mv-transient" style="animation-name: mv-act-1" x={X1} y={Y0 - 10} text-anchor="end">
+        {t(lang, 'motion.threshold.series')} · {dec(Math.min(...serie), 2)} → {dec(Math.max(...serie), 2)} °C
+      </text>
+
+      <!-- Les deux niveaux de seuil, nommés, chacun suivant sa marche. -->
+      <g class="mv-pin mv-a mv-ease" style={`animation-name: mv-pin3;--pin-1:${PIN_WIDE};--pin-2:${PIN_LARGE};--pin-3:${PIN_LARGE}`}>
+        <text class="tt-limit-t mv-halo-t mv-a mv-transient" style="animation-name: mv-act-1" x={X0 + 8} y={yLarge - 9}>
+          {t(lang, 'motion.threshold.limit')} · {dec(SEUIL_LARGE)} °C
         </text>
-      ))}
-    </g>
+      </g>
+      <g class="mv-pin mv-a mv-ease" style={`animation-name: mv-pin3;--pin-1:${PIN_WIDE};--pin-2:${PIN_SERRE};--pin-3:${PIN_SERRE}`}>
+        <text class="tt-limit-t mv-halo-t mv-a" style="animation-name: mv-from-2" x={x(J_SERRAGE) + 8} y={ySerre - 9}>
+          {t(lang, 'motion.threshold.limit')} · {dec(SEUIL_SERRE)} °C
+        </text>
+      </g>
 
-    <!-- Le procédé. Il est là dès la première image et il ne bougera plus :
-         c'est l'élément fixe de la figure. -->
-    <polyline class="tt-trace" points={points} />
-    <g class="tt-dots">
-      {serie.map((v, j) => (
-        <circle cx={x(j)} cy={y(v)} r="2.6" />
-      ))}
-    </g>
-    <text class="tt-series-t" x={X0 + 6} y={y(Math.max(...serie)) - 12}>
-      {t(lang, 'motion.threshold.series')}
-    </text>
-
-    <!-- Le seuil, en trois marches. C'est lui qui se déplace. -->
-    <g class="tt-limit tt-limit-1">
-      <polyline points={marcheAvant} />
-      <text x={X0 + 6} y={yLarge - 10}>
-        {t(lang, 'motion.threshold.limit')} · {dec(SEUIL_LARGE)} °C
+      <!-- Acte 3 : combien de fois la mesure passe au-dessus, alors qu'elle
+           n'a pas changé d'un dixième. -->
+      <text class="tt-peaks mv-a mv-transient" style="animation-name: mv-act-3" x={X1} y={Y0 - 10} text-anchor="end">
+        {picsAuDessus} {t(lang, 'motion.threshold.peaks')} {dec(SEUIL_SERRE)} °C
       </text>
-    </g>
-    <g class="tt-limit tt-limit-2">
-      <rect
-        class="tt-window"
-        x={x(J_SERRAGE)}
-        y={Y0}
-        width={x(J_RETOUR) - x(J_SERRAGE)}
-        height={Y1 - Y0}
-      />
-      <polyline points={marchePendant} />
-    </g>
-    <text class="tt-peaks-t tt-limit-2" x={X1 - 6} y={Y0 + 16} text-anchor="end">
-      {picsAuDessus} {t(lang, 'motion.threshold.peaks')} {dec(SEUIL_SERRE)} °C
-    </text>
-    <g class="tt-limit tt-limit-3"><polyline points={marcheApres} /></g>
-
-    <!-- Les deux révisions, sur leur propre voie, reliées au seuil par un
-         filet vertical : c'est ce filet qui rend la cause visible. -->
-    <g class="tt-rev tt-rev-1">
-      <line x1={x(J_SERRAGE)} y1={ySerre} x2={x(J_SERRAGE)} y2="334" />
-      <circle cx={x(J_SERRAGE)} cy="334" r="3.5" />
-      <text x={x(J_SERRAGE) + 9} y="338">
-        {t(lang, 'motion.threshold.rev_tight')} {dec(SEUIL_SERRE)} °C
+      <!-- Acte 4 : ce que le retour arrière rétablit. -->
+      <text class="tt-innocent mv-a" style="animation-name: mv-from-4" x={X1} y={Y0 - 10} text-anchor="end">
+        {t(lang, 'motion.threshold.innocent')}
       </text>
-    </g>
-    <g class="tt-rev tt-rev-2">
-      <line x1={x(J_RETOUR)} y1={ySerre} x2={x(J_RETOUR)} y2="334" />
-      <circle cx={x(J_RETOUR)} cy="334" r="3.5" />
-      <text x={x(J_RETOUR) + 9} y="338">
-        {t(lang, 'motion.threshold.rev_back')} {dec(SEUIL_LARGE)} °C
-      </text>
-    </g>
-    <text class="tt-lane-t" x={X0} y="338">{t(lang, 'motion.threshold.rev_lane')}</text>
 
-    <!-- Le journal d'alarmes. Un trait par déclenchement, révélé par le
-         passage d'un cache : le temps avance, le journal se remplit. -->
-    <g class="tt-fires">
-      {declenchements.map((j) => (
-        <rect x={x(j) - 1.5} y={RUB_HAUT} width="3" height={RUB_BAS - RUB_HAUT} />
-      ))}
-    </g>
-    <rect class="tt-mask" x={X0} y="358" width="548" height="34" />
-    <line class="tt-lane-rule" x1={X0} y1={RUB_BAS} x2={X1} y2={RUB_BAS} />
-    <text class="tt-lane-t" x={X0} y="364">{t(lang, 'motion.threshold.alarm_lane')}</text>
+      <!-- Le journal des révisions. Chaque modification de seuil est datée
+           et signée : la salve d'alarmes a donc une cause nommée. -->
+      <g class="tt-lane">
+        <text class="mv-lane-t" x={X0} y={REV_CAP}>{t(lang, 'motion.threshold.rev_lane')}</text>
+        <line class="tt-lane-rule" x1={X0} y1={REV_RULE} x2={X1} y2={REV_RULE} />
+        {
+          revisions.map((r, i) => (
+            <g class="tt-rev mv-a" style={`animation-name: ${i === 0 ? 'mv-from-2' : 'mv-from-4'}`}>
+              <line x1={x(r.j)} y1={YB} x2={x(r.j)} y2={REV_RULE} />
+              <circle cx={x(r.j)} cy={REV_RULE} r="3.5" />
+              <text x={x(r.j) + 8} y={REV_LBL}>
+                {t(lang, r.cle)} {dec(r.v)} °C
+              </text>
+            </g>
+          ))
+        }
+      </g>
 
-    <!-- Ce que ce réglage a produit. -->
-    <g class="tt-alarm" transform="translate(66 428)">
-      <rect width="344" height="44" rx="4" />
-      <rect class="tt-alarm-rail" width="3" height="44" />
-      <text x="18" y="19" class="tt-alarm-title">
-        {declenchements.length} {t(lang, 'motion.threshold.fires')} {FENETRE} {t(lang, 'motion.threshold.days')}
-      </text>
-      <text x="18" y="35" class="tt-alarm-meta">{t(lang, 'motion.threshold.alarm_meta')}</text>
+      <!-- Le journal d'alarmes. Un trait par déclenchement, découvert par le
+           passage d'un cache : le temps avance, le journal se remplit. -->
+      <g class="tt-fires">
+        <text class="mv-lane-t" x={X0} y={AL_CAP}>{t(lang, 'motion.threshold.alarm_lane')}</text>
+        {
+          declenchements.map((j) => (
+            <rect x={x(j) - 1.5} y={AL_TOP} width="3" height={AL_RULE - AL_TOP} />
+          ))
+        }
+        <rect class="tt-mask mv-a" style="animation-name: tt-sweep" x={X0} y={AL_TOP - 4} width={X1 - X0} height={AL_RULE - AL_TOP + 8} />
+        <line class="tt-lane-rule" x1={X0} y1={AL_RULE} x2={X1} y2={AL_RULE} />
+      </g>
+
+      <g class="mv-card--crit mv-a" style="animation-name: tt-card-1" transform={`translate(${X0} ${CARD_Y})`}>
+        <rect width="352" height={CARD_H} rx="4" />
+        <rect class="mv-card-rail" width="3" height={CARD_H} />
+        <text class="mv-card-title" x="18" y="19">
+          {declenchements.length} {t(lang, 'motion.threshold.fires')} {FENETRE} {t(lang, 'motion.threshold.days')}
+        </text>
+        <text class="mv-card-meta" x="18" y="35">{t(lang, 'motion.threshold.alarm_meta')}</text>
+      </g>
+      <g class="mv-card--plain mv-a" style="animation-name: tt-card-2" transform={`translate(460 ${CARD_Y})`}>
+        <text class="mv-card-title" x="0" y="19">{t(lang, 'motion.threshold.fix_title')}</text>
+        <text class="mv-card-meta" x="0" y="35">
+          {dec(SEUIL_LARGE)} °C · {t(lang, 'motion.threshold.hyst')} {dec(HYSTERESIS)} °C
+        </text>
+      </g>
     </g>
 
-    <g class="tt-fix" transform="translate(434 428)">
-      <text x="0" y="19" class="tt-fix-title">{t(lang, 'motion.threshold.fix_title')}</text>
-      <text x="0" y="35" class="tt-fix-meta">
-        {dec(SEUIL_LARGE)} °C · {t(lang, 'motion.threshold.hyst')} {dec(HYSTERESIS)} °C
-      </text>
-    </g>
-
-    <g class="tt-cart">
-      <line x1="66" y1="496" x2="610" y2="496" />
-      <text x="66" y="512">
-        <tspan class="tt-cart-strong">{t(lang, 'motion.threshold.fig')}</tspan>
-        · {t(lang, 'motion.threshold.caption')}
-      </text>
-      <text x="610" y="512" text-anchor="end">{t(lang, 'motion.threshold.source')}</text>
-    </g>
+    <Cartouche
+      fig={t(lang, 'motion.threshold.fig')}
+      caption={t(lang, 'motion.threshold.caption')}
+      source={t(lang, 'motion.source')}
+    />
   </svg>
 </figure>
 
 <style>
-  .tt {
-    margin: 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-line);
-    border-radius: 10px;
-    padding: 0.5rem;
-  }
-  .tt-svg { display: block; width: 100%; height: auto; }
+  .tt { --mv-cycle: 18s; }
 
-  /* Une seule horloge : chaque groupe lit ses temps dans ce cycle. */
-  .tt-svg { --tt-cycle: 15s; }
-
-  .tt-grid line { stroke: var(--color-n-150); stroke-width: 1; }
-  .tt-axis text {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    fill: var(--color-muted);
-  }
-  .tt-axis .tt-unit { fill: var(--color-n-400); font-size: 10px; letter-spacing: 0.04em; }
-
-  .tt-trace {
-    fill: none;
-    stroke: var(--color-brass);
-    stroke-width: 2;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-  }
-  .tt-dots circle { fill: var(--color-brass); }
-  .tt-series-t {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    fill: var(--color-brass);
-    letter-spacing: 0.03em;
-  }
+  .tt-dots path { stroke: var(--color-brass); stroke-width: 5; stroke-linecap: round; }
 
   .tt-limit polyline {
     fill: none;
@@ -258,22 +340,30 @@ const RUB_HAUT = 368, RUB_BAS = 386;
     stroke-width: 1.8;
     stroke-dasharray: 5 4;
   }
-  /* La fenêtre où le seuil valait 22,5 : une zone, pas seulement un trait.
-     C'est elle qui rend la coïncidence avec la salve d'alarmes évidente. */
-  .tt-window { fill: var(--color-warn); opacity: 0.07; }
-  .tt-limit text {
+  .tt-window { fill: var(--color-warn); fill-opacity: 0.07; }
+  .tt-limit-t {
     font-family: var(--font-mono);
     font-size: 11px;
     fill: var(--color-warn);
     letter-spacing: 0.02em;
   }
+  .tt-drop { stroke: var(--color-brass); stroke-width: 1; stroke-dasharray: 3 4; opacity: 0.55; }
 
-  .tt-rev line {
-    stroke: var(--color-brass);
-    stroke-width: 1;
-    stroke-dasharray: 3 4;
-    opacity: 0.5;
+  .tt-note, .tt-peaks {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-n-500);
+    letter-spacing: 0.03em;
   }
+  .tt-innocent {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-normal);
+    letter-spacing: 0.03em;
+  }
+
+  .tt-lane-rule { stroke: var(--color-line-strong); stroke-width: 1; }
+  .tt-rev line { stroke: var(--color-brass); stroke-width: 1; stroke-dasharray: 3 4; opacity: 0.55; }
   .tt-rev circle { fill: var(--color-brass); }
   .tt-rev text {
     font-family: var(--font-mono);
@@ -282,113 +372,31 @@ const RUB_HAUT = 368, RUB_BAS = 386;
     letter-spacing: 0.03em;
   }
 
-  .tt-lane-t {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    fill: var(--color-n-400);
-    letter-spacing: 0.04em;
-  }
-  .tt-peaks-t {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    fill: var(--color-muted);
-    letter-spacing: 0.03em;
-  }
-  .tt-lane-rule { stroke: var(--color-line-strong); stroke-width: 1; }
   .tt-fires rect { fill: var(--color-crit); }
   /* Le cache qui découvre le journal. Au repos il est rangé à droite : sous
      `prefers-reduced-motion` aucune animation ne le déplace, et un cache
      laissé sur sa position de départ effacerait la salve d'alarmes. */
-  .tt-mask { fill: var(--color-surface); transform: translateX(548px); }
+  .tt-fires .tt-mask { fill: var(--color-surface); transform: translateX(620px); }
+</style>
 
-  .tt-alarm rect { fill: var(--color-crit-bg); }
-  .tt-alarm .tt-alarm-rail { fill: var(--color-crit); }
-  .tt-alarm-title { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
-  .tt-alarm-meta { font-family: var(--font-mono); font-size: 11px; fill: var(--color-crit); }
-
-  .tt-fix-title { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
-  .tt-fix-meta { font-family: var(--font-mono); font-size: 10px; fill: var(--color-normal); }
-
-  .tt-cart line { stroke: var(--color-line); stroke-width: 1; }
-  .tt-cart text {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    fill: var(--color-n-400);
-    letter-spacing: 0.03em;
-  }
-  .tt-cart .tt-cart-strong { fill: var(--color-muted); }
-
-  /* La séquence. Le procédé d'abord, parce qu'il est le témoin ; le seuil
-     large ensuite ; le resserrage et sa salve ; le retour arrière et le
-     silence. L'ordre est celui du journal. */
+<style is:global>
   @media (prefers-reduced-motion: no-preference) {
-    .tt-trace {
-      stroke-dasharray: var(--tt-len);
-      animation: tt-draw var(--tt-cycle) linear infinite;
-    }
-    .tt-dots, .tt-series-t { animation: tt-after-trace var(--tt-cycle) linear infinite; }
-    .tt-limit-1 { animation: tt-step-1 var(--tt-cycle) linear infinite; }
-    .tt-rev-1 { animation: tt-rev-in-1 var(--tt-cycle) linear infinite; }
-    .tt-limit-2 { animation: tt-step-2 var(--tt-cycle) linear infinite; }
-    .tt-mask { animation: tt-sweep var(--tt-cycle) linear infinite; }
-    .tt-rev-2 { animation: tt-rev-in-2 var(--tt-cycle) linear infinite; }
-    .tt-limit-3 { animation: tt-step-3 var(--tt-cycle) linear infinite; }
-    .tt-alarm { animation: tt-rise var(--tt-cycle) linear infinite; }
-    .tt-fix { animation: tt-rise-late var(--tt-cycle) linear infinite; }
-    .tt-fires { animation: tt-fade-out var(--tt-cycle) linear infinite; }
-
-    @keyframes tt-draw {
-      0% { stroke-dashoffset: var(--tt-len); opacity: 1; }
-      20%, 96% { stroke-dashoffset: 0; opacity: 1; }
-      100% { stroke-dashoffset: 0; opacity: 0; }
-    }
-    @keyframes tt-after-trace {
-      0%, 18% { opacity: 0; }
-      24%, 96% { opacity: 1; }
-      100% { opacity: 0; }
-    }
     @keyframes tt-step-1 {
-      0%, 4% { opacity: 0; }
-      10%, 96% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-    @keyframes tt-rev-in-1 {
-      0%, 26% { opacity: 0; }
-      31%, 96% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-    @keyframes tt-step-2 {
-      0%, 31% { opacity: 0; }
-      37%, 96% { opacity: 1; }
-      100% { opacity: 0; }
+      0% { opacity: 0; }
+      8%, 73% { opacity: 1; }
+      78%, 100% { opacity: 0; }
     }
     @keyframes tt-sweep {
-      0%, 38% { transform: translateX(0); }
-      64%, 100% { transform: translateX(548px); }
+      0%, 46% { transform: translateX(0); }
+      72%, 100% { transform: translateX(620px); }
     }
-    @keyframes tt-rev-in-2 {
-      0%, 64% { opacity: 0; }
-      69%, 96% { opacity: 1; }
-      100% { opacity: 0; }
+    @keyframes tt-card-1 {
+      0%, 62% { opacity: 0; transform: translate(76px, 442px); }
+      70%, 100% { opacity: 1; transform: translate(76px, 434px); }
     }
-    @keyframes tt-step-3 {
-      0%, 67% { opacity: 0; }
-      73%, 96% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-    @keyframes tt-fade-out {
-      0%, 96% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-    @keyframes tt-rise {
-      0%, 76% { opacity: 0; transform: translate(66px, 436px); }
-      83%, 96% { opacity: 1; transform: translate(66px, 428px); }
-      100% { opacity: 0; transform: translate(66px, 428px); }
-    }
-    @keyframes tt-rise-late {
-      0%, 87% { opacity: 0; transform: translate(434px, 436px); }
-      93%, 96% { opacity: 1; transform: translate(434px, 428px); }
-      100% { opacity: 0; transform: translate(434px, 428px); }
+    @keyframes tt-card-2 {
+      0%, 86% { opacity: 0; transform: translate(460px, 442px); }
+      94%, 100% { opacity: 1; transform: translate(460px, 434px); }
     }
   }
 </style>
