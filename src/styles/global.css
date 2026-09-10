@@ -60,6 +60,8 @@
   --color-accent-strong: #54428a;
   --color-accent-bg:     #efecf8;
   --color-accent-border: #d8d1ec;
+  /* Sur graphite, le violet plein tombe sous le contraste lisible. */
+  --color-accent-soft:   #b3a8dc;
 
   /* Laiton : la couleur des figures et des tracés. Trop proche de l'ambre de
      l'avertissement (12°) pour vivre à côté d'un badge, parfaitement à sa
