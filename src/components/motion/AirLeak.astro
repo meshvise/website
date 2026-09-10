@@ -1,86 +1,101 @@
 ---
 /**
- * Fuite d'air comprimé : deuxième des six scénarios inscrits dans les trente
- * jours d'historique du parc de Bellecombe, déroulé comme une séquence.
+ * V-02 · Fuite d'air comprimé.
  *
- * Le parcours raconté : une semaine de débit d'air, cinq journées de
- * production et deux jours d'arrêt, et un débit qui ne retombe jamais à la
- * veille du compresseur. Ce qui reste sous la courbe la nuit et le week-end
- * n'est pas de la production, c'est une fuite, et elle se chiffre.
+ * Le cadre se resserre là où l'argument se trouve, c'est à dire au ras du
+ * plancher. Vue d'ensemble de la semaine, puis trois jours cadrés sur la
+ * bande basse (le talon devient la moitié du dessin au lieu d'un liseré),
+ * puis une seule nuit à pleine échelle : on y voit le compresseur moduler
+ * autour de 255 m³/h alors que l'atelier est vide, ce qui est la preuve
+ * physique de la fuite. Recul final sur le coût.
  *
  * Différence assumée avec l'usure de broche : là-bas le seuil normalisé
- * préexiste à la dérive, il est donc posé avant la courbe. Ici le plancher
- * n'est pas une norme, c'est une constatation : il n'apparaît qu'une fois la
- * semaine tracée, parce que c'est l'ordre dans lequel on le découvre.
+ * préexiste à la dérive, donc il entre au premier acte. Ici le plancher
+ * n'est pas une norme, c'est une constatation : il n'apparaît qu'au
+ * deuxième acte, quand le cadrage le rend visible, parce que c'est l'ordre
+ * dans lequel on le découvre.
  *
- * Toutes les valeurs viennent du scénario `air-leak` du jeu de démonstration
- * (`seed_demo_history.py`) : plancher de débit à 255 m³/h contre 45 m³/h de
- * veille, plancher de puissance à 24 kW au sous-compteur d'air contre 4,5 kW.
- * Le tracé est calculé à la construction, de façon déterministe.
- *
- * Le mouvement se joue en boucle sur une seule durée : chaque élément porte
- * ses temps en pourcentage de ce cycle, ce qui garde la séquence synchronisée
- * sans script. Sous `prefers-reduced-motion`, tout est posé dans son état
- * final dès l'affichage.
+ * Valeurs du jeu de démonstration : rythme d'atelier du seed (deux équipes,
+ * lundi au vendredi, 06:00 à 20:00, creux de pause à 12:30), profil
+ * `airflow` (base 430 m³/h, veille 45 m³/h), scénario `air-leak` (`floor` à
+ * 255 m³/h sur le débit, `floor` à 24 kW sur la puissance du sous-compteur
+ * d'air dont la veille vaut 4,5 kW). Le plancher du seed est bruité, pas
+ * plat : le compresseur module autour de son point de charge, et c'est
+ * exactement ce que le troisième acte montre.
  */
 import { t, type Lang } from '../../i18n';
+import Head from './Head.astro';
+import Cartouche from './Cartouche.astro';
+import {
+  W,
+  H,
+  X0,
+  X1,
+  Y0,
+  Y1,
+  LANE_Y,
+  CARD_Y,
+  CARD_H,
+  cam,
+  CAM_WIDE,
+  screenAt,
+  pinY,
+  PIN_WIDE,
+  toPoints,
+  step,
+  decimal,
+  thousands,
+} from './frame';
+import './motion.css';
 
 interface Props {
   lang: Lang;
 }
 
 const { lang } = Astro.props;
+const dec = (v: number, n = 1) => decimal(v, n, lang);
+const ent = (v: number) => thousands(v, lang);
 
-// Géométrie du tracé, en unités du viewBox. Celle de l'usure de broche.
-const X0 = 66, X1 = 610, Y0 = 74, Y1 = 396;
-const V_MAX = 700;          // pleine échelle de l'axe, en m³/h
-const HEURES = 168;         // une semaine, au pas horaire
+// ── Les chiffres du scénario ───────────────────────────────────────────
+const HEURES = 168; // une semaine, au pas horaire
+const V_MAX = 700; // pleine échelle du débit, en m³/h
+const VEILLE = 45; // profil `airflow`, valeur de veille
+const PLANCHER = 255; // scénario `air-leak`, plancher observé
+const FUITE = PLANCHER - VEILLE;
+const KW_PLANCHER = 24; // scénario `air-leak`, plancher au sous-compteur
+const KW_VEILLE = 4.5; // profil du compteur air, veille
+const KW_FUITE = KW_PLANCHER - KW_VEILLE;
+const H_SEMAINE = HEURES - 5 * 14; // 98 h hors production par semaine
+const H_AN = H_SEMAINE * 52;
+const TARIF = 0.14; // euro par kWh, contrat industriel
+const COUT = Math.round((KW_FUITE * H_AN * TARIF) / 100) * 100;
 
 const x = (h: number) => X0 + (h / HEURES) * (X1 - X0);
 const y = (v: number) => Y1 - (v / V_MAX) * (Y1 - Y0);
 
-// Les chiffres du scénario. Tout ce qui est affiché descend de ces six lignes.
-const VEILLE = 45;          // m³/h, le compresseur au repos avant la fuite
-const PLANCHER = 255;       // m³/h, le plancher observé depuis vingt et un jours
-const FUITE = PLANCHER - VEILLE;
-const KW_FUITE = 19.5;      // 24 kW relevés au sous-compteur, 4,5 kW de veille
-const HEURES_HORS_PROD = 5096; // 98 h par semaine hors production, sur 52 semaines
-const TARIF = 0.14;         // euro par kWh, contrat industriel
-const COUT = Math.round((KW_FUITE * HEURES_HORS_PROD * TARIF) / 100) * 100;
-
 /**
- * L'atelier tourne de 06:00 à 20:00 du lundi au vendredi. Hors de cette
- * fenêtre, le débit devrait tomber à la veille du compresseur ; le plancher
- * de fuite l'en empêche. Suite déterministe : deux constructions du site
- * produisent exactement le même tracé.
+ * Le débit heure par heure. La forme de la journée reprend celle du seed :
+ * montée sur la première heure, creux de pause vers 12:30, descente sur la
+ * dernière. Hors production le débit devrait tomber à la veille ; le
+ * plancher de fuite l'en empêche, en modulant comme le fait le seed.
  */
-const serie = Array.from({ length: HEURES + 1 }, (_, h) => {
+const brut = (h: number) => {
   const jour = Math.floor(h / 24);
   const heure = h % 24;
-  const production = jour < 5 && heure >= 6 && heure < 20;
-  const oscill =
-    Math.sin(h * 2.399) * 18 + Math.sin(h * 0.817) * 11 + Math.sin(h * 1.213) * 7;
-  let v = VEILLE;
-  if (production) {
+  const oscill = Math.sin(h * 2.399) * 16 + Math.sin(h * 0.817) * 10 + Math.sin(h * 1.213) * 6;
+  let v = VEILLE + oscill * 0.12;
+  if (jour < 5 && heure >= 6 && heure < 20) {
     const p = (heure - 6) / 14;
-    // Montée du matin, creux de la pause méridienne, pointe de l'après-midi.
-    v =
-      380 +
-      92 * Math.sin(Math.PI * p) -
-      74 * Math.exp(-Math.pow((heure - 12.5) / 0.85, 2)) +
-      oscill;
+    const rampe = Math.min(1, (p * 14) / 0.75, ((1 - p) * 14) / 0.75);
+    const pause = 1 - 0.35 * Math.exp(-Math.pow((heure - 12.5) / 0.55, 2));
+    v = 430 * rampe * pause + oscill;
   }
-  const plancher = PLANCHER + oscill * 0.3;
-  return Math.round(Math.max(v, plancher) * 10) / 10;
-});
+  const modulation = PLANCHER * (1 + Math.sin(h * 3.117) * 0.045 + Math.sin(h * 1.913) * 0.025);
+  return Math.round(Math.max(v, modulation) * 10) / 10;
+};
 
-const points = serie.map((v, h) => `${x(h).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
-
-// Le tracé est révélé par son propre trait : il faut sa longueur exacte.
-const longueur = serie.reduce((acc, v, h) => {
-  if (h === 0) return 0;
-  return acc + Math.hypot(x(h) - x(h - 1), y(v) - y(serie[h - 1]));
-}, 0);
+const serie = Array.from({ length: HEURES * 2 + 1 }, (_, i) => brut(i / 2));
+const points = toPoints(serie.map((v, i) => [x(i / 2), y(v)]));
 
 // Les plages hors production, complément des cinq journées d'atelier.
 const horsProduction: Array<[number, number]> = [];
@@ -91,203 +106,329 @@ for (let d = 0; d < 5; d += 1) {
 }
 horsProduction.push([curseur, HEURES]);
 
-const graduations = [0, 100, 200, 300, 400, 500, 600, 700];
+// ── Les trois cadrages ─────────────────────────────────────────────────
+// Acte 2 : trois jours, cadrés de zéro à trois cents, pour que la bande
+// entre la veille attendue et le plancher observé occupe la moitié du
+// dessin. Acte 3 : une nuit entière, du dernier souffle de production au
+// redémarrage du matin.
+const K2 = (V_MAX / 300) * 1;
+const C2X = x(72);
+const C2Y = y(150);
+const K3 = HEURES / 12;
+const C3X = x(74);
+const C3Y = y(PLANCHER);
+const CAM_2 = cam(C2X, C2Y, K2);
+const CAM_3 = cam(C3X, C3Y, K3);
+
+type Echelle = {
+  gv: number[];
+  gh: number[];
+  lv: number[];
+  lh: number[];
+  k: number;
+  cx: number;
+  cy: number;
+};
+const echelles: Echelle[] = [
+  {
+    gv: step(0, 700, 100),
+    gh: step(0, 168, 24),
+    lv: [0, 200, 400, 600],
+    lh: step(12, 168, 24),
+    k: 1,
+    cx: (X0 + X1) / 2,
+    cy: (Y0 + Y1) / 2,
+  },
+  {
+    gv: step(0, 300, 50),
+    gh: step(36, 108, 6),
+    lv: [0, 100, 200, 300],
+    lh: step(36, 108, 24),
+    k: K2,
+    cx: C2X,
+    cy: C2Y,
+  },
+  {
+    gv: step(220, 290, 10),
+    gh: step(68, 80, 1),
+    lv: [230, 255, 280],
+    lh: [69, 72, 75, 78],
+    k: K3,
+    cx: C3X,
+    cy: C3Y,
+  },
+];
+
+const dansPlan = (v: number, min: number, max: number) => v >= min - 0.5 && v <= max + 0.5;
+const libH = (e: Echelle) =>
+  e.lh
+    .map((h) => ({ h, sx: screenAt(x(h), 0, e.k, e.cx, e.cy).x }))
+    .filter((p) => dansPlan(p.sx, X0 - 16, X1 + 16));
+const libV = (e: Echelle) =>
+  e.lv
+    .map((v) => ({ v, sy: screenAt(0, y(v), e.k, e.cx, e.cy).y }))
+    .filter((p) => dansPlan(p.sy, Y0, Y1));
+
 const jours = t(lang, 'motion.air.days').split(',');
+/** L'abscisse se lit en jours quand on voit la semaine, en heures quand on
+ *  voit une nuit : c'est la même horloge, pas la même question. */
+const horaire = (h: number) => {
+  const j = Math.floor(h / 24) % 7;
+  const hh = Math.round(h % 24);
+  return `${jours[j]} ${hh.toString().padStart(2, '0')}:00`;
+};
 
-const dec = (v: number, n = 1) =>
-  v.toFixed(n).replace('.', lang === 'fr' ? ',' : '.');
-const ent = (v: number) =>
-  Math.round(v)
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'fr' ? ' ' : ',');
-
+// La bande entre la veille attendue et le plancher observé : le sujet.
 const yPlancher = y(PLANCHER);
 const yVeille = y(VEILLE);
+const yMilieu = (yPlancher + yVeille) / 2;
+// Les ancrages des libellés, un par cadrage. Seule l'ordonnée suit la
+// caméra : une étiquette de niveau reste au bord gauche du dessin.
+const PIN_TOP2 = pinY(yPlancher, K2, C2Y);
+const PIN_LOW2 = pinY(yVeille, K2, C2Y);
+const PIN_MID2 = pinY(yMilieu, K2, C2Y);
+// La cote de l'écart, plantée au milieu de la semaine : sous les deux
+// cadrages larges, elle tombe au même endroit à l'écran.
+const X_COTE = x(84);
+
+// ── La voie basse : la même fuite, vue par le compteur d'énergie ───────
+const LANE_H = 36;
+const LANE_MAX = 45;
+const ky = (v: number) => LANE_Y + LANE_H - (v / LANE_MAX) * LANE_H;
+const puissance = Array.from({ length: HEURES * 2 + 1 }, (_, i) => {
+  const h = i / 2;
+  const jour = Math.floor(h / 24);
+  const heure = h % 24;
+  const oscill = Math.sin(h * 2.11) * 1.6 + Math.sin(h * 0.91) * 1.1;
+  let v = KW_VEILLE + oscill * 0.1;
+  if (jour < 5 && heure >= 6 && heure < 20) {
+    const p = (heure - 6) / 14;
+    const rampe = Math.min(1, (p * 14) / 0.75, ((1 - p) * 14) / 0.75);
+    v = 38 * rampe + oscill;
+  }
+  const modulation = KW_PLANCHER * (1 + Math.sin(h * 3.117) * 0.045);
+  return Math.round(Math.max(v, modulation) * 10) / 10;
+});
+const puissancePoints = toPoints(puissance.map((v, i) => [x(i / 2), ky(Math.min(v, LANE_MAX))]));
+
+const acts = [
+  t(lang, 'motion.air.act1'),
+  t(lang, 'motion.air.act2'),
+  t(lang, 'motion.air.act3'),
+  t(lang, 'motion.air.act4'),
+];
 ---
 
-<figure class="al">
+<figure class="mvf">
   <svg
-    viewBox="0 0 676 520"
+    viewBox={`0 0 ${W} ${H}`}
     role="img"
-    class="al-svg"
+    class="mvf-svg al"
     aria-label={t(lang, 'motion.air.alt')}
-    style={`--al-len:${longueur.toFixed(0)}`}
+    style={`--cam-1:${CAM_WIDE};--cam-2:${CAM_2};--cam-3:${CAM_3}`}
   >
-    <!-- Les plages sans production, posées sous la grille : elles cadrent
-         la lecture avant que la moindre valeur ne soit tracée. -->
-    <g class="al-off">
-      {horsProduction.map(([a, b]) => (
-        <rect x={x(a)} y={Y0} width={x(b) - x(a)} height={Y1 - Y0} />
-      ))}
+    <defs>
+      <clipPath id="al-plot">
+        <rect x={X0} y={Y0} width={X1 - X0} height={Y1 - Y0} />
+      </clipPath>
+    </defs>
+
+    <Head acts={acts} actWord={t(lang, 'motion.act')} />
+
+    <g clip-path="url(#al-plot)">
+      <g class="mv-cam mv-a mv-ease" style="animation-name: mv-cam3">
+        <!-- Les plages sans production, sous la grille : elles cadrent la
+             lecture avant que la moindre valeur ne soit lue. -->
+        <g class="al-off">
+          {
+            horsProduction.map(([a, b]) => (
+              <rect x={x(a)} y={y(V_MAX * 3)} width={x(b) - x(a)} height={Y1 - y(V_MAX * 3)} />
+            ))
+          }
+        </g>
+
+        {
+          echelles.map((e, i) => (
+            <g class="mv-grid mv-a" style={`animation-name: mv-scale-${i + 1}`}>
+              {e.gv.map((v) => (
+                <line x1={x(-8)} y1={y(v)} x2={x(176)} y2={y(v)} />
+              ))}
+              {e.gh.map((h) => (
+                <line x1={x(h)} y1={y(V_MAX * 3)} x2={x(h)} y2={y(-V_MAX)} />
+              ))}
+            </g>
+          ))
+        }
+
+        <g class="mv-a mv-recycle">
+          <!-- Ce que la semaine révèle : entre la veille attendue et le
+               plancher observé, un débit permanent que rien ne consomme.
+               Le plancher reste au troisième acte, puisque c'est lui que la
+               nuit met sous le nez ; la veille attendue, elle, est hors du
+               cadre à cette échelle et sort donc du dessin. -->
+          <g class="al-band mv-a" style="animation-name: mv-not-3">
+            <line class="al-band-low" x1={x(-8)} y1={yVeille} x2={x(176)} y2={yVeille} />
+            <!-- La cote de l'écart, comme sur un plan : deux traits de rappel
+                 et un trait de mesure entre les deux niveaux. -->
+            <line class="al-cote" x1={X_COTE} y1={yPlancher} x2={X_COTE} y2={yVeille} />
+            <line class="al-cote" x1={X_COTE - 5} y1={yPlancher} x2={X_COTE + 5} y2={yPlancher} />
+            <line class="al-cote" x1={X_COTE - 5} y1={yVeille} x2={X_COTE + 5} y2={yVeille} />
+          </g>
+          <line class="al-band-top mv-a" style="animation-name: mv-from-2" x1={x(-8)} y1={yPlancher} x2={x(176)} y2={yPlancher} />
+        </g>
+
+        <polyline class="mv-trace" points={points} />
+      </g>
     </g>
 
-    <g class="al-grid">
-      {graduations.map((v) => (
-        <line x1={X0} y1={y(v)} x2={X1} y2={y(v)} />
-      ))}
-      {jours.map((_, d) => (
-        <line x1={x(d * 24)} y1={Y0} x2={x(d * 24)} y2={Y1} />
-      ))}
-      <line x1={X1} y1={Y0} x2={X1} y2={Y1} />
+    <g class="mv-axis">
+      {
+        echelles.map((e, i) => (
+          <g class="mv-a" style={`animation-name: mv-scale-${i + 1}`}>
+            {libV(e).map((p) => (
+              <text x={X0 - 12} y={p.sy + 4} text-anchor="end">
+                {ent(p.v)}
+              </text>
+            ))}
+            {libH(e).map((p) => (
+              <text x={p.sx} y={Y1 + 22} text-anchor="middle">
+                {i === 2 ? horaire(p.h) : jours[Math.floor(p.h / 24) % 7]}
+              </text>
+            ))}
+          </g>
+        ))
+      }
+      <text class="mv-unit" x={X0 - 12} y={Y0 - 10} text-anchor="end">m³/h</text>
     </g>
 
-    <g class="al-axis">
-      {graduations.filter((v) => v % 200 === 0).map((v) => (
-        <text x={X0 - 12} y={y(v) + 4} text-anchor="end">{ent(v)}</text>
-      ))}
-      <text x={X0 - 12} y={Y0 - 18} text-anchor="end" class="al-unit">m³/h</text>
-      {jours.map((nom, d) => (
-        <text x={x(d * 24 + 12)} y={Y1 + 22} text-anchor="middle">{nom}</text>
-      ))}
-      <text x={x(142)} y={Y0 + 15} text-anchor="middle" class="al-off-label">
-        {t(lang, 'motion.air.off_hours')}
+    <g class="mv-a mv-recycle">
+      <!-- Acte 1 : le rythme de l'atelier, posé avant toute interprétation. -->
+      <text class="al-off-t mv-a" style="animation-name: mv-act-1" x={X1} y={Y0 - 10} text-anchor="end">
+        {t(lang, 'motion.air.off_hours')} · {H_SEMAINE} {t(lang, 'motion.air.h_per_week')}
       </text>
+      <!-- Le cadrage bas coupe les pointes de production : le dire, plutôt
+           que de laisser le lecteur soupçonner une mesure abîmée. -->
+      <text class="al-off-t mv-a" style="animation-name: mv-act-2" x={X1} y={Y0 - 10} text-anchor="end">
+        {t(lang, 'motion.air.above')}
+      </text>
+
+      <!-- Acte 2 : les deux niveaux nommés, et l'écart entre les deux. Les
+           libellés restent hors caméra pour ne pas grossir, mais suivent le
+           cadrage par `mv-pin3` : ils ne se décollent jamais de leur ligne. -->
+      <g class="al-band-t mv-pin mv-a mv-ease" style={`animation-name: mv-pin3;--pin-1:${PIN_WIDE};--pin-2:${PIN_TOP2};--pin-3:${PIN_TOP2}`}>
+        <text class="al-seen mv-a" style="animation-name: mv-not-3" x={X0 + 8} y={yPlancher + 15}>
+          {t(lang, 'motion.air.floor_seen')} · {ent(PLANCHER)} m³/h
+        </text>
+      </g>
+      <g class="al-band-t mv-pin mv-a mv-ease" style={`animation-name: mv-pin3;--pin-1:${PIN_WIDE};--pin-2:${PIN_LOW2};--pin-3:${PIN_LOW2}`}>
+        <text class="al-expected mv-a" style="animation-name: mv-not-3" x={X0 + 8} y={yVeille - 8}>
+          {t(lang, 'motion.air.floor_expected')} · {ent(VEILLE)} m³/h
+        </text>
+      </g>
+      <g class="al-band-t mv-pin mv-a mv-ease" style={`animation-name: mv-pin3;--pin-1:${PIN_WIDE};--pin-2:${PIN_MID2};--pin-3:${PIN_MID2}`}>
+        <text class="al-leak mv-a" style="animation-name: mv-not-3" x={X_COTE + 12} y={yMilieu + 5}>
+          {t(lang, 'motion.air.leak')} · {ent(FUITE)} m³/h
+        </text>
+      </g>
+
+      <!-- Acte 3 : ce que la nuit prouve. Le plancher n'est pas une valeur
+           figée, c'est un compresseur qui travaille pour rien. -->
+      <text class="al-night mv-a" style="animation-name: al-night-in" x={X1} y={Y0 - 10} text-anchor="end">
+        {t(lang, 'motion.air.night')}
+      </text>
+
+      <!-- Acte 4 : la même fuite, lue par le compteur d'énergie. -->
+      <g class="al-lane mv-a" style="animation-name: mv-from-4">
+        <text class="mv-lane-t" x={X0} y={LANE_Y - 6}>{t(lang, 'motion.air.lane')}</text>
+        <text class="al-lane-sum" x={X1} y={LANE_Y - 6} text-anchor="end">
+          {dec(KW_VEILLE)} → {dec(KW_PLANCHER, 0)} kW · +{dec(KW_FUITE)} kW
+        </text>
+        <line class="al-lane-rule" x1={X0} y1={LANE_Y + LANE_H} x2={X1} y2={LANE_Y + LANE_H} />
+        <line class="al-lane-floor" x1={X0} y1={ky(KW_PLANCHER)} x2={X1} y2={ky(KW_PLANCHER)} />
+        <polyline class="mv-trace-soft" points={puissancePoints} />
+      </g>
+
+      <g class="mv-card--warn mv-a" style="animation-name: al-card-1" transform={`translate(${X0} ${CARD_Y})`}>
+        <rect width="352" height={CARD_H} rx="4" />
+        <rect class="mv-card-rail" width="3" height={CARD_H} />
+        <text class="mv-card-title" x="18" y="19">{t(lang, 'motion.air.cost_title')}</text>
+        <text class="mv-card-meta" x="18" y="35">
+          {dec(KW_FUITE)} kW · {ent(H_AN)} {t(lang, 'motion.air.h_per_year')} · {dec(TARIF, 2)} €/kWh
+        </text>
+        <text class="mv-card-sum" x="334" y="25" text-anchor="end">
+          {ent(COUT)} €/{t(lang, 'motion.air.per_year')}
+        </text>
+      </g>
+      <g class="mv-card--plain mv-a" style="animation-name: al-card-2" transform={`translate(460 ${CARD_Y})`}>
+        <text class="mv-card-title" x="0" y="19">{t(lang, 'motion.air.fix_title')}</text>
+        <text class="mv-card-meta" x="0" y="35">{t(lang, 'motion.air.fix_meta')}</text>
+      </g>
     </g>
 
-    <polyline class="al-trace" points={points} />
-
-    <!-- Ce que la semaine révèle : entre la veille attendue et le plancher
-         observé, un débit permanent que rien ne consomme. -->
-    <g class="al-band">
-      <rect x={X0} y={yPlancher} width={X1 - X0} height={yVeille - yPlancher} />
-      <line class="al-band-top" x1={X0} y1={yPlancher} x2={X1} y2={yPlancher} />
-      <line class="al-band-low" x1={X0} y1={yVeille} x2={X1} y2={yVeille} />
-      <text x={X1 - 6} y={yPlancher - 8} text-anchor="end" class="al-band-top-t">
-        {t(lang, 'motion.air.floor_seen')} · {ent(PLANCHER)} m³/h
-      </text>
-      <text x={X0 + 6} y={yVeille - 8} class="al-band-low-t">
-        {t(lang, 'motion.air.floor_expected')} · {ent(VEILLE)} m³/h
-      </text>
-      <text x={(X0 + X1) / 2} y={(yPlancher + yVeille) / 2 + 6} text-anchor="middle" class="al-band-t">
-        {t(lang, 'motion.air.leak')} · {ent(FUITE)} m³/h
-      </text>
-    </g>
-
-    <!-- Ce que ce plancher coûte, avec ses hypothèses affichées. -->
-    <g class="al-cost" transform="translate(66 432)">
-      <rect width="344" height="44" rx="4" />
-      <rect class="al-cost-rail" width="3" height="44" />
-      <text x="18" y="19" class="al-cost-title">{t(lang, 'motion.air.cost_title')}</text>
-      <text x="18" y="35" class="al-cost-meta">
-        {ent(FUITE)} m³/h · {dec(KW_FUITE)} kW · {ent(HEURES_HORS_PROD)} {t(lang, 'motion.air.h_per_year')} · {dec(TARIF, 2)} €/kWh
-      </text>
-      <text x="326" y="24" text-anchor="end" class="al-cost-sum">{ent(COUT)} €/{t(lang, 'motion.air.per_year')}</text>
-    </g>
-
-    <g class="al-fix" transform="translate(434 432)">
-      <text x="0" y="19" class="al-fix-title">{t(lang, 'motion.air.fix_title')}</text>
-      <text x="0" y="35" class="al-fix-meta">{t(lang, 'motion.air.fix_meta')}</text>
-    </g>
-
-    <g class="al-cart">
-      <line x1="66" y1="496" x2="610" y2="496" />
-      <text x="66" y="512">
-        <tspan class="al-cart-strong">{t(lang, 'motion.air.fig')}</tspan>
-        · {t(lang, 'motion.air.caption')}
-      </text>
-      <text x="610" y="512" text-anchor="end">{t(lang, 'motion.air.source')}</text>
-    </g>
+    <Cartouche
+      fig={t(lang, 'motion.air.fig')}
+      caption={t(lang, 'motion.air.caption')}
+      source={t(lang, 'motion.source')}
+    />
   </svg>
 </figure>
 
 <style>
-  .al {
-    margin: 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-line);
-    border-radius: 10px;
-    padding: 0.5rem;
-  }
-  .al-svg { display: block; width: 100%; height: auto; }
-
-  /* Une seule horloge : chaque groupe lit ses temps dans ce cycle. */
-  .al-svg { --al-cycle: 15s; }
+  .al { --mv-cycle: 18s; }
 
   .al-off rect { fill: var(--color-n-100); }
-  .al-off-label {
+  .al-off-t {
     font-family: var(--font-mono);
     font-size: 10px;
-    fill: var(--color-n-400);
+    fill: var(--color-n-500);
+    letter-spacing: 0.04em;
+  }
+  .al-night {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-warn);
     letter-spacing: 0.04em;
   }
 
-  .al-grid line { stroke: var(--color-n-150); stroke-width: 1; }
-  .al-axis text {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    fill: var(--color-muted);
-  }
-  .al-axis .al-unit { fill: var(--color-n-400); font-size: 10px; letter-spacing: 0.04em; }
-
-  .al-trace {
-    fill: none;
-    stroke: var(--color-brass);
-    stroke-width: 2;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-  }
-
-  .al-band rect { fill: var(--color-warn); opacity: 0.1; }
+  /* L'opacité du groupe est prise par l'animation : la transparence de
+     l'aplat passe donc par `fill-opacity`, pas par `opacity`. */
+  .al-cote { stroke: var(--color-warn); stroke-width: 1.2; }
   .al-band-top { stroke: var(--color-warn); stroke-width: 1.5; stroke-dasharray: 5 4; }
   .al-band-low { stroke: var(--color-n-400); stroke-width: 1.5; stroke-dasharray: 3 4; }
-  .al-band text { font-family: var(--font-mono); letter-spacing: 0.02em; }
-  .al-band-top-t { font-size: 11px; fill: var(--color-warn); }
-  .al-band-low-t { font-size: 11px; fill: var(--color-n-500); }
-  .al-band-t { font-size: 14px; font-weight: 500; fill: var(--color-warn); }
 
-  .al-cost rect { fill: var(--color-warn-bg); }
-  .al-cost .al-cost-rail { fill: var(--color-warn); }
-  .al-cost-title { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
-  .al-cost-meta { font-family: var(--font-mono); font-size: 10px; fill: var(--color-warn); }
-  .al-cost-sum {
+  .al-band-t text {
     font-family: var(--font-mono);
-    font-size: 15px;
-    font-weight: 500;
-    fill: var(--color-warn);
+    font-size: 11px;
+    letter-spacing: 0.02em;
   }
+  .al-seen { fill: var(--color-warn); }
+  .al-expected { fill: var(--color-n-500); }
+  .al-leak { fill: var(--color-warn); font-size: 13px; font-weight: 500; }
 
-  .al-fix-title { font-size: 13px; font-weight: 500; fill: var(--color-ink); }
-  .al-fix-meta { font-family: var(--font-mono); font-size: 10px; fill: var(--color-normal); }
-
-  .al-cart line { stroke: var(--color-line); stroke-width: 1; }
-  .al-cart text {
+  .al-lane-rule { stroke: var(--color-line); stroke-width: 1; }
+  .al-lane-floor { stroke: var(--color-warn); stroke-width: 1; stroke-dasharray: 4 4; }
+  .al-lane-sum {
     font-family: var(--font-mono);
     font-size: 10px;
-    fill: var(--color-n-400);
+    fill: var(--color-brass);
     letter-spacing: 0.03em;
   }
-  .al-cart .al-cart-strong { fill: var(--color-muted); }
+</style>
 
-  /* La séquence. La semaine se trace, le plancher se révèle, le coût tombe,
-     l'intervention se programme : l'ordre est celui de la découverte. */
+<style is:global>
   @media (prefers-reduced-motion: no-preference) {
-    .al-trace {
-      stroke-dasharray: var(--al-len);
-      animation: al-draw var(--al-cycle) linear infinite;
+    @keyframes al-night-in {
+      0%, 51% { opacity: 0; }
+      56%, 74% { opacity: 1; }
+      79%, 100% { opacity: 0; }
     }
-    .al-band { animation: al-reveal var(--al-cycle) linear infinite; }
-    .al-cost { animation: al-rise var(--al-cycle) linear infinite; }
-    .al-fix { animation: al-rise-late var(--al-cycle) linear infinite; }
-
-    @keyframes al-draw {
-      0% { stroke-dashoffset: var(--al-len); opacity: 1; }
-      48%, 96% { stroke-dashoffset: 0; opacity: 1; }
-      100% { stroke-dashoffset: 0; opacity: 0; }
+    @keyframes al-card-1 {
+      0%, 76% { opacity: 0; transform: translate(76px, 442px); }
+      84%, 100% { opacity: 1; transform: translate(76px, 434px); }
     }
-    @keyframes al-reveal {
-      0%, 50% { opacity: 0; }
-      60%, 96% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-    @keyframes al-rise {
-      0%, 68% { opacity: 0; transform: translate(66px, 440px); }
-      76%, 96% { opacity: 1; transform: translate(66px, 432px); }
-      100% { opacity: 0; transform: translate(66px, 432px); }
-    }
-    @keyframes al-rise-late {
-      0%, 84% { opacity: 0; transform: translate(434px, 440px); }
-      91%, 96% { opacity: 1; transform: translate(434px, 432px); }
-      100% { opacity: 0; transform: translate(434px, 432px); }
+    @keyframes al-card-2 {
+      0%, 88% { opacity: 0; transform: translate(460px, 442px); }
+      95%, 100% { opacity: 1; transform: translate(460px, 434px); }
     }
   }
 </style>

@@ -1013,20 +1013,28 @@
       "lane": "BEARING TEMPERATURE, SAME SPINDLE"
     },
     "air": {
-      "alt": "One week of compressed air flow on the workshop compressor station: production peaks near 450 m³/h during weekdays, but flow never falls below 255 m³/h at night or over the weekend, when an idle compressor should draw 45 m³/h. That 210 m³/h floor is a permanent leak, measured at 19.5 kW on the sub-meter, or 13,900 € a year over the 5,096 non-production hours alone, at 0.14 € per kWh.",
+      "alt": "One week of compressed air flow on the workshop plant. Production climbs to 430 m³/h Monday to Friday, 06:00 to 20:00, but the flow never drops below 255 m³/h at night or over the weekend, while a compressor at rest draws 45 m³/h. Framing a single night shows the compressor cycling around that floor in an empty shop: a permanent leak of 210 m³/h. The air sub-meter confirms it, 24 kW instead of 4.5, so 19.5 kW across the 5,096 non-production hours of the year, which is 13,900 euros a year at 0.14 euro per kWh.",
       "days": "Mon,Tue,Wed,Thu,Fri,Sat,Sun",
       "off_hours": "OUTSIDE PRODUCTION",
-      "floor_seen": "measured floor",
+      "floor_seen": "observed floor",
       "floor_expected": "expected idle",
       "leak": "permanent leak",
       "cost_title": "Air paid for, never used",
       "h_per_year": "h/yr",
       "per_year": "yr",
       "fix_title": "Leak survey",
-      "fix_meta": "Saturday · zone by zone",
+      "fix_meta": "Saturday · network sectioned",
       "fig": "FIG. V-02",
-      "caption": "Compressed air leak",
-      "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE"
+      "caption": "Compressed air leak, 7 days",
+      "source": "MESHVISE · DEMONSTRATION SITE · BELLECOMBE",
+      "act1": "One week of air flow",
+      "act2": "Three days, down at the floor",
+      "act3": "At night, the compressor works",
+      "act4": "What that floor costs",
+      "h_per_week": "h per week",
+      "night": "empty shop, the flow never drops",
+      "lane": "COMPRESSED AIR SUB-METER",
+      "above": "production above the frame"
     },
     "meter": {
       "alt": "Thirty minutes of active power on conventional milling machine FU1, a machine with no digital interface tracked by electrical sub-metering. The value follows the machining cycles until 11:42, then freezes at 7.7 kW. For five minutes it still reads as a normal value. At 11:47 data quality turns stale, at 11:50 driver SUBM1 is declared unreachable and the link alarm fires across eight points and four machines. The link returns at 11:53, after eleven minutes of recorded gap.",

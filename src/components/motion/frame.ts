@@ -29,7 +29,7 @@ export const Y0 = 74;
 export const Y1 = 332;
 
 /** Voies annexes : rubans de qualité, journaux d'alarmes, échelles. */
-export const LANE_Y = 376;
+export const LANE_Y = 384;
 
 /** Cartes de conclusion : ce que la supervision fait du fait. */
 export const CARD_Y = 434;
@@ -89,4 +89,46 @@ export function thousands(v: number, lang: 'fr' | 'en'): string {
   return Math.round(v)
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'fr' ? ' ' : ',');
+}
+
+/**
+ * Position à l'écran d'un point du dessin, sous un cadrage donné. C'est
+ * l'inverse de `cam` : `cam` fabrique la transformation, `screenAt` dit où
+ * atterrit un point une fois cette transformation appliquée.
+ */
+export function screenAt(px: number, py: number, k: number, cx: number, cy: number) {
+  return {
+    x: (X0 + X1) / 2 - k * cx + k * px,
+    y: (Y0 + Y1) / 2 - k * cy + k * py,
+  };
+}
+
+/**
+ * Le déplacement à donner à une annotation posée en coordonnées de dessin
+ * pour qu'elle suive un point sous un cadrage donné, sans grossir avec lui.
+ */
+export function pinTo(px: number, py: number, k: number, cx: number, cy: number): string {
+  const s = screenAt(px, py, k, cx, cy);
+  return `translate(${(s.x - px).toFixed(2)}px, ${(s.y - py).toFixed(2)}px)`;
+}
+
+/** L'annotation reste où elle est : le cadrage d'ensemble ne la déplace pas. */
+export const PIN_WIDE = 'translate(0px, 0px)';
+
+/** Une suite régulière, bornes comprises, arrondie pour rester comparable. */
+export function step(a: number, b: number, s: number): number[] {
+  const out: number[] = [];
+  for (let v = a; v <= b + 1e-9; v += s) out.push(Math.round(v * 1000) / 1000);
+  return out;
+}
+
+/**
+ * Comme `pinTo`, mais sur la seule ordonnée. C'est ce qu'il faut pour une
+ * étiquette qui doit rester collée au bord gauche du dessin tout en suivant
+ * la ligne qu'elle nomme : la caméra la fait monter ou descendre, elle ne
+ * l'emmène jamais hors cadre.
+ */
+export function pinY(py: number, k: number, cy: number): string {
+  const sy = (Y0 + Y1) / 2 - k * cy + k * py;
+  return `translate(0px, ${(sy - py).toFixed(2)}px)`;
 }

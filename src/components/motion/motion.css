@@ -242,6 +242,26 @@
       opacity: 1;
     }
   }
+  /* Partout sauf au troisième acte : pour ce qui a du sens en vue large et
+     en vue intermédiaire, mais sort du cadre quand on colle à l'instant. */
+  @keyframes mv-not-3 {
+    0%,
+    21% {
+      opacity: 0;
+    }
+    26%,
+    47% {
+      opacity: 1;
+    }
+    52%,
+    76% {
+      opacity: 0;
+    }
+    82%,
+    100% {
+      opacity: 1;
+    }
+  }
   /* Les deux actes du milieu, ceux où la caméra est resserrée. */
   @keyframes mv-mid {
     0%,
