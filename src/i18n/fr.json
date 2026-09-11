@@ -216,28 +216,16 @@
       "body": "Un site industriel simulé : vingt-deux machines, treize protocoles, trente jours d'historique. Les alarmes, l'historique et les tableaux de bord sont ceux de l'application."
     },
     "ai": {
-      "title": "L'IA a tout lu dans votre entreprise, sauf l'atelier.",
-      "lede": "Meshvise n'a pas d'IA. Il a ce qui manque à l'IA : des données nommées, qualifiées et datées. Seize outils en lecture, aucun en écriture, et la clé reste la vôtre.",
-      "tools_label": "Le catalogue",
-      "tools": [
-        "list_machines",
-        "describe_machine",
-        "list_points",
-        "read_live",
-        "read_history",
-        "point_stats",
-        "read_indicators",
-        "energy_summary",
-        "list_alarms",
-        "alarm_summary",
-        "reliability",
-        "list_revisions",
-        "diff_revisions",
-        "describe_topology",
-        "system_health",
-        "describe_vocabulary"
-      ],
-      "cta": "Brancher une IA sur son atelier"
+      "title": "« Quelle machine nous a le plus arrêtés le mois dernier ? »",
+      "lede": "Posez-la à l'IA. Depuis qu'elle lit l'atelier, elle répond sans que personne ait à construire le rapport.",
+      "cta": "Brancher une IA sur son atelier",
+      "more_label": "Et celles-là aussi",
+      "questions": [
+        "Qui a changé ce seuil, et quand ?",
+        "Pourquoi le compresseur tourne-t-il la nuit ?",
+        "Quel poste perd le plus de temps en micro-arrêts ?",
+        "Où en est la production depuis ce matin ?"
+      ]
     }
   },
   "why": {
@@ -475,7 +463,7 @@
     },
     "assistant": {
       "title": "Brancher l'IA sur l'atelier",
-      "lede": "L'IA lit déjà les courriels et la gestion de l'entreprise. L'atelier était le dernier système qu'elle ne savait pas lire.",
+      "lede": "Les questions qu'on posait le vendredi trouvent leur réponse tout de suite, parce que l'IA de l'entreprise lit enfin le parc comme elle lit le reste.",
       "facts": [
         {
           "k": "Seize outils, tous en lecture",

@@ -216,28 +216,16 @@
       "body": "A simulated industrial site: twenty-two machines, thirteen protocols, thirty days of history. The alarms, history and dashboards are the ones in the application."
     },
     "ai": {
-      "title": "AI has read everything in your company, except the shop floor.",
-      "lede": "Meshvise has no AI. It has what AI is missing: data that is named, qualified and dated. Sixteen read-only tools, none that write, and the key stays yours.",
-      "tools_label": "The catalogue",
-      "tools": [
-        "list_machines",
-        "describe_machine",
-        "list_points",
-        "read_live",
-        "read_history",
-        "point_stats",
-        "read_indicators",
-        "energy_summary",
-        "list_alarms",
-        "alarm_summary",
-        "reliability",
-        "list_revisions",
-        "diff_revisions",
-        "describe_topology",
-        "system_health",
-        "describe_vocabulary"
-      ],
-      "cta": "Plugging an AI into a shop floor"
+      "title": "“Which machine stopped us the most last month?”",
+      "lede": "Ask AI. Now that it reads the shop floor, it answers without anyone having to build the report.",
+      "cta": "Plugging an AI into a shop floor",
+      "more_label": "And these too",
+      "questions": [
+        "Who changed this threshold, and when?",
+        "Why is the compressor running at night?",
+        "Which workstation loses the most time to micro-stoppages?",
+        "Where is production since this morning?"
+      ]
     }
   },
   "why": {
@@ -475,7 +463,7 @@
     },
     "assistant": {
       "title": "Plugging AI into the shop floor",
-      "lede": "AI already reads the company's email and management system. The shop floor was the last system it could not read.",
+      "lede": "The questions that waited until Friday get answered straight away, because the company's AI can finally read the equipment as it reads everything else.",
       "facts": [
         {
           "k": "Sixteen tools, all read-only",
