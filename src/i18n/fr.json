@@ -448,6 +448,30 @@
     "ops": {
       "title": "Exploitation",
       "body": "Page de santé qui montre l'état de chaque composant et la présence de chaque service. Métriques exposées au format Prometheus. Le moteur redémarre et reprend l'acquisition même si la base de données n'est pas encore là, sur sa configuration mise en cache. Une architecture de secours à reprise tiède est disponible. Aucune télémétrie ne sort de l'installation."
+    },
+    "assistant": {
+      "title": "Branchez votre assistant sur votre atelier",
+      "lede": "L'assistant de votre entreprise lit déjà vos courriels et votre gestion. L'atelier était le dernier système qu'il ne savait pas lire.",
+      "facts": [
+        {
+          "k": "Seize outils, tous en lecture",
+          "v": "Le parc, les points et leur qualité, l'historique, les indicateurs, les alarmes, la fiabilité, la topologie des pilotes, les révisions de configuration et leurs différences."
+        },
+        {
+          "k": "Aucun outil d'écriture",
+          "v": "Ni une valeur vers un équipement, ni une configuration, ni un acquittement. Aucun outil d'écriture n'existe, et un test fait échouer la construction si quelqu'un en ajoute un."
+        },
+        {
+          "k": "Votre modèle, votre clé",
+          "v": "Meshvise n'héberge aucun modèle, ne détient aucune clé de fournisseur et ne voit passer aucun jeton. Il n'y a pas, dans le produit, de code qui appelle un fournisseur."
+        },
+        {
+          "k": "Une clé ne voit que ce qu'on lui accorde",
+          "v": "Une clé d'intégration porte des permissions vérifiées à chaque appel, et le droit d'ouvrir une session ne donne accès à aucune donnée par lui-même."
+        }
+      ],
+      "not": "Ce n'est pas un assistant intégré : Meshvise ne diagnostique rien et ne répond à aucune question. C'est une prise. L'intelligence reste celle de votre assistant ; ce que Meshvise apporte, c'est un parc dont les données sont nommées, qualifiées et gouvernées.",
+      "cta": "Brancher un assistant, en pratique"
     }
   },
   "protocols": {

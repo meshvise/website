@@ -448,6 +448,30 @@
     "ops": {
       "title": "Operations",
       "body": "A health page showing the state of every component and the presence of every service. Metrics exposed in Prometheus format. The engine restarts and resumes acquisition even if the database is not there yet, from its cached configuration. A warm-standby architecture is available. No telemetry leaves the installation."
+    },
+    "assistant": {
+      "title": "Plug your assistant into your shop floor",
+      "lede": "Your company assistant already reads your email and your management system. The shop floor was the last system it could not read.",
+      "facts": [
+        {
+          "k": "Sixteen tools, all read-only",
+          "v": "The equipment, the points and their quality, history, derived indicators, alarms, reliability, driver topology, configuration revisions and their differences."
+        },
+        {
+          "k": "No write tool at all",
+          "v": "Not a value to a device, not a configuration, not an acknowledgement. No write tool exists, and a test fails the build if anyone adds one."
+        },
+        {
+          "k": "Your model, your key",
+          "v": "Meshvise hosts no model, holds no provider key and sees no token pass through. There is no provider call anywhere in the product's code."
+        },
+        {
+          "k": "A key reads only what it was granted",
+          "v": "An integration key carries permissions checked on every call, and the right to open a session grants access to no data by itself."
+        }
+      ],
+      "not": "This is not a built-in assistant: Meshvise diagnoses nothing and answers no question. It is a socket. The intelligence stays with your assistant; what Meshvise brings is equipment whose data is named, qualified and governed.",
+      "cta": "Plugging in an assistant, in practice"
     }
   },
   "protocols": {

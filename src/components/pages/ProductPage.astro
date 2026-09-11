@@ -1,5 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
+import fr from '../../i18n/fr.json';
+import en from '../../i18n/en.json';
 import PageHero from '../PageHero.astro';
 import ProtocolGrid from '../ProtocolGrid.astro';
 import ScreenPlaceholder from '../ScreenPlaceholder.astro';
@@ -25,6 +27,11 @@ const sections = [
   { id: 'sec',      kind: null },
   { id: 'ops',      kind: null },
 ] as const;
+
+const assistantFacts = (lang === 'fr' ? fr : en).product.assistant.facts as {
+  k: string;
+  v: string;
+}[];
 ---
 
 <Base lang={lang} title={t(lang, 'product.meta.title')} description={t(lang, 'product.meta.description')}>
@@ -68,5 +75,72 @@ const sections = [
     ))}
   </div>
 
+  <!-- La prise pour un assistant. Section à part plutôt qu'une ligne de la
+       liste ci-dessus : c'est la seule capacité du produit qui n'a aucun
+       équivalent chez les supervisions établies, et elle appelle autant de
+       garde-fous que de promesses. Tout ce qui est écrit ici est vérifiable
+       dans le code, et rien n'anticipe : l'assistant de diagnostic et la
+       question en langue naturelle n'existent pas, donc ils ne sont pas
+       mentionnés. -->
+  <section id="assistant" class="section border-t border-line">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="t-page">{t(lang, 'product.assistant.title')}</h2>
+        <p class="t-lede">{t(lang, 'product.assistant.lede')}</p>
+      </div>
+
+      <dl class="facts">
+        {assistantFacts.map((f) => (
+          <div class="fact">
+            <dt>{f.k}</dt>
+            <dd>{f.v}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <!-- Dire ce que ce n'est pas vaut mieux que de laisser le visiteur
+           l'imaginer, puis être déçu devant la démonstration. -->
+      <p class="nope">{t(lang, 'product.assistant.not')}</p>
+
+      <a href={`${href(lang, 'guides')}brancher-un-assistant-sur-sa-supervision/`} class="link mt-6 inline-block">
+        {t(lang, 'product.assistant.cta')}
+      </a>
+    </div>
+  </section>
+
   <FinalCTA lang={lang} />
 </Base>
+
+<style>
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 3rem;
+    margin: 0;
+  }
+  .fact dt {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+  .fact dd {
+    margin: 0.5rem 0 0;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-ink-2);
+  }
+  /* Le filet accent marque la mise au point sans en faire un avertissement :
+     ce n'est pas une réserve, c'est une définition. */
+  .nope {
+    margin: 2.75rem 0 0;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--color-accent);
+    max-width: 68ch;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-ink);
+  }
+  @media (max-width: 780px) {
+    .facts { grid-template-columns: 1fr; gap: 1.75rem; }
+  }
+</style>
