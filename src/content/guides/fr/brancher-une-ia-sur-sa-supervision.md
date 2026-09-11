@@ -101,7 +101,7 @@ Ce n'est pas une intelligence, c'est une prise. Ce qui décide de la qualité de
 réponses reste ce qu'il y a derrière la prise : les cinq éléments de la section
 précédente.
 
-## Les seize outils, et ce qu'ils rendent
+## Les dix-huit outils, et ce qu'ils rendent
 
 Voici ce qu'un assistant peut demander à Meshvise aujourd'hui. La liste vaut
 surtout comme grille de comparaison : demandez la même à n'importe quel éditeur.
@@ -124,12 +124,18 @@ surtout comme grille de comparaison : demandez la même à n'importe quel édite
 | Les pilotes, leur protocole et leur état de connexion | `describe_topology` |
 | L'état des composants et l'âge de la configuration | `system_health` |
 | Les listes gouvernées : rôles, unités, sévérités, qualités | `describe_vocabulary` |
+| Qui a écrit quoi vers le procédé, quand, avec quel résultat | `list_commands` |
+| Le dossier complet d'une machine autour d'un instant | `incident_context` |
 
 Le dernier est le moins spectaculaire et le plus important. C'est lui qui permet
 au modèle de formuler un filtre valide au lieu d'en inventer un.
 
-Deux outils supplémentaires sont décrits au contrat mais pas encore servis : le
-journal des écritures vers le procédé, et le dossier d'incident en un appel.
+Les deux derniers méritent un mot. Le journal des écritures inscrit aussi les
+tentatives **refusées**, avec leur raison : savoir qui a voulu agir sans y
+parvenir vaut souvent autant que savoir qui a agi. Et le dossier d'une machine
+rassemble en un seul appel ce qu'un humain irait chercher dans six écrans, ce
+qui est la différence entre une IA qui explore au hasard et une IA qui raisonne
+sur un dossier complet.
 
 ## Les bornes, et pourquoi elles existent
 

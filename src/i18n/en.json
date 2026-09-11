@@ -466,7 +466,7 @@
       "lede": "The questions that waited until Friday get answered straight away, because the company's AI can finally read the equipment as it reads everything else.",
       "facts": [
         {
-          "k": "Sixteen tools, all read-only",
+          "k": "Eighteen tools, all read-only",
           "v": "The equipment, the points and their quality, history, derived indicators, alarms, reliability, driver topology, configuration revisions and their differences."
         },
         {
@@ -478,8 +478,8 @@
           "v": "Meshvise hosts no model, holds no provider key and sees no token pass through. There is no provider call anywhere in the product's code."
         },
         {
-          "k": "A key reads only what it was granted",
-          "v": "An integration key carries permissions checked on every call, and the right to open a session grants access to no data by itself."
+          "k": "A key reads only the surfaces granted",
+          "v": "Equipment model, live values, history, alarms, audit logs, network addressing: every permission is checked on every call, and the right to open a session grants access to no data by itself."
         }
       ],
       "not": "Meshvise has no AI: it diagnoses nothing and answers no question. It is a socket. The intelligence stays with the model you chose; what Meshvise brings is equipment whose data is named, qualified and governed.",
