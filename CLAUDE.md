@@ -53,7 +53,7 @@ The Worker is currently a 14-line proxy of `env.ASSETS`. Vague 5 will turn it in
 
 ```bash
 npm install                    # one-shot
-npm run dev                    # local Astro dev server (no Worker logic)
+npm run dev                    # Astro dev server, http://127.0.0.1:4321 (no Worker logic)
 npm test                       # vitest
 npm run build                  # produces dist/
 npx wrangler dev               # local Worker (build dist/ first)
@@ -68,6 +68,27 @@ curl -X POST http://localhost:8787/api/trial \
   -H 'content-type: application/json' \
   -d '{"email":"test@example.com","name":"Test","turnstileToken":"..."}'
 ```
+
+## Lancer la vitrine
+
+Le serveur de développement est **fixé sur 127.0.0.1:4321**, avec `strictPort`
+(cf. `astro.config.mjs`). Deux raisons, toutes deux constatées sur le poste le
+2026-09-11 :
+
+- sans `host`, Astro n'écoute qu'en IPv6, donc `localhost:4321` répond et
+  `127.0.0.1:4321` non ;
+- sans `strictPort`, un second lancement s'installe **en silence** sur 4322 et
+  le doublon devient invisible. C'est comme ça que le SPA du produit s'est
+  retrouvé servi deux fois.
+
+Ne pas lancer `npm run dev` à la main quand plusieurs sessions travaillent :
+passer par `dev.ps1` à la racine du workspace, qui vérifie le port avant de
+démarrer et refuse donc le doublon. `.\dev.ps1` seul affiche l'état des quatre
+services et la mémoire du poste.
+
+Pour juger une page sans serveur de développement, servir le build statique
+depuis `dist/`. Ce n'est plus la voie par défaut depuis le 2026-09-11 : le
+serveur Astro est le seul mécanisme documenté pour la vitrine.
 
 ## Key files
 
