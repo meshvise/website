@@ -168,27 +168,27 @@
     },
     "preview": {
       "title": "Six figures de scénario",
-      "lede": "Page de jugement, hors navigation. Chaque figure raconte un parcours entier en quatre actes, pilotés par le défilement. Les valeurs viennent du parc de démonstration de Bellecombe.",
-      "hint": "Défilez : l'histoire avance quand vous avancez."
+      "lede": "Page de jugement, hors navigation. Chaque figure dit une chose et une seule, en quatre secondes, avec les valeurs du parc de démonstration de Bellecombe. Le mouvement repart quand la figure entre dans l'écran."
     },
     "day_zero": "J",
     "day_after": "J+",
     "day_before": "J-",
     "strip": {
       "always": "en permanence",
-      "section": "FIGURE TÉMOIN · REGISTRE DÉPOUILLÉ",
+      "section": "V-02 · FUITE D'AIR COMPRIMÉ",
       "title": "La facture que personne ne lit",
       "lede": "Le compresseur tourne la nuit et le week-end. L'atelier est vide, la production est à l'arrêt, et le débit d'air ne retombe jamais à la veille.",
       "p1": "Un compresseur au repos consomme 45 m³/h. Celui-ci ne descend jamais sous 255, ni la nuit, ni le samedi, ni le dimanche. Les 210 m³/h qui restent partent dans le réseau par des raccords que personne n'entend.",
       "p2": "Ce talon se pèse au sous-compteur d'air : 24 kW là où la veille en demande 4,5. Sur les 5 096 heures hors production de l'année, à 0,14 € le kWh, cela fait 13 900 € par an.",
-      "alt": "Une semaine de débit d'air comprimé sur la centrale de l'atelier. La production monte vers 430 m³/h du lundi au vendredi, mais le débit ne retombe jamais sous 255 m³/h la nuit ni le week-end, alors qu'un compresseur au repos consomme 45 m³/h. L'écart entre les deux niveaux, 210 m³/h, est une fuite permanente."
+      "alt": "Une semaine de débit d'air comprimé sur la centrale de l'atelier. La production monte vers 430 m³/h du lundi au vendredi, mais le débit ne retombe jamais sous 255 m³/h la nuit ni le week-end, alors qu'un compresseur au repos consomme 45 m³/h. L'écart entre les deux niveaux, 210 m³/h, est une fuite permanente.",
+      "caption": "d'air comprimé payé et jamais utilisé, chaque année"
     },
     "spindleStrip": {
       "limit": "ISO 10816",
       "caption_a": "au-dessus du seuil depuis",
       "days": "jours",
       "now": "aujourd'hui",
-      "section": "FIGURE TÉMOIN · V-01",
+      "section": "V-01 · USURE DE BROCHE",
       "title": "Ce qui se voit avant la panne",
       "lede": "Une broche ne casse pas d'un coup. Sa vibration monte pendant des semaines, et personne ne la mesure parce que personne ne la regarde.",
       "p1": "Meshvise lit la valeur efficace de vibration sur le centre d'usinage et la garde jour après jour. Elle tient à 2,2 mm/s pendant neuf jours, puis dérive de 3,1 mm/s en trois semaines. Au vingt-sixième jour elle franchit le seuil de 4,5 mm/s de la norme ISO 10816, et l'alarme part par courriel avec l'historique.",
@@ -196,6 +196,54 @@
       "alt": "Trente jours de vibration de broche sur le centre d'usinage CU1. La valeur efficace tient à 2,2 mm/s pendant neuf jours, puis dérive de 3,1 mm/s en trois semaines pour atteindre 5,3 mm/s aujourd'hui. Elle franchit le seuil ISO 10816 de 4,5 mm/s au vingt-sixième jour, et reste au-dessus depuis quatre jours.",
       "ago_pre": "il y a",
       "ago_post": "jours"
+    },
+    "meterStrip": {
+      "caption_a": "valeur maintenue, aucun échantillon reçu depuis",
+      "minutes": "minutes",
+      "held": "le sous-compteur s'est tu",
+      "section": "V-03 · DÉCROCHAGE DE SOUS-COMPTEUR",
+      "title": "Une valeur figée ressemble à une valeur normale",
+      "lede": "La fraiseuse FU1 n'a aucune interface numérique. Elle est suivie par sous-comptage électrique, et le sous-compteur s'est tu.",
+      "p1": "À 11:42, la dernière valeur arrive : 7,7 kW. Elle reste affichée. Rien ne clignote, rien ne change de couleur, et une supervision qui ne regarde que la valeur ne voit strictement rien.",
+      "p2": "Meshvise ne surveille pas seulement la valeur, il surveille sa fraîcheur. À 11:47 la qualité du point bascule à stale, à 11:50 le pilote est déclaré injoignable et l'alarme part sur les huit points des quatre machines conventionnelles. Les onze minutes de trou sont datées et restent des minutes de trou.",
+      "alt": "Trente minutes de puissance active sur la fraiseuse conventionnelle FU1, suivie par sous-comptage électrique. La valeur vit au rythme des cycles d'usinage jusqu'à 11:42, puis se fige à 7,7 kW et passe au gris : ce qui s'affiche n'est plus une mesure mais la dernière valeur reçue, répétée. La liaison revient à 11:53, après onze minutes de trou daté."
+    },
+    "thresholdStrip": {
+      "fires": "déclenchements",
+      "caption_a": "pour un procédé qui n'a pas bougé d'un dixième de degré, en",
+      "days": "jours",
+      "section": "V-04 · ALARME AU SEUIL TROP SERRÉ",
+      "title": "L'alarme que plus personne ne lit",
+      "lede": "Une alarme qui tire presque chaque jour et se referme en quelques minutes n'informe plus personne. Elle apprend seulement à ne plus regarder.",
+      "p1": "Le groupe froid d'huile de coupe fait le même après-midi depuis trois semaines : le maximum journalier oscille entre 22,37 et 22,95 °C. Ce qui a changé, c'est le seuil. Quelqu'un l'a resserré de 24,0 à 22,5 °C, et l'alarme s'est mise à tirer huit fois en onze jours.",
+      "p2": "Chaque modification de seuil est une révision datée et signée. La salve qui l'a suivie a donc une cause nommée, et le retour arrière se rédige en connaissance de cause : 24,0 °C, hystérésis d'un degré. Le procédé, lui, n'a jamais eu tort.",
+      "alt": "Vingt et un jours de maximum journalier de température d'huile de coupe. La courbe ne change pas : elle oscille entre 22,37 et 22,95 °C du premier au dernier jour. Ce qui change, c'est le seuil d'alarme, abaissé de 24,0 à 22,5 °C pendant onze jours. Huit déclenchements tombent dans cette fenêtre, et aucun en dehors."
+    },
+    "engineStrip": {
+      "protocols": "protocoles",
+      "caption": "un seul moteur d'acquisition, tous inclus dans la licence",
+      "out": "meshvise/p/{id}/value · le même message, quel que soit le protocole",
+      "section": "V-05 · TREIZE PROTOCOLES",
+      "title": "Treize protocoles, un seul moteur",
+      "lede": "Treize protocoles industriels, treize manières de brancher un équipement, et un seul moteur d'acquisition derrière.",
+      "p1": "Huit protocoles s'interrogent à la cadence que vous choisissez, un s'abonne et ne reçoit qu'à la variation, quatre poussent leurs valeurs quand l'équipement le décide. C'est cette distinction qui compte au moment de câbler, pas la liste alphabétique.",
+      "p2": "Quel que soit le protocole d'origine, ce qui sort est le même message : une version, un identifiant, un horodatage, une qualité, une valeur. Il n'y a pas de module à acheter par marque d'automate.",
+      "alt": "Treize protocoles industriels listés : Modbus TCP, Modbus RTU, OPC UA, BACnet sur IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B et MTConnect. Tous convergent sur un seul moteur d'acquisition, inclus dans la licence, qui publie le même message de fait quel que soit le protocole d'origine."
+    },
+    "chainStrip": {
+      "facts": "faits",
+      "caption": "gardés sur disque quand la liaison au bus tombe, rejoués dans l'ordre avec leur horodatage d'origine",
+      "src": "Équipement",
+      "drv": "Pilote",
+      "bus": "Bus de faits",
+      "cons": "Écran · Historique · Alarme",
+      "note": "l'historien a sa propre réserve, pour la panne de la base",
+      "section": "V-06 · LA CHAÎNE DE LA DONNÉE",
+      "title": "Un fait publié une fois, lu par trois",
+      "lede": "Une valeur est lue une fois, publiée une fois, et servie à tous ceux qui en ont besoin. Personne ne retourne interroger l'équipement.",
+      "p1": "Le pilote lit à sa cadence et publie un fait sur le bus. L'écran s'y abonne, l'historien l'écrit en base, la règle d'alarme l'évalue. L'horodatage est pris à la source et n'est jamais réécrit en aval.",
+      "p2": "Quand la liaison au bus se coupe, le pilote empile ses faits sur son disque local, jusqu'à un million, et les rejoue dans leur ordre de publication. L'historien dispose de sa propre réserve pour la panne de la base : deux réserves distinctes, parce que ce sont deux pannes distinctes.",
+      "alt": "La chaîne que parcourt une valeur : un équipement, un pilote, le bus de faits, puis l'écran, l'historique et la règle d'alarme. Quand la liaison entre le pilote et le bus est coupée, le pilote empile ses faits sur son disque local, jusqu'à un million, et les rejoue dans leur ordre de publication avec leur horodatage d'origine."
     }
   }
 }

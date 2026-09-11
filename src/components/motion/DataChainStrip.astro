@@ -1,0 +1,104 @@
+---
+/**
+ * V-06 · La chaîne de la donnée. Registre dépouillé.
+ *
+ * Le compteur compte ce qui ne se perd pas. La chaîne se pose maillon par
+ * maillon, puis la liaison au bus est coupée, et le chiffre monte jusqu'au
+ * million de faits que le pilote garde sur son disque en attendant que ça
+ * revienne.
+ *
+ * Pas de schéma à quatre-vingts éléments : quatre pastilles et trois
+ * flèches. Ce qui compte est que la coupure tombe au bon endroit, entre le
+ * pilote et le bus, parce que c'est cette panne-là que l'outbox couvre.
+ *
+ * Les capacités affichées sont celles du code : `bus/outbox.py` du runtime
+ * (SQLite en mode WAL, ordre de publication conservé, horodatage d'origine
+ * préservé, plafond d'un million de lignes) et `engine/spill.py` de
+ * l'historien, qui couvre la panne de la base et non celle du broker.
+ */
+import { mt as t, type Lang } from './text';
+import Stat from './Stat.astro';
+import type { Ligne } from './Stat.astro';
+import { thousands } from './frame';
+import './strip.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ent = (v: number) => thousands(v, lang);
+
+const OUTBOX_MAX = 1000000;
+
+// Le compteur monte pendant que la file se remplit.
+const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
+  valeur: ent(Math.round((OUTBOX_MAX * i) / 30 / 1000) * 1000),
+  ton: i === 30 ? 'ink' : 'ink',
+}));
+
+const maillons = [
+  { cle: 'src', fort: false },
+  { cle: 'drv', fort: false },
+  { cle: 'bus', fort: true },
+  { cle: 'cons', fort: false },
+];
+---
+
+<figure class="mvf mvs" role="img" aria-label={t(lang, 'motion.chainStrip.alt')}>
+  <Stat
+    lignes={lignes}
+    unite={t(lang, 'motion.chainStrip.facts')}
+    phrase={t(lang, 'motion.chainStrip.caption')}
+  />
+
+  <div class="dcs-flow mvs-chips" aria-hidden="true">
+    {
+      maillons.map((m, i) => (
+        <>
+          {i > 0 && (
+            <span
+              class={`mvs-arrow mvs-pop${i === 2 ? ' dcs-cut' : ''}`}
+              style={`--i: ${i * 2 - 1}`}
+            >
+              {i === 2 ? '✕' : '→'}
+            </span>
+          )}
+          <span
+            class={`mvs-chip mvs-pop${m.fort ? ' mvs-chip--strong' : ''}`}
+            style={`--i: ${i * 2}`}
+          >
+            {t(lang, `motion.chainStrip.${m.cle}`)}
+          </span>
+        </>
+      ))
+    }
+  </div>
+
+  <p class="mvs-out mvs-a dcs-note" style="animation-name: mvs-caption" aria-hidden="true">
+    {t(lang, 'motion.chainStrip.note')}
+  </p>
+</figure>
+
+<script>
+  import { observerLesFigures } from './observe';
+
+  observerLesFigures();
+</script>
+
+<style>
+  .dcs-flow {
+    align-items: center;
+    gap: 0.35rem;
+  }
+  /* La coupure est un état de la donnée, pas une décoration : c'est la
+     seule couleur d'état de la figure. */
+  .dcs-cut {
+    color: var(--color-crit);
+    font-weight: 500;
+  }
+  .dcs-note {
+    margin: 0;
+    color: var(--color-n-500);
+  }
+</style>

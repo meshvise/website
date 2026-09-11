@@ -1,0 +1,88 @@
+---
+/**
+ * V-05 · Treize protocoles, un seul moteur. Registre dépouillé.
+ *
+ * Pas de courbe : une liste. Les treize noms entrent en cascade pendant
+ * que le compteur les additionne, puis un seul trait les ramène à une
+ * seule sortie, qui porte le nom du message publié. La convergence est
+ * dite par la typographie plutôt que par treize fils dessinés.
+ *
+ * Les transports affichés sont ceux du parc de démonstration de Bellecombe
+ * (`apps/gateway-py/data/fleet.seed.json`) et non des valeurs de catalogue.
+ * Treize et non douze : MTConnect est livré depuis le 2026-09-09 et CU3
+ * l'utilise. Le port 851 de Beckhoff ADS est le port AMS du runtime, celui
+ * que le pilote passe à pyads, et non le 48898 du routeur.
+ */
+import { mt as t, type Lang } from './text';
+import Stat from './Stat.astro';
+import type { Ligne } from './Stat.astro';
+import './strip.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const protocoles = [
+  'Modbus TCP',
+  'Modbus RTU',
+  'OPC UA',
+  'BACnet/IP',
+  'Siemens S7',
+  'MQTT',
+  'EtherNet/IP',
+  'Beckhoff ADS',
+  'REST',
+  'WebSocket',
+  'Webhook',
+  'Sparkplug B',
+  'MTConnect',
+];
+
+// Le compteur additionne les pastilles à mesure qu'elles entrent.
+const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
+  valeur: String(Math.round((i / 30) * protocoles.length)),
+  ton: 'ink',
+}));
+---
+
+<figure class="mvf mvs" role="img" aria-label={t(lang, 'motion.engineStrip.alt')}>
+  <Stat
+    lignes={lignes}
+    unite={t(lang, 'motion.engineStrip.protocols')}
+    phrase={t(lang, 'motion.engineStrip.caption')}
+  />
+
+  <div class="mvs-chips" aria-hidden="true">
+    {
+      protocoles.map((nom, i) => (
+        <span class="mvs-chip mvs-pop" style={`--i: ${i}`}>
+          {nom}
+        </span>
+      ))
+    }
+  </div>
+
+  <!-- Le trait qui ramène les treize à un seul point de sortie. -->
+  <div class="pes-out" aria-hidden="true">
+    <div class="mvs-rule mvs-a" style="animation-name: mvs-rule"></div>
+    <p class="mvs-out mvs-a" style="animation-name: mvs-caption">
+      {t(lang, 'motion.engineStrip.out')}
+    </p>
+  </div>
+</figure>
+
+<script>
+  import { observerLesFigures } from './observe';
+
+  observerLesFigures();
+</script>
+
+<style>
+  .pes-out {
+    display: grid;
+    gap: 0.625rem;
+    margin-top: 0.25rem;
+  }
+</style>

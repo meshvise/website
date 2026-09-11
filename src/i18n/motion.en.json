@@ -168,27 +168,27 @@
     },
     "preview": {
       "title": "Six scenario figures",
-      "lede": "Working page, outside navigation. Each figure tells a whole story in four acts, driven by scrolling. The values come from the Bellecombe demonstration fleet.",
-      "hint": "Scroll: the story moves when you do."
+      "lede": "Working page, outside navigation. Each figure says one thing and one only, in four seconds, with the values of the Bellecombe demonstration fleet. The motion restarts when the figure comes into view."
     },
     "day_zero": "D",
     "day_after": "D+",
     "day_before": "D-",
     "strip": {
       "always": "around the clock",
-      "section": "WITNESS FIGURE · STRIPPED REGISTER",
+      "section": "V-02 · COMPRESSED AIR LEAK",
       "title": "The bill nobody reads",
       "lede": "The compressor runs at night and over the weekend. The shop is empty, production is stopped, and the air flow never drops back to idle.",
       "p1": "A compressor at rest draws 45 m³/h. This one never goes below 255, not at night, not on Saturday, not on Sunday. The remaining 210 m³/h go into the network through fittings nobody can hear.",
       "p2": "That floor can be weighed at the air sub-meter: 24 kW where idle asks for 4.5. Across the 5,096 non-production hours of the year, at 0.14 euro per kWh, that is 13,900 euros a year.",
-      "alt": "One week of compressed air flow on the workshop plant. Production climbs to 430 m³/h Monday to Friday, but the flow never drops below 255 m³/h at night or over the weekend, while a compressor at rest draws 45 m³/h. The gap between the two levels, 210 m³/h, is a permanent leak."
+      "alt": "One week of compressed air flow on the workshop plant. Production climbs to 430 m³/h Monday to Friday, but the flow never drops below 255 m³/h at night or over the weekend, while a compressor at rest draws 45 m³/h. The gap between the two levels, 210 m³/h, is a permanent leak.",
+      "caption": "of compressed air paid for and never used, every year"
     },
     "spindleStrip": {
       "limit": "ISO 10816",
       "caption_a": "above the limit for",
       "days": "days",
       "now": "today",
-      "section": "WITNESS FIGURE · V-01",
+      "section": "V-01 · SPINDLE WEAR",
       "title": "What shows before the breakdown",
       "lede": "A spindle does not fail all at once. Its vibration climbs for weeks, and nobody measures it because nobody looks at it.",
       "p1": "Meshvise reads the RMS vibration velocity on the machining centre and keeps it day after day. It holds at 2.2 mm/s for nine days, then drifts by 3.1 mm/s over three weeks. On the twenty-sixth day it crosses the 4.5 mm/s limit of ISO 10816, and the alarm goes out by email with the history.",
@@ -196,6 +196,54 @@
       "alt": "Thirty days of spindle vibration on machining centre CU1. The RMS velocity holds at 2.2 mm/s for nine days, then drifts by 3.1 mm/s over three weeks to reach 5.3 mm/s today. It crosses the ISO 10816 limit of 4.5 mm/s on the twenty-sixth day, and has stayed above it for four days.",
       "ago_pre": "",
       "ago_post": "days ago"
+    },
+    "meterStrip": {
+      "caption_a": "value held, no sample received for",
+      "minutes": "minutes",
+      "held": "the sub-meter went quiet",
+      "section": "V-03 · SUB-METER DROPOUT",
+      "title": "A frozen value looks like a normal value",
+      "lede": "Manual mill FU1 has no digital interface. It is followed by electrical sub-metering, and the sub-meter has gone quiet.",
+      "p1": "At 11:42 the last value arrives: 7.7 kW. It stays on screen. Nothing blinks, nothing changes colour, and a supervision system that only watches the value sees absolutely nothing.",
+      "p2": "Meshvise does not only watch the value, it watches its freshness. At 11:47 the point quality turns stale, at 11:50 the driver is declared unreachable and the alarm fires across the eight points of the four manual machines. The eleven minutes of gap are dated and stay minutes of gap.",
+      "alt": "Thirty minutes of active power on manual mill FU1, followed by electrical sub-metering. The value lives with the machining cycles until 11:42, then freezes at 7.7 kW and turns grey: what is shown is no longer a measurement but the last received value, repeated. The link returns at 11:53, after eleven dated minutes of gap."
+    },
+    "thresholdStrip": {
+      "fires": "alarms",
+      "caption_a": "for a process that did not move a tenth of a degree, in",
+      "days": "days",
+      "section": "V-04 · ALARM LIMIT SET TOO TIGHT",
+      "title": "The alarm nobody reads any more",
+      "lede": "An alarm that fires almost every day and clears itself within minutes informs nobody. It only teaches people to stop looking.",
+      "p1": "The cutting oil chiller has had the same afternoon for three weeks: the daily maximum swings between 22.37 and 22.95 °C. What changed is the limit. Someone tightened it from 24.0 to 22.5 °C, and the alarm started firing eight times in eleven days.",
+      "p2": "Every limit change is a dated, signed revision. The burst that followed therefore has a named cause, and the rollback can be written knowing what it undoes: 24.0 °C, one degree of hysteresis. The process itself was never at fault.",
+      "alt": "Twenty-one days of daily maximum cutting oil temperature. The curve does not change: it swings between 22.37 and 22.95 °C from the first day to the last. What changes is the alarm limit, lowered from 24.0 to 22.5 °C for eleven days. Eight alarms fall inside that window, and none outside it."
+    },
+    "engineStrip": {
+      "protocols": "protocols",
+      "caption": "one acquisition engine, all of them included in the licence",
+      "out": "meshvise/p/{id}/value · the same message, whatever the protocol",
+      "section": "V-05 · THIRTEEN PROTOCOLS",
+      "title": "Thirteen protocols, one engine",
+      "lede": "Thirteen industrial protocols, thirteen ways to connect a device, and a single acquisition engine behind them.",
+      "p1": "Eight protocols are polled at the rate you choose, one is subscribed to and only receives on change, four push their values when the device decides. That is the distinction that matters when wiring, not the alphabetical list.",
+      "p2": "Whatever the source protocol, what comes out is the same message: a version, an identifier, a timestamp, a quality, a value. There is no module to buy per PLC brand.",
+      "alt": "Thirteen industrial protocols listed: Modbus TCP, Modbus RTU, OPC UA, BACnet over IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B and MTConnect. All converge on a single acquisition engine, included in the licence, which publishes the same fact message whatever the source protocol."
+    },
+    "chainStrip": {
+      "facts": "facts",
+      "caption": "kept on disk when the bus link goes down, replayed in order with their original timestamps",
+      "src": "Device",
+      "drv": "Driver",
+      "bus": "Fact bus",
+      "cons": "Screen · History · Alarm",
+      "note": "the historian holds its own store, for a database outage",
+      "section": "V-06 · THE DATA CHAIN",
+      "title": "One fact published once, read by three",
+      "lede": "A value is read once, published once, and served to everyone who needs it. Nobody goes back to the device.",
+      "p1": "The driver reads at its own rate and publishes a fact on the bus. The screen subscribes to it, the historian writes it to the database, the alarm rule evaluates it. The timestamp is taken at the source and never rewritten downstream.",
+      "p2": "When the bus link goes down, the driver queues its facts on local disk, up to one million, and replays them in publication order. The historian holds its own store for a database outage: two separate stores, because these are two separate failures.",
+      "alt": "The chain a value travels: a device, a driver, the fact bus, then the screen, the history and the alarm rule. When the link between the driver and the bus is cut, the driver queues its facts on local disk, up to one million, and replays them in publication order with their original timestamps."
     }
   }
 }
