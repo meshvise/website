@@ -1,20 +1,20 @@
 ---
 /**
- * Quand le savez-vous ? Les métiers posés sur un axe de délai.
+ * Ce n'est pas l'outil d'un service.
  *
- * Le gain de Meshvise est presque toujours un gain de latence : la question
- * n'est pas ce qu'on sait, mais quand. Chaque métier porte donc deux points
- * sur une même échelle, du mois à l'instant, et le trajet de l'un à l'autre
- * se lit sans lire une ligne.
+ * La section entière tient en trois éléments : le titre, onze métiers, une
+ * ligne. Rien d'autre, et c'est délibéré.
  *
- * Un graphe en haltère, la forme juste pour comparer deux états sur une
- * échelle commune. Les deux états se distinguent par la forme autant que par
- * la couleur, cercle creux contre cercle plein, pour que l'information ne
- * dépende jamais de la seule teinte.
+ * Les versions précédentes prouvaient l'inverse de ce qu'elles disaient : en
+ * donnant à chaque métier son encadré et sa phrase, elles montraient quatre
+ * bénéfices parallèles, c'est-à-dire une segmentation. L'énumération continue
+ * fait le contraire. Onze noms séparés par un point médian se lisent comme une
+ * seule population et non comme onze cas, et le nombre suffit à écarter l'idée
+ * que ce serait l'outil de la maintenance.
  *
- * L'intégrateur n'est pas sur l'axe : son gain n'est pas un délai de donnée
- * mais un moment de chiffrage. L'y mêler fausserait l'échelle, donc il a sa
- * ligne sous le graphique.
+ * La ligne de conclusion porte les deux dimensions que l'énumération ne couvre
+ * pas seule : la source unique, et l'indifférence au secteur, qui tient à ce
+ * qu'on se branche sur des protocoles et non sur un métier.
  */
 import fr from '../i18n/fr.json';
 import en from '../i18n/en.json';
@@ -25,185 +25,68 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const dict = (lang === 'fr' ? fr : en).home.personas;
-const scale = dict.scale as string[];
-
-/**
- * Position sur l'axe, de 0 pour « un mois » à 100 pour « l'instant ».
- * Les graduations tombent tous les vingt points, et chaque métier est placé
- * sur ce que décrit sa phrase, pas au jugé.
- */
-const roles = [
-  { id: 'director',    today: 4,  now: 100 },
-  { id: 'maintenance', today: 40, now: 82 },
-  { id: 'production',  today: 22, now: 100 },
-  { id: 'quality',     today: 12, now: 96 },
-] as const;
+const roles = (lang === 'fr' ? fr : en).home.personas.roles as string[];
 ---
 
 <section id="personas" class="section">
   <div class="wrap">
-    <div class="section-head">
-      <h2 class="t-page">{t(lang, 'home.personas.title')}</h2>
-      <p class="t-lede">{t(lang, 'home.personas.lede')}</p>
-    </div>
+    <h2 class="t-page head">{t(lang, 'home.personas.title')}</h2>
 
-    <!-- Deux états, deux formes : la légende est toujours là, l'identité ne
-         repose jamais sur la couleur seule. -->
-    <div class="legend">
-      <span class="key"><i class="dot dot-today" aria-hidden="true"></i>{t(lang, 'home.personas.today')}</span>
-      <span class="key"><i class="dot dot-now" aria-hidden="true"></i>{t(lang, 'home.personas.with')}</span>
-    </div>
+    <ul class="roles">
+      {roles.map((r) => <li>{r}</li>)}
+    </ul>
 
-    <div class="chart" role="img" aria-label={t(lang, 'home.personas.aria')}>
-      <div class="rows">
-        {roles.map((r) => (
-          <div class="row">
-            <div class="who">
-              <h3>{t(lang, `home.personas.${r.id}.label`)}</h3>
-              <p class="then">{t(lang, `home.personas.${r.id}.today`)}</p>
-            </div>
-            <div class="track">
-              <span class="rail" aria-hidden="true"></span>
-              <span class="move" style={`left:${r.today}%; right:${100 - r.now}%`} aria-hidden="true"></span>
-              <span class="dot dot-today" style={`left:${r.today}%`} aria-hidden="true"></span>
-              <span class="dot dot-now" style={`left:${r.now}%`} aria-hidden="true"></span>
-            </div>
-            <p class="gain">{t(lang, `home.personas.${r.id}.gain`)}</p>
-          </div>
-        ))}
-      </div>
-
-      <!-- L'axe, une seule fois en bas : la position de chaque point s'y lit,
-           ce qui évite d'étiqueter huit marques. -->
-      <div class="axis" aria-hidden="true">
-        <span class="axis-name">{t(lang, 'home.personas.axis_name')}</span>
-        <div class="axis-track">
-          {scale.map((label, i) => (
-            <span class="tick" style={`left:${(i / (scale.length - 1)) * 100}%`}>
-              <i></i><b>{label}</b>
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-
-    <p class="also">
-      <span class="also-label">{t(lang, 'home.personas.integrator_label')}</span>
-      {t(lang, 'home.personas.integrator.body')}
-    </p>
+    <p class="note">{t(lang, 'home.personas.note')}</p>
   </div>
 </section>
 
 <style>
-  .legend { display: flex; gap: 1.75rem; margin-bottom: 1.5rem; }
-  .key {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    font-family: var(--font-mono); font-size: 0.6875rem;
-    letter-spacing: 0.07em; text-transform: uppercase; color: var(--color-muted);
-  }
-  .key .dot { position: static; transform: none; }
+  .head { max-width: 24ch; }
 
-  .rows { border-top: 1px solid var(--color-line); }
-  .row {
-    display: grid;
-    grid-template-columns: 15rem 1fr;
-    gap: 0.75rem 2.5rem;
-    align-items: center;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--color-line);
-  }
-  .who h3 { font-size: 1rem; font-weight: 500; color: var(--color-ink); margin: 0; }
-  .who .then { font-size: 0.8125rem; line-height: 1.45; color: var(--color-muted); margin: 0.3rem 0 0; }
-  .gain {
-    grid-column: 2;
-    font-size: 0.9375rem;
-    line-height: 1.55;
+  /* L'énumération est le contenu de la section, donc elle porte l'échelle d'un
+     titre. Graisse légère : c'est une liste de noms, pas une affirmation à
+     crier. */
+  .roles {
+    list-style: none;
+    margin: 2.75rem 0 0;
+    padding: 0;
+    max-width: 48rem;
+    /* Flex plutot qu'inline : un li en display:inline qui passe a la ligne
+       fait entrer l'union de ses fragments dans le debordement du document,
+       soit 121 px de defilement horizontal parasite a 1440 px. En flex, chaque
+       nom reste un bloc, ne se coupe jamais en deux lignes, et rien ne
+       deborde. */
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 0.5em;
+    font-size: clamp(1.375rem, 3vw, 2.125rem);
+    font-weight: 300;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
     color: var(--color-ink);
-    margin: 0;
   }
+  /* Le séparateur porte l'accent : c'est le seul endroit coloré de la section,
+     et il lie les noms au lieu de les découper. */
+  .roles li::after {
+    content: "·";
+    color: var(--color-accent);
+    margin-inline-start: 0.5em;
+  }
+  .roles li:last-child::after { content: none; }
 
-  /* La piste : un filet complet, le segment parcouru en accent, deux marques. */
-  .track { position: relative; height: 1.25rem; }
-  .rail {
-    position: absolute; inset-inline: 0; top: 50%;
-    height: 1px; background: var(--color-line-strong); transform: translateY(-50%);
-  }
-  .move {
-    position: absolute; top: 50%;
-    height: 2px; background: var(--color-accent); opacity: 0.55;
-    transform: translateY(-50%);
-  }
-  .dot {
-    position: absolute; top: 50%;
-    width: 11px; height: 11px; border-radius: 50%;
-    transform: translate(-50%, -50%);
-  }
-  /* Creux contre plein : la forme suffit à distinguer les deux états, la
-     couleur ne fait que confirmer. */
-  .dot-today {
-    background: var(--color-surface);
-    border: 2px solid var(--color-n-400);
-  }
-  .dot-now {
-    background: var(--color-accent);
-    box-shadow: 0 0 0 3px var(--color-accent-bg);
-  }
-
-  /* L'axe gradué, aligné sur la piste. Il porte son nom à gauche, dans la
-     colonne des métiers, plutôt que d'y laisser un trou. */
-  .axis {
-    display: grid;
-    grid-template-columns: 15rem 1fr;
-    gap: 2.5rem;
-    align-items: start;
-    margin-top: 1rem;
-  }
-  .axis-name {
-    font-family: var(--font-mono); font-size: 0.6875rem;
-    letter-spacing: 0.07em; text-transform: uppercase;
-    color: var(--color-muted); padding-top: 0.75rem;
-  }
-  .axis-track {
-    grid-column: 2;
-    position: relative;
-    height: 2.5rem;
-    border-top: 1px solid var(--color-line-strong);
-  }
-  .tick { position: absolute; top: 0; transform: translateX(-50%); text-align: center; }
-  /* Le tiret part de la ligne d'axe, vers le bas. */
-  .tick i { display: block; width: 1px; height: 6px; background: var(--color-line-strong); margin: 0 auto 0.5rem; }
-  .tick b {
-    display: block;
-    font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400;
-    color: var(--color-muted); white-space: nowrap;
-  }
-  /* Les deux extrémités se rangent à l'intérieur de l'axe : sans cela le
-     premier libellé sort à gauche et le dernier dépasse à droite. */
-  .tick:first-child { transform: none; text-align: left; }
-  .tick:first-child i { margin-inline-start: 0; }
-  .tick:last-child { transform: translateX(-100%); text-align: right; }
-  .tick:last-child i { margin-inline-end: 0; }
-
-  .also {
-    margin-top: 2.25rem;
-    font-size: 0.9375rem;
-    line-height: 1.6;
+  /* La ligne porte la these ; sous des noms a 34 px elle passerait pour une
+     note de bas de page a 17 px. */
+  .note {
+    margin: 2.75rem 0 0;
+    font-size: 1.1875rem;
+    font-weight: 300;
+    line-height: 1.65;
     color: var(--color-ink-2);
-    max-width: 68ch;
-  }
-  .also-label {
-    display: block;
-    font-family: var(--font-mono); font-size: 0.6875rem;
-    letter-spacing: 0.07em; text-transform: uppercase;
-    color: var(--color-muted); margin-bottom: 0.35rem;
+    max-width: 52ch;
   }
 
-  /* Sous 900 px la piste passe sous le métier, l'axe la suit. */
-  @media (max-width: 900px) {
-    .row { grid-template-columns: 1fr; gap: 0.875rem; align-items: start; }
-    .gain, .axis-track { grid-column: 1; }
-    .axis { grid-template-columns: 1fr; gap: 0.5rem; }
-    .axis-name { padding-top: 0; }
+  @media (max-width: 640px) {
+    .roles { margin-top: 2rem; line-height: 1.45; }
+    .note { margin-top: 2rem; font-size: 1rem; }
   }
 </style>
