@@ -1,14 +1,14 @@
 ---
-title: "Brancher un assistant sur sa supervision industrielle"
-description: "Pourquoi un modèle branché sur un SCADA ordinaire ne sert à rien, ce que change un référentiel gouverné, et les questions à poser avant de promettre une intégration."
+title: "Brancher une IA sur sa supervision industrielle"
+description: "Pourquoi une IA branchée sur un SCADA ordinaire ne sert à rien, ce que change un référentiel gouverné, et les sept questions à poser à son éditeur avant de promettre une intégration."
 date: 2026-09-11
 lang: fr
 audience: "Responsable informatique industrielle, DSI, responsable méthodes"
 minutes: 11
-tags: ["assistant", "MCP", "intégration", "API", "gouvernance"]
+tags: ["IA", "assistant", "MCP", "intégration", "API", "gouvernance"]
 ---
 
-Une entreprise industrielle a déjà, en 2026, un assistant qui lit ses courriels,
+Une entreprise industrielle a déjà, en 2026, une IA qui lit ses courriels,
 ses documents et souvent sa gestion. Quelqu'un finit toujours par poser la
 question évidente : pourquoi pas l'atelier ?
 
@@ -16,7 +16,7 @@ La réponse honnête est que l'atelier est le dernier système qui ne se laisse 
 lire, et que ce n'est pas un problème d'intelligence artificielle. C'est un
 problème de référentiel.
 
-## Pourquoi un modèle branché sur un SCADA ordinaire ne sert à rien
+## Pourquoi une IA branchée sur un SCADA ordinaire ne sert à rien
 
 Prenez une supervision classique et donnez-en l'accès à un modèle. Voici ce
 qu'il reçoit :
@@ -65,7 +65,7 @@ couverture, et non recalculés par le modèle à partir d'une série brute.
 disparaître et conclut que le problème est réglé, alors que quelqu'un a desserré
 le seuil.
 
-## La règle qui rend un assistant utilisable en industrie
+## La règle qui rend une IA utilisable en industrie
 
 Elle tient en une ligne : **le modèle choisit la question, jamais la réponse.**
 
@@ -148,7 +148,7 @@ jamais tronquée sans mention. Un assistant qui reçoit quinze jours après en a
 demandé quatre-vingt-dix, sans le savoir, tirera des conclusions fausses sur une
 période qu'il croit complète.
 
-## Ce que l'assistant ne doit pas pouvoir faire
+## Ce qu'une IA ne doit pas pouvoir faire
 
 C'est la partie qu'un responsable maintenance veut entendre en premier, et c'est
 normal.

@@ -216,8 +216,8 @@
       "body": "A simulated industrial site: twenty-two machines, thirteen protocols, thirty days of history. The alarms, history and dashboards are the ones in the application."
     },
     "ai": {
-      "title": "Your assistant reads your email, not your shop floor.",
-      "lede": "Meshvise is the socket that was missing. Sixteen read-only tools for your company assistant, none that write, and the key stays yours.",
+      "title": "AI has read everything in your company, except the shop floor.",
+      "lede": "Meshvise has no AI. It has what AI is missing: data that is named, qualified and dated. Sixteen read-only tools, none that write, and the key stays yours.",
       "tools_label": "The catalogue",
       "tools": [
         "list_machines",
@@ -237,7 +237,7 @@
         "system_health",
         "describe_vocabulary"
       ],
-      "cta": "Plug in an assistant"
+      "cta": "Plugging an AI into a shop floor"
     }
   },
   "why": {
@@ -474,8 +474,8 @@
       "body": "A health page showing the state of every component and the presence of every service. Metrics exposed in Prometheus format. The engine restarts and resumes acquisition even if the database is not there yet, from its cached configuration. A warm-standby architecture is available. No telemetry leaves the installation."
     },
     "assistant": {
-      "title": "Plug your assistant into your shop floor",
-      "lede": "Your company assistant already reads your email and your management system. The shop floor was the last system it could not read.",
+      "title": "Plugging AI into the shop floor",
+      "lede": "AI already reads the company's email and management system. The shop floor was the last system it could not read.",
       "facts": [
         {
           "k": "Sixteen tools, all read-only",
@@ -494,8 +494,8 @@
           "v": "An integration key carries permissions checked on every call, and the right to open a session grants access to no data by itself."
         }
       ],
-      "not": "This is not a built-in assistant: Meshvise diagnoses nothing and answers no question. It is a socket. The intelligence stays with your assistant; what Meshvise brings is equipment whose data is named, qualified and governed.",
-      "cta": "Plugging in an assistant, in practice"
+      "not": "Meshvise has no AI: it diagnoses nothing and answers no question. It is a socket. The intelligence stays with the model you chose; what Meshvise brings is equipment whose data is named, qualified and governed.",
+      "cta": "Plugging in an AI, in practice"
     }
   },
   "protocols": {

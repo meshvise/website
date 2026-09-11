@@ -216,8 +216,8 @@
       "body": "Un site industriel simulé : vingt-deux machines, treize protocoles, trente jours d'historique. Les alarmes, l'historique et les tableaux de bord sont ceux de l'application."
     },
     "ai": {
-      "title": "Votre assistant lit vos courriels, pas votre atelier.",
-      "lede": "Meshvise est la prise qui manquait. Seize outils en lecture pour l'assistant de votre entreprise, aucun en écriture, et c'est votre clé, pas la nôtre.",
+      "title": "L'IA a tout lu dans votre entreprise, sauf l'atelier.",
+      "lede": "Meshvise n'a pas d'IA. Il a ce qui manque à l'IA : des données nommées, qualifiées et datées. Seize outils en lecture, aucun en écriture, et la clé reste la vôtre.",
       "tools_label": "Le catalogue",
       "tools": [
         "list_machines",
@@ -237,7 +237,7 @@
         "system_health",
         "describe_vocabulary"
       ],
-      "cta": "Brancher un assistant"
+      "cta": "Brancher une IA sur son atelier"
     }
   },
   "why": {
@@ -474,8 +474,8 @@
       "body": "Page de santé qui montre l'état de chaque composant et la présence de chaque service. Métriques exposées au format Prometheus. Le moteur redémarre et reprend l'acquisition même si la base de données n'est pas encore là, sur sa configuration mise en cache. Une architecture de secours à reprise tiède est disponible. Aucune télémétrie ne sort de l'installation."
     },
     "assistant": {
-      "title": "Branchez votre assistant sur votre atelier",
-      "lede": "L'assistant de votre entreprise lit déjà vos courriels et votre gestion. L'atelier était le dernier système qu'il ne savait pas lire.",
+      "title": "Brancher l'IA sur l'atelier",
+      "lede": "L'IA lit déjà les courriels et la gestion de l'entreprise. L'atelier était le dernier système qu'elle ne savait pas lire.",
       "facts": [
         {
           "k": "Seize outils, tous en lecture",
@@ -494,8 +494,8 @@
           "v": "Une clé d'intégration porte des permissions vérifiées à chaque appel, et le droit d'ouvrir une session ne donne accès à aucune donnée par lui-même."
         }
       ],
-      "not": "Ce n'est pas un assistant intégré : Meshvise ne diagnostique rien et ne répond à aucune question. C'est une prise. L'intelligence reste celle de votre assistant ; ce que Meshvise apporte, c'est un parc dont les données sont nommées, qualifiées et gouvernées.",
-      "cta": "Brancher un assistant, en pratique"
+      "not": "Meshvise n'a pas d'IA : il ne diagnostique rien et ne répond à aucune question. C'est une prise. L'intelligence reste celle du modèle que vous avez choisi ; ce que Meshvise apporte, c'est un parc dont les données sont nommées, qualifiées et gouvernées.",
+      "cta": "Brancher une IA, en pratique"
     }
   },
   "protocols": {
