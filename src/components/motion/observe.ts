@@ -34,11 +34,11 @@ export function observerLesFigures(): void {
   if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const animations = (figure: Element): Animation[] => {
-    const svg = figure.querySelector('svg');
-    if (!svg || typeof svg.getAnimations !== 'function') return [];
-    return svg.getAnimations({ subtree: true });
-  };
+  // Toute la figure, pas seulement son dessin : depuis que le chiffre et la
+  // phrase sont du HTML, ne ramasser que le SVG désynchronise la valeur de
+  // la courbe qu'elle est censée suivre.
+  const animations = (figure: Element): Animation[] =>
+    typeof figure.getAnimations === 'function' ? figure.getAnimations({ subtree: true }) : [];
 
   const observateur = new IntersectionObserver(
     (entrees) => {

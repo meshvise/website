@@ -60,6 +60,13 @@
     animation-iteration-count: 1;
     animation-fill-mode: both;
   }
+  /* Deux éléments qui doivent rester synchrones ne peuvent pas porter une
+     sortie rapide : elle les décalerait l'un de l'autre au milieu de la
+     course. Un crayon qui avance et un compteur qui suit sa valeur vont
+     donc à allure régulière. */
+  .mvs-a.mvs-lin {
+    animation-timing-function: linear;
+  }
 }
 
 /* ── Le dessin ────────────────────────────────────────────────────────── */

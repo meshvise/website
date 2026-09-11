@@ -182,6 +182,20 @@
       "p1": "Un compresseur au repos consomme 45 m³/h. Celui-ci ne descend jamais sous 255, ni la nuit, ni le samedi, ni le dimanche. Les 210 m³/h qui restent partent dans le réseau par des raccords que personne n'entend.",
       "p2": "Ce talon se pèse au sous-compteur d'air : 24 kW là où la veille en demande 4,5. Sur les 5 096 heures hors production de l'année, à 0,14 € le kWh, cela fait 13 900 € par an.",
       "alt": "Une semaine de débit d'air comprimé sur la centrale de l'atelier. La production monte vers 430 m³/h du lundi au vendredi, mais le débit ne retombe jamais sous 255 m³/h la nuit ni le week-end, alors qu'un compresseur au repos consomme 45 m³/h. L'écart entre les deux niveaux, 210 m³/h, est une fuite permanente."
+    },
+    "spindleStrip": {
+      "limit": "ISO 10816",
+      "caption_a": "au-dessus du seuil depuis",
+      "days": "jours",
+      "now": "aujourd'hui",
+      "section": "FIGURE TÉMOIN · V-01",
+      "title": "Ce qui se voit avant la panne",
+      "lede": "Une broche ne casse pas d'un coup. Sa vibration monte pendant des semaines, et personne ne la mesure parce que personne ne la regarde.",
+      "p1": "Meshvise lit la valeur efficace de vibration sur le centre d'usinage et la garde jour après jour. Elle tient à 2,2 mm/s pendant neuf jours, puis dérive de 3,1 mm/s en trois semaines. Au vingt-sixième jour elle franchit le seuil de 4,5 mm/s de la norme ISO 10816, et l'alarme part par courriel avec l'historique.",
+      "p2": "La température de roulement de la même broche a pris 17 °C en douze jours. Deux mesures indépendantes concluent pareil, donc la dépose se programme un samedi, machine froide, au lieu de subir un arrêt en pleine série.",
+      "alt": "Trente jours de vibration de broche sur le centre d'usinage CU1. La valeur efficace tient à 2,2 mm/s pendant neuf jours, puis dérive de 3,1 mm/s en trois semaines pour atteindre 5,3 mm/s aujourd'hui. Elle franchit le seuil ISO 10816 de 4,5 mm/s au vingt-sixième jour, et reste au-dessus depuis quatre jours.",
+      "ago_pre": "il y a",
+      "ago_post": "jours"
     }
   }
 }

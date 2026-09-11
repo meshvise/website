@@ -1,0 +1,316 @@
+---
+/**
+ * V-01, registre dépouillé. Usure de broche.
+ *
+ * Trois changements de fond par rapport à l'ancienne version.
+ *
+ * **La figure est un bloc d'interface, pas un dessin.** Le chiffre, la
+ * phrase et les repères de temps sont du HTML, avec la vraie typographie du
+ * site ; le SVG ne porte plus que la courbe, son seuil et le point de
+ * franchissement. C'est ce qui permet à la valeur d'être à quarante pixels
+ * plutôt qu'à douze, et c'est la même langue visuelle que le reste du site.
+ *
+ * **La valeur suit le crayon.** Pendant que le tracé se pose, le chiffre
+ * défile jour après jour, de 2,2 à 5,3 mm/s, et passe au rouge exactement
+ * quand la courbe franchit le seuil. C'est ce que fait un enregistreur, et
+ * c'est ce qui donne à la figure son mouvement au lieu d'un fondu. Le
+ * défilé est un compteur mécanique : trente et une lignes dans une fenêtre
+ * d'une ligne de haut, déplacées par pas, sans une ligne de script.
+ *
+ * **Une seule idée.** Ni grille, ni cartouche, ni bandeau d'acte, ni voie
+ * basse, ni carte de conclusion, ni caméra. Une courbe, un seuil, un point,
+ * un chiffre, une phrase.
+ *
+ * La série reproduit la formule du jeu de démonstration : profil `mm/s`
+ * (base 2,2), scénario `spindle-wear` (`ramp`, 3,1 mm/s sur les vingt et un
+ * derniers jours, progression puissance 1,35). Le seuil de 4,5 mm/s est
+ * franchi au vingt-sixième jour, soit quatre jours avant aujourd'hui, ce
+ * qui est bien le J-5 du seed.
+ */
+import { mt as t, type Lang } from './text';
+import { toPoints, polylineLength, decimal } from './frame';
+import './strip.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const dec = (v: number, n = 1) => decimal(v, n, lang);
+
+// ── La série, telle que le seed la fabrique ────────────────────────────
+const JOURS = 30;
+const BASE = 2.2; // profil `mm/s` : une broche saine tient sous 2,8
+const RAMPE = 3.1; // scénario `spindle-wear`, amount
+const DEBUT = 9; // la rampe court sur les vingt et un derniers jours
+const SEUIL = 4.5; // ISO 10816
+
+const serie = Array.from({ length: JOURS + 1 }, (_, d) => {
+  const p = d <= DEBUT ? 0 : Math.min(1, (d - DEBUT) / (JOURS - DEBUT));
+  const bruit = Math.sin(d * 2.399) * 0.055 + Math.sin(d * 0.817) * 0.035;
+  return Math.round((BASE + RAMPE * Math.pow(p, 1.35) + bruit) * 100) / 100;
+});
+const jFranchi = serie.findIndex((v) => v >= SEUIL);
+const depuis = JOURS - jFranchi;
+
+// ── La bande : l'axe est tronqué, et les deux niveaux sont nommés ──────
+// Une échelle partant de zéro écrase une dérive de trois millimètres par
+// seconde en un liseré. Elle est donc cadrée sur l'intervalle où la mesure
+// vit, et les deux bornes qui comptent (le seuil et la valeur du jour)
+// sont écrites en toutes lettres.
+const W = 720;
+const H = 200;
+const X0 = 6;
+const X1 = 714;
+const Y0 = 16;
+const Y1 = 186;
+const V_MIN = 1.9;
+const V_MAX = 5.6;
+
+const x = (d: number) => X0 + (d / JOURS) * (X1 - X0);
+const y = (v: number) => Y1 - ((v - V_MIN) / (V_MAX - V_MIN)) * (Y1 - Y0);
+
+const pts: Array<[number, number]> = serie.map((v, d) => [x(d), y(v)]);
+const trace = toPoints(pts);
+const longueur = polylineLength(pts);
+
+const ySeuil = y(SEUIL);
+const xHit = x(jFranchi);
+const yHit = y(serie[jFranchi]);
+
+// Le crayon atteint le franchissement à 86,2 % de la longueur du tracé :
+// c'est de là que vient la borne de 32,7 % dans les images clés du point,
+// et non d'un réglage à l'œil.
+const avancement = polylineLength(pts.slice(0, jFranchi + 1)) / longueur;
+const _verif = avancement; // conservé pour que le calcul reste lisible ici
+---
+
+<figure
+  class="mvf mvs sws"
+  role="img"
+  aria-label={t(lang, 'motion.spindleStrip.alt')}
+>
+  <div class="sws-stat" aria-hidden="true">
+    <!-- Le compteur : trente et une lignes dans une fenêtre d'une ligne de
+         haut. Au repos il montre la dernière, pour que l'état immobile de
+         la figure soit son état final. -->
+    <div class="sws-odo">
+      <div class="sws-track mvs-a mvs-lin" style={`animation-name: sws-roll; --lignes: ${JOURS}`}>
+        {
+          serie.map((v) => (
+            <div class={`sws-line${v >= SEUIL ? ' sws-line--over' : ''}`}>
+              <span class="sws-v">{dec(v, 1)}</span>
+              <span class="sws-u">mm/s</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <p class="sws-caption mvs-a" style="animation-name: sws-caption">
+      {t(lang, 'motion.spindleStrip.caption_a')} {depuis} {t(lang, 'motion.spindleStrip.days')}
+    </p>
+  </div>
+
+  <svg viewBox={`0 0 ${W} ${H}`} class="sws-svg" aria-hidden="true" focusable="false">
+    <!-- Le seuil normalisé : il préexiste à la dérive, il arrive donc avant
+         que la courbe ne l'atteigne. -->
+    <g class="mvs-a" style="animation-name: sws-limit">
+      <line class="sws-limit" x1={X0} y1={ySeuil} x2={X1} y2={ySeuil} />
+      <text class="sws-limit-t" x={X0 + 2} y={ySeuil - 13}>
+        {t(lang, 'motion.spindleStrip.limit')} · {dec(SEUIL)} mm/s
+      </text>
+    </g>
+
+    <polyline
+      class="sws-trace mvs-a mvs-lin"
+      style={`animation-name: sws-draw; --len: ${longueur.toFixed(0)}; stroke-dasharray: var(--len)`}
+      points={trace}
+    />
+
+    <!-- Le franchissement. L'onde ne bat pas en boucle : elle sonne une
+         fois, au moment où le crayon passe au-dessus du trait. -->
+    <circle class="sws-ping mvs-a" style="animation-name: sws-ping" cx={xHit} cy={yHit} r="6" />
+    <circle class="sws-dot mvs-a" style="animation-name: sws-dot" cx={xHit} cy={yHit} r="5" />
+  </svg>
+
+  <div class="sws-axis" aria-hidden="true">
+    <span>
+      {`${t(lang, 'motion.spindleStrip.ago_pre')} ${JOURS} ${t(lang, 'motion.spindleStrip.ago_post')}`.trim()}
+    </span>
+    <span>{t(lang, 'motion.spindleStrip.now')}</span>
+  </div>
+</figure>
+
+<script>
+  import { observerLesFigures } from './observe';
+
+  observerLesFigures();
+</script>
+
+<style>
+  .sws {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  /* ── Le chiffre ─────────────────────────────────────────────────────── */
+
+  .sws-stat {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  /* La fenêtre du compteur fait exactement une ligne de haut ; les trente
+     et une valeurs défilent derrière. Au repos, la dernière est affichée. */
+  .sws-odo {
+    /* Un pas plus haut que le cadratin : sinon la hampe de la ligne
+       précédente dépasse par le haut de la fenêtre. */
+    --pas: 1.16em;
+    height: var(--pas);
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-feature-settings: "tnum" 1;
+    font-size: clamp(2rem, 4.4vw, 2.75rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  /* Le ruban glisse derrière la fenêtre. Au repos il montre sa dernière
+     ligne, pour que l'état immobile de la figure soit son état final. */
+  .sws-track {
+    transform: translateY(calc(var(--lignes) * var(--pas) * -1));
+  }
+  .sws-line {
+    display: flex;
+    align-items: baseline;
+    gap: 0.22em;
+    height: var(--pas);
+    line-height: var(--pas);
+    color: var(--color-ink);
+  }
+  /* Le chiffre passe au rouge au franchissement, pas après : c'est la seule
+     couleur d'état de la figure, et elle dit exactement ce qu'elle dit. */
+  .sws-line--over {
+    color: var(--color-crit);
+  }
+  .sws-v {
+    font-variant-numeric: tabular-nums;
+  }
+  .sws-u {
+    font-size: 0.38em;
+    letter-spacing: 0.02em;
+    color: var(--color-muted);
+  }
+  .sws-line--over .sws-u {
+    color: var(--color-crit);
+    opacity: 0.75;
+  }
+
+  .sws-caption {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-ink-2);
+    margin: 0;
+    max-width: 40ch;
+  }
+
+  /* ── La bande ───────────────────────────────────────────────────────── */
+
+  .sws-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .sws-trace {
+    fill: none;
+    stroke: var(--color-brass);
+    stroke-width: 2.6;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .sws-limit {
+    stroke: var(--color-warn);
+    stroke-width: 1.6;
+    stroke-dasharray: 6 5;
+  }
+  .sws-limit-t {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    fill: var(--color-warn);
+    letter-spacing: 0.02em;
+    /* Cernée du fond : une étiquette ne se laisse pas traverser par le
+       trait qu'elle nomme. */
+    paint-order: stroke;
+    stroke: var(--color-canvas);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+  }
+  .sws-dot {
+    fill: var(--color-crit);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .sws-ping {
+    fill: none;
+    stroke: var(--color-crit);
+    stroke-width: 2;
+    opacity: 0;
+  }
+
+  .sws-axis {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    color: var(--color-n-400);
+  }
+</style>
+
+<style is:global>
+  /*
+   * Trois secondes, une seule passe. Le compteur et le crayon partent
+   * ensemble et s'arrêtent ensemble : c'est leur synchronisme qui fait
+   * lire la valeur comme celle du point que la courbe est en train
+   * d'atteindre, et non comme une légende posée à côté.
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes sws-roll {
+      0% {
+        transform: translateY(0);
+        animation-timing-function: steps(30, end);
+      }
+      38%,
+      100% {
+        transform: translateY(calc(var(--lignes) * var(--pas) * -1));
+      }
+    }
+    @keyframes sws-draw {
+      0% { stroke-dashoffset: var(--len); }
+      38%, 100% { stroke-dashoffset: 0; }
+    }
+    @keyframes sws-limit {
+      0%, 10% { opacity: 0; transform: translateX(26px); }
+      26%, 100% { opacity: 1; transform: translateX(0); }
+    }
+    /* Le point apparaît là où le crayon franchit réellement le trait, et
+       non à la fin de la course : le franchissement tombe à 86,2 % de la
+       longueur du tracé, donc à 32,7 % d'un cycle où le tracé court de
+       zéro à 38 %. La valeur est calculée, pas estimée à l'œil. */
+    @keyframes sws-dot {
+      0%, 32.7% { opacity: 0; transform: scale(0); }
+      38% { opacity: 1; transform: scale(1.4); }
+      44%, 100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes sws-ping {
+      0%, 32.7% { opacity: 0; r: 6; }
+      35% { opacity: 0.5; r: 6; }
+      54%, 100% { opacity: 0; r: 28; }
+    }
+    @keyframes sws-caption {
+      0%, 46% { opacity: 0; transform: translateY(8px); }
+      62%, 100% { opacity: 1; transform: translateY(0); }
+    }
+  }
+</style>

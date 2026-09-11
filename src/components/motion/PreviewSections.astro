@@ -16,6 +16,7 @@ import TightThreshold from './TightThreshold.astro';
 import ProtocolEngine from './ProtocolEngine.astro';
 import DataChain from './DataChain.astro';
 import AirLeakStrip from './AirLeakStrip.astro';
+import SpindleWearStrip from './SpindleWearStrip.astro';
 
 interface Props {
   lang: Lang;
@@ -38,6 +39,25 @@ const sections = [
     <h1 class="t-page">{t(lang, 'motion.preview.title')}</h1>
     <p class="t-lede mt-6">{t(lang, 'motion.preview.lede')}</p>
     <p class="t-small mono mt-8">{t(lang, 'motion.preview.hint')}</p>
+  </div>
+</section>
+
+<!-- V-01 refaite : le chiffre et la phrase sont du HTML, la bande ne porte
+     plus que la courbe. Le compteur suit le crayon. -->
+<section class="section">
+  <div class="wrap">
+    <p class="mono text-[11px] tracking-[0.09em] text-n-400">{t(lang, 'motion.spindleStrip.section')}</p>
+    <div class="grid lg:grid-cols-12 gap-12 items-center mt-8">
+      <div class="lg:col-span-5">
+        <h2 class="t-page">{t(lang, 'motion.spindleStrip.title')}</h2>
+        <p class="t-lede mt-6">{t(lang, 'motion.spindleStrip.lede')}</p>
+        <p class="t-body mt-5">{t(lang, 'motion.spindleStrip.p1')}</p>
+        <p class="t-body mt-5">{t(lang, 'motion.spindleStrip.p2')}</p>
+      </div>
+      <div class="lg:col-span-7">
+        <SpindleWearStrip lang={lang} />
+      </div>
+    </div>
   </div>
 </section>
 

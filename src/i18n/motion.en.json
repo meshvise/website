@@ -182,6 +182,20 @@
       "p1": "A compressor at rest draws 45 m³/h. This one never goes below 255, not at night, not on Saturday, not on Sunday. The remaining 210 m³/h go into the network through fittings nobody can hear.",
       "p2": "That floor can be weighed at the air sub-meter: 24 kW where idle asks for 4.5. Across the 5,096 non-production hours of the year, at 0.14 euro per kWh, that is 13,900 euros a year.",
       "alt": "One week of compressed air flow on the workshop plant. Production climbs to 430 m³/h Monday to Friday, but the flow never drops below 255 m³/h at night or over the weekend, while a compressor at rest draws 45 m³/h. The gap between the two levels, 210 m³/h, is a permanent leak."
+    },
+    "spindleStrip": {
+      "limit": "ISO 10816",
+      "caption_a": "above the limit for",
+      "days": "days",
+      "now": "today",
+      "section": "WITNESS FIGURE · V-01",
+      "title": "What shows before the breakdown",
+      "lede": "A spindle does not fail all at once. Its vibration climbs for weeks, and nobody measures it because nobody looks at it.",
+      "p1": "Meshvise reads the RMS vibration velocity on the machining centre and keeps it day after day. It holds at 2.2 mm/s for nine days, then drifts by 3.1 mm/s over three weeks. On the twenty-sixth day it crosses the 4.5 mm/s limit of ISO 10816, and the alarm goes out by email with the history.",
+      "p2": "The bearing temperature of the same spindle has risen 17 °C in twelve days. Two independent measurements reach the same conclusion, so the spindle is pulled on a Saturday, machine cold, instead of failing mid-run.",
+      "alt": "Thirty days of spindle vibration on machining centre CU1. The RMS velocity holds at 2.2 mm/s for nine days, then drifts by 3.1 mm/s over three weeks to reach 5.3 mm/s today. It crosses the ISO 10816 limit of 4.5 mm/s on the twenty-sixth day, and has stayed above it for four days.",
+      "ago_pre": "",
+      "ago_post": "days ago"
     }
   }
 }
