@@ -110,19 +110,29 @@
     "personas": {
       "title": "This is not one department's tool",
       "roles": [
-        "Operator",
-        "Setter",
-        "Team leader",
-        "Maintenance",
-        "Process engineering",
-        "Quality",
-        "Energy",
-        "Industrial IT",
-        "Site management",
-        "Management control",
-        "Integrator"
+        {
+          "label": "Operator",
+          "line": "Their piece counter and their target shown at the workstation, with no sheet to fill in."
+        },
+        {
+          "label": "Maintenance",
+          "line": "The alarm goes out within the minute, with the minutes that preceded the stoppage."
+        },
+        {
+          "label": "Process engineering",
+          "line": "Output calculated from the counters, micro-stoppages included."
+        },
+        {
+          "label": "Quality",
+          "line": "Every parameter timestamped to the second, the history exported in one query."
+        },
+        {
+          "label": "Site management",
+          "line": "The cost of a stoppage, measured instead of estimated."
+        }
       ],
-      "note": "One source of measurement. It connects to protocols, not to an industry, and each person reads what concerns them."
+      "note": "From the shop floor to site management, one source of measurement. It connects to protocols, not to an industry.",
+      "aria": "What each role reads in it"
     },
     "see": {
       "title": "What you see in Meshvise",
