@@ -111,24 +111,28 @@
       "title": "Ce n'est pas l'outil d'un service",
       "roles": [
         {
+          "id": "operateur",
           "label": "Opérateur",
-          "line": "Son compteur de pièces et son objectif affichés au poste, sans fiche à remplir."
+          "line": "Son compteur de pièces et son objectif affichés au poste, sans fiche à remplir.",
+          "alt": "Un opérateur consulte une tablette devant un tour à commande numérique."
         },
         {
+          "id": "maintenance",
           "label": "Maintenance",
-          "line": "L'alarme part dans la minute, avec les minutes qui ont précédé l'arrêt."
+          "line": "L'alarme part dans la minute, avec les minutes qui ont précédé l'arrêt.",
+          "alt": "Un technicien de maintenance intervient dans une armoire électrique ouverte."
         },
         {
+          "id": "methodes",
           "label": "Méthodes",
-          "line": "Le rendement calculé depuis les compteurs, micro-arrêts compris."
+          "line": "Le rendement calculé depuis les compteurs, micro-arrêts compris.",
+          "alt": "Un opérateur au pupitre d'un portique qui dépose des pièces sur un convoyeur."
         },
         {
-          "label": "Qualité",
-          "line": "Chaque paramètre horodaté à la seconde, l'historique exporté en une requête."
-        },
-        {
+          "id": "direction",
           "label": "Direction de site",
-          "line": "Le coût d'un arrêt, mesuré au lieu d'être estimé."
+          "line": "Le coût d'un arrêt, mesuré au lieu d'être estimé.",
+          "alt": "Un responsable commente des tableaux de bord affichés au mur."
         }
       ],
       "note": "De l'atelier à la direction, une seule source de mesure. Elle se branche sur des protocoles, pas sur un secteur.",

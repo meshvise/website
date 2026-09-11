@@ -2,41 +2,68 @@
 /**
  * Ce n'est pas l'outil d'un service.
  *
- * Cinq métiers, de l'atelier à la direction, et une seule phrase visible à la
- * fois. C'est la forme qui concilie les deux contraintes de la section : dire
- * qu'une supervision n'appartient pas à un service, sans étaler cinq encadrés
- * qui prouveraient l'inverse en montrant cinq bénéfices parallèles.
+ * Quatre métiers, de l'atelier à la direction, et une seule vue à la fois.
+ * C'est la forme qui concilie les deux contraintes de la section : dire qu'une
+ * supervision n'appartient pas à un service, sans étaler quatre encadrés qui
+ * prouveraient l'inverse en montrant quatre bénéfices parallèles.
  *
  * Les noms des métiers SONT la navigation, plutôt que des pastilles anonymes :
  * ils restent tous lisibles, donc le balayage de la hiérarchie se voit sans
  * cliquer, et la diapositive n'a plus à répéter le nom du métier actif.
  *
+ * Les illustrations viennent des planches isométriques de `value-chain`, qui
+ * dormaient dans le dépôt sans être référencées nulle part. Trois des quatre
+ * sont des recadrages de la même planche d'atelier : elle porte quatre scènes
+ * distinctes, chacune avec son personnage, donc une seule source donne une
+ * famille cohérente au lieu de quatre images disparates. La quatrième vient
+ * de la planche de direction. `analytics.jpg` reste de côté, 595 px de large
+ * contre 1644 pour les autres : la différence de définition se verrait.
+ *
  * Trois points de construction qui ne se voient pas :
  *
- * - Les diapositives sont empilées dans une même cellule de grille. Le bloc
- *   prend la hauteur de la plus longue et ne saute jamais d'une vue à l'autre,
- *   sans hauteur réservée à la main.
+ * - Les vues sont empilées dans une même cellule de grille. La scène prend la
+ *   hauteur de la plus haute et ne saute jamais, sans hauteur posée à la main.
  * - L'état de départ est dans le HTML, pas posé par le script : aucune vue ne
- *   clignote au chargement, et les cinq phrases restent dans le document pour
+ *   clignote au chargement, et les quatre phrases restent dans le document pour
  *   les moteurs et les robots qui le lisent.
  * - L'avance automatique s'arrête définitivement dès que le visiteur touche un
  *   onglet. Reprendre la main sur un carrousel qui continue de tourner est la
  *   façon la plus sûre de le rendre pénible.
  */
+import { Image } from 'astro:assets';
 import fr from '../i18n/fr.json';
 import en from '../i18n/en.json';
 import { t, type Lang } from '../i18n';
+
+import operateur from '../assets/personas/operateur.jpg';
+import maintenance from '../assets/personas/maintenance.jpg';
+import methodes from '../assets/personas/methodes.jpg';
+import direction from '../assets/personas/direction.jpg';
 
 interface Props {
   lang: Lang;
 }
 
+/**
+ * Les visuels sont indexés par identifiant et non par position : réordonner
+ * les métiers dans le dictionnaire ne décale pas les images.
+ */
+const VISUELS = { operateur, maintenance, methodes, direction } as const;
+
 const { lang } = Astro.props;
 const dict = (lang === 'fr' ? fr : en).home.personas;
-const roles = dict.roles as { label: string; line: string }[];
+const roles = dict.roles as {
+  id: keyof typeof VISUELS;
+  label: string;
+  line: string;
+  alt: string;
+}[];
 
 /** Durée d'affichage d'une vue, en millisecondes. */
 const INTERVAL = 4200;
+
+/** Largeur d'affichage de l'illustration, en pixels CSS. Format 3:2. */
+const LARGEUR = 460;
 ---
 
 <section id="personas" class="section">
@@ -70,6 +97,16 @@ const INTERVAL = 4200;
             aria-labelledby={`persona-tab-${i}`}
           >
             <p class="line">{r.line}</p>
+            <figure class="shot">
+              <Image
+                src={VISUELS[r.id]}
+                alt={r.alt}
+                widths={[LARGEUR, LARGEUR * 2]}
+                sizes={`(max-width: 900px) 100vw, ${LARGEUR}px`}
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
           </div>
         ))}
       </div>
@@ -226,10 +263,31 @@ const INTERVAL = 4200;
     grid-area: 1 / 1;
     opacity: 0;
     visibility: hidden;
+    /* La phrase à gauche, l'illustration à droite. La largeur de l'image est
+       fixe : c'est elle qui fixe la hauteur de la scène, donc rien ne bouge
+       d'une vue à l'autre quelle que soit la longueur de la phrase. */
+    display: grid;
+    grid-template-columns: 1fr 460px;
+    gap: 3rem;
+    align-items: center;
   }
   .slide.is-on {
     opacity: 1;
     visibility: visible;
+  }
+
+  .shot {
+    margin: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+  }
+  .shot :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
   }
   @media (prefers-reduced-motion: no-preference) {
     .slide.is-on {
@@ -271,6 +329,17 @@ const INTERVAL = 4200;
     .tab {
       transition: none;
     }
+  }
+
+  /* Sous 900 px la phrase passe au-dessus de l'illustration, qui reprend toute
+     la largeur de la colonne. */
+  @media (max-width: 900px) {
+    .slide {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+      align-items: start;
+    }
+    .line { max-width: none; }
   }
 
   @media (max-width: 640px) {

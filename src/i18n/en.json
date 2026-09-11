@@ -111,24 +111,28 @@
       "title": "This is not one department's tool",
       "roles": [
         {
+          "id": "operateur",
           "label": "Operator",
-          "line": "Their piece counter and their target shown at the workstation, with no sheet to fill in."
+          "line": "Their piece counter and their target shown at the workstation, with no sheet to fill in.",
+          "alt": "An operator checks a tablet in front of a CNC lathe."
         },
         {
+          "id": "maintenance",
           "label": "Maintenance",
-          "line": "The alarm goes out within the minute, with the minutes that preceded the stoppage."
+          "line": "The alarm goes out within the minute, with the minutes that preceded the stoppage.",
+          "alt": "A maintenance technician works inside an open electrical cabinet."
         },
         {
+          "id": "methodes",
           "label": "Process engineering",
-          "line": "Output calculated from the counters, micro-stoppages included."
+          "line": "Output calculated from the counters, micro-stoppages included.",
+          "alt": "An operator at the panel of a gantry placing parts onto a conveyor."
         },
         {
-          "label": "Quality",
-          "line": "Every parameter timestamped to the second, the history exported in one query."
-        },
-        {
+          "id": "direction",
           "label": "Site management",
-          "line": "The cost of a stoppage, measured instead of estimated."
+          "line": "The cost of a stoppage, measured instead of estimated.",
+          "alt": "A manager talks through dashboards displayed on the wall."
         }
       ],
       "note": "From the shop floor to site management, one source of measurement. It connects to protocols, not to an industry.",
