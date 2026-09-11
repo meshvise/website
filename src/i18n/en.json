@@ -214,6 +214,30 @@
     "final": {
       "title": "See Meshvise running",
       "body": "A simulated industrial site: twenty-two machines, thirteen protocols, thirty days of history. The alarms, history and dashboards are the ones in the application."
+    },
+    "ai": {
+      "title": "Your assistant reads your email, not your shop floor.",
+      "lede": "Meshvise is the socket that was missing. Sixteen read-only tools for your company assistant, none that write, and the key stays yours.",
+      "tools_label": "The catalogue",
+      "tools": [
+        "list_machines",
+        "describe_machine",
+        "list_points",
+        "read_live",
+        "read_history",
+        "point_stats",
+        "read_indicators",
+        "energy_summary",
+        "list_alarms",
+        "alarm_summary",
+        "reliability",
+        "list_revisions",
+        "diff_revisions",
+        "describe_topology",
+        "system_health",
+        "describe_vocabulary"
+      ],
+      "cta": "Plug in an assistant"
     }
   },
   "why": {

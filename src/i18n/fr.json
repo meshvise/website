@@ -214,6 +214,30 @@
     "final": {
       "title": "Voir Meshvise fonctionner",
       "body": "Un site industriel simulé : vingt-deux machines, treize protocoles, trente jours d'historique. Les alarmes, l'historique et les tableaux de bord sont ceux de l'application."
+    },
+    "ai": {
+      "title": "Votre assistant lit vos courriels, pas votre atelier.",
+      "lede": "Meshvise est la prise qui manquait. Seize outils en lecture pour l'assistant de votre entreprise, aucun en écriture, et c'est votre clé, pas la nôtre.",
+      "tools_label": "Le catalogue",
+      "tools": [
+        "list_machines",
+        "describe_machine",
+        "list_points",
+        "read_live",
+        "read_history",
+        "point_stats",
+        "read_indicators",
+        "energy_summary",
+        "list_alarms",
+        "alarm_summary",
+        "reliability",
+        "list_revisions",
+        "diff_revisions",
+        "describe_topology",
+        "system_health",
+        "describe_vocabulary"
+      ],
+      "cta": "Brancher un assistant"
     }
   },
   "why": {

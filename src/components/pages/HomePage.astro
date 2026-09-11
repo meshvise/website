@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import HomeHero from '../HomeHero.astro';
 import Personas from '../Personas.astro';
+import HomeAssistant from '../HomeAssistant.astro';
 import WhatYouSee from '../WhatYouSee.astro';
 import HowItWorks from '../HowItWorks.astro';
 import Continuity from '../Continuity.astro';
@@ -16,6 +17,7 @@ const { lang } = Astro.props;
 <Base lang={lang} title={t(lang, 'home.meta.title')} description={t(lang, 'home.meta.description')}>
   <HomeHero lang={lang} />
   <Personas lang={lang} />
+  <HomeAssistant lang={lang} />
   <WhatYouSee lang={lang} />
   <HowItWorks lang={lang} />
   <Continuity lang={lang} />

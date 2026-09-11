@@ -1,0 +1,95 @@
+---
+/**
+ * Votre assistant lit vos courriels, pas votre atelier.
+ *
+ * Placée juste après « Ce n'est pas l'outil d'un service », la section
+ * prolonge la même idée d'un cran : ce n'est pas l'outil d'un service, et ce
+ * n'est pas réservé aux humains.
+ *
+ * Le titre énonce le manque plutôt que la solution. C'est ce qui arrête le
+ * défilement : un visiteur reconnaît sa situation avant de lire ce qu'on lui
+ * propose.
+ *
+ * Les seize noms d'outils sont affichés tels quels, en chasse fixe. Ce n'est
+ * pas de la documentation sur une page d'accueil, c'est une preuve : un
+ * catalogue nommé se vérifie, une promesse d'ouverture ne se vérifie pas. Même
+ * un lecteur qui n'en lit aucun voit qu'il y a quelque chose de réel derrière.
+ *
+ * Rien ici n'anticipe sur le produit. Les seize outils existent et sont servis ;
+ * les deux autres du contrat relèvent d'une étape non livrée et ne sont donc pas
+ * cités. Pas de diagnostic, pas de question en langue naturelle, pas de
+ * prédiction : ces trois-là n'existent pas.
+ */
+import fr from '../i18n/fr.json';
+import en from '../i18n/en.json';
+import { t, type Lang } from '../i18n';
+import { href } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const outils = (lang === 'fr' ? fr : en).home.ai.tools as string[];
+const lienGuide = `${href(lang, 'guides')}brancher-un-assistant-sur-sa-supervision/`;
+---
+
+<section id="assistant" class="section">
+  <div class="wrap">
+    <h2 class="t-page head">{t(lang, 'home.ai.title')}</h2>
+    <p class="t-lede lede">{t(lang, 'home.ai.lede')}</p>
+
+    <div class="cat">
+      <span class="cat-label">{t(lang, 'home.ai.tools_label')}</span>
+      <ul class="tools">
+        {outils.map((o) => <li>{o}</li>)}
+      </ul>
+    </div>
+
+    <a href={lienGuide} class="link mt-8 inline-block">{t(lang, 'home.ai.cta')}</a>
+  </div>
+</section>
+
+<style>
+  .head { max-width: 20ch; }
+  .lede { margin-top: 1.25rem; max-width: 54ch; }
+
+  .cat { margin-top: 3rem; }
+  .cat-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 1rem;
+  }
+
+  /* Une texture, pas une liste à lire. La chasse fixe et le calibre réduit
+     disent « catalogue technique » avant qu'un seul nom soit déchiffré. */
+  .tools {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    max-width: 60rem;
+  }
+  .tools li {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-ink-2);
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .cat { margin-top: 2.25rem; }
+    .tools { gap: 0.375rem; }
+    .tools li { font-size: 0.75rem; padding: 0.25rem 0.5rem; }
+  }
+</style>
