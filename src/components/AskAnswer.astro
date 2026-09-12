@@ -44,7 +44,6 @@ const { lang } = Astro.props;
 const fr = {
   bouton: 'DEMANDER',
   pulsation: 'LECTURE DU PARC',
-  entete: '23 MACHINES · 30 JOURS',
   usages: [
     'UTILISATION', 'ARRÊTS', 'MICRO-ARRÊTS',
     'DISPONIBILITÉ', 'ALARMES', 'ACQUITTEMENTS',
@@ -87,7 +86,6 @@ const fr = {
 const en = {
   bouton: 'ASK',
   pulsation: 'READING THE SITE',
-  entete: '23 MACHINES · 30 DAYS',
   usages: [
     'UPTIME', 'STOPPAGES', 'MICRO-STOPPAGES',
     'AVAILABILITY', 'ALARMS', 'ACKNOWLEDGEMENTS',
@@ -134,9 +132,9 @@ const L = 220;
 const H = 46;
 const EX = 20;
 const EY = 16;
-const Y0 = 24;
+const Y0 = 4;
 const VB_W = 700;
-const VB_H = 272;
+const VB_H = 252;
 
 // Les deux places de convergence, cote a cote et centrees dans la vue.
 const SLOT_Y = Y0 + 2 * (H + EY);
@@ -186,7 +184,6 @@ const TOUR = 14000;
           style={`--pas: ${t.q.length}`}
         >{t.q}</span>
       ))}
-      <span class="caret" aria-hidden="true"></span>
     </span>
     <span class="btn">{d.bouton}</span>
   </div>
@@ -200,7 +197,6 @@ const TOUR = 14000;
     </div>
 
     <svg class="grid" viewBox={`0 0 ${VB_W} ${VB_H}`} preserveAspectRatio="xMidYMid meet">
-      <text class="entete" x="0" y="8">{d.entete}</text>
       {cases.map((c) => (
         <g
           class:list={[
@@ -221,9 +217,7 @@ const TOUR = 14000;
       <div class:list={['ans', i === 0 && 'on']} data-a={i} data-lus={t.lus.join(',')}>
         <span class="ans-1">{t.a1}</span>
         <span class="ans-2">{t.a2}</span>
-        <span class="ans-src">
-          {t.lus.map((n) => d.usages[n]).join(' · ')} · {d.entete}
-        </span>
+        <span class="ans-src">{t.lus.map((n) => d.usages[n]).join(' · ')}</span>
       </div>
     ))}
   </div>
@@ -318,6 +312,11 @@ const TOUR = 14000;
     max-width: 40rem;
     display: grid;
     justify-items: center;
+    /* La figure a l'air d'une barre de recherche et d'un bouton, mais elle n'en
+       est pas une. Le curseur de texte sur le champ et la selection sur les
+       libelles suffisent a promettre une interaction qui n'existe pas. */
+    cursor: default;
+    user-select: none;
   }
 
   /* Acte 1 : la barre. */
@@ -334,7 +333,6 @@ const TOUR = 14000;
     flex: 1;
     min-width: 0;
     display: grid;
-    grid-template-columns: auto min-content;
     align-items: center;
     padding: 0.75rem 1rem;
     font-size: clamp(0.9375rem, 1.6vw, 1.0625rem);
@@ -351,13 +349,6 @@ const TOUR = 14000;
     visibility: hidden;
   }
   .typed.on { visibility: visible; }
-  .caret {
-    grid-area: 1 / 2;
-    width: 2px;
-    align-self: stretch;
-    background: var(--color-accent);
-    opacity: 0;
-  }
   .btn {
     flex: none;
     display: flex;
@@ -409,12 +400,6 @@ const TOUR = 14000;
     width: 100%;
     height: auto;
     opacity: 0;
-  }
-  .entete {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    fill: var(--color-muted);
   }
   /* Sans filet, un aplat à #f0f3f7 sur un fond de page à #f8f7fb est
      invisible : les cases doivent se voir pour que le passage se voie. */
@@ -475,12 +460,6 @@ const TOUR = 14000;
       max-width: 100%;
       animation: aa-type 1.6s steps(var(--pas)) both;
     }
-    .run .caret {
-      animation:
-        aa-caret 0.7s steps(1) 0s 3,
-        aa-caret-out 1ms linear 2s both;
-    }
-    .run .btn { animation: aa-btn 1ms linear 1.65s both; }
 
     .run .pulse { animation: aa-fade 1.4s ease-out 1.9s both; }
     .run .ring1 { animation: aa-ring 1.4s ease-out 1.9s both; }
@@ -532,12 +511,6 @@ const TOUR = 14000;
   }
 
   @keyframes aa-type { from { max-width: 0; } to { max-width: 100%; } }
-  @keyframes aa-caret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
-  @keyframes aa-caret-out { to { opacity: 0; } }
-  @keyframes aa-btn {
-    from { background: var(--color-accent-bg); color: var(--color-accent-border); }
-    to { background: var(--color-accent); color: #fff; }
-  }
   @keyframes aa-in { from { opacity: 0; } to { opacity: 1; } }
   @keyframes aa-out { to { opacity: 0; } }
   @keyframes aa-fade { 0% { opacity: 0; } 20%, 70% { opacity: 1; } 100% { opacity: 0; } }
