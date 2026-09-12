@@ -1,28 +1,28 @@
 ---
 /**
- * Le parc entier lu, une machine retenue.
+ * On tape la question, l'IA va chercher, elle répond.
  *
- * La question de la section demande « quelle machine nous a le plus arrêtés ».
- * La figure montre ce que ça veut dire : les vingt-trois machines du parc
- * s'allument une à une pendant que l'IA les lit, puis tout s'éteint sauf une,
- * et la réponse tombe sous elle.
+ * Quatre actes, repris de la séquence d'Ethon dont Bruno a fourni les images :
+ * une barre de recherche où la question s'écrit et dont le bouton s'active,
+ * une pulsation qui annonce la lecture, le parc que l'on parcourt, la réponse.
  *
- * Le registre est celui des figures animées du site, lui-même proche de ce que
- * fait Ethon : une grille d'aplats arrondis, des libellés en chasse fixe, une
- * seule couleur d'accent contre des gris très pâles, et beaucoup de vide. Ce
- * qui n'est pas l'argument est retiré : pas de cadre, pas de fond, pas d'axe.
+ * Ce qui change par rapport à Ethon, et ce n'est pas un détail de style. Leur
+ * troisième acte est un graphe de paramètres reliés, où un chemin causal
+ * s'allume jusqu'au rendement. Meshvise ne fait pas ça : l'IA ne remonte
+ * aucune cause, elle interroge le parc et rapporte ce qu'elle trouve. La
+ * grille est donc une grille, sans liens entre machines, et le balayage dit la
+ * lecture de vingt-trois machines, rien de plus. Un graphe causal serait plus
+ * spectaculaire et mentirait sur ce que fait le produit.
  *
- * Une différence avec Ethon qui n'est pas un détail. Chez eux, le chemin qui
- * s'allume est une chaîne causale entre paramètres. Ici il n'y en a pas : l'IA
- * ne remonte aucune cause, elle interroge le parc et rapporte ce qu'elle
- * trouve. Le balayage dit donc exactement ce qui se passe, la lecture de
- * vingt-trois machines, et rien de plus. Une chaîne causale serait plus jolie
- * et fausse.
+ * Deux règles tenues, héritées des figures animées du site :
  *
- * L'état de repos EST l'état final : grille pâle, CU3 en accent, réponse
- * visible. L'animation n'ajoute que le balayage et les entrées, donc sans
- * script, sous `prefers-reduced-motion` ou pour un robot, la figure se lit
- * entière. `observe.ts` la rejoue quand elle revient à l'écran.
+ * - L'état de repos EST l'état final : barre remplie, grille avec CU3 retenu,
+ *   réponse visible. L'animation ne fait que retarder et éclairer. Sans
+ *   script, sous `prefers-reduced-motion` ou pour un robot d'indexation, la
+ *   figure se lit entière. La pulsation est le seul élément transitoire, et
+ *   son absence au repos ne retire rien.
+ * - La séquence joue une fois et tient sa dernière image. `observe.ts` la
+ *   rejoue quand la figure revient à l'écran.
  */
 import { type Lang } from '../i18n';
 
@@ -33,26 +33,32 @@ interface Props {
 const { lang } = Astro.props;
 
 const fr = {
+  question: 'Quelle machine nous a le plus arrêtés le mois dernier ?',
+  bouton: 'DEMANDER',
+  pulsation: 'LECTURE DU PARC',
   entete: 'ALARMES · 30 JOURS · 23 MACHINES',
   reponse: '154 ALARMES · 3 ACQUITTÉES',
   pied: 'Parc de démonstration',
   aria:
-    "L'IA lit les vingt-trois machines du parc, puis retient le centre " +
-    "d'usinage CU3 : cent cinquante-quatre alarmes en trente jours, dont " +
-    'trois acquittées.',
+    'On demande quelle machine a le plus arrêté la production le mois dernier. ' +
+    "L'IA lit les vingt-trois machines du parc et retient le centre d'usinage " +
+    'CU3 : cent cinquante-quatre alarmes en trente jours, dont trois acquittées.',
 };
 const en = {
+  question: 'Which machine stopped us the most last month?',
+  bouton: 'ASK',
+  pulsation: 'READING THE SITE',
   entete: 'ALARMS · 30 DAYS · 23 MACHINES',
   reponse: '154 ALARMS · 3 ACKNOWLEDGED',
   pied: 'Demonstration site',
   aria:
-    'AI reads the twenty-three machines on site, then singles out machining ' +
-    'centre CU3: one hundred and fifty-four alarms over thirty days, three ' +
-    'of them acknowledged.',
+    'Someone asks which machine stopped production the most last month. AI ' +
+    'reads the twenty-three machines on site and singles out machining centre ' +
+    'CU3: one hundred and fifty-four alarms over thirty days, three acknowledged.',
 };
 const d = lang === 'fr' ? fr : en;
 
-/** Le parc, vingt-trois machines. La retenue est la vingt-deuxième. */
+/** Le parc, vingt-trois machines. CU3 est la retenue. */
 const MACHINES = [
   'CU1', 'CU2', 'CU4', 'CU5',
   'TCN1', 'TCN2', 'TCN3', 'RECT1',
@@ -63,63 +69,57 @@ const MACHINES = [
 ];
 const RETENUE = MACHINES.indexOf('CU3');
 
-// Grille de quatre colonnes. Les pastilles ne portent pas de chiffre :
-// la valeur n'apparait qu'une fois, sur la reponse.
 const L = 156;
-const H = 52;
+const H = 46;
 const EX = 20;
-const EY = 20;
-const X0 = 16;
-const Y0 = 76;
+const EY = 16;
+const X0 = 2;
+const Y0 = 26;
 
-const pastilles = MACHINES.map((nom, i) => {
-  const col = i % 4;
-  const rang = Math.floor(i / 4);
-  return {
-    nom,
-    i,
-    x: X0 + col * (L + EX),
-    y: Y0 + rang * (H + EY),
-    retenue: i === RETENUE,
-  };
-});
+const pastilles = MACHINES.map((nom, i) => ({
+  nom,
+  i,
+  x: X0 + (i % 4) * (L + EX),
+  y: Y0 + Math.floor(i / 4) * (H + EY),
+  retenue: i === RETENUE,
+}));
 
 const cible = pastilles[RETENUE];
 const cx = cible.x + L / 2;
-const yFil = cible.y + H;
-const yRep = yFil + 46;
-const LR = 340;
+
+/** Un pas de frappe par caractère. */
+const PAS = d.question.length;
 ---
 
 <figure class="mvf fig" role="img" aria-label={d.aria}>
-  <svg class="svg" viewBox="0 0 720 636" preserveAspectRatio="xMidYMid meet">
-    <text class="entete an" style="animation-name: pk-in" x={X0} y="34">{d.entete}</text>
+  <div class="bar">
+    <span class="field">
+      <span class="typed">{d.question}</span><span class="caret" aria-hidden="true"></span>
+    </span>
+    <span class="btn">{d.bouton}</span>
+  </div>
 
-    {pastilles.map((p) => (
-      <g
-        class:list={['chip', p.retenue && 'chip-on', 'an']}
-        style={`--i: ${p.i}`}
-      >
-        <rect x={p.x} y={p.y} width={L} height={H} rx="10" />
-        <text x={p.x + L / 2} y={p.y + H / 2 + 5} text-anchor="middle">{p.nom}</text>
-      </g>
-    ))}
+  <div class="stage">
+    <div class="pulse" aria-hidden="true">
+      <span class="ring ring1"></span>
+      <span class="ring ring2"></span>
+      <span class="ring ring3"></span>
+      <span class="pulse-t">{d.pulsation}</span>
+    </div>
 
-    <line
-      class="fil an"
-      style="animation-name: pk-link"
-      x1={cx}
-      y1={yFil}
-      x2={cx}
-      y2={yRep}
-    />
+    <svg class="grid" viewBox="0 0 700 396" preserveAspectRatio="xMidYMid meet">
+      <text class="entete" x={X0} y="10">{d.entete}</text>
+      {pastilles.map((p) => (
+        <g class:list={['chip', p.retenue && 'chip-on']} style={`--i: ${p.i}`}>
+          <rect x={p.x} y={p.y} width={L} height={H} rx="9" />
+          <text x={p.x + L / 2} y={p.y + H / 2 + 5} text-anchor="middle">{p.nom}</text>
+        </g>
+      ))}
+      <line class="fil" x1={cx} y1={cible.y + H} x2={cx} y2={cible.y + H + 30} />
+    </svg>
+  </div>
 
-    <g class="rep an" style="animation-name: pk-answer">
-      <rect x={cx - LR / 2} y={yRep} width={LR} height="60" rx="12" />
-      <text x={cx} y={yRep + 37} text-anchor="middle">{d.reponse}</text>
-    </g>
-  </svg>
-
+  <p class="ans">{d.reponse}</p>
   <figcaption class="pied">{d.pied}</figcaption>
 </figure>
 
@@ -129,16 +129,141 @@ const LR = 340;
   observerLesFigures();
 </script>
 
-<style>
+<style define:vars={{ pas: PAS }}>
   .fig {
     margin: 2.5rem 0 0;
     padding: 0;
     max-width: 40rem;
+    display: grid;
+    justify-items: start;
   }
-  .svg {
+
+  /* Acte 1 : la barre. */
+  .bar {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    border: 1px solid var(--color-accent-border);
+    border-radius: 10px;
+    background: var(--color-surface);
+    overflow: hidden;
+  }
+  .field {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 0.75rem 1rem;
+    font-size: clamp(0.9375rem, 1.6vw, 1.0625rem);
+    color: var(--color-ink);
+  }
+  /* La frappe : le texte est entier dans le document, seule sa largeur visible
+     avance. Un robot d'indexation lit donc la question complète. */
+  .typed {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .caret {
+    flex: none;
+    width: 2px;
+    align-self: stretch;
+    background: var(--color-accent);
+    opacity: 0;
+  }
+  .btn {
+    flex: none;
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  /* Actes 2 et 3 dans la même cellule : la pulsation cède la place à la
+     grille sans que rien ne se déplace. */
+  .stage {
+    display: grid;
+    width: 100%;
+    margin-top: 1.25rem;
+  }
+  .stage > * {
+    grid-area: 1 / 1;
+  }
+
+  .pulse {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pulse > * {
+    grid-area: 1 / 1;
+  }
+  .ring {
+    display: block;
+    width: 7rem;
+    height: 7rem;
+    border: 1px solid var(--color-accent-border);
+    border-radius: 50%;
+  }
+  .pulse-t {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: var(--color-accent-strong);
+    white-space: nowrap;
+  }
+
+  .grid {
     display: block;
     width: 100%;
     height: auto;
+  }
+  .entete {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    fill: var(--color-muted);
+  }
+  /* Sans filet, un aplat à #f0f3f7 sur un fond de page à #f8f7fb est
+     invisible : les cases éteintes doivent se voir pour que la retenue se
+     détache de quelque chose. */
+  .chip rect {
+    fill: var(--color-n-100);
+    stroke: var(--color-line);
+    stroke-width: 1;
+  }
+  .chip text {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    fill: var(--color-n-500);
+  }
+  .chip-on rect { fill: var(--color-accent); }
+  .chip-on text { fill: #fff; }
+  .fil { stroke: var(--color-accent); stroke-width: 2; }
+
+  /* Acte 4 : la réponse. */
+  /* Toute la largeur, et le texte centre : le filet qui descend de la machine
+     retenue tombe alors DANS la reponse au lieu d'en frôler le coin. */
+  .ans {
+    width: 100%;
+    text-align: center;
+    margin: 0.5rem 0 0;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--color-accent-border);
+    border-radius: 10px;
+    background: var(--color-surface);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.05em;
+    color: var(--color-accent-strong);
   }
   .pied {
     margin-top: 0.625rem;
@@ -148,126 +273,88 @@ const LR = 340;
     color: var(--color-muted);
   }
 
-  .entete {
-    font-family: var(--font-mono);
-    font-size: 14px;
-    letter-spacing: 0.08em;
-    fill: var(--color-muted);
-  }
-
-  /* Une pastille au repos : un aplat très pâle, un nom lisible sans appuyer.
-     C'est le fond de grille sur lequel la retenue se détache. */
-  .chip rect {
-    fill: var(--color-n-100);
-    /* Le filet n'est pas un ornement : sans lui, un aplat a #f0f3f7 sur un
-       fond de page a #f8f7fb est litteralement invisible. Les cases eteintes
-       doivent se voir pour que la retenue se detache de quelque chose. */
-    stroke: var(--color-line);
-    stroke-width: 1;
-  }
-  .chip text {
-    font-family: var(--font-mono);
-    font-size: 15px;
-    letter-spacing: 0.04em;
-    fill: var(--color-n-500);
-  }
-  .chip-on rect {
-    fill: var(--color-accent);
-  }
-  .chip-on text {
-    fill: #fff;
-  }
-
-  .fil {
-    stroke: var(--color-accent);
-    stroke-width: 2;
-  }
-  .rep rect {
-    fill: var(--color-surface);
-    stroke: var(--color-accent-border);
-    stroke-width: 1;
-  }
-  .rep text {
-    font-family: var(--font-mono);
-    font-size: 15px;
-    letter-spacing: 0.05em;
-    fill: var(--color-accent-strong);
-  }
-
   @media (prefers-reduced-motion: no-preference) {
-    .an {
-      animation-duration: 460ms;
-      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-      animation-iteration-count: 1;
-      animation-fill-mode: both;
+    .typed {
+      max-width: 100%;
+      animation: aa-type 1.7s steps(var(--pas)) both;
+    }
+    .caret {
+      animation:
+        aa-caret 0.7s steps(1) 0s 3,
+        aa-caret-out 1ms linear 2.1s both;
+    }
+    .btn {
+      animation: aa-btn 1ms linear 1.75s both;
     }
 
-    /* Le balayage : chaque machine s'éclaire au passage de la lecture, puis
-       revient à son gris. Soixante-dix millisecondes d'écart, soit un peu
-       moins de deux secondes pour les vingt-trois. Le tour de la pastille et
-       son fond sont animés séparément : l'un porte l'apparition, l'autre le
-       passage de la lecture. */
+    .pulse { animation: aa-pulse 1.5s ease-out 2s both; }
+    .ring1 { animation: aa-ring 1.5s ease-out 2s both; }
+    .ring2 { animation: aa-ring 1.5s ease-out 2.2s both; }
+    .ring3 { animation: aa-ring 1.5s ease-out 2.4s both; }
+
+    .grid { animation: aa-in 400ms ease-out 3.5s both; }
     .chip,
     .chip rect,
     .chip text {
-      animation-duration: 900ms;
-      animation-delay: calc(0.45s + var(--i, 0) * 0.07s);
+      animation-duration: 800ms;
+      animation-delay: calc(3.7s + var(--i, 0) * 0.06s);
       animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-      /* `both` n'est pas cosmetique ici : sans lui, le verrou de la retenue ne
-         tient pas sa derniere image, et une animation terminee sort de
-         `getAnimations()`, ce qui la rend invisible a toute verification. */
+      /* `both` n'est pas cosmétique : sans lui le verrou de la retenue ne tient
+         pas sa dernière image, et une animation terminée sort de
+         `getAnimations()`, ce qui la rend invisible à toute vérification. */
       animation-fill-mode: both;
     }
-    .chip { animation-name: pk-in; }
-    .chip rect { animation-name: pk-flash; }
-    /* La retenue ne redescend pas : elle s'allume au passage comme les autres,
-       et reste allumée. */
-    .chip-on rect { animation-name: pk-lock; }
-    .chip-on text { animation-name: pk-white; }
+    .chip { animation-name: aa-in; }
+    .chip rect { animation-name: aa-flash; }
+    .chip-on rect { animation-name: aa-lock; }
+    .chip-on text { animation-name: aa-white; }
 
-    .fil { animation-delay: 2.5s; }
-    .rep { animation-delay: 2.8s; }
+    .fil { animation: aa-link 300ms ease-out 5.5s both; }
+    .ans { animation: aa-up 420ms cubic-bezier(0.22, 1, 0.36, 1) 5.7s both; }
+    .pied { animation: aa-in 300ms linear 6s both; }
   }
 
-  @keyframes pk-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  @keyframes aa-type { from { max-width: 0; } to { max-width: 100%; } }
+  @keyframes aa-caret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+  @keyframes aa-caret-out { to { opacity: 0; } }
+  @keyframes aa-btn {
+    from { background: var(--color-accent-bg); color: var(--color-accent-border); }
+    to { background: var(--color-accent); color: #fff; }
   }
-  /* Le passage de la lecture : le gris s'échauffe, puis retombe. */
-  @keyframes pk-flash {
+  @keyframes aa-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes aa-up {
+    from { opacity: 0; transform: translateY(0.4rem); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes aa-link {
+    from { opacity: 0; transform: scaleY(0); transform-origin: top; }
+    to { opacity: 1; transform: none; }
+  }
+  /* La pulsation est le seul élément qui s'efface : elle annonce, puis cède la
+     place à ce qu'elle annonçait. */
+  @keyframes aa-pulse { 0% { opacity: 0; } 20%, 70% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes aa-ring {
+    from { transform: scale(0.55); opacity: 0.9; }
+    to { transform: scale(2.4); opacity: 0; }
+  }
+  @keyframes aa-flash {
     0% { fill: var(--color-n-100); }
     35% { fill: var(--color-accent-bg); }
     100% { fill: var(--color-n-100); }
   }
-  /* La retenue suit le même échauffement mais ne retombe pas. */
-  @keyframes pk-lock {
+  @keyframes aa-lock {
     0% { fill: var(--color-n-100); }
     45%, 100% { fill: var(--color-accent); }
   }
-  @keyframes pk-white {
+  @keyframes aa-white {
     0% { fill: var(--color-n-500); }
     45%, 100% { fill: #fff; }
   }
-  @keyframes pk-link {
-    from { opacity: 0; transform: scaleY(0); transform-origin: top; }
-    to { opacity: 1; transform: none; }
-  }
-  @keyframes pk-answer {
-    from { opacity: 0; transform: translateY(0.5rem); }
-    to { opacity: 1; transform: none; }
-  }
 
-  /* Sous cette largeur, une grille de sept cent vingt unités rend sa mono de
-     quinze pixels à moins de neuf : elle se parcourt latéralement plutôt que
-     de devenir illisible. */
   @media (max-width: 700px) {
-    .fig {
-      overflow-x: auto;
-      overscroll-behavior-x: contain;
-      scrollbar-width: thin;
-    }
-    .svg {
-      min-width: 520px;
-    }
+    .field { font-size: 0.875rem; }
+    .btn { padding: 0 0.875rem; }
+    .stage { overflow-x: auto; overscroll-behavior-x: contain; }
+    .grid { min-width: 520px; }
   }
 </style>
