@@ -35,67 +35,28 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const questions = (lang === 'fr' ? fr : en).home.ai.questions as string[];
 const lienGuide = `${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`;
 
 /** Guillemets de la langue : chevrons en français, apostrophes en anglais. */
-const [ouvre, ferme] = lang === 'fr' ? ['« ', ' »'] : ['“', '”'];
 ---
 
 <section id="assistant" class="section">
-  <div class="wrap">
+  <div class="wrap mid">
     <h2 class="t-page head">{t(lang, 'home.ai.title')}</h2>
-    <p class="t-lede lede">{t(lang, 'home.ai.lede')}</p>
-
     <AskAnswer lang={lang} />
 
-    <span class="more-label">{t(lang, 'home.ai.more_label')}</span>
-    <ul class="qs">
-      {questions.map((q) => (
-        <li>{ouvre}{q}{ferme}</li>
-      ))}
-    </ul>
 
     <a href={lienGuide} class="link mt-8 inline-block">{t(lang, 'home.ai.cta')}</a>
   </div>
 </section>
 
 <style>
-  .head { max-width: 24ch; }
-  .lede { margin-top: 1.25rem; max-width: 48ch; }
+  /* Toute la section est centree : un axe unique, du titre au lien. */
+  .mid { text-align: center; }
+  .head { max-width: 26ch; margin-inline: auto; margin-bottom: 0.5rem; }
 
-  .more-label {
-    display: block;
-    margin-top: 3rem;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-  }
 
-  /* Les questions se lisent comme des phrases que le visiteur a déjà dites :
-     une par ligne, même graisse légère que le reste, sans encadré. Ce ne sont
-     pas des fonctionnalités. */
-  .qs {
-    list-style: none;
-    margin: 1.125rem 0 0;
-    padding: 0;
-    max-width: 46rem;
-  }
-  .qs li {
-    font-size: clamp(1.0625rem, 1.8vw, 1.25rem);
-    font-weight: 300;
-    line-height: 1.5;
-    letter-spacing: -0.01em;
-    color: var(--color-ink-2);
-    padding: 0.55rem 0 0.55rem 1.25rem;
-    border-left: 2px solid var(--color-line-strong);
-  }
-  .qs li + li { margin-top: 0.5rem; }
 
   @media (max-width: 640px) {
-    .more-label { margin-top: 2.25rem; }
-    .qs li { padding-left: 1rem; }
   }
 </style>

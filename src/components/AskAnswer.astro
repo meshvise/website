@@ -1,33 +1,35 @@
 ---
 /**
- * On tape la question, l'IA parcourt ce qu'elle sait lire, elle répond.
+ * On tape une question, l'IA choisit ce qu'elle lit, elle répond. En boucle.
  *
- * Quatre actes, sur le modèle de la séquence d'Ethon : une barre de recherche
- * où la question s'écrit et dont le bouton s'active, une pulsation qui annonce
- * la lecture, ce que l'IA consulte, la réponse.
+ * Cinq actes. La question s'écrit et le bouton s'active ; une pulsation annonce
+ * la lecture ; la grille de ce que le produit sait rendre se fait parcourir ;
+ * les deux usages qui servent à CETTE question restent allumés et se
+ * rassemblent au centre ; la réponse en sort, rédigée.
  *
- * Le troisième acte porte des USAGES et non des noms de machines. C'est plus
- * juste et plus vendeur : « arrêts », « disponibilité », « révisions » disent à
- * un visiteur ce que le produit sait rendre, là où vingt-trois codes machine ne
- * disaient rien à personne hors de Bellecombe. Chaque case correspond à une
- * lecture réellement servie par le catalogue d'outils.
+ * Trois partis pris qui font la différence entre une démonstration et un décor.
  *
- * Ce qui reste différent d'Ethon, et c'est délibéré : leur troisième acte est
- * un graphe de paramètres reliés où un chemin causal s'allume jusqu'au
- * rendement. Meshvise ne fait pas ça. L'IA ne remonte aucune cause, elle lit et
- * rapporte. La grille n'a donc aucun lien entre ses cases : elle dit ce qui est
- * consulté, pas une chaîne d'explication. Un graphe causal serait plus
- * spectaculaire et mentirait sur ce que fait le produit.
+ * Chaque tour pose une AUTRE question, donc quatre chances qu'un visiteur
+ * reconnaisse la sienne au lieu d'une seule.
  *
- * La réponse prend la place de la grille plutôt que de s'ajouter dessous : la
- * séquence se termine sur elle seule, ce qui est la seule chose qu'un visiteur
- * doit retenir.
+ * Chaque tour n'éclaire que les usages qui servent réellement à sa réponse, et
+ * ce sont eux qui convergent : les micro-arrêts pour une fréquence d'arrêt,
+ * l'énergie pour un talon nocturne, les révisions et les écritures pour un
+ * seuil déplacé. La grille cesse d'être un ornement et montre que l'IA choisit
+ * ce qu'elle lit.
  *
- * État de repos : la barre remplie et la réponse. La grille et la pulsation
- * sont transitoires et finissent à zéro, donc sans script, sous
- * `prefers-reduced-motion` ou pour un robot d'indexation, la figure se lit
- * comme une question et sa réponse. `observe.ts` la rejoue quand elle revient à
- * l'écran.
+ * La réponse est rédigée comme une réponse d'assistant, en deux temps qui
+ * arrivent l'un après l'autre, et elle cite ses sources. Ce n'est pas un effet
+ * de style : le contrat des outils impose qu'une affirmation soit citée, et
+ * montrer la citation vaut mieux que l'affirmer ailleurs.
+ *
+ * Tous les chiffres sont mesurés sur le parc de démonstration. Le temps d'arrêt
+ * cumulé, par exemple, n'existe pas sur trente jours (les accumulateurs ont été
+ * posés le 9 septembre), donc aucune question ne porte dessus.
+ *
+ * État de repos, sans script ou sous `prefers-reduced-motion` : le premier tour
+ * entier, question et réponse. Les quatre paires sont dans le document, donc
+ * lisibles par un moteur d'indexation.
  */
 import { type Lang } from '../i18n';
 
@@ -38,7 +40,6 @@ interface Props {
 const { lang } = Astro.props;
 
 const fr = {
-  question: "Quelle machine s'arrête le plus souvent ?",
   bouton: 'DEMANDER',
   pulsation: 'LECTURE DU PARC',
   entete: '23 MACHINES · 30 JOURS',
@@ -48,18 +49,41 @@ const fr = {
     'FIABILITÉ', 'COMPTEURS', 'ÉNERGIE',
     'HISTORIQUE', 'RÉVISIONS', 'ÉCRITURES',
   ],
-  machine: "CU3 · CENTRE D'USINAGE",
-  chiffre: '7,04',
-  unite: 'micro-arrêts par heure, contre moins de 0,5 ailleurs',
   pied: 'Parc de démonstration',
+  tours: [
+    {
+      q: "Quelle machine s'arrête le plus souvent ?",
+      a1: "Le centre d'usinage CU3.",
+      a2: 'Il enregistre 7,04 micro-arrêts par heure, contre moins de 0,5 sur les autres postes de l’atelier.',
+      lus: [1, 2],
+    },
+    {
+      q: 'Pourquoi le compresseur tourne-t-il la nuit ?',
+      a1: "La centrale d'air comprimé ne s'arrête jamais vraiment.",
+      a2: 'Elle consomme 22,7 kW de talon nocturne, atelier à l’arrêt.',
+      lus: [0, 8],
+    },
+    {
+      q: 'Qui a changé ce seuil, et quand ?',
+      a1: 'Une révision du 25 août.',
+      a2: "Elle a resserré le seuil d'huile de coupe de CU3, et une révision du 4 septembre l’a ramené en arrière.",
+      lus: [10, 11],
+    },
+    {
+      q: "Combien d'alarmes personne n'a acquittées ?",
+      a1: 'Cent cinquante et une, sur cent cinquante-quatre.',
+      a2: "Sur le centre d'usinage CU3, trois alarmes seulement ont été acquittées en trente jours.",
+      lus: [4, 5],
+    },
+  ],
   aria:
-    "On demande quelle machine s'arrête le plus souvent. L'IA parcourt ce " +
-    "qu'elle sait lire du parc, puis répond : le centre d'usinage CU3, sept " +
-    'virgule zéro quatre micro-arrêts par heure, contre moins de zéro virgule '  +
-    'cinq sur les autres postes.',
+    "Une IA répond à quatre questions sur l'atelier. À chaque fois elle choisit " +
+    'ce qu’elle lit du parc, puis répond en citant ses sources : la machine ' +
+    'qui s’arrête le plus souvent, le talon nocturne du compresseur, la ' +
+    'révision qui a déplacé un seuil, et les alarmes que personne n’a acquittées.',
 };
+
 const en = {
-  question: 'Which machine stops most often?',
   bouton: 'ASK',
   pulsation: 'READING THE SITE',
   entete: '23 MACHINES · 30 DAYS',
@@ -69,15 +93,40 @@ const en = {
     'RELIABILITY', 'COUNTERS', 'ENERGY',
     'HISTORY', 'REVISIONS', 'WRITES',
   ],
-  machine: 'CU3 · MACHINING CENTRE',
-  chiffre: '7.04',
-  unite: 'micro-stoppages per hour, against under 0.5 elsewhere',
   pied: 'Demonstration site',
+  tours: [
+    {
+      q: 'Which machine stops most often?',
+      a1: 'Machining centre CU3.',
+      a2: 'It records 7.04 micro-stoppages per hour, against under 0.5 on every other workstation.',
+      lus: [1, 2],
+    },
+    {
+      q: 'Why is the compressor running at night?',
+      a1: 'The compressed air plant never really stops.',
+      a2: 'It draws 22.7 kW of night-time baseload with the shop floor at a standstill.',
+      lus: [0, 8],
+    },
+    {
+      q: 'Who changed this threshold, and when?',
+      a1: 'A revision dated 25 August.',
+      a2: 'It tightened the cutting oil threshold on CU3, and a revision of 4 September rolled it back.',
+      lus: [10, 11],
+    },
+    {
+      q: 'How many alarms did nobody acknowledge?',
+      a1: 'One hundred and fifty-one, out of one hundred and fifty-four.',
+      a2: 'On machining centre CU3, only three alarms were acknowledged in thirty days.',
+      lus: [4, 5],
+    },
+  ],
   aria:
-    'Someone asks which machine stops most often. AI reads what it knows of ' +
-    'the site, then answers: machining centre CU3, seven point zero four ' +
-    'micro-stoppages per hour, against under zero point five elsewhere.',
+    'An AI answers four questions about the shop floor. Each time it chooses ' +
+    'what to read from the site, then answers citing its sources: the machine ' +
+    'that stops most often, the compressor night-time baseload, the revision ' +
+    'that moved a threshold, and the alarms nobody acknowledged.',
 };
+
 const d = lang === 'fr' ? fr : en;
 
 // Trois colonnes : les libelles d'usage sont plus longs qu'un code machine.
@@ -85,24 +134,53 @@ const L = 220;
 const H = 46;
 const EX = 20;
 const EY = 16;
-const X0 = 0;
 const Y0 = 24;
+const VB_W = 700;
+const VB_H = 272;
 
-const cases = d.usages.map((nom, i) => ({
-  nom,
-  i,
-  x: X0 + (i % 3) * (L + EX),
-  y: Y0 + Math.floor(i / 3) * (H + EY),
-}));
+// Les deux places de convergence, cote a cote et centrees dans la vue.
+const SLOT_Y = Y0 + 2 * (H + EY);
+const SLOT_AX = (VB_W - (2 * L + EX)) / 2;
+const SLOT_BX = SLOT_AX + L + EX;
 
-/** Un pas de frappe par caractère. */
-const PAS = d.question.length;
+const cases = d.usages.map((nom, i) => {
+  const x = (i % 3) * (L + EX);
+  const y = Y0 + Math.floor(i / 3) * (H + EY);
+  return {
+    nom,
+    i,
+    x,
+    y,
+    // Le deplacement vers chacune des deux places, en unites de la vue.
+    dxa: SLOT_AX - x,
+    dya: SLOT_Y - y,
+    dxb: SLOT_BX - x,
+    dyb: SLOT_Y - y,
+  };
+});
+
+/** Durée d'un tour, en millisecondes. Doit couvrir la séquence entière. */
+const TOUR = 9600;
 ---
 
-<figure class="mvf fig" role="img" aria-label={d.aria}>
+<figure
+  class="mvf fig"
+  role="img"
+  aria-label={d.aria}
+  data-ask
+  data-tour={TOUR}
+  data-tours={d.tours.length}
+>
   <div class="bar">
     <span class="field">
-      <span class="typed">{d.question}</span><span class="caret" aria-hidden="true"></span>
+      {d.tours.map((t, i) => (
+        <span
+          class:list={['typed', i === 0 && 'on']}
+          data-q={i}
+          style={`--pas: ${t.q.length}`}
+        >{t.q}</span>
+      ))}
+      <span class="caret" aria-hidden="true"></span>
     </span>
     <span class="btn">{d.bouton}</span>
   </div>
@@ -115,39 +193,126 @@ const PAS = d.question.length;
       <span class="pulse-t">{d.pulsation}</span>
     </div>
 
-    <svg class="grid" viewBox="0 0 700 272" preserveAspectRatio="xMidYMid meet">
-      <text class="entete" x={X0} y="8">{d.entete}</text>
+    <svg class="grid" viewBox={`0 0 ${VB_W} ${VB_H}`} preserveAspectRatio="xMidYMid meet">
+      <text class="entete" x="0" y="8">{d.entete}</text>
       {cases.map((c) => (
-        <g class="cell" style={`--i: ${c.i}`}>
+        <g
+          class:list={[
+            'cell',
+            d.tours[0].lus[0] === c.i && 'use-a',
+            d.tours[0].lus[1] === c.i && 'use-b',
+          ]}
+          data-cell={c.i}
+          style={`--i:${c.i}; --dxa:${c.dxa}px; --dya:${c.dya}px; --dxb:${c.dxb}px; --dyb:${c.dyb}px`}
+        >
           <rect x={c.x} y={c.y} width={L} height={H} rx="9" />
           <text x={c.x + L / 2} y={c.y + H / 2 + 5} text-anchor="middle">{c.nom}</text>
         </g>
       ))}
     </svg>
 
-    <div class="ans">
-      <span class="ans-m">{d.machine}</span>
-      <span class="ans-n">{d.chiffre}</span>
-      <span class="ans-u">{d.unite}</span>
-    </div>
+    {d.tours.map((t, i) => (
+      <div class:list={['ans', i === 0 && 'on']} data-a={i} data-lus={t.lus.join(',')}>
+        <span class="ans-1">{t.a1}</span>
+        <span class="ans-2">{t.a2}</span>
+        <span class="ans-src">
+          {t.lus.map((n) => d.usages[n]).join(' · ')} · {d.entete}
+        </span>
+      </div>
+    ))}
   </div>
 
   <figcaption class="pied">{d.pied}</figcaption>
 </figure>
 
 <script>
-  import { observerLesFigures } from './motion/observe';
+  /**
+   * La boucle. Le premier tour est déjà posé dans le HTML, donc sans script la
+   * figure reste une question et sa réponse ; le script ne fait que déplacer
+   * l'état d'un tour au suivant.
+   *
+   * Le redémarrage des animations passe par une classe sur la figure, retirée
+   * puis remise après une lecture forcée de la mise en page : c'est la seule
+   * façon de rejouer des animations CSS déclaratives sans les redéclarer.
+   */
+  const calme = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  observerLesFigures();
+  document.querySelectorAll<HTMLElement>('[data-ask]').forEach((fig) => {
+    const nb = Number(fig.dataset.tours) || 1;
+    const duree = Number(fig.dataset.tour) || 9600;
+    if (nb < 2) return;
+
+    const cellules = Array.from(fig.querySelectorAll<SVGGElement>('[data-cell]'));
+    const questions = Array.from(fig.querySelectorAll<HTMLElement>('[data-q]'));
+    const reponses = Array.from(fig.querySelectorAll<HTMLElement>('[data-a]'));
+
+    // Chaque réponse porte la liste des usages qui ont servi à la produire :
+    // le script ne redéclare pas ce que le rendu sait déjà.
+    const lus = reponses.map((r) => {
+      const brut = r.dataset.lus || '';
+      return brut ? brut.split(',').map(Number) : [];
+    });
+
+    let i = 0;
+    let horloge: number | undefined;
+    let visible = true;
+
+    function poser(n: number) {
+      questions.forEach((e) => e.classList.toggle('on', Number(e.dataset.q) === n));
+      reponses.forEach((e) => e.classList.toggle('on', Number(e.dataset.a) === n));
+      const [a, b] = lus[n] || [];
+      cellules.forEach((c) => {
+        const k = Number(c.dataset.cell);
+        c.classList.toggle('use-a', k === a);
+        c.classList.toggle('use-b', k === b);
+      });
+      // Relance : retirer, forcer le calcul, remettre.
+      fig.classList.remove('run');
+      void fig.offsetWidth;
+      fig.classList.add('run');
+    }
+
+    function arreter() {
+      if (horloge !== undefined) window.clearInterval(horloge);
+      horloge = undefined;
+    }
+    function demarrer() {
+      arreter();
+      if (calme.matches || !visible) return;
+      horloge = window.setInterval(() => {
+        i = (i + 1) % nb;
+        poser(i);
+      }, duree);
+    }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(
+        (entrees) => {
+          visible = entrees[0].isIntersecting;
+          // Une histoire prise en cours de route n'en est pas une.
+          if (visible) {
+            i = 0;
+            poser(0);
+          }
+          demarrer();
+        },
+        { threshold: 0.3 },
+      ).observe(fig);
+    }
+
+    calme.addEventListener('change', demarrer);
+    fig.classList.add('run');
+    demarrer();
+  });
 </script>
 
-<style define:vars={{ pas: PAS }}>
+<style>
   .fig {
-    margin: 2.5rem 0 0;
+    margin: 2.5rem auto 0;
     padding: 0;
     max-width: 40rem;
     display: grid;
-    justify-items: start;
+    justify-items: center;
   }
 
   /* Acte 1 : la barre. */
@@ -163,21 +328,26 @@ const PAS = d.question.length;
   .field {
     flex: 1;
     min-width: 0;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto min-content;
     align-items: center;
-    gap: 2px;
     padding: 0.75rem 1rem;
     font-size: clamp(0.9375rem, 1.6vw, 1.0625rem);
     color: var(--color-ink);
+    text-align: left;
   }
-  /* La frappe : le texte est entier dans le document, seule sa largeur visible
-     avance. Un robot d'indexation lit donc la question complète. */
+  /* Les quatre questions occupent la même cellule : la barre ne change pas de
+     hauteur d'un tour à l'autre, et les trois inactives restent dans le
+     document pour les moteurs. */
   .typed {
+    grid-area: 1 / 1;
     overflow: hidden;
     white-space: nowrap;
+    visibility: hidden;
   }
+  .typed.on { visibility: visible; }
   .caret {
-    flex: none;
+    grid-area: 1 / 2;
     width: 2px;
     align-self: stretch;
     background: var(--color-accent);
@@ -195,19 +365,16 @@ const PAS = d.question.length;
     color: #fff;
   }
 
-  /* Les trois actes suivants occupent la même cellule : la pulsation cède la
-     place à la grille, la grille cède la place à la réponse, et rien ne se
-     déplace. */
+  /* Les actes suivants occupent la même cellule : rien ne se déplace quand
+     l'un cède la place au suivant. */
   .stage {
     display: grid;
     place-items: center;
     width: 100%;
-    min-height: 15rem;
+    min-height: 16rem;
     margin-top: 1.25rem;
   }
-  .stage > * {
-    grid-area: 1 / 1;
-  }
+  .stage > * { grid-area: 1 / 1; }
 
   .pulse {
     display: grid;
@@ -232,7 +399,6 @@ const PAS = d.question.length;
     white-space: nowrap;
   }
 
-  /* La grille est transitoire : elle finit à zéro, la réponse prend sa place. */
   .grid {
     display: block;
     width: 100%;
@@ -258,32 +424,46 @@ const PAS = d.question.length;
     letter-spacing: 0.05em;
     fill: var(--color-n-500);
   }
+  .cell.use-a rect,
+  .cell.use-b rect { fill: var(--color-accent); stroke: var(--color-accent); }
+  .cell.use-a text,
+  .cell.use-b text { fill: #fff; }
 
-  /* Acte 4 : la réponse, seule à la fin. */
+  /* Acte 5 : la réponse, écrite comme une réponse d'assistant. */
   .ans {
     display: grid;
-    justify-items: center;
-    gap: 0.375rem;
-    text-align: center;
+    justify-items: start;
+    gap: 0.5rem;
+    max-width: 34rem;
+    padding-left: 1.125rem;
+    border-left: 2px solid var(--color-accent);
+    text-align: left;
+    visibility: hidden;
   }
-  .ans-m {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: var(--color-muted);
-  }
-  .ans-n {
-    font-size: clamp(2.5rem, 6vw, 3.75rem);
+  .ans.on { visibility: visible; }
+  .ans-1 {
+    font-size: clamp(1.125rem, 2.2vw, 1.4375rem);
     font-weight: 400;
-    line-height: 1;
-    letter-spacing: -0.04em;
-    color: var(--color-accent-strong);
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: var(--color-ink);
   }
-  .ans-u {
-    font-size: 0.9375rem;
+  .ans-2 {
+    font-size: 1rem;
+    line-height: 1.6;
     color: var(--color-ink-2);
   }
+  /* Les sources : le contrat des outils impose qu'une affirmation soit citée,
+     la figure le montre au lieu de le promettre ailleurs. */
+  .ans-src {
+    margin-top: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+  }
   .pied {
+    text-align: center;
     margin-top: 1rem;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
@@ -291,39 +471,67 @@ const PAS = d.question.length;
     color: var(--color-muted);
   }
 
+  /* Le mouvement ne s'applique qu'au tour en cours, et seulement quand la
+     figure porte `run` : c'est ce qui permet de le rejouer à chaque tour. */
   @media (prefers-reduced-motion: no-preference) {
-    .typed {
+    .run .typed.on {
       max-width: 100%;
-      animation: aa-type 1.7s steps(var(--pas)) both;
+      animation: aa-type 1.6s steps(var(--pas)) both;
     }
-    .caret {
+    .run .caret {
       animation:
         aa-caret 0.7s steps(1) 0s 3,
-        aa-caret-out 1ms linear 2.1s both;
+        aa-caret-out 1ms linear 2s both;
     }
-    .btn { animation: aa-btn 1ms linear 1.75s both; }
+    .run .btn { animation: aa-btn 1ms linear 1.65s both; }
 
-    .pulse { animation: aa-fade 1.5s ease-out 2s both; }
-    .ring1 { animation: aa-ring 1.5s ease-out 2s both; }
-    .ring2 { animation: aa-ring 1.5s ease-out 2.2s both; }
-    .ring3 { animation: aa-ring 1.5s ease-out 2.4s both; }
+    .run .pulse { animation: aa-fade 1.4s ease-out 1.9s both; }
+    .run .ring1 { animation: aa-ring 1.4s ease-out 1.9s both; }
+    .run .ring2 { animation: aa-ring 1.4s ease-out 2.1s both; }
+    .run .ring3 { animation: aa-ring 1.4s ease-out 2.3s both; }
 
-    /* La grille entre, se fait parcourir, puis s'efface. */
-    .grid { animation: aa-grid 2.6s linear 3.4s both; }
-    .cell,
-    .cell rect {
-      animation-duration: 700ms;
-      animation-delay: calc(3.7s + var(--i, 0) * 0.09s);
-      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-      /* `both` n'est pas cosmétique : une animation terminée sans ce mode sort
-         de `getAnimations()`, ce qui la rend invisible à toute vérification. */
-      animation-fill-mode: both;
+    .run .grid { animation: aa-grid 3.6s linear 3.3s both; }
+
+    /* Deux animations par case : l'entrée échelonnée du balayage, puis la
+       sortie ou la convergence. La seconde gagne sur les propriétés
+       partagées, ce qui est exactement l'ordre voulu. */
+    .run .cell {
+      animation:
+        aa-in 700ms cubic-bezier(0.22, 1, 0.36, 1) calc(3.5s + var(--i, 0) * 0.09s) both,
+        aa-out 500ms ease 5.2s both;
     }
-    .cell { animation-name: aa-in; }
-    .cell rect { animation-name: aa-flash; }
+    .run .cell rect {
+      animation: aa-flash 700ms cubic-bezier(0.22, 1, 0.36, 1)
+        calc(3.5s + var(--i, 0) * 0.09s) both;
+    }
+    .run .cell.use-a rect,
+    .run .cell.use-b rect {
+      animation-name: aa-lock;
+    }
+    .run .cell.use-a text,
+    .run .cell.use-b text {
+      animation: aa-white 700ms cubic-bezier(0.22, 1, 0.36, 1)
+        calc(3.5s + var(--i, 0) * 0.09s) both;
+    }
+    /* Les deux retenues ne sortent pas : elles se rassemblent au centre. */
+    .run .cell.use-a {
+      animation:
+        aa-in 700ms cubic-bezier(0.22, 1, 0.36, 1) calc(3.5s + var(--i, 0) * 0.09s) both,
+        aa-join-a 700ms cubic-bezier(0.22, 1, 0.36, 1) 5.2s both;
+    }
+    .run .cell.use-b {
+      animation:
+        aa-in 700ms cubic-bezier(0.22, 1, 0.36, 1) calc(3.5s + var(--i, 0) * 0.09s) both,
+        aa-join-b 700ms cubic-bezier(0.22, 1, 0.36, 1) 5.2s both;
+    }
 
-    .ans { animation: aa-up 500ms cubic-bezier(0.22, 1, 0.36, 1) 6s both; }
-    .pied { animation: aa-in 300ms linear 6.3s both; }
+    /* La réponse sort des deux cases rassemblées, en deux temps. */
+    /* Le filet entre avec la reponse : sinon il flotte seul a gauche
+       pendant toute la lecture du parc. */
+    .run .ans.on { animation: aa-bar 300ms linear 6.9s both; }
+    .run .ans.on .ans-1 { animation: aa-up 420ms cubic-bezier(0.22, 1, 0.36, 1) 6.9s both; }
+    .run .ans.on .ans-2 { animation: aa-up 420ms cubic-bezier(0.22, 1, 0.36, 1) 7.3s both; }
+    .run .ans.on .ans-src { animation: aa-in 300ms linear 7.8s both; }
   }
 
   @keyframes aa-type { from { max-width: 0; } to { max-width: 100%; } }
@@ -334,8 +542,10 @@ const PAS = d.question.length;
     to { background: var(--color-accent); color: #fff; }
   }
   @keyframes aa-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes aa-out { to { opacity: 0; } }
   @keyframes aa-fade { 0% { opacity: 0; } 20%, 70% { opacity: 1; } 100% { opacity: 0; } }
-  @keyframes aa-grid { 0% { opacity: 0; } 8%, 88% { opacity: 1; } 100% { opacity: 0; } }
+  /* La grille tient jusqu'a la convergence, puis s'efface pour la reponse. */
+  @keyframes aa-grid { 0% { opacity: 0; } 6%, 78% { opacity: 1; } 100% { opacity: 0; } }
   @keyframes aa-ring {
     from { transform: scale(0.55); opacity: 0.9; }
     to { transform: scale(2.4); opacity: 0; }
@@ -345,14 +555,35 @@ const PAS = d.question.length;
     35% { fill: var(--color-accent-bg); }
     100% { fill: var(--color-n-100); }
   }
+  @keyframes aa-lock {
+    0% { fill: var(--color-n-100); }
+    45%, 100% { fill: var(--color-accent); }
+  }
+  @keyframes aa-white {
+    0% { fill: var(--color-n-500); }
+    45%, 100% { fill: #fff; }
+  }
+  @keyframes aa-join-a {
+    from { transform: translate(0, 0); }
+    to { transform: translate(var(--dxa), var(--dya)); }
+  }
+  @keyframes aa-join-b {
+    from { transform: translate(0, 0); }
+    to { transform: translate(var(--dxb), var(--dyb)); }
+  }
+  @keyframes aa-bar {
+    from { border-left-color: transparent; }
+    to { border-left-color: var(--color-accent); }
+  }
   @keyframes aa-up {
-    from { opacity: 0; transform: translateY(0.5rem); }
+    from { opacity: 0; transform: translateY(0.4rem); }
     to { opacity: 1; transform: none; }
   }
 
   @media (max-width: 700px) {
     .field { font-size: 0.875rem; }
     .btn { padding: 0 0.875rem; }
-    .stage { min-height: 12rem; }
+    .stage { min-height: 15rem; }
+    .ans { padding-left: 0.875rem; }
   }
 </style>

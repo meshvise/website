@@ -217,15 +217,7 @@
     },
     "ai": {
       "title": "Grâce à l'IA, répondez enfin à vos questions sur l'atelier.",
-      "lede": "Depuis qu'elle lit votre parc, elle répond sans que personne ait à construire le rapport.",
-      "questions": [
-        "Qui a changé ce seuil, et quand ?",
-        "Pourquoi le compresseur tourne-t-il la nuit ?",
-        "Quel poste perd le plus de temps en micro-arrêts ?",
-        "Où en est la production depuis ce matin ?"
-      ],
-      "cta": "Brancher une IA sur son atelier",
-      "more_label": "Et celles-là aussi"
+      "cta": "Brancher une IA sur son atelier"
     }
   },
   "why": {
