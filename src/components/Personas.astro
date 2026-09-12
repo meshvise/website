@@ -59,8 +59,13 @@ const roles = dict.roles as {
   alt: string;
 }[];
 
-/** Durée d'affichage d'une vue, en millisecondes. */
-const INTERVAL = 4200;
+/**
+ * Durée d'affichage d'une vue, en millisecondes.
+ *
+ * Une phrase à lire et une illustration à regarder : quatre secondes suffisaient
+ * à voir passer, pas à lire.
+ */
+const INTERVAL = 6500;
 
 /** Largeur d'affichage de l'illustration, en pixels CSS. Format 3:2. */
 const LARGEUR = 460;
@@ -129,9 +134,10 @@ const LARGEUR = 460;
     const duree = Number(reel.dataset.interval) || 4200;
     let actif = Math.max(0, onglets.findIndex((o) => o.getAttribute('aria-selected') === 'true'));
     let minuteur: number | undefined;
-    let rendu = false;
     let visible = true;
     let suspendu = false;
+    /** Repos accordé après une intervention : la rotation reprend ensuite. */
+    let repos: number | undefined;
 
     function montrer(i: number, donnerLeFocus = false) {
       actif = (i + onglets.length) % onglets.length;
@@ -151,19 +157,31 @@ const LARGEUR = 460;
 
     function relancer() {
       arreter();
-      if (rendu || calme.matches || !visible || suspendu) return;
+      if (calme.matches || !visible || suspendu || repos !== undefined) return;
       minuteur = window.setInterval(() => montrer(actif + 1), duree);
     }
 
-    function rendreLaMain() {
-      rendu = true;
+    /**
+     * Le visiteur vient de choisir un onglet : la rotation se tait le temps
+     * qu'il lise, puis reprend. L'arrêter définitivement, comme la première
+     * version le faisait, transforme un seul clic curieux en carrousel mort.
+     */
+    function laisserLire() {
       arreter();
+      if (repos !== undefined) window.clearTimeout(repos);
+      repos = window.setTimeout(() => {
+        repos = undefined;
+        // Reprendre en avancant tout de suite : attendre encore un intervalle
+        // complet ferait vingt secondes d'immobilite apres un simple clic.
+        if (!calme.matches && visible && !suspendu) montrer(actif + 1);
+        relancer();
+      }, duree * 2);
     }
 
     onglets.forEach((o, i) => {
       o.addEventListener('click', () => {
-        rendreLaMain();
         montrer(i);
+        laisserLire();
       });
     });
 
@@ -172,16 +190,27 @@ const LARGEUR = 460;
       const pas = k === 'ArrowRight' ? 1 : k === 'ArrowLeft' ? -1 : 0;
       if (pas === 0 && k !== 'Home' && k !== 'End') return;
       e.preventDefault();
-      rendreLaMain();
       if (k === 'Home') montrer(0, true);
       else if (k === 'End') montrer(onglets.length - 1, true);
       else montrer(actif + pas, true);
+      laisserLire();
     });
 
     // Survol et focus suspendent l'avance, sans l'annuler.
     reel.addEventListener('pointerenter', () => { suspendu = true; arreter(); });
     reel.addEventListener('pointerleave', () => { suspendu = false; relancer(); });
-    reel.addEventListener('focusin', () => { suspendu = true; arreter(); });
+    /**
+     * Le focus ne suspend que s'il vient du clavier. Un clic de souris laisse
+     * le focus sur l'onglet et ne le rend jamais : suspendre dessus gelait le
+     * carrousel definitivement des le premier clic curieux.
+     */
+    reel.addEventListener('focusin', (e) => {
+      const cible = e.target as Element | null;
+      if (cible?.matches?.(':focus-visible')) {
+        suspendu = true;
+        arreter();
+      }
+    });
     reel.addEventListener('focusout', () => { suspendu = false; relancer(); });
 
     // Hors écran, rien ne tourne : personne ne regarde.
