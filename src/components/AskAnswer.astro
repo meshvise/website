@@ -1,28 +1,33 @@
 ---
 /**
- * On tape la question, l'IA va chercher, elle répond.
+ * On tape la question, l'IA parcourt ce qu'elle sait lire, elle répond.
  *
- * Quatre actes, repris de la séquence d'Ethon dont Bruno a fourni les images :
- * une barre de recherche où la question s'écrit et dont le bouton s'active,
- * une pulsation qui annonce la lecture, le parc que l'on parcourt, la réponse.
+ * Quatre actes, sur le modèle de la séquence d'Ethon : une barre de recherche
+ * où la question s'écrit et dont le bouton s'active, une pulsation qui annonce
+ * la lecture, ce que l'IA consulte, la réponse.
  *
- * Ce qui change par rapport à Ethon, et ce n'est pas un détail de style. Leur
- * troisième acte est un graphe de paramètres reliés, où un chemin causal
- * s'allume jusqu'au rendement. Meshvise ne fait pas ça : l'IA ne remonte
- * aucune cause, elle interroge le parc et rapporte ce qu'elle trouve. La
- * grille est donc une grille, sans liens entre machines, et le balayage dit la
- * lecture de vingt-trois machines, rien de plus. Un graphe causal serait plus
+ * Le troisième acte porte des USAGES et non des noms de machines. C'est plus
+ * juste et plus vendeur : « arrêts », « disponibilité », « révisions » disent à
+ * un visiteur ce que le produit sait rendre, là où vingt-trois codes machine ne
+ * disaient rien à personne hors de Bellecombe. Chaque case correspond à une
+ * lecture réellement servie par le catalogue d'outils.
+ *
+ * Ce qui reste différent d'Ethon, et c'est délibéré : leur troisième acte est
+ * un graphe de paramètres reliés où un chemin causal s'allume jusqu'au
+ * rendement. Meshvise ne fait pas ça. L'IA ne remonte aucune cause, elle lit et
+ * rapporte. La grille n'a donc aucun lien entre ses cases : elle dit ce qui est
+ * consulté, pas une chaîne d'explication. Un graphe causal serait plus
  * spectaculaire et mentirait sur ce que fait le produit.
  *
- * Deux règles tenues, héritées des figures animées du site :
+ * La réponse prend la place de la grille plutôt que de s'ajouter dessous : la
+ * séquence se termine sur elle seule, ce qui est la seule chose qu'un visiteur
+ * doit retenir.
  *
- * - L'état de repos EST l'état final : barre remplie, grille avec CU3 retenu,
- *   réponse visible. L'animation ne fait que retarder et éclairer. Sans
- *   script, sous `prefers-reduced-motion` ou pour un robot d'indexation, la
- *   figure se lit entière. La pulsation est le seul élément transitoire, et
- *   son absence au repos ne retire rien.
- * - La séquence joue une fois et tient sa dernière image. `observe.ts` la
- *   rejoue quand la figure revient à l'écran.
+ * État de repos : la barre remplie et la réponse. La grille et la pulsation
+ * sont transitoires et finissent à zéro, donc sans script, sous
+ * `prefers-reduced-motion` ou pour un robot d'indexation, la figure se lit
+ * comme une question et sa réponse. `observe.ts` la rejoue quand elle revient à
+ * l'écran.
  */
 import { type Lang } from '../i18n';
 
@@ -33,59 +38,62 @@ interface Props {
 const { lang } = Astro.props;
 
 const fr = {
-  question: 'Quelle machine nous a le plus arrêtés le mois dernier ?',
+  question: "Quelle machine s'arrête le plus souvent ?",
   bouton: 'DEMANDER',
   pulsation: 'LECTURE DU PARC',
-  entete: 'ALARMES · 30 JOURS · 23 MACHINES',
-  reponse: '154 ALARMES · 3 ACQUITTÉES',
+  entete: '23 MACHINES · 30 JOURS',
+  usages: [
+    'UTILISATION', 'ARRÊTS', 'MICRO-ARRÊTS',
+    'DISPONIBILITÉ', 'ALARMES', 'ACQUITTEMENTS',
+    'FIABILITÉ', 'COMPTEURS', 'ÉNERGIE',
+    'HISTORIQUE', 'RÉVISIONS', 'ÉCRITURES',
+  ],
+  machine: "CU3 · CENTRE D'USINAGE",
+  chiffre: '7,04',
+  unite: 'micro-arrêts par heure, contre moins de 0,5 ailleurs',
   pied: 'Parc de démonstration',
   aria:
-    'On demande quelle machine a le plus arrêté la production le mois dernier. ' +
-    "L'IA lit les vingt-trois machines du parc et retient le centre d'usinage " +
-    'CU3 : cent cinquante-quatre alarmes en trente jours, dont trois acquittées.',
+    "On demande quelle machine s'arrête le plus souvent. L'IA parcourt ce " +
+    "qu'elle sait lire du parc, puis répond : le centre d'usinage CU3, sept " +
+    'virgule zéro quatre micro-arrêts par heure, contre moins de zéro virgule '  +
+    'cinq sur les autres postes.',
 };
 const en = {
-  question: 'Which machine stopped us the most last month?',
+  question: 'Which machine stops most often?',
   bouton: 'ASK',
   pulsation: 'READING THE SITE',
-  entete: 'ALARMS · 30 DAYS · 23 MACHINES',
-  reponse: '154 ALARMS · 3 ACKNOWLEDGED',
+  entete: '23 MACHINES · 30 DAYS',
+  usages: [
+    'UPTIME', 'STOPPAGES', 'MICRO-STOPPAGES',
+    'AVAILABILITY', 'ALARMS', 'ACKNOWLEDGEMENTS',
+    'RELIABILITY', 'COUNTERS', 'ENERGY',
+    'HISTORY', 'REVISIONS', 'WRITES',
+  ],
+  machine: 'CU3 · MACHINING CENTRE',
+  chiffre: '7.04',
+  unite: 'micro-stoppages per hour, against under 0.5 elsewhere',
   pied: 'Demonstration site',
   aria:
-    'Someone asks which machine stopped production the most last month. AI ' +
-    'reads the twenty-three machines on site and singles out machining centre ' +
-    'CU3: one hundred and fifty-four alarms over thirty days, three acknowledged.',
+    'Someone asks which machine stops most often. AI reads what it knows of ' +
+    'the site, then answers: machining centre CU3, seven point zero four ' +
+    'micro-stoppages per hour, against under zero point five elsewhere.',
 };
 const d = lang === 'fr' ? fr : en;
 
-/** Le parc, vingt-trois machines. CU3 est la retenue. */
-const MACHINES = [
-  'CU1', 'CU2', 'CU4', 'CU5',
-  'TCN1', 'TCN2', 'TCN3', 'RECT1',
-  'RECT2', 'PERC1', 'PERC2', 'SCIE1',
-  'PRESSE1', 'EBAV1', 'LAV1', 'MET1',
-  'COMP1', 'SECH1', 'TGBT1', 'CTA1',
-  'GF1', 'CU3', 'ONDU1',
-];
-const RETENUE = MACHINES.indexOf('CU3');
-
-const L = 156;
+// Trois colonnes : les libelles d'usage sont plus longs qu'un code machine.
+const L = 220;
 const H = 46;
 const EX = 20;
 const EY = 16;
-const X0 = 2;
-const Y0 = 26;
+const X0 = 0;
+const Y0 = 24;
 
-const pastilles = MACHINES.map((nom, i) => ({
+const cases = d.usages.map((nom, i) => ({
   nom,
   i,
-  x: X0 + (i % 4) * (L + EX),
-  y: Y0 + Math.floor(i / 4) * (H + EY),
-  retenue: i === RETENUE,
+  x: X0 + (i % 3) * (L + EX),
+  y: Y0 + Math.floor(i / 3) * (H + EY),
 }));
-
-const cible = pastilles[RETENUE];
-const cx = cible.x + L / 2;
 
 /** Un pas de frappe par caractère. */
 const PAS = d.question.length;
@@ -107,19 +115,23 @@ const PAS = d.question.length;
       <span class="pulse-t">{d.pulsation}</span>
     </div>
 
-    <svg class="grid" viewBox="0 0 700 396" preserveAspectRatio="xMidYMid meet">
-      <text class="entete" x={X0} y="10">{d.entete}</text>
-      {pastilles.map((p) => (
-        <g class:list={['chip', p.retenue && 'chip-on']} style={`--i: ${p.i}`}>
-          <rect x={p.x} y={p.y} width={L} height={H} rx="9" />
-          <text x={p.x + L / 2} y={p.y + H / 2 + 5} text-anchor="middle">{p.nom}</text>
+    <svg class="grid" viewBox="0 0 700 272" preserveAspectRatio="xMidYMid meet">
+      <text class="entete" x={X0} y="8">{d.entete}</text>
+      {cases.map((c) => (
+        <g class="cell" style={`--i: ${c.i}`}>
+          <rect x={c.x} y={c.y} width={L} height={H} rx="9" />
+          <text x={c.x + L / 2} y={c.y + H / 2 + 5} text-anchor="middle">{c.nom}</text>
         </g>
       ))}
-      <line class="fil" x1={cx} y1={cible.y + H} x2={cx} y2={cible.y + H + 30} />
     </svg>
+
+    <div class="ans">
+      <span class="ans-m">{d.machine}</span>
+      <span class="ans-n">{d.chiffre}</span>
+      <span class="ans-u">{d.unite}</span>
+    </div>
   </div>
 
-  <p class="ans">{d.reponse}</p>
   <figcaption class="pied">{d.pied}</figcaption>
 </figure>
 
@@ -183,11 +195,14 @@ const PAS = d.question.length;
     color: #fff;
   }
 
-  /* Actes 2 et 3 dans la même cellule : la pulsation cède la place à la
-     grille sans que rien ne se déplace. */
+  /* Les trois actes suivants occupent la même cellule : la pulsation cède la
+     place à la grille, la grille cède la place à la réponse, et rien ne se
+     déplace. */
   .stage {
     display: grid;
+    place-items: center;
     width: 100%;
+    min-height: 15rem;
     margin-top: 1.25rem;
   }
   .stage > * {
@@ -198,13 +213,10 @@ const PAS = d.question.length;
     display: grid;
     place-items: center;
     width: 100%;
-    height: 100%;
     opacity: 0;
     pointer-events: none;
   }
-  .pulse > * {
-    grid-area: 1 / 1;
-  }
+  .pulse > * { grid-area: 1 / 1; }
   .ring {
     display: block;
     width: 7rem;
@@ -220,10 +232,12 @@ const PAS = d.question.length;
     white-space: nowrap;
   }
 
+  /* La grille est transitoire : elle finit à zéro, la réponse prend sa place. */
   .grid {
     display: block;
     width: 100%;
     height: auto;
+    opacity: 0;
   }
   .entete {
     font-family: var(--font-mono);
@@ -232,41 +246,45 @@ const PAS = d.question.length;
     fill: var(--color-muted);
   }
   /* Sans filet, un aplat à #f0f3f7 sur un fond de page à #f8f7fb est
-     invisible : les cases éteintes doivent se voir pour que la retenue se
-     détache de quelque chose. */
-  .chip rect {
+     invisible : les cases doivent se voir pour que le passage se voie. */
+  .cell rect {
     fill: var(--color-n-100);
     stroke: var(--color-line);
     stroke-width: 1;
   }
-  .chip text {
+  .cell text {
     font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.04em;
+    font-size: 12px;
+    letter-spacing: 0.05em;
     fill: var(--color-n-500);
   }
-  .chip-on rect { fill: var(--color-accent); }
-  .chip-on text { fill: #fff; }
-  .fil { stroke: var(--color-accent); stroke-width: 2; }
 
-  /* Acte 4 : la réponse. */
-  /* Toute la largeur, et le texte centre : le filet qui descend de la machine
-     retenue tombe alors DANS la reponse au lieu d'en frôler le coin. */
+  /* Acte 4 : la réponse, seule à la fin. */
   .ans {
-    width: 100%;
+    display: grid;
+    justify-items: center;
+    gap: 0.375rem;
     text-align: center;
-    margin: 0.5rem 0 0;
-    padding: 0.75rem 1.25rem;
-    border: 1px solid var(--color-accent-border);
-    border-radius: 10px;
-    background: var(--color-surface);
+  }
+  .ans-m {
     font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+  }
+  .ans-n {
+    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.04em;
     color: var(--color-accent-strong);
   }
+  .ans-u {
+    font-size: 0.9375rem;
+    color: var(--color-ink-2);
+  }
   .pied {
-    margin-top: 0.625rem;
+    margin-top: 1rem;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     letter-spacing: 0.04em;
@@ -283,35 +301,29 @@ const PAS = d.question.length;
         aa-caret 0.7s steps(1) 0s 3,
         aa-caret-out 1ms linear 2.1s both;
     }
-    .btn {
-      animation: aa-btn 1ms linear 1.75s both;
-    }
+    .btn { animation: aa-btn 1ms linear 1.75s both; }
 
-    .pulse { animation: aa-pulse 1.5s ease-out 2s both; }
+    .pulse { animation: aa-fade 1.5s ease-out 2s both; }
     .ring1 { animation: aa-ring 1.5s ease-out 2s both; }
     .ring2 { animation: aa-ring 1.5s ease-out 2.2s both; }
     .ring3 { animation: aa-ring 1.5s ease-out 2.4s both; }
 
-    .grid { animation: aa-in 400ms ease-out 3.5s both; }
-    .chip,
-    .chip rect,
-    .chip text {
-      animation-duration: 800ms;
-      animation-delay: calc(3.7s + var(--i, 0) * 0.06s);
+    /* La grille entre, se fait parcourir, puis s'efface. */
+    .grid { animation: aa-grid 2.6s linear 3.4s both; }
+    .cell,
+    .cell rect {
+      animation-duration: 700ms;
+      animation-delay: calc(3.7s + var(--i, 0) * 0.09s);
       animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-      /* `both` n'est pas cosmétique : sans lui le verrou de la retenue ne tient
-         pas sa dernière image, et une animation terminée sort de
-         `getAnimations()`, ce qui la rend invisible à toute vérification. */
+      /* `both` n'est pas cosmétique : une animation terminée sans ce mode sort
+         de `getAnimations()`, ce qui la rend invisible à toute vérification. */
       animation-fill-mode: both;
     }
-    .chip { animation-name: aa-in; }
-    .chip rect { animation-name: aa-flash; }
-    .chip-on rect { animation-name: aa-lock; }
-    .chip-on text { animation-name: aa-white; }
+    .cell { animation-name: aa-in; }
+    .cell rect { animation-name: aa-flash; }
 
-    .fil { animation: aa-link 300ms ease-out 5.5s both; }
-    .ans { animation: aa-up 420ms cubic-bezier(0.22, 1, 0.36, 1) 5.7s both; }
-    .pied { animation: aa-in 300ms linear 6s both; }
+    .ans { animation: aa-up 500ms cubic-bezier(0.22, 1, 0.36, 1) 6s both; }
+    .pied { animation: aa-in 300ms linear 6.3s both; }
   }
 
   @keyframes aa-type { from { max-width: 0; } to { max-width: 100%; } }
@@ -322,17 +334,8 @@ const PAS = d.question.length;
     to { background: var(--color-accent); color: #fff; }
   }
   @keyframes aa-in { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes aa-up {
-    from { opacity: 0; transform: translateY(0.4rem); }
-    to { opacity: 1; transform: none; }
-  }
-  @keyframes aa-link {
-    from { opacity: 0; transform: scaleY(0); transform-origin: top; }
-    to { opacity: 1; transform: none; }
-  }
-  /* La pulsation est le seul élément qui s'efface : elle annonce, puis cède la
-     place à ce qu'elle annonçait. */
-  @keyframes aa-pulse { 0% { opacity: 0; } 20%, 70% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes aa-fade { 0% { opacity: 0; } 20%, 70% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes aa-grid { 0% { opacity: 0; } 8%, 88% { opacity: 1; } 100% { opacity: 0; } }
   @keyframes aa-ring {
     from { transform: scale(0.55); opacity: 0.9; }
     to { transform: scale(2.4); opacity: 0; }
@@ -342,19 +345,14 @@ const PAS = d.question.length;
     35% { fill: var(--color-accent-bg); }
     100% { fill: var(--color-n-100); }
   }
-  @keyframes aa-lock {
-    0% { fill: var(--color-n-100); }
-    45%, 100% { fill: var(--color-accent); }
-  }
-  @keyframes aa-white {
-    0% { fill: var(--color-n-500); }
-    45%, 100% { fill: #fff; }
+  @keyframes aa-up {
+    from { opacity: 0; transform: translateY(0.5rem); }
+    to { opacity: 1; transform: none; }
   }
 
   @media (max-width: 700px) {
     .field { font-size: 0.875rem; }
     .btn { padding: 0 0.875rem; }
-    .stage { overflow-x: auto; overscroll-behavior-x: contain; }
-    .grid { min-width: 520px; }
+    .stage { min-height: 12rem; }
   }
 </style>
