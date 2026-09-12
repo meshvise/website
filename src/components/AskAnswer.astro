@@ -45,35 +45,33 @@ const fr = {
   bouton: 'DEMANDER',
   pulsation: 'LECTURE DU PARC',
   usages: [
-    'UTILISATION', 'ARRÊTS', 'MICRO-ARRÊTS',
-    'DISPONIBILITÉ', 'ALARMES', 'ACQUITTEMENTS',
-    'FIABILITÉ', 'COMPTEURS', 'ÉNERGIE',
-    'HISTORIQUE', 'RÉVISIONS', 'ÉCRITURES',
+    'MACHINES', 'VALEURS COURANTES', 'HISTORIQUE', 'INDICATEURS',
+    'ÉNERGIE', 'ALARMES', 'RÉVISIONS', 'COMMANDES',
   ],
   tours: [
     {
       q: "Quelle machine s'arrête le plus souvent ?",
       a1: "Le centre d'usinage CU3.",
       a2: 'Il enregistre 7,04 micro-arrêts par heure, contre moins de 0,5 sur les autres postes de l’atelier.',
-      lus: [1, 2],
+      lus: [0, 3],
     },
     {
       q: 'Pourquoi le compresseur tourne-t-il la nuit ?',
       a1: "La centrale d'air comprimé ne s'arrête jamais vraiment.",
       a2: 'Elle consomme 22,7 kW de talon nocturne, atelier à l’arrêt.',
-      lus: [0, 8],
+      lus: [4, 2],
     },
     {
       q: 'Qui a changé ce seuil, et quand ?',
       a1: 'Une révision du 25 août.',
       a2: "Elle a resserré le seuil d'huile de coupe de CU3, et une révision du 4 septembre l’a ramené en arrière.",
-      lus: [10, 11],
+      lus: [6, 7],
     },
     {
       q: "Combien d'alarmes personne n'a acquittées ?",
-      a1: 'Cent cinquante et une, sur cent cinquante-quatre.',
-      a2: "Sur le centre d'usinage CU3, trois alarmes seulement ont été acquittées en trente jours.",
-      lus: [4, 5],
+      a1: '151 alarmes sur 154.',
+      a2: "Sur le centre d'usinage CU3, 3 seulement ont été acquittées en 30 jours.",
+      lus: [5, 0],
     },
   ],
   aria:
@@ -87,35 +85,33 @@ const en = {
   bouton: 'ASK',
   pulsation: 'READING THE SITE',
   usages: [
-    'UPTIME', 'STOPPAGES', 'MICRO-STOPPAGES',
-    'AVAILABILITY', 'ALARMS', 'ACKNOWLEDGEMENTS',
-    'RELIABILITY', 'COUNTERS', 'ENERGY',
-    'HISTORY', 'REVISIONS', 'WRITES',
+    'MACHINES', 'LIVE VALUES', 'HISTORY', 'INDICATORS',
+    'ENERGY', 'ALARMS', 'REVISIONS', 'COMMANDS',
   ],
   tours: [
     {
       q: 'Which machine stops most often?',
       a1: 'Machining centre CU3.',
       a2: 'It records 7.04 micro-stoppages per hour, against under 0.5 on every other workstation.',
-      lus: [1, 2],
+      lus: [0, 3],
     },
     {
       q: 'Why is the compressor running at night?',
       a1: 'The compressed air plant never really stops.',
       a2: 'It draws 22.7 kW of night-time baseload with the shop floor at a standstill.',
-      lus: [0, 8],
+      lus: [4, 2],
     },
     {
       q: 'Who changed this threshold, and when?',
       a1: 'A revision dated 25 August.',
       a2: 'It tightened the cutting oil threshold on CU3, and a revision of 4 September rolled it back.',
-      lus: [10, 11],
+      lus: [6, 7],
     },
     {
       q: 'How many alarms did nobody acknowledge?',
-      a1: 'One hundred and fifty-one, out of one hundred and fifty-four.',
-      a2: 'On machining centre CU3, only three alarms were acknowledged in thirty days.',
-      lus: [4, 5],
+      a1: '151 alarms out of 154.',
+      a2: 'On machining centre CU3, only 3 were acknowledged in 30 days.',
+      lus: [5, 0],
     },
   ],
   aria:
@@ -127,17 +123,23 @@ const en = {
 
 const d = lang === 'fr' ? fr : en;
 
-// Trois colonnes : les libelles d'usage sont plus longs qu'un code machine.
-const L = 220;
-const H = 46;
+// Huit lectures reellement distinctes, une par famille du contrat des outils :
+// le parc, les valeurs courantes, l'historique, les indicateurs derives,
+// l'energie, les alarmes, les revisions de configuration, les commandes.
+// La version precedente en alignait douze dont cinq disaient la meme chose :
+// arrets, micro-arrets, disponibilite, utilisation et fiabilite sortent tous
+// du meme drapeau de marche et du meme outil.
+const L = 160;
+const H = 44;
 const EX = 20;
 const EY = 16;
+const COLS = 4;
 const Y0 = 4;
-const VB_W = 700;
-const VB_H = 252;
+const VB_W = COLS * L + (COLS - 1) * EX;
+const VB_H = Y0 + 2 * H + EY;
 
 // Les deux places de convergence, cote a cote et centrees dans la vue.
-const SLOT_Y = Y0 + 2 * (H + EY);
+const SLOT_Y = Y0 + (VB_H - Y0 - H) / 2;
 const SLOT_AX = (VB_W - (2 * L + EX)) / 2;
 const SLOT_BX = SLOT_AX + L + EX;
 
