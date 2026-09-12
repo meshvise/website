@@ -158,26 +158,6 @@
       "note": "Everything shown here is in the online demonstration.",
       "placeholder": "Demo screenshot"
     },
-    "how": {
-      "title": "How it gets set up",
-      "subtitle": "From install to first dashboard.",
-      "install": {
-        "title": "Install",
-        "body": "One Docker command on a server or a shop-floor mini-PC. Two cores and four gigabytes of memory are enough for five hundred points."
-      },
-      "connect": {
-        "title": "Connect",
-        "body": "Enter your PLC addresses. Compatible equipment is discovered automatically."
-      },
-      "organize": {
-        "title": "Organise",
-        "body": "Site, building, line, function: structure it your way, no imposed schema."
-      },
-      "watch": {
-        "title": "Watch",
-        "body": "Dashboards, alarms and history are ready. Your usual tools read the database directly."
-      }
-    },
     "continuity": {
       "title": "Your data does not depend on Meshvise",
       "intro": "A supervision system runs for ten years. What is installed on your premises must not depend on anyone to keep running, and that decided how the product is built.",

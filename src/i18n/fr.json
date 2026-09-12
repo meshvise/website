@@ -158,26 +158,6 @@
       "note": "Tout ce qui est montré ici se trouve dans la démonstration en ligne.",
       "placeholder": "Capture de la démonstration"
     },
-    "how": {
-      "title": "Comment ça se met en place",
-      "subtitle": "De l'installation au premier tableau de bord.",
-      "install": {
-        "title": "Installez",
-        "body": "Une commande Docker sur un serveur ou un mini-PC d'atelier. Deux cœurs et quatre giga de mémoire suffisent pour cinq cents points."
-      },
-      "connect": {
-        "title": "Connectez",
-        "body": "Renseignez l'adresse de vos automates. Les équipements compatibles sont découverts automatiquement."
-      },
-      "organize": {
-        "title": "Organisez",
-        "body": "Site, bâtiment, ligne, fonction : structurez à votre main, sans schéma imposé."
-      },
-      "watch": {
-        "title": "Regardez",
-        "body": "Tableaux de bord, alarmes et historique sont prêts. Vos outils habituels lisent la base directement."
-      }
-    },
     "continuity": {
       "title": "Vos données ne dépendent pas de Meshvise",
       "intro": "Une supervision s'exploite dix ans. Ce qui est installé chez vous ne doit dépendre de personne pour continuer à tourner, et c'est ce qui a décidé de la façon dont le produit est construit.",
