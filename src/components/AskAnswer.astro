@@ -461,6 +461,10 @@ const TOUR = 14000;
       animation: aa-type 1.6s steps(var(--pas)) both;
     }
 
+    /* L'appui : le bouton s'enfonce et se fonce a l'instant ou la question
+       part. C'est le seul geste de la sequence qui vient d'un humain. */
+    .run .btn { animation: aa-press 280ms cubic-bezier(0.22, 1, 0.36, 1) 1.65s both; }
+
     .run .pulse { animation: aa-fade 1.4s ease-out 1.9s both; }
     .run .ring1 { animation: aa-ring 1.4s ease-out 1.9s both; }
     .run .ring2 { animation: aa-ring 1.4s ease-out 2.1s both; }
@@ -511,6 +515,11 @@ const TOUR = 14000;
   }
 
   @keyframes aa-type { from { max-width: 0; } to { max-width: 100%; } }
+  @keyframes aa-press {
+    0% { transform: none; background: var(--color-accent); }
+    40% { transform: scale(0.95); background: var(--color-accent-strong); }
+    100% { transform: none; background: var(--color-accent); }
+  }
   @keyframes aa-in { from { opacity: 0; } to { opacity: 1; } }
   @keyframes aa-out { to { opacity: 0; } }
   @keyframes aa-fade { 0% { opacity: 0; } 20%, 70% { opacity: 1; } 100% { opacity: 0; } }
