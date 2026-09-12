@@ -1,25 +1,28 @@
 ---
 /**
- * Les questions auxquelles l'IA sait enfin répondre.
+ * Grâce à l'IA, répondez enfin à vos questions sur l'atelier.
  *
- * Première version de cette section : un titre, une explication de ce qu'est
- * un référentiel, et les seize outils en chasse fixe. Autrement dit une
- * réponse à « comment ça marche » sur la page dont le métier est de répondre
- * à « qu'est-ce que j'y gagne ». `describe_vocabulary` ne vend rien.
+ * Deux versions écartées avant celle-ci, et les deux erreurs valent d'être
+ * retenues.
  *
- * Ce qui vend, c'est la question qu'on se pose et à laquelle personne ne
- * répondait. Chacune de celles qui suivent est servie par un outil livré
- * (alarm_summary, diff_revisions, energy_summary, read_indicators,
- * read_live), mais le visiteur n'a pas à le savoir : il reconnaît sa propre
- * question, et c'est le seul travail qu'on lui demande.
+ * La première expliquait : ce qu'est un référentiel, puis les dix-huit outils
+ * en chasse fixe. C'était répondre à « comment ça marche » sur la page dont le
+ * métier est de répondre à « qu'est-ce que j'y gagne ». `describe_vocabulary`
+ * ne vend rien.
  *
- * Le titre EST une question, entre guillemets. C'est inhabituel pour un h2 et
- * c'est délibéré : une question reconnue arrête le défilement là où une
- * affirmation sur le produit ne l'arrête pas.
+ * La seconde ouvrait sur une question entre guillemets, en laissant le lecteur
+ * déduire le gain. Le titre énonce désormais le gain, et les questions le
+ * prouvent. « Sur l'atelier » n'est pas décoratif : sans ce complément, la
+ * phrase vendrait n'importe quel produit, alors que tout l'intérêt tient à ce
+ * que l'IA répond déjà sur le reste de l'entreprise.
+ *
+ * Chaque question est servie par un outil livré (alarm_summary, diff_revisions,
+ * energy_summary, read_indicators, read_live). Le visiteur n'a pas à le savoir :
+ * il reconnaît sa propre question, et c'est le seul travail qu'on lui demande.
  *
  * Les garanties (aucune écriture, la clé reste au client) ne sont pas ici.
- * Elles rassurent une direction informatique, ce qui est le travail de la
- * page Produit ; l'accueil vend, la page Produit prouve.
+ * Elles rassurent une direction informatique, ce qui est le travail de la page
+ * Produit : l'accueil vend, la page Produit prouve.
  */
 import fr from '../i18n/fr.json';
 import en from '../i18n/en.json';
@@ -34,49 +37,35 @@ const { lang } = Astro.props;
 const questions = (lang === 'fr' ? fr : en).home.ai.questions as string[];
 const lienGuide = `${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`;
 
-/** Guillemets de la langue : français à chevrons, anglais à apostrophes. */
+/** Guillemets de la langue : chevrons en français, apostrophes en anglais. */
 const [ouvre, ferme] = lang === 'fr' ? ['« ', ' »'] : ['“', '”'];
 ---
 
 <section id="assistant" class="section">
   <div class="wrap">
-    <h2 class="t-page ask">{t(lang, 'home.ai.title')}</h2>
+    <h2 class="t-page head">{t(lang, 'home.ai.title')}</h2>
     <p class="t-lede lede">{t(lang, 'home.ai.lede')}</p>
 
-    <div class="more">
-      <span class="more-label">{t(lang, 'home.ai.more_label')}</span>
-      <ul class="qs">
-        {questions.map((q) => (
-          <li>{ouvre}{q}{ferme}</li>
-        ))}
-      </ul>
-    </div>
+    <ul class="qs">
+      {questions.map((q) => (
+        <li>{ouvre}{q}{ferme}</li>
+      ))}
+    </ul>
 
     <a href={lienGuide} class="link mt-8 inline-block">{t(lang, 'home.ai.cta')}</a>
   </div>
 </section>
 
 <style>
-  .ask { max-width: 22ch; }
+  .head { max-width: 24ch; }
   .lede { margin-top: 1.25rem; max-width: 48ch; }
 
-  .more { margin-top: 3rem; }
-  .more-label {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-    margin-bottom: 1.125rem;
-  }
-
-  /* Les questions se lisent comme une liste de doléances d'atelier : une par
-     ligne, dans la même graisse légère que le reste, sans encadré. Ce ne sont
-     pas des fonctionnalités, ce sont des phrases que le visiteur a déjà dites. */
+  /* Les questions se lisent comme des phrases que le visiteur a déjà dites :
+     une par ligne, même graisse légère que le reste, sans encadré. Ce ne sont
+     pas des fonctionnalités. */
   .qs {
     list-style: none;
-    margin: 0;
+    margin: 2.75rem 0 0;
     padding: 0;
     max-width: 46rem;
   }
@@ -89,10 +78,16 @@ const [ouvre, ferme] = lang === 'fr' ? ['« ', ' »'] : ['“', '”'];
     padding: 0.55rem 0 0.55rem 1.25rem;
     border-left: 2px solid var(--color-line-strong);
   }
+  /* La première porte l'accent et l'encre pleine : c'est celle qui doit être
+     lue si le visiteur n'en lit qu'une. */
+  .qs li:first-child {
+    color: var(--color-ink);
+    border-left-color: var(--color-accent);
+  }
   .qs li + li { margin-top: 0.5rem; }
 
   @media (max-width: 640px) {
-    .more { margin-top: 2.25rem; }
+    .qs { margin-top: 2.25rem; }
     .qs li { padding-left: 1rem; }
   }
 </style>

@@ -216,16 +216,16 @@
       "body": "A simulated industrial site: twenty-two machines, thirteen protocols, thirty days of history. The alarms, history and dashboards are the ones in the application."
     },
     "ai": {
-      "title": "“Which machine stopped us the most last month?”",
-      "lede": "Ask AI. Now that it reads the shop floor, it answers without anyone having to build the report.",
-      "cta": "Plugging an AI into a shop floor",
-      "more_label": "And these too",
+      "title": "With AI, finally answer your questions about the shop floor.",
+      "lede": "Now that it reads your equipment, it answers without anyone having to build the report.",
       "questions": [
+        "Which machine stopped us the most last month?",
         "Who changed this threshold, and when?",
         "Why is the compressor running at night?",
         "Which workstation loses the most time to micro-stoppages?",
         "Where is production since this morning?"
-      ]
+      ],
+      "cta": "Plugging an AI into a shop floor"
     }
   },
   "why": {
