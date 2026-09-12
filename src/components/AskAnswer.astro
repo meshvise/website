@@ -23,7 +23,9 @@
  * de style : le contrat des outils impose qu'une affirmation soit citée, et
  * montrer la citation vaut mieux que l'affirmer ailleurs.
  *
- * Tous les chiffres sont mesurés sur le parc de démonstration. Le temps d'arrêt
+ * Tous les chiffres sont mesurés sur le parc de démonstration de Bellecombe.
+ * La mention explicite a été retirée sur demande ; si un prospect demande d'où
+ * viennent ces chiffres, la réponse est là. Le temps d'arrêt
  * cumulé, par exemple, n'existe pas sur trente jours (les accumulateurs ont été
  * posés le 9 septembre), donc aucune question ne porte dessus.
  *
@@ -49,7 +51,6 @@ const fr = {
     'FIABILITÉ', 'COMPTEURS', 'ÉNERGIE',
     'HISTORIQUE', 'RÉVISIONS', 'ÉCRITURES',
   ],
-  pied: 'Parc de démonstration',
   tours: [
     {
       q: "Quelle machine s'arrête le plus souvent ?",
@@ -93,7 +94,6 @@ const en = {
     'RELIABILITY', 'COUNTERS', 'ENERGY',
     'HISTORY', 'REVISIONS', 'WRITES',
   ],
-  pied: 'Demonstration site',
   tours: [
     {
       q: 'Which machine stops most often?',
@@ -159,8 +159,14 @@ const cases = d.usages.map((nom, i) => {
   };
 });
 
-/** Durée d'un tour, en millisecondes. Doit couvrir la séquence entière. */
-const TOUR = 9600;
+/**
+ * Durée d'un tour, en millisecondes.
+ *
+ * La séquence occupe les sept premières secondes, donc le reste est le temps
+ * de lecture de la réponse : sept secondes pour deux phrases et leur ligne de
+ * sources, ce qui laisse le temps de lire sans relire.
+ */
+const TOUR = 14000;
 ---
 
 <figure
@@ -222,7 +228,6 @@ const TOUR = 9600;
     ))}
   </div>
 
-  <figcaption class="pied">{d.pied}</figcaption>
 </figure>
 
 <script>
@@ -239,7 +244,7 @@ const TOUR = 9600;
 
   document.querySelectorAll<HTMLElement>('[data-ask]').forEach((fig) => {
     const nb = Number(fig.dataset.tours) || 1;
-    const duree = Number(fig.dataset.tour) || 9600;
+    const duree = Number(fig.dataset.tour) || 14000;
     if (nb < 2) return;
 
     const cellules = Array.from(fig.querySelectorAll<SVGGElement>('[data-cell]'));
@@ -460,14 +465,6 @@ const TOUR = 9600;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     letter-spacing: 0.06em;
-    color: var(--color-muted);
-  }
-  .pied {
-    text-align: center;
-    margin-top: 1rem;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.04em;
     color: var(--color-muted);
   }
 
