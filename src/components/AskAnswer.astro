@@ -1,24 +1,28 @@
 ---
 /**
- * On pose la question, l'IA va chercher, elle répond.
+ * Le parc entier lu, une machine retenue.
  *
- * La séquence est la démonstration de la section : une question en langue
- * courante, deux appels d'outils vers Meshvise, une réponse chiffrée qui cite
- * sa source. Rien de ce qui s'affiche n'est inventé pour la vitrine, les
- * chiffres viennent du parc de démonstration et la mention le dit.
+ * La question de la section demande « quelle machine nous a le plus arrêtés ».
+ * La figure montre ce que ça veut dire : les vingt-trois machines du parc
+ * s'allument une à une pendant que l'IA les lit, puis tout s'éteint sauf une,
+ * et la réponse tombe sous elle.
  *
- * Trois règles reprises des figures animées du site, parce qu'une deuxième
- * langue visuelle en travers de la première ne servirait personne :
+ * Le registre est celui des figures animées du site, lui-même proche de ce que
+ * fait Ethon : une grille d'aplats arrondis, des libellés en chasse fixe, une
+ * seule couleur d'accent contre des gris très pâles, et beaucoup de vide. Ce
+ * qui n'est pas l'argument est retiré : pas de cadre, pas de fond, pas d'axe.
  *
- * - L'animation joue une fois et tient sa dernière image, qui est complète.
- *   Une figure qui se vide toutes les six secondes fait perdre à un lecteur
- *   sur deux ce qu'elle voulait dire. `observe.ts` la rejoue quand elle
- *   revient à l'écran.
- * - Tout le texte est dans le document, et l'animation ne touche qu'à
- *   l'opacité et à la position. Sans script, sous `prefers-reduced-motion`,
- *   ou pour un robot d'indexation, la scène est simplement là, entière et
- *   lisible. C'est aussi ce qui la rend citable par un moteur.
- * - Le mouvement ne se calque pas sur le défilement : il garde son rythme.
+ * Une différence avec Ethon qui n'est pas un détail. Chez eux, le chemin qui
+ * s'allume est une chaîne causale entre paramètres. Ici il n'y en a pas : l'IA
+ * ne remonte aucune cause, elle interroge le parc et rapporte ce qu'elle
+ * trouve. Le balayage dit donc exactement ce qui se passe, la lecture de
+ * vingt-trois machines, et rien de plus. Une chaîne causale serait plus jolie
+ * et fausse.
+ *
+ * L'état de repos EST l'état final : grille pâle, CU3 en accent, réponse
+ * visible. L'animation n'ajoute que le balayage et les entrées, donc sans
+ * script, sous `prefers-reduced-motion` ou pour un robot, la figure se lit
+ * entière. `observe.ts` la rejoue quand elle revient à l'écran.
  */
 import { type Lang } from '../i18n';
 
@@ -29,50 +33,94 @@ interface Props {
 const { lang } = Astro.props;
 
 const fr = {
-  question: "Quelle machine nous a le plus arrêtés le mois dernier ?",
-  appels: [
-    { outil: 'alarm_summary', arg: '30 jours, 23 machines' },
-    { outil: 'reliability', arg: 'CU3' },
-  ],
-  reponse: "Le centre d'usinage CU3 : 154 alarmes en trente jours, dont 3 acquittées.",
-  source: "CU3 · 12 août au 11 septembre · parc de démonstration",
+  entete: 'ALARMES · 30 JOURS · 23 MACHINES',
+  reponse: '154 ALARMES · 3 ACQUITTÉES',
+  pied: 'Parc de démonstration',
   aria:
-    "Une question posee a une IA, les deux appels qu'elle adresse a Meshvise, " +
-    "et la reponse chiffree qu'elle en tire.",
+    "L'IA lit les vingt-trois machines du parc, puis retient le centre " +
+    "d'usinage CU3 : cent cinquante-quatre alarmes en trente jours, dont " +
+    'trois acquittées.',
 };
-
 const en = {
-  question: 'Which machine stopped us the most last month?',
-  appels: [
-    { outil: 'alarm_summary', arg: '30 days, 23 machines' },
-    { outil: 'reliability', arg: 'CU3' },
-  ],
-  reponse: 'Machining centre CU3: 154 alarms over thirty days, 3 of them acknowledged.',
-  source: 'CU3 · 12 August to 11 September · demonstration site',
+  entete: 'ALARMS · 30 DAYS · 23 MACHINES',
+  reponse: '154 ALARMS · 3 ACKNOWLEDGED',
+  pied: 'Demonstration site',
   aria:
-    'A question put to an AI, the two calls it makes to Meshvise, and the ' +
-    'figures it answers with.',
+    'AI reads the twenty-three machines on site, then singles out machining ' +
+    'centre CU3: one hundred and fifty-four alarms over thirty days, three ' +
+    'of them acknowledged.',
 };
-
 const d = lang === 'fr' ? fr : en;
-const [ouvre, ferme] = lang === 'fr' ? ['« ', ' »'] : ['“', '”'];
+
+/** Le parc, vingt-trois machines. La retenue est la vingt-deuxième. */
+const MACHINES = [
+  'CU1', 'CU2', 'CU4', 'CU5',
+  'TCN1', 'TCN2', 'TCN3', 'RECT1',
+  'RECT2', 'PERC1', 'PERC2', 'SCIE1',
+  'PRESSE1', 'EBAV1', 'LAV1', 'MET1',
+  'COMP1', 'SECH1', 'TGBT1', 'CTA1',
+  'GF1', 'CU3', 'ONDU1',
+];
+const RETENUE = MACHINES.indexOf('CU3');
+
+// Grille de quatre colonnes. Les pastilles ne portent pas de chiffre :
+// la valeur n'apparait qu'une fois, sur la reponse.
+const L = 156;
+const H = 52;
+const EX = 20;
+const EY = 20;
+const X0 = 16;
+const Y0 = 76;
+
+const pastilles = MACHINES.map((nom, i) => {
+  const col = i % 4;
+  const rang = Math.floor(i / 4);
+  return {
+    nom,
+    i,
+    x: X0 + col * (L + EX),
+    y: Y0 + rang * (H + EY),
+    retenue: i === RETENUE,
+  };
+});
+
+const cible = pastilles[RETENUE];
+const cx = cible.x + L / 2;
+const yFil = cible.y + H;
+const yRep = yFil + 46;
+const LR = 340;
 ---
 
-<figure class="scene" role="img" aria-label={d.aria} data-scene>
-  <p class="q">{ouvre}{d.question}{ferme}</p>
+<figure class="mvf fig" role="img" aria-label={d.aria}>
+  <svg class="svg" viewBox="0 0 720 636" preserveAspectRatio="xMidYMid meet">
+    <text class="entete an" style="animation-name: pk-in" x={X0} y="34">{d.entete}</text>
 
-  <ul class="calls">
-    {d.appels.map((a, i) => (
-      <li style={`--i:${i}`}>
-        <span class="arrow" aria-hidden="true">&#8594;</span>
-        <code>{a.outil}</code>
-        <span class="arg">{a.arg}</span>
-      </li>
+    {pastilles.map((p) => (
+      <g
+        class:list={['chip', p.retenue && 'chip-on', 'an']}
+        style={`--i: ${p.i}`}
+      >
+        <rect x={p.x} y={p.y} width={L} height={H} rx="10" />
+        <text x={p.x + L / 2} y={p.y + H / 2 + 5} text-anchor="middle">{p.nom}</text>
+      </g>
     ))}
-  </ul>
 
-  <p class="a">{d.reponse}</p>
-  <figcaption class="src">{d.source}</figcaption>
+    <line
+      class="fil an"
+      style="animation-name: pk-link"
+      x1={cx}
+      y1={yFil}
+      x2={cx}
+      y2={yRep}
+    />
+
+    <g class="rep an" style="animation-name: pk-answer">
+      <rect x={cx - LR / 2} y={yRep} width={LR} height="60" rx="12" />
+      <text x={cx} y={yRep + 37} text-anchor="middle">{d.reponse}</text>
+    </g>
+  </svg>
+
+  <figcaption class="pied">{d.pied}</figcaption>
 </figure>
 
 <script>
@@ -82,91 +130,144 @@ const [ouvre, ferme] = lang === 'fr' ? ['« ', ' »'] : ['“', '”'];
 </script>
 
 <style>
-  .scene {
+  .fig {
     margin: 2.5rem 0 0;
     padding: 0;
-    max-width: 42rem;
-    display: grid;
-    gap: 0.875rem;
+    max-width: 40rem;
   }
-
-  .q {
-    margin: 0;
-    font-size: clamp(1.125rem, 2vw, 1.375rem);
-    font-weight: 400;
-    line-height: 1.45;
-    letter-spacing: -0.015em;
-    color: var(--color-ink);
+  .svg {
+    display: block;
+    width: 100%;
+    height: auto;
   }
-
-  /* Les deux appels : ce que l'IA décide de demander. En chasse fixe parce
-     que ce sont des noms d'outils, et décalés parce que c'est un aller vers
-     le produit, pas une ligne de texte de plus. */
-  .calls {
-    list-style: none;
-    margin: 0;
-    padding: 0 0 0 0.125rem;
-    display: grid;
-    gap: 0.3rem;
-  }
-  .calls li {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    color: var(--color-muted);
-  }
-  .arrow { color: var(--color-accent); }
-  .calls code { color: var(--color-ink-2); }
-  .arg { color: var(--color-n-400); }
-
-  .a {
-    margin: 0.375rem 0 0;
-    padding-left: 1.125rem;
-    border-left: 2px solid var(--color-accent);
-    font-size: clamp(1.0625rem, 1.9vw, 1.25rem);
-    font-weight: 400;
-    line-height: 1.5;
-    color: var(--color-ink);
-  }
-  .src {
-    margin: 0;
-    padding-left: 1.125rem;
+  .pied {
+    margin-top: 0.625rem;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     letter-spacing: 0.04em;
     color: var(--color-muted);
   }
 
-  /* L'état de repos EST l'état final. L'animation ne fait que retarder
-     l'apparition, donc tout est lisible sans elle. */
+  .entete {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    fill: var(--color-muted);
+  }
+
+  /* Une pastille au repos : un aplat très pâle, un nom lisible sans appuyer.
+     C'est le fond de grille sur lequel la retenue se détache. */
+  .chip rect {
+    fill: var(--color-n-100);
+    /* Le filet n'est pas un ornement : sans lui, un aplat a #f0f3f7 sur un
+       fond de page a #f8f7fb est litteralement invisible. Les cases eteintes
+       doivent se voir pour que la retenue se detache de quelque chose. */
+    stroke: var(--color-line);
+    stroke-width: 1;
+  }
+  .chip text {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    fill: var(--color-n-500);
+  }
+  .chip-on rect {
+    fill: var(--color-accent);
+  }
+  .chip-on text {
+    fill: #fff;
+  }
+
+  .fil {
+    stroke: var(--color-accent);
+    stroke-width: 2;
+  }
+  .rep rect {
+    fill: var(--color-surface);
+    stroke: var(--color-accent-border);
+    stroke-width: 1;
+  }
+  .rep text {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    fill: var(--color-accent-strong);
+  }
+
   @media (prefers-reduced-motion: no-preference) {
-    .scene .q,
-    .scene .calls li,
-    .scene .a,
-    .scene .src {
-      animation: mv-entree 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    .an {
+      animation-duration: 460ms;
+      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      animation-iteration-count: 1;
+      animation-fill-mode: both;
     }
-    .scene .q { animation-delay: 0s; }
-    .scene .calls li { animation-delay: calc(0.85s + var(--i, 0) * 0.45s); }
-    .scene .a { animation-delay: 2.3s; }
-    .scene .src { animation-delay: 2.7s; }
+
+    /* Le balayage : chaque machine s'éclaire au passage de la lecture, puis
+       revient à son gris. Soixante-dix millisecondes d'écart, soit un peu
+       moins de deux secondes pour les vingt-trois. Le tour de la pastille et
+       son fond sont animés séparément : l'un porte l'apparition, l'autre le
+       passage de la lecture. */
+    .chip,
+    .chip rect,
+    .chip text {
+      animation-duration: 900ms;
+      animation-delay: calc(0.45s + var(--i, 0) * 0.07s);
+      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      /* `both` n'est pas cosmetique ici : sans lui, le verrou de la retenue ne
+         tient pas sa derniere image, et une animation terminee sort de
+         `getAnimations()`, ce qui la rend invisible a toute verification. */
+      animation-fill-mode: both;
+    }
+    .chip { animation-name: pk-in; }
+    .chip rect { animation-name: pk-flash; }
+    /* La retenue ne redescend pas : elle s'allume au passage comme les autres,
+       et reste allumée. */
+    .chip-on rect { animation-name: pk-lock; }
+    .chip-on text { animation-name: pk-white; }
+
+    .fil { animation-delay: 2.5s; }
+    .rep { animation-delay: 2.8s; }
   }
 
-  @keyframes mv-entree {
-    from {
-      opacity: 0;
-      transform: translateY(0.45rem);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
+  @keyframes pk-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  /* Le passage de la lecture : le gris s'échauffe, puis retombe. */
+  @keyframes pk-flash {
+    0% { fill: var(--color-n-100); }
+    35% { fill: var(--color-accent-bg); }
+    100% { fill: var(--color-n-100); }
+  }
+  /* La retenue suit le même échauffement mais ne retombe pas. */
+  @keyframes pk-lock {
+    0% { fill: var(--color-n-100); }
+    45%, 100% { fill: var(--color-accent); }
+  }
+  @keyframes pk-white {
+    0% { fill: var(--color-n-500); }
+    45%, 100% { fill: #fff; }
+  }
+  @keyframes pk-link {
+    from { opacity: 0; transform: scaleY(0); transform-origin: top; }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes pk-answer {
+    from { opacity: 0; transform: translateY(0.5rem); }
+    to { opacity: 1; transform: none; }
   }
 
-  @media (max-width: 640px) {
-    .scene { margin-top: 2rem; }
-    .a, .src { padding-left: 0.875rem; }
+  /* Sous cette largeur, une grille de sept cent vingt unités rend sa mono de
+     quinze pixels à moins de neuf : elle se parcourt latéralement plutôt que
+     de devenir illisible. */
+  @media (max-width: 700px) {
+    .fig {
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: thin;
+    }
+    .svg {
+      min-width: 520px;
+    }
   }
 </style>
