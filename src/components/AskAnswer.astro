@@ -1,0 +1,172 @@
+---
+/**
+ * On pose la question, l'IA va chercher, elle répond.
+ *
+ * La séquence est la démonstration de la section : une question en langue
+ * courante, deux appels d'outils vers Meshvise, une réponse chiffrée qui cite
+ * sa source. Rien de ce qui s'affiche n'est inventé pour la vitrine, les
+ * chiffres viennent du parc de démonstration et la mention le dit.
+ *
+ * Trois règles reprises des figures animées du site, parce qu'une deuxième
+ * langue visuelle en travers de la première ne servirait personne :
+ *
+ * - L'animation joue une fois et tient sa dernière image, qui est complète.
+ *   Une figure qui se vide toutes les six secondes fait perdre à un lecteur
+ *   sur deux ce qu'elle voulait dire. `observe.ts` la rejoue quand elle
+ *   revient à l'écran.
+ * - Tout le texte est dans le document, et l'animation ne touche qu'à
+ *   l'opacité et à la position. Sans script, sous `prefers-reduced-motion`,
+ *   ou pour un robot d'indexation, la scène est simplement là, entière et
+ *   lisible. C'est aussi ce qui la rend citable par un moteur.
+ * - Le mouvement ne se calque pas sur le défilement : il garde son rythme.
+ */
+import { type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const fr = {
+  question: "Quelle machine nous a le plus arrêtés le mois dernier ?",
+  appels: [
+    { outil: 'alarm_summary', arg: '30 jours, 23 machines' },
+    { outil: 'reliability', arg: 'CU3' },
+  ],
+  reponse: "Le centre d'usinage CU3 : 154 alarmes en trente jours, dont 3 acquittées.",
+  source: "CU3 · 12 août au 11 septembre · parc de démonstration",
+  aria:
+    "Une question posee a une IA, les deux appels qu'elle adresse a Meshvise, " +
+    "et la reponse chiffree qu'elle en tire.",
+};
+
+const en = {
+  question: 'Which machine stopped us the most last month?',
+  appels: [
+    { outil: 'alarm_summary', arg: '30 days, 23 machines' },
+    { outil: 'reliability', arg: 'CU3' },
+  ],
+  reponse: 'Machining centre CU3: 154 alarms over thirty days, 3 of them acknowledged.',
+  source: 'CU3 · 12 August to 11 September · demonstration site',
+  aria:
+    'A question put to an AI, the two calls it makes to Meshvise, and the ' +
+    'figures it answers with.',
+};
+
+const d = lang === 'fr' ? fr : en;
+const [ouvre, ferme] = lang === 'fr' ? ['« ', ' »'] : ['“', '”'];
+---
+
+<figure class="scene" role="img" aria-label={d.aria} data-scene>
+  <p class="q">{ouvre}{d.question}{ferme}</p>
+
+  <ul class="calls">
+    {d.appels.map((a, i) => (
+      <li style={`--i:${i}`}>
+        <span class="arrow" aria-hidden="true">&#8594;</span>
+        <code>{a.outil}</code>
+        <span class="arg">{a.arg}</span>
+      </li>
+    ))}
+  </ul>
+
+  <p class="a">{d.reponse}</p>
+  <figcaption class="src">{d.source}</figcaption>
+</figure>
+
+<script>
+  import { observerLesFigures } from './motion/observe';
+
+  observerLesFigures();
+</script>
+
+<style>
+  .scene {
+    margin: 2.5rem 0 0;
+    padding: 0;
+    max-width: 42rem;
+    display: grid;
+    gap: 0.875rem;
+  }
+
+  .q {
+    margin: 0;
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    font-weight: 400;
+    line-height: 1.45;
+    letter-spacing: -0.015em;
+    color: var(--color-ink);
+  }
+
+  /* Les deux appels : ce que l'IA décide de demander. En chasse fixe parce
+     que ce sont des noms d'outils, et décalés parce que c'est un aller vers
+     le produit, pas une ligne de texte de plus. */
+  .calls {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 0.125rem;
+    display: grid;
+    gap: 0.3rem;
+  }
+  .calls li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+  .arrow { color: var(--color-accent); }
+  .calls code { color: var(--color-ink-2); }
+  .arg { color: var(--color-n-400); }
+
+  .a {
+    margin: 0.375rem 0 0;
+    padding-left: 1.125rem;
+    border-left: 2px solid var(--color-accent);
+    font-size: clamp(1.0625rem, 1.9vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-ink);
+  }
+  .src {
+    margin: 0;
+    padding-left: 1.125rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+  }
+
+  /* L'état de repos EST l'état final. L'animation ne fait que retarder
+     l'apparition, donc tout est lisible sans elle. */
+  @media (prefers-reduced-motion: no-preference) {
+    .scene .q,
+    .scene .calls li,
+    .scene .a,
+    .scene .src {
+      animation: mv-entree 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .scene .q { animation-delay: 0s; }
+    .scene .calls li { animation-delay: calc(0.85s + var(--i, 0) * 0.45s); }
+    .scene .a { animation-delay: 2.3s; }
+    .scene .src { animation-delay: 2.7s; }
+  }
+
+  @keyframes mv-entree {
+    from {
+      opacity: 0;
+      transform: translateY(0.45rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .scene { margin-top: 2rem; }
+    .a, .src { padding-left: 0.875rem; }
+  }
+</style>

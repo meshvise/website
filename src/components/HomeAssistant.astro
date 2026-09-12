@@ -28,6 +28,7 @@ import fr from '../i18n/fr.json';
 import en from '../i18n/en.json';
 import { t, type Lang } from '../i18n';
 import { href } from '../i18n/routes';
+import AskAnswer from './AskAnswer.astro';
 
 interface Props {
   lang: Lang;
@@ -46,6 +47,9 @@ const [ouvre, ferme] = lang === 'fr' ? ['« ', ' »'] : ['“', '”'];
     <h2 class="t-page head">{t(lang, 'home.ai.title')}</h2>
     <p class="t-lede lede">{t(lang, 'home.ai.lede')}</p>
 
+    <AskAnswer lang={lang} />
+
+    <span class="more-label">{t(lang, 'home.ai.more_label')}</span>
     <ul class="qs">
       {questions.map((q) => (
         <li>{ouvre}{q}{ferme}</li>
@@ -60,12 +64,22 @@ const [ouvre, ferme] = lang === 'fr' ? ['« ', ' »'] : ['“', '”'];
   .head { max-width: 24ch; }
   .lede { margin-top: 1.25rem; max-width: 48ch; }
 
+  .more-label {
+    display: block;
+    margin-top: 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
   /* Les questions se lisent comme des phrases que le visiteur a déjà dites :
      une par ligne, même graisse légère que le reste, sans encadré. Ce ne sont
      pas des fonctionnalités. */
   .qs {
     list-style: none;
-    margin: 2.75rem 0 0;
+    margin: 1.125rem 0 0;
     padding: 0;
     max-width: 46rem;
   }
@@ -78,16 +92,10 @@ const [ouvre, ferme] = lang === 'fr' ? ['« ', ' »'] : ['“', '”'];
     padding: 0.55rem 0 0.55rem 1.25rem;
     border-left: 2px solid var(--color-line-strong);
   }
-  /* La première porte l'accent et l'encre pleine : c'est celle qui doit être
-     lue si le visiteur n'en lit qu'une. */
-  .qs li:first-child {
-    color: var(--color-ink);
-    border-left-color: var(--color-accent);
-  }
   .qs li + li { margin-top: 0.5rem; }
 
   @media (max-width: 640px) {
-    .qs { margin-top: 2.25rem; }
+    .more-label { margin-top: 2.25rem; }
     .qs li { padding-left: 1rem; }
   }
 </style>

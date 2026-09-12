@@ -219,13 +219,13 @@
       "title": "With AI, finally answer your questions about the shop floor.",
       "lede": "Now that it reads your equipment, it answers without anyone having to build the report.",
       "questions": [
-        "Which machine stopped us the most last month?",
         "Who changed this threshold, and when?",
         "Why is the compressor running at night?",
         "Which workstation loses the most time to micro-stoppages?",
         "Where is production since this morning?"
       ],
-      "cta": "Plugging an AI into a shop floor"
+      "cta": "Plugging an AI into a shop floor",
+      "more_label": "And these too"
     }
   },
   "why": {
