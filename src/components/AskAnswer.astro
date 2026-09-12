@@ -19,9 +19,9 @@
  * ce qu'elle lit.
  *
  * La réponse est rédigée comme une réponse d'assistant, en deux temps qui
- * arrivent l'un après l'autre, et elle cite ses sources. Ce n'est pas un effet
- * de style : le contrat des outils impose qu'une affirmation soit citée, et
- * montrer la citation vaut mieux que l'affirmer ailleurs.
+ * arrivent l'un après l'autre. Elle ne rappelle pas ses sources : la
+ * convergence des cases vient de les montrer, et les redire sous la réponse
+ * n'ajoutait qu'une ligne à relire.
  *
  * Tous les chiffres sont mesurés sur le parc de démonstration de Bellecombe.
  * La mention explicite a été retirée sur demande ; si un prospect demande d'où
@@ -224,7 +224,6 @@ const TOUR = 14000;
       <div class:list={['ans', i === 0 && 'on']} data-a={i} data-lus={t.lus.join(',')}>
         <span class="ans-1">{t.a1}</span>
         <span class="ans-2">{t.a2}</span>
-        <span class="ans-src">{t.lus.map((n) => d.usages[n]).join(' · ')}</span>
       </div>
     ))}
   </div>
@@ -463,15 +462,6 @@ const TOUR = 14000;
     line-height: 1.6;
     color: var(--color-ink-2);
   }
-  /* Les sources : le contrat des outils impose qu'une affirmation soit citée,
-     la figure le montre au lieu de le promettre ailleurs. */
-  .ans-src {
-    margin-top: 0.25rem;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.06em;
-    color: var(--color-muted);
-  }
 
   /* Le mouvement ne s'applique qu'au tour en cours, et seulement quand la
      figure porte `run` : c'est ce qui permet de le rejouer à chaque tour. */
@@ -523,7 +513,6 @@ const TOUR = 14000;
     .run .ans.on { animation: aa-bar 300ms linear 6.9s both; }
     .run .ans.on .ans-1 { animation: aa-up 420ms cubic-bezier(0.22, 1, 0.36, 1) 6.9s both; }
     .run .ans.on .ans-2 { animation: aa-up 420ms cubic-bezier(0.22, 1, 0.36, 1) 7.3s both; }
-    .run .ans.on .ans-src { animation: aa-in 300ms linear 7.8s both; }
   }
 
   @keyframes aa-type { from { max-width: 0; } to { max-width: 100%; } }
