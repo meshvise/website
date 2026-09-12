@@ -138,7 +138,7 @@
       "aria": "What each role reads in it"
     },
     "see": {
-      "title": "What you see in Meshvise",
+      "title": "What you manage with Meshvise",
       "dashboards": {
         "title": "Dashboards",
         "body": "Indicators, curves, gauges, tables, composed without code."
