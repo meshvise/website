@@ -450,8 +450,8 @@
           "v": "Meshvise n'héberge aucun modèle, ne détient aucune clé de fournisseur et ne voit passer aucun jeton. Il n'y a pas, dans le produit, de code qui appelle un fournisseur."
         },
         {
-          "k": "Une clé ne lit que les surfaces accordées",
-          "v": "Modèle du parc, valeurs courantes, historique, alarmes, journaux d'audit, adressage réseau : chaque permission est vérifiée à chaque appel, et le droit d'ouvrir une session ne donne accès à aucune donnée par lui-même."
+          "k": "Chaque intégration a sa propre clé",
+          "v": "Une clé par outil branché, révocable à tout moment : la couper ferme cet accès sans toucher aux autres."
         }
       ],
       "not": "Meshvise n'a pas d'IA : il ne diagnostique rien et ne répond à aucune question. C'est une prise. L'intelligence reste celle du modèle que vous avez choisi ; ce que Meshvise apporte, c'est un parc dont les données sont nommées, qualifiées et gouvernées.",

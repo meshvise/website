@@ -450,8 +450,8 @@
           "v": "Meshvise hosts no model, holds no provider key and sees no token pass through. There is no provider call anywhere in the product's code."
         },
         {
-          "k": "A key reads only the surfaces granted",
-          "v": "Equipment model, live values, history, alarms, audit logs, network addressing: every permission is checked on every call, and the right to open a session grants access to no data by itself."
+          "k": "One key per integration",
+          "v": "One key per connected tool, revocable at any time: cutting it closes that access without touching the others."
         }
       ],
       "not": "Meshvise has no AI: it diagnoses nothing and answers no question. It is a socket. The intelligence stays with the model you chose; what Meshvise brings is equipment whose data is named, qualified and governed.",
