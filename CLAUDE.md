@@ -82,10 +82,10 @@ Le serveur de développement est **fixé sur 127.0.0.1:4321**, avec `strictPort`
   le doublon devient invisible. C'est comme ça que le SPA du produit s'est
   retrouvé servi deux fois.
 
-Ne pas lancer `npm run dev` à la main quand plusieurs sessions travaillent :
-passer par `dev.ps1` à la racine du workspace, qui vérifie le port avant de
-démarrer et refuse donc le doublon. `.\dev.ps1` seul affiche l'état des quatre
-services et la mémoire du poste.
+`npm run dev` est le seul lancement. Plusieurs sessions peuvent le tenter sans
+risque : grâce à `strictPort`, le second refuse de démarrer au lieu de
+s'installer à côté — un refus veut dire que la vitrine tourne déjà sur 4321.
+(`dev.ps1`, à la racine du workspace, jouait ce rôle jusqu'au 2026-09-16.)
 
 Pour juger une page sans serveur de développement, servir le build statique
 depuis `dist/`. Ce n'est plus la voie par défaut depuis le 2026-09-11 : le
