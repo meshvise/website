@@ -139,23 +139,45 @@
     },
     "see": {
       "title": "Ce que vous gérez avec Meshvise",
-      "dashboards": {
-        "title": "Tableaux de bord",
-        "body": "Indicateurs, courbes, jauges, tableaux, composés sans code."
-      },
-      "alarms": {
-        "title": "Alarmes",
-        "body": "Par criticité, acquittement, mise en veille, notification par courriel ou webhook."
-      },
-      "synoptics": {
-        "title": "Synoptiques",
-        "body": "Vos installations dessinées, animées par les valeurs réelles."
-      },
-      "history": {
-        "title": "Historique",
-        "body": "N'importe quel point, n'importe quelle période, exportable."
-      },
-      "note": "Tout ce qui est montré ici se trouve dans la démonstration en ligne.",
+      "aria": "Fonctionnalités de Meshvise",
+      "features": [
+        {
+          "id": "acquisition",
+          "title": "Acquisition multiprotocole",
+          "body": "Treize protocoles dans un seul moteur, quelle que soit la marque de vos automates. Pendant une coupure réseau, les mesures sont gardées puis rattrapées.",
+          "alt": "Liste des pilotes de Meshvise : OPC UA, Modbus, BACnet, S7, MQTT et les autres protocoles d'un atelier, chacun avec son adresse et sa cadence."
+        },
+        {
+          "id": "historisation",
+          "title": "Historisation",
+          "body": "Chaque point enregistré selon sa propre politique, dans une base standard.",
+          "alt": "Courbe d'énergie consommée sur sept jours dans Meshvise, avec le déploiement de configuration marqué sur la période."
+        },
+        {
+          "id": "alarmes",
+          "title": "Alarmes",
+          "body": "Sévérités, hystérésis, délai, acquittement, mise en veille, notification par courriel ou webhook.",
+          "alt": "Réglage d'une alarme de vibration de broche dans Meshvise : sévérité, seuil, bande morte, délai, groupe de notification et webhook."
+        },
+        {
+          "id": "tableaux",
+          "title": "Tableaux de bord",
+          "body": "Des modèles prêts dès l'installation, un éditeur sans code, le présent qui arrive en direct.",
+          "alt": "Tableau de bord « En ce moment » de Meshvise : alarmes, état des machines et puissance appelée, en direct."
+        },
+        {
+          "id": "indicateurs",
+          "title": "Indicateurs",
+          "body": "Micro-arrêts, taux de marche et talon nocturne, calculés depuis vos compteurs.",
+          "alt": "Écran Indicateurs de Meshvise : micro-arrêts par heure et taux de marche des centres d'usinage, avec leur fenêtre et leur couverture."
+        },
+        {
+          "id": "revisions",
+          "title": "Traçabilité",
+          "body": "Qui a changé quoi et quand, et le retour arrière en une opération.",
+          "alt": "Historique des révisions de configuration dans Meshvise : message, auteur et date de chaque changement."
+        }
+      ],
       "placeholder": "Capture de la démonstration"
     },
     "continuity": {
