@@ -1,0 +1,368 @@
+---
+/**
+ * Pourquoi superviser : trois coûts cachés, montrés au lieu d'être calculés.
+ *
+ * Remplace le 2026-09-22 le calculateur à cinq onglets et quinze champs :
+ * personne ne remplit un formulaire pour découvrir ce qu'il perd. Chaque
+ * coût tient en un grand chiffre, une phrase et une animation, et le chiffre
+ * est une arithmétique posée dans la phrase, pas une promesse :
+ *
+ *   micro-arrêts  vingt arrêts de trois minutes par jour font une heure
+ *   nuit          18 kW de fuite, 5 096 h hors production par an, 0,14 €/kWh
+ *                 font 13 000 € (le talon mesuré sur l'air comprimé de la
+ *                 démonstration est de 22,7 kW pour une veille de 4,5 kW)
+ *   astreinte     un aller-retour de nuit pour lire un écran
+ *
+ * Les animations partent quand la ligne entre dans l'écran, une fois, et
+ * tiennent leur dernière image. Sans script ou sous `prefers-reduced-motion`,
+ * elles sont posées dans leur état final.
+ *
+ * Tous les dessins sont écrits en dur, sans expression conditionnelle : Astro
+ * ne pose pas son attribut de portée sur un élément SVG rendu dans une
+ * expression, et les styles de la ligne ne s'y appliqueraient pas.
+ */
+import fr from '../i18n/fr.json';
+import en from '../i18n/en.json';
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = (lang === 'fr' ? fr : en).why.costs as {
+  key: string;
+  figure: string;
+  unit: string;
+  title: string;
+  body: string;
+  alt: string;
+}[];
+const [arrets, nuit, alarme] = c;
+
+// ── Micro-arrêts : vingt arrêts répartis sur une journée de production ──
+const J_X0 = 20;
+const J_X1 = 580;
+const arretsX = Array.from({ length: 20 }, (_, i) => {
+  const base = J_X0 + 18 + (i / 19) * (J_X1 - J_X0 - 36);
+  return Math.round(base + Math.sin(i * 2.7) * 9);
+});
+
+// ── Nuit : cinq jours, la puissance ne retombe jamais à la veille ───────
+const N_W = 600;
+const N_Y_HAUT = 60; // production
+const N_Y_TALON = 128; // ce qui tourne la nuit
+const N_Y_VEILLE = 176; // ce qui devrait tourner
+const jours = 5;
+const pas = N_W / jours;
+const courbe = Array.from({ length: jours * 24 + 1 }, (_, h) => {
+  const heure = h % 24;
+  const prod = heure >= 6 && heure < 20;
+  const bruit = Math.sin(h * 1.9) * 4 + Math.sin(h * 0.7) * 3;
+  const y = prod ? N_Y_HAUT + bruit : N_Y_TALON + bruit * 0.4;
+  return `${((h / 24) * pas).toFixed(1)},${y.toFixed(1)}`;
+}).join(' ');
+const nuits = Array.from({ length: jours }, (_, j) => ({
+  x: j * pas + (20 / 24) * pas,
+  w: (10 / 24) * pas,
+}));
+---
+
+<section class="section" data-couts>
+  <div class="wrap couts">
+    <!-- 1. Les micro-arrêts -->
+    <article class="cout">
+      <div class="texte">
+        <p class="chiffre chiffre--crit">{arrets.figure}<span class="unite">{arrets.unit}</span></p>
+        <h2 class="titre">{arrets.title}</h2>
+        <p class="corps">{arrets.body}</p>
+      </div>
+      <figure class="dessin" role="img" aria-label={arrets.alt}>
+        <svg viewBox="0 0 600 220" focusable="false" aria-hidden="true">
+          <rect class="ma-jour" x={J_X0} y="60" width={J_X1 - J_X0} height="40" rx="8" />
+          {arretsX.map((x, i) => (
+            <rect class="ma-arret" x={x - 3} y="54" width="6" height="52" rx="3" style={`--i: ${i}`} />
+          ))}
+          <!-- Les vingt arrêts, additionnés : une heure entière. -->
+          <rect class="ma-cumul-fond" x={J_X0} y="150" width={J_X1 - J_X0} height="40" rx="8" />
+          <rect class="ma-cumul" x={J_X0} y="150" width={(J_X1 - J_X0) / 16} height="40" rx="8" />
+          <path class="ma-fleche" d="M300 116 V140 M292 132 L300 141 L308 132" />
+        </svg>
+      </figure>
+    </article>
+
+    <!-- 2. La machine qui tourne la nuit -->
+    <article class="cout cout--inverse">
+      <div class="texte">
+        <p class="chiffre chiffre--warn">{nuit.figure}<span class="unite">{nuit.unit}</span></p>
+        <h2 class="titre">{nuit.title}</h2>
+        <p class="corps">{nuit.body}</p>
+      </div>
+      <figure class="dessin" role="img" aria-label={nuit.alt}>
+        <svg viewBox="0 0 600 220" focusable="false" aria-hidden="true">
+          {nuits.map((n) => <rect class="nu-nuit" x={n.x} y="30" width={n.w} height="170" />)}
+          {nuits.map((n) => (
+            <rect class="nu-perte" x={n.x} y={N_Y_TALON} width={n.w} height={N_Y_VEILLE - N_Y_TALON} />
+          ))}
+          <line class="nu-veille" x1="0" y1={N_Y_VEILLE} x2={N_W} y2={N_Y_VEILLE} />
+          <polyline class="nu-courbe" pathLength="1" points={courbe} />
+          <g class="nu-lune" transform="translate(560 26)">
+            <path d="M8 -12 A13 13 0 1 0 12 8 A10 10 0 1 1 8 -12 Z" />
+          </g>
+        </svg>
+      </figure>
+    </article>
+
+    <!-- 3. L'alarme de deux heures du matin -->
+    <article class="cout">
+      <div class="texte">
+        <p class="chiffre chiffre--accent">{alarme.figure}<span class="unite">{alarme.unit}</span></p>
+        <h2 class="titre">{alarme.title}</h2>
+        <p class="corps">{alarme.body}</p>
+      </div>
+      <figure class="dessin" role="img" aria-label={alarme.alt}>
+        <svg viewBox="0 0 600 220" focusable="false" aria-hidden="true">
+          <!-- La route qu'on ne fait plus. -->
+          <path class="al-route" d="M150 150 C 210 150, 230 90, 310 90" />
+          <g class="al-voiture" transform="translate(30 120) scale(1.9)">
+            <rect x="0" y="0" width="54" height="22" rx="7" />
+            <rect x="10" y="-12" width="30" height="16" rx="5" />
+            <circle cx="13" cy="23" r="6" />
+            <circle cx="41" cy="23" r="6" />
+          </g>
+          <path class="al-barre" d="M24 92 L150 196" />
+          <!-- Le téléphone, et la réponse qui y arrive. -->
+          <rect class="al-tel" x="360" y="14" width="150" height="196" rx="20" />
+          <rect class="al-ecran" x="372" y="34" width="126" height="160" rx="8" />
+          <g class="al-notif">
+            <rect x="380" y="58" width="110" height="48" rx="9" />
+            <circle class="al-cloche" cx="400" cy="82" r="10" />
+            <rect class="al-ligne" x="418" y="72" width="60" height="7" rx="3.5" />
+            <rect class="al-ligne al-ligne--pale" x="418" y="86" width="42" height="7" rx="3.5" />
+          </g>
+          <g class="al-ok">
+            <circle cx="435" cy="148" r="22" />
+            <path d="M424 148 L432 156 L447 140" />
+          </g>
+        </svg>
+      </figure>
+    </article>
+  </div>
+</section>
+
+<script>
+  // Chaque ligne s'anime quand elle entre dans l'écran, une seule fois.
+  const calme = window.matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll<HTMLElement>('[data-couts] .cout').forEach((ligne) => {
+    if (calme.matches || !('IntersectionObserver' in window)) return;
+    ligne.classList.add('attend');
+    const obs = new IntersectionObserver(
+      (entrees) => {
+        if (entrees.some((e) => e.isIntersecting)) {
+          ligne.classList.remove('attend');
+          ligne.classList.add('vu');
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+    obs.observe(ligne);
+  });
+</script>
+
+<style>
+  .couts {
+    display: grid;
+    gap: 7rem;
+  }
+  .cout {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 4rem;
+    align-items: center;
+  }
+  .cout--inverse { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .cout--inverse .texte { order: 2; }
+
+  .chiffre {
+    margin: 0;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+  .chiffre--crit { color: var(--color-crit); }
+  .chiffre--warn { color: var(--color-warn); }
+  .chiffre--accent { color: var(--color-accent); }
+  .unite {
+    display: block;
+    margin-top: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--color-ink-2);
+  }
+  .titre {
+    margin-top: 1.75rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+  }
+  .corps {
+    margin-top: 0.75rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--color-ink-2);
+    max-width: 34rem;
+  }
+
+  .dessin {
+    margin: 0;
+    padding: 2rem 1.75rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+  }
+  .dessin svg { display: block; width: 100%; height: auto; }
+
+  /* ── Micro-arrêts ─────────────────────────────────────────────────── */
+  .ma-jour { fill: var(--color-normal); fill-opacity: 0.85; }
+  .ma-arret { fill: var(--color-crit); }
+  .ma-cumul-fond { fill: var(--color-n-100); }
+  .ma-cumul { fill: var(--color-crit); }
+  .ma-fleche {
+    fill: none;
+    stroke: var(--color-n-400);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ── Nuit ─────────────────────────────────────────────────────────── */
+  .nu-nuit { fill: var(--color-n-150); fill-opacity: 0.7; }
+  .nu-perte { fill: var(--color-warn); fill-opacity: 0.3; }
+  .nu-veille {
+    stroke: var(--color-n-500);
+    stroke-width: 2.5;
+    stroke-dasharray: 8 7;
+  }
+  .nu-courbe {
+    fill: none;
+    stroke: var(--color-brass);
+    stroke-width: 4;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .nu-lune path { fill: var(--color-n-400); }
+
+  /* ── Alarme ───────────────────────────────────────────────────────── */
+  .al-route {
+    fill: none;
+    stroke: var(--color-n-300);
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 2 14;
+  }
+  .al-voiture rect,
+  .al-voiture circle { fill: var(--color-n-400); }
+  .al-barre {
+    fill: none;
+    stroke: var(--color-crit);
+    stroke-width: 7;
+    stroke-linecap: round;
+  }
+  .al-tel { fill: var(--color-ink); }
+  .al-ecran { fill: #2a3342; }
+  .al-notif > rect:first-child { fill: #ffffff; }
+  .al-cloche { fill: var(--color-accent); }
+  .al-ligne { fill: var(--color-n-300); }
+  .al-ligne--pale { fill: var(--color-n-200); }
+  .al-ok circle { fill: var(--color-normal); }
+  .al-ok path {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .ma-arret,
+  .ma-cumul,
+  .al-notif,
+  .al-ok,
+  .nu-perte {
+    transform-box: fill-box;
+  }
+  .ma-arret { transform-origin: center; }
+  .ma-cumul { transform-origin: left center; }
+  .nu-perte { transform-origin: bottom; }
+  .al-ok { transform-origin: center; }
+
+  /* Avant l'entrée dans l'écran, les éléments animés attendent leur tour ;
+     sans script ni mouvement, la classe n'est jamais posée et tout est là. */
+  .attend .ma-arret,
+  .attend .ma-cumul,
+  .attend .ma-fleche,
+  .attend .nu-perte,
+  .attend .al-notif,
+  .attend .al-ok,
+  .attend .al-barre { opacity: 0; }
+  .attend .nu-courbe { stroke-dasharray: 1; stroke-dashoffset: 1; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .vu .ma-arret {
+      animation: wc-pop 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: calc(0.2s + var(--i) * 0.09s);
+    }
+    .vu .ma-fleche { animation: wc-fondu 0.4s ease both 2.1s; }
+    .vu .ma-cumul { animation: wc-pousse 0.9s cubic-bezier(0.22, 1, 0.36, 1) both 2.4s; }
+
+    .vu .nu-courbe {
+      stroke-dasharray: 1;
+      animation: wc-trace 2.2s linear both 0.2s;
+    }
+    .vu .nu-perte { animation: wc-monte 0.7s cubic-bezier(0.22, 1, 0.36, 1) both 2.4s; }
+
+    .vu .al-barre { animation: wc-fondu 0.35s ease both 0.5s; }
+    .vu .al-notif { animation: wc-glisse 0.55s cubic-bezier(0.22, 1, 0.36, 1) both 1s; }
+    .vu .al-ok { animation: wc-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both 1.8s; }
+  }
+
+  @media (max-width: 900px) {
+    .couts { gap: 4.5rem; }
+    .cout,
+    .cout--inverse { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+    .cout--inverse .texte { order: 0; }
+    .dessin { padding: 1.25rem 1rem; }
+  }
+</style>
+
+<style is:global>
+  @keyframes wc-pop {
+    from { opacity: 0; transform: scale(0.3); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes wc-fondu {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes wc-pousse {
+    from { opacity: 1; transform: scaleX(0); }
+    to { opacity: 1; transform: scaleX(1); }
+  }
+  @keyframes wc-trace {
+    from { stroke-dashoffset: 1; }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes wc-monte {
+    from { opacity: 0; transform: scaleY(0); }
+    to { opacity: 1; transform: scaleY(1); }
+  }
+  @keyframes wc-glisse {
+    from { opacity: 0; transform: translateY(-24px); }
+    to { opacity: 1; transform: none; }
+  }
+</style>

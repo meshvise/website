@@ -1,17 +1,23 @@
 ---
+/**
+ * Pourquoi superviser. Direct : le titre, trois coûts cachés montrés d'un
+ * regard, puis la demande de démonstration.
+ *
+ * Le calculateur de gisements (cinq onglets, quinze champs) a été retiré le
+ * 2026-09-22 : aucun visiteur ne remplit un formulaire pour apprendre ce
+ * qu'il perd. « Ce qui apparaît la première semaine » faisait doublon avec
+ * les trois coûts, et « Ce que Meshvise ne fait pas » parlait en négations ;
+ * les deux sections sont parties avec lui.
+ */
 import Base from '../../layouts/Base.astro';
 import PageHero from '../PageHero.astro';
-import Calculator from '../Calculator.astro';
+import WhyCosts from '../WhyCosts.astro';
 import ContactForm from '../ContactForm.astro';
 import LogsheetBackground from '../bg/LogsheetBackground.astro';
-import fr from '../../i18n/fr.json';
-import en from '../../i18n/en.json';
 import { t, type Lang } from '../../i18n';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
-const notItems = (lang === 'fr' ? fr : en).why.not.items as string[];
-const firsts = ['microstops', 'night', 'alarm'] as const;
 ---
 
 <Base lang={lang} title={t(lang, 'why.meta.title')} description={t(lang, 'why.meta.description')}>
@@ -19,33 +25,7 @@ const firsts = ['microstops', 'night', 'alarm'] as const;
     <LogsheetBackground slot="bg" lang={lang} />
   </PageHero>
 
-  <Calculator lang={lang} />
-
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head"><h2 class="t-page">{t(lang, 'why.first.title')}</h2></div>
-      <div class="grid md:grid-cols-3 border-t border-line">
-        {firsts.map((k, i) => (
-          <div class={`py-6 pr-6 border-b md:border-b-0 border-line ${i > 0 ? 'md:pl-6 md:border-l' : ''}`}>
-            <h3 class="text-[17px] font-medium text-ink">{t(lang, `why.first.${k}.title`)}</h3>
-            <p class="t-body mt-2 text-[14px]">{t(lang, `why.first.${k}.body`)}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section bg-surface border-y border-line">
-    <div class="wrap grid lg:grid-cols-12 gap-8">
-      <div class="lg:col-span-5">
-        <h2 class="t-page">{t(lang, 'why.not.title')}</h2>
-        <p class="t-lede mt-4">{t(lang, 'why.not.intro')}</p>
-      </div>
-      <ul class="lg:col-span-7 border-t border-line self-start">
-        {notItems.map((it) => <li class="py-4 border-b border-line text-[15px] text-ink">{it}</li>)}
-      </ul>
-    </div>
-  </section>
+  <WhyCosts lang={lang} />
 
   <ContactForm lang={lang} title={t(lang, 'why.cta.title')} body={t(lang, 'why.cta.body')} />
 </Base>

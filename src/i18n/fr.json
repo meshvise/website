@@ -15,7 +15,6 @@
   "common": {
     "cta_demo": "Voir la démo",
     "cta_trial": "Demander un essai",
-    "cta_calc": "Calculer ce que ça vous coûte",
     "cta_contact": "Prendre contact",
     "cta_request_demo": "Demander une démonstration",
     "learn_more": "En savoir plus",
@@ -75,7 +74,7 @@
     "doors": {
       "left": {
         "title": "Vous n'avez pas encore de supervision.",
-        "body": "Vos relevés sont sur un carnet, votre taux de rendement dans un tableur, et une alarme de nuit veut dire un déplacement. Calculez ce que ça vous coûte, avec vos propres chiffres.",
+        "body": "Vos relevés sont sur un carnet, votre taux de rendement dans un tableur, et une alarme de nuit veut dire un déplacement. Voici ce que ça vous coûte.",
         "cta": "Pourquoi superviser"
       },
       "right": {
@@ -225,91 +224,41 @@
   "why": {
     "meta": {
       "title": "Pourquoi superviser · Ce que vous coûte de ne pas savoir · Meshvise",
-      "description": "Arrêts inexpliqués, relevés manuels, audits préparés à la main, énergie consommée hors production : calculez ce que l'absence de supervision coûte à votre site, avec vos propres chiffres."
+      "description": "Des arrêts que personne ne note, une machine qui tourne la nuit, un déplacement pour lire un écran : trois coûts réels que la supervision rend visibles dès la première semaine."
     },
     "hero": {
-      "eyebrow": "Pourquoi superviser",
       "title": "Ce que vous coûte de ne pas savoir.",
-      "subtitle": "Une ligne qui s'arrête sans qu'on sache pourquoi, un relevé noté trois fois par jour sur un carnet, un audit préparé à la main, un compresseur qui tourne la nuit. Chacun de ces coûts est réel, aucun n'apparaît dans vos comptes. Calculez-les avec vos chiffres."
+      "subtitle": "Ces coûts sont réels et n'apparaissent dans aucun compte. En voici trois, que Meshvise rend visibles dès la première semaine."
     },
-    "calc": {
-      "title": "Le calcul, avec vos chiffres",
-      "intro": "Aucun pourcentage promis. Renseignez ce que vous savez de votre site, le calcul fait le reste. Les champs vides sont ignorés.",
-      "tablist_label": "Gisements",
-      "per_year": "par an",
-      "per_month": "par mois",
-      "downtime": {
-        "label": "Arrêts",
-        "help": "Sans historique, comprendre pourquoi une ligne s'est arrêtée relève de l'enquête, et l'enquête se fait pendant que la ligne est à l'arrêt.",
-        "f1": "Coût d'une heure d'arrêt (€)",
-        "f2": "Heures de recherche par incident",
-        "f3": "Incidents par mois",
-        "result": "Coût annuel du diagnostic"
+    "costs": [
+      {
+        "key": "arrets",
+        "figure": "1 h",
+        "unit": "de production perdue chaque jour",
+        "title": "Les arrêts que personne ne note",
+        "body": "Vingt arrêts de trois minutes ne passent sur aucun carnet. Additionnés, ils font une heure par jour. Meshvise les compte dès que la machine est branchée.",
+        "alt": "Une journée de production, sur laquelle vingt arrêts de trois minutes apparaissent un à un, puis s'additionnent en une heure entière perdue."
       },
-      "oncall": {
-        "label": "Astreinte",
-        "help": "Une alarme de nuit veut dire un déplacement pour aller regarder un écran, parce que rien ne dit à distance si c'est grave.",
-        "f1": "Déplacements évitables par mois",
-        "f2": "Durée aller-retour (heures)",
-        "f3": "Coût horaire majoré (€)",
-        "result": "Coût annuel des déplacements"
+      {
+        "key": "nuit",
+        "figure": "13 000 €",
+        "unit": "par an, pour un atelier vide",
+        "title": "La machine qui tourne la nuit",
+        "body": "Un compresseur qui fuit consomme la nuit et le week-end presque comme en production. 18 kW de trop, 5 000 heures par an, à 0,14 € le kWh. Meshvise le montre dès la première nuit.",
+        "alt": "Cinq jours de consommation : la nuit, la courbe ne redescend jamais au niveau de veille, et l'écart entre les deux, chaque nuit, est de l'énergie perdue."
       },
-      "manual": {
-        "label": "Relevés manuels",
-        "help": "Un relevé noté sur un carnet coûte du temps, produit des erreurs, et ne constitue pas une preuve solide en audit.",
-        "f1": "Relevés par jour",
-        "f2": "Minutes par relevé",
-        "f3": "Coût horaire chargé (€)",
-        "result": "Coût annuel de la saisie"
-      },
-      "audit": {
-        "label": "Audits",
-        "help": "La collecte des preuves se fait à la main, dans des classeurs. Avec un historique interrogeable, elle devient une extraction.",
-        "f1": "Jours de préparation par audit",
-        "f2": "Audits par an",
-        "f3": "Coût journalier chargé (€)",
-        "result": "Coût annuel de la préparation"
-      },
-      "energy": {
-        "label": "Énergie",
-        "help": "Équipements qui tournent hors production, fuites d'air comprimé, talon nocturne : les gisements se voient en quelques jours d'historique.",
-        "f1": "Facture d'énergie mensuelle (€)",
-        "f2": "Part estimée hors production (%)",
-        "result": "Ordre de grandeur annuel du gisement"
-      },
-      "total_label": "Avec vos chiffres, l'absence de supervision vous coûte environ",
-      "empty": "Renseignez au moins une ligne pour voir le résultat.",
-      "rule": "Ces méthodes de calcul sont volontairement simples. Elles ne remplacent pas une étude, elles rendent visible un coût que personne ne mesure.",
-      "compare": "Comparez ce montant au tarif de la licence"
-    },
-    "first": {
-      "title": "Ce qui apparaît la première semaine",
-      "microstops": {
-        "title": "Les arrêts qui n'existaient pas",
-        "body": "Personne ne note un arrêt de quatre minutes. Cumulés sur un mois, ils pèsent souvent plus que les pannes déclarées. Ils apparaissent dès que les compteurs sont lus."
-      },
-      "night": {
-        "title": "Le talon de consommation nocturne",
-        "body": "Ce qui tourne quand rien ne devrait tourner. Un compresseur, une ventilation, un chauffage de bac. Visible à la première nuit."
-      },
-      "alarm": {
-        "title": "La première alarme reçue à distance",
-        "body": "Un seuil franchi, un courriel, et la réponse à « faut-il y aller ? » sans se déplacer."
+      {
+        "key": "alarme",
+        "figure": "2 h",
+        "unit": "de route pour lire un écran",
+        "title": "L'alarme de deux heures du matin",
+        "body": "Sans supervision, une alarme de nuit veut dire un déplacement pour savoir si c'est grave. Avec Meshvise, la réponse arrive sur le téléphone.",
+        "alt": "Une voiture sur une route de nuit, barrée ; à côté, un téléphone reçoit l'alarme, puis une coche verte : la réponse sans se déplacer."
       }
-    },
-    "not": {
-      "title": "Ce que Meshvise ne fait pas",
-      "intro": "La crédibilité tient aussi à ce qu'on refuse d'affirmer.",
-      "items": [
-        "Pas de prédiction de panne : Meshvise historise et alerte, il ne prédit pas.",
-        "Pas de sécurité fonctionnelle : les sécurités restent dans l'automate certifié.",
-        "Pas de gestion de maintenance, pas de pilotage de production.",
-        "Meshvise mesure, historise, alerte et montre."
-      ]
-    },
+    ],
     "cta": {
       "title": "Une démonstration sur vos équipements",
-      "body": "Une démonstration de trente minutes, en visio, sur un cas proche du vôtre. Sans engagement."
+      "body": "Trente minutes en visio, sur un cas proche du vôtre. Sans engagement."
     }
   },
   "contact_form": {

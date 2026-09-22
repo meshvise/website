@@ -15,7 +15,6 @@
   "common": {
     "cta_demo": "See the demo",
     "cta_trial": "Request a trial",
-    "cta_calc": "Calculate what it costs you",
     "cta_contact": "Get in touch",
     "cta_request_demo": "Request a demonstration",
     "learn_more": "Learn more",
@@ -75,7 +74,7 @@
     "doors": {
       "left": {
         "title": "You have no supervision yet.",
-        "body": "Your readings are in a notebook, your OEE in a spreadsheet, and a night alarm means driving to site. Calculate what it costs you, with your own numbers.",
+        "body": "Your readings are in a notebook, your OEE in a spreadsheet, and a night alarm means driving to site. Here is what it costs you.",
         "cta": "Why supervise"
       },
       "right": {
@@ -225,91 +224,41 @@
   "why": {
     "meta": {
       "title": "Why supervise · What not knowing costs you · Meshvise",
-      "description": "Unexplained stops, manual readings, audits prepared by hand, energy consumed outside production: calculate what the absence of supervision costs your site, with your own numbers."
+      "description": "Stoppages nobody records, a machine running at night, a drive to read a screen: three real costs that supervision makes visible in the first week."
     },
     "hero": {
-      "eyebrow": "Why supervise",
       "title": "What not knowing costs you.",
-      "subtitle": "A line that stops without anyone knowing why, a reading written three times a day in a notebook, an audit prepared by hand, a compressor running at night. Each of these costs is real, none appears in your accounts. Calculate them with your numbers."
+      "subtitle": "These costs are real and show up in no account. Here are three that Meshvise makes visible in the first week."
     },
-    "calc": {
-      "title": "The calculation, with your numbers",
-      "intro": "No percentage promised. Enter what you know about your site, the calculation does the rest. Empty fields are ignored.",
-      "tablist_label": "Cost sources",
-      "per_year": "per year",
-      "per_month": "per month",
-      "downtime": {
-        "label": "Stops",
-        "help": "Without history, understanding why a line stopped is an investigation, and the investigation happens while the line is down.",
-        "f1": "Cost of one hour of downtime (€)",
-        "f2": "Hours of investigation per incident",
-        "f3": "Incidents per month",
-        "result": "Annual cost of diagnosis"
+    "costs": [
+      {
+        "key": "arrets",
+        "figure": "1 h",
+        "unit": "of production lost every day",
+        "title": "The stoppages nobody records",
+        "body": "Twenty three-minute stoppages never make it into a logbook. Added up, they make one hour a day. Meshvise counts them as soon as the machine is connected.",
+        "alt": "A production day on which twenty three-minute stoppages appear one by one, then add up to a whole hour lost."
       },
-      "oncall": {
-        "label": "On-call",
-        "help": "A night alarm means driving in to look at a screen, because nothing tells you remotely whether it is serious.",
-        "f1": "Avoidable call-outs per month",
-        "f2": "Round-trip duration (hours)",
-        "f3": "Overtime hourly cost (€)",
-        "result": "Annual cost of call-outs"
+      {
+        "key": "nuit",
+        "figure": "€13,000",
+        "unit": "a year, for an empty shop floor",
+        "title": "The machine running at night",
+        "body": "A leaking compressor draws almost as much at night and at weekends as during production. 18 kW too much, 5,000 hours a year, at €0.14 per kWh. Meshvise shows it from the first night.",
+        "alt": "Five days of consumption: at night the curve never drops back to standby level, and the gap between the two, every night, is wasted energy."
       },
-      "manual": {
-        "label": "Manual readings",
-        "help": "A reading written in a notebook costs time, produces errors, and is not solid evidence in an audit.",
-        "f1": "Readings per day",
-        "f2": "Minutes per reading",
-        "f3": "Loaded hourly cost (€)",
-        "result": "Annual cost of data entry"
-      },
-      "audit": {
-        "label": "Audits",
-        "help": "Evidence is collected by hand, from binders. With a queryable history, it becomes an extraction.",
-        "f1": "Preparation days per audit",
-        "f2": "Audits per year",
-        "f3": "Loaded daily cost (€)",
-        "result": "Annual cost of preparation"
-      },
-      "energy": {
-        "label": "Energy",
-        "help": "Equipment running outside production, compressed-air leaks, night-time baseload: the savings show up in a few days of history.",
-        "f1": "Monthly energy bill (€)",
-        "f2": "Estimated share outside production (%)",
-        "result": "Annual order of magnitude"
-      },
-      "total_label": "With your numbers, the absence of supervision costs you about",
-      "empty": "Fill in at least one line to see the result.",
-      "rule": "These calculation methods are deliberately simple. They do not replace a study, they make visible a cost nobody measures.",
-      "compare": "Compare this figure with the licence rate"
-    },
-    "first": {
-      "title": "What shows up in the first week",
-      "microstops": {
-        "title": "The stops that didn't exist",
-        "body": "Nobody writes down a four-minute stop. Added up over a month, they often weigh more than declared breakdowns. They appear as soon as the counters are read."
-      },
-      "night": {
-        "title": "The night-time baseload",
-        "body": "What runs when nothing should. A compressor, a ventilation unit, a tank heater. Visible on the first night."
-      },
-      "alarm": {
-        "title": "The first alarm received remotely",
-        "body": "A threshold crossed, an email, and the answer to \"do I need to go?\" without moving."
+      {
+        "key": "alarme",
+        "figure": "2 h",
+        "unit": "of driving to read a screen",
+        "title": "The two a.m. alarm",
+        "body": "Without supervision, a night alarm means driving to site to find out whether it matters. With Meshvise, the answer reaches your phone.",
+        "alt": "A car on a night road, crossed out; next to it, a phone receives the alarm, then a green check: the answer without going on site."
       }
-    },
-    "not": {
-      "title": "What Meshvise does not do",
-      "intro": "Credibility also rests on what one refuses to claim.",
-      "items": [
-        "No failure prediction: Meshvise records and alerts, it does not predict.",
-        "No functional safety: safety stays in the certified PLC.",
-        "No maintenance management, no production scheduling.",
-        "Meshvise measures, records, alerts and shows."
-      ]
-    },
+    ],
     "cta": {
       "title": "A demonstration on your equipment",
-      "body": "A thirty-minute demonstration, by video call, on a case close to yours. No commitment."
+      "body": "Thirty minutes by video call, on a case close to yours. No commitment."
     }
   },
   "contact_form": {
