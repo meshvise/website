@@ -234,9 +234,7 @@
       "lost": "measurements lost"
     },
     "dashStrip": {
-      "unit": "dashboards",
-      "caption": "ready to use, plus your own, built without code",
-      "alt": "Four dashboards shipped with Meshvise. One of them fills in before your eyes: eight machines switch to running, four power bars take their value, a week of consumption is drawn. Then a cursor presses the button to create a new dashboard."
+      "alt": "A Meshvise dashboard fills in before your eyes: eight machines switch to running, four power bars take their value, a week of consumption is drawn. Then, into an empty slot, a cursor drags and drops a new widget: everyone builds their own dashboards."
     },
     "historianStrip": {
       "unit": "million measurements",
@@ -257,6 +255,10 @@
       "rollback": "Undoes M. Martin's change",
       "button": "Roll back",
       "alt": "Configuration revision log: who changed what and when. M. Martin tightened the cutting oil limit from 24.0 to 22.5 °C. A Roll back button is pressed on that revision: a new revision by J. Dupont sets the limit back to 24.0 °C, in one operation."
+    },
+    "utilStrip": {
+      "caption": "run rate on a machining centre, up from 62% eight weeks earlier",
+      "alt": "Eight weeks of run rate on a machining centre, one bar per week: from 62% to 78%. The 16-point gain above the starting level lights up in green."
     }
   }
 }

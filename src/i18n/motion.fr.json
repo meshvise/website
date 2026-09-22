@@ -234,9 +234,7 @@
       "lost": "mesure perdue"
     },
     "dashStrip": {
-      "unit": "tableaux de bord",
-      "caption": "prêts à l'emploi, et les vôtres à composer sans code",
-      "alt": "Quatre tableaux de bord livrés avec Meshvise. L'un d'eux se remplit sous les yeux : huit machines passent en marche, quatre barres de puissance prennent leur valeur, une semaine de consommation se trace. Puis un curseur presse le bouton de création d'un nouveau tableau de bord."
+      "alt": "Un tableau de bord Meshvise se remplit sous les yeux : huit machines passent en marche, quatre barres de puissance prennent leur valeur, une semaine de consommation se trace. Puis, dans une case vide, un curseur glisse un nouveau widget et le dépose : chacun compose ses propres tableaux de bord."
     },
     "historianStrip": {
       "unit": "millions de mesures",
@@ -257,6 +255,10 @@
       "rollback": "Annule le changement de M. Martin",
       "button": "Revenir en arrière",
       "alt": "Journal des révisions de configuration : qui a changé quoi et quand. M. Martin a resserré le seuil de l'huile de coupe de 24,0 à 22,5 °C. Un bouton Revenir en arrière est pressé sur cette révision : une nouvelle révision de J. Dupont remet le seuil à 24,0 °C, en une opération."
+    },
+    "utilStrip": {
+      "caption": "de taux de marche sur un centre d'usinage, contre 62 % huit semaines plus tôt",
+      "alt": "Huit semaines de taux de marche d'un centre d'usinage, une barre par semaine : de 62 % à 78 %. Le gain de 16 points au-dessus du niveau de départ s'allume en vert."
     }
   }
 }

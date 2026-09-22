@@ -2,27 +2,29 @@
 /**
  * V-07 · Tableaux de bord. Registre dépouillé.
  *
- * La seule figure de la série qui ne raconte pas un scénario : elle montre
- * un tableau de bord qui se remplit. Le compteur additionne les modèles
- * livrés, puis trois cartes se posent et prennent vie : huit machines passent
+ * La seule figure de la série qui ne raconte pas un scénario, et la seule
+ * sans chiffre de tête : elle montre un tableau de bord qui se remplit. Trois
+ * cartes se posent et prennent vie : huit machines passent
  * en marche une à une, quatre barres de puissance prennent leur valeur, une
- * semaine de consommation se trace. Enfin un curseur vient presser « + » :
+ * semaine de consommation se trace. Enfin, dans une case vide du tableau,
+ * un curseur glisse un nouveau widget et le dépose, sa jauge se remplit :
  * les modèles ne sont qu'un départ, l'utilisateur compose les siens. Aucun
  * mot dans le dessin : les titres de cartes sont des traits gris, comme sur
  * un écran vu de loin. Le point « en
  * direct » bat trois fois et se tait ; la figure joue une fois et tient sa
  * dernière image, comme le reste de la série.
  *
- * Tout ce qui est dessiné vient du produit : quatre modèles livrés dans le
- * code (En ce moment, Vue d'ensemble opérations, Énergie et efficacité,
- * Fiabilité et audit), les huit machines de production de Bellecombe, les
+ * Le nombre de modèles livrés n'est pas affiché (choix de Bruno, 2026-09-22) :
+ * le propos est qu'on compose les siens, pas combien on en reçoit.
+ *
+ * Tout ce qui est dessiné vient du produit : les modèles livrés dans le
+ * code, l'éditeur qui compose un tableau par widgets, les huit machines de
+ * production de Bellecombe, les
  * puissances relevées sur le widget « Puissance appelée » le 2026-09-16
  * (46,8, 37,8, 28,3 et 25,7 kW), et la forme de la semaine du modèle
  * « Énergie et efficacité » : cinq journées de production, un week-end plat.
  */
 import { mt as t, type Lang } from './text';
-import Stat from './Stat.astro';
-import type { Ligne } from './Stat.astro';
 import { toPoints } from './frame';
 import './strip.css';
 
@@ -31,12 +33,6 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-
-const MODELES = 4;
-const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
-  valeur: String(Math.round((i / 30) * MODELES)),
-  ton: 'ink',
-}));
 
 const MACHINES = 8;
 const puissances = [46.8, 37.8, 28.3, 25.7];
@@ -58,23 +54,11 @@ const aire = `M 0 ${SH} L ${trace.replaceAll(' ', ' L ')} L ${SW} ${SH} Z`;
 ---
 
 <figure class="mvf mvs" role="img" aria-label={t(lang, 'motion.dashStrip.alt')}>
-  <Stat lignes={lignes} unite={t(lang, 'motion.dashStrip.unit')} phrase={t(lang, 'motion.dashStrip.caption')} />
-
   <div class="dbs-board" aria-hidden="true">
     <div class="dbs-head">
       <span class="dbs-titre" />
-      <span class="dbs-actions">
-        <span class="dbs-dot" />
-        <!-- Créer le sien : le bouton que le curseur vient presser, une fois
-             les modèles remplis. -->
-        <span class="dbs-ajout">
-          <svg viewBox="0 0 16 16" focusable="false"><path d="M8 3 V13 M3 8 H13" /></svg>
-        </span>
-      </span>
+      <span class="dbs-dot" />
     </div>
-    <svg class="dbs-curseur" viewBox="0 0 24 24" focusable="false">
-      <path d="M5 3 L5 19 L9.4 14.8 L12.6 21.6 L15.4 20.3 L12.2 13.6 L18.4 13.6 Z" />
-    </svg>
 
     <div class="dbs-grid">
       <div class="dbs-carte mvs-pop" style="--i: 2">
@@ -97,12 +81,30 @@ const aire = `M 0 ${SH} L ${trace.replaceAll(' ', ' L ')} L ${SW} ${SH} Z`;
         </ul>
       </div>
 
-      <div class="dbs-carte dbs-large mvs-pop" style="--i: 4">
-        <span class="dbs-ctitre" style="width: 30%" />
+      <div class="dbs-carte mvs-pop" style="--i: 4">
+        <span class="dbs-ctitre" style="width: 40%" />
         <svg viewBox={`0 0 ${SW} ${SH}`} preserveAspectRatio="none" class="dbs-courbe">
           <path class="dbs-aire" d={aire} />
           <polyline class="dbs-trait" pathLength="1" points={trace} />
         </svg>
+      </div>
+
+      <!-- Composer le sien : une case vide, et un widget que le curseur y
+           glisse puis dépose. C'est le geste de l'éditeur, sans un mot. -->
+      <div class="dbs-case mvs-pop" style="--i: 5">
+        <span class="dbs-plus">
+          <svg viewBox="0 0 16 16" focusable="false"><path d="M8 3 V13 M3 8 H13" /></svg>
+        </span>
+        <div class="dbs-nouveau">
+          <span class="dbs-ctitre" style="width: 44%" />
+          <svg viewBox="0 0 100 100" class="dbs-jauge">
+            <circle class="dbs-jauge-fond" cx="50" cy="50" r="34" />
+            <circle class="dbs-jauge-arc" cx="50" cy="50" r="34" pathLength="100" />
+          </svg>
+          <svg class="dbs-curseur" viewBox="0 0 24 24" focusable="false">
+            <path d="M5 3 L5 19 L9.4 14.8 L12.6 21.6 L15.4 20.3 L12.2 13.6 L18.4 13.6 Z" />
+          </svg>
+        </div>
       </div>
     </div>
   </div>
@@ -144,42 +146,6 @@ const aire = `M 0 ${SH} L ${trace.replaceAll(' ', ' L ')} L ${SW} ${SH} Z`;
     border-radius: 50%;
     background: var(--color-normal);
   }
-  .dbs-actions {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .dbs-ajout {
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    background: var(--color-accent);
-  }
-  .dbs-ajout svg {
-    width: 14px;
-    height: 14px;
-    fill: none;
-    stroke: #fff;
-    stroke-width: 2.4;
-    stroke-linecap: round;
-  }
-  /* Le curseur arrive de la carte des courbes et vient presser « + ». Au
-     repos il est posé sur le bouton. */
-  .dbs-curseur {
-    position: absolute;
-    top: 1.45rem;
-    right: 0.45rem;
-    width: 22px;
-    height: 22px;
-    fill: var(--color-ink);
-    stroke: #fff;
-    stroke-width: 1.4;
-    stroke-linejoin: round;
-    pointer-events: none;
-  }
-
   .dbs-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -194,7 +160,76 @@ const aire = `M 0 ${SH} L ${trace.replaceAll(' ', ' L ')} L ${SW} ${SH} Z`;
     border-radius: var(--radius-md);
     background: var(--color-surface);
   }
-  .dbs-large { grid-column: 1 / -1; }
+  /* La case vide : tiretée, un « + » au centre, la hauteur d'une carte. */
+  .dbs-case {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 10.5rem;
+    border: 2px dashed var(--color-n-300);
+    border-radius: var(--radius-md);
+  }
+  .dbs-plus {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--color-accent-bg);
+    opacity: 0;
+  }
+  .dbs-plus svg,
+  .dbs-curseur { display: block; }
+  .dbs-plus svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+  }
+  /* Le widget déposé : une carte comme les autres, qui porte une jauge. */
+  .dbs-nouveau {
+    position: absolute;
+    inset: -2px;
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+    justify-items: center;
+    padding: 0.9rem 1rem 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+  .dbs-nouveau .dbs-ctitre { justify-self: start; }
+  .dbs-jauge { width: 92px; height: 92px; }
+  .dbs-jauge-fond {
+    fill: none;
+    stroke: var(--color-n-150);
+    stroke-width: 12;
+  }
+  .dbs-jauge-arc {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 12;
+    stroke-linecap: round;
+    stroke-dasharray: 72 100;
+    transform: rotate(-90deg);
+    transform-origin: 50px 50px;
+  }
+  .dbs-curseur {
+    position: absolute;
+    top: 38%;
+    left: 56%;
+    width: 24px;
+    height: 24px;
+    fill: var(--color-ink);
+    stroke: #fff;
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+    opacity: 0;
+    pointer-events: none;
+  }
 
   /* Huit machines : huit pastilles, qui passent du gris au vert. */
   .dbs-etats {
@@ -268,8 +303,12 @@ const aire = `M 0 ${SH} L ${trace.replaceAll(' ', ' L ')} L ${SW} ${SH} Z`;
       animation: dbs-aire 0.6s ease-out both;
       animation-delay: 2.2s;
     }
-    .dbs-curseur { animation: dbs-curseur 1.1s cubic-bezier(0.22, 1, 0.36, 1) both 2.6s; }
-    .dbs-ajout { animation: dbs-presse 0.3s ease-in-out both 3.7s; }
+    /* La case attend : son « + » bat, puis le widget arrive tenu par le
+       curseur, se pose, et sa jauge se remplit. */
+    .dbs-plus { animation: dbs-attend 1s ease-in-out both 2.1s; }
+    .dbs-nouveau { animation: dbs-glisse 1s cubic-bezier(0.22, 1, 0.36, 1) both 2.9s; }
+    .dbs-curseur { animation: dbs-tient 1.5s ease both 2.9s; }
+    .dbs-jauge-arc { animation: dbs-jauge 0.9s cubic-bezier(0.22, 1, 0.36, 1) both 3.9s; }
     /* Trois battements, puis le point reste allumé. */
     .dbs-dot {
       animation: dbs-pouls 1.3s ease-out 3 both;
@@ -301,13 +340,26 @@ const aire = `M 0 ${SH} L ${trace.replaceAll(' ', ' L ')} L ${SW} ${SH} Z`;
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    @keyframes dbs-curseur {
-      from { opacity: 0; transform: translate(-150px, 170px); }
-      20% { opacity: 1; }
-      to { opacity: 1; transform: translate(0, 0); }
+    @keyframes dbs-attend {
+      0% { opacity: 0; transform: scale(0.6); }
+      30% { opacity: 1; transform: scale(1.1); }
+      60% { opacity: 1; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1); }
     }
-    @keyframes dbs-presse {
-      50% { transform: scale(0.86); box-shadow: 0 0 0 6px var(--color-accent-bg); }
+    @keyframes dbs-glisse {
+      0% { opacity: 0; transform: translate(70px, 60px) rotate(5deg); box-shadow: 0 18px 30px -10px rgb(22 27 35 / 0.35); }
+      25% { opacity: 1; }
+      85% { transform: translate(0, 0) rotate(0deg); box-shadow: 0 18px 30px -10px rgb(22 27 35 / 0.35); }
+      100% { opacity: 1; transform: none; box-shadow: none; }
+    }
+    @keyframes dbs-tient {
+      0% { opacity: 0; }
+      15%, 70% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes dbs-jauge {
+      from { stroke-dasharray: 0 100; }
+      to { stroke-dasharray: 72 100; }
     }
     @keyframes dbs-pouls {
       0% { box-shadow: 0 0 0 0 rgb(11 122 64 / 0.5); }

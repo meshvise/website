@@ -8,14 +8,14 @@
  * prouve que le formulaire existe ; une broche qui dérive pendant trente
  * jours puis franchit son seuil dit pourquoi on en a besoin.
  *
- * Trois figures viennent de la série préparée sur `/preview-motion/`, trois
+ * Deux figures viennent de la série préparée sur `/preview-motion/`, quatre
  * ont été faites pour cette section :
  *
  *   acquisition    V-05  treize protocoles, un seul moteur
  *   historisation  V-08  les mesures qui remplissent la base, chacune à son rythme
  *   alarmes        V-01  la broche qui franchit le seuil ISO 10816
  *   tableaux       V-07  un tableau de bord livré qui se remplit
- *   indicateurs    V-02  le talon nocturne de l'air comprimé, en euros
+ *   indicateurs    V-10  un taux de marche qui progresse, semaine après semaine
  *   traçabilité    V-09  le journal des révisions et le retour arrière
  *
  * V-03, la valeur figée, est écartée : elle promet que le produit repère une
@@ -23,7 +23,8 @@
  * (le seuil trop serré) et V-06 (rien ne se perd pendant une coupure) ont
  * servi ici avant d'être remplacées le 2026-09-22 : la première ne se
  * comprenait pas comme de la traçabilité, la seconde parlait de la coupure
- * quand l'historisation doit parler de la base.
+ * quand l'historisation doit parler de la base. V-02 (le talon d'air
+ * comprimé en euros) a cédé la place à un indicateur de performance.
  *
  * Ce qui n'est pas écrit ici l'est volontairement, d'après le même registre :
  * aucune commande vers le procédé (AUD-001), aucune garantie sur la qualité
@@ -46,7 +47,7 @@ import ProtocolEngineStrip from './motion/ProtocolEngineStrip.astro';
 import HistorianStrip from './motion/HistorianStrip.astro';
 import SpindleWearStrip from './motion/SpindleWearStrip.astro';
 import DashboardStrip from './motion/DashboardStrip.astro';
-import AirLeakStrip from './motion/AirLeakStrip.astro';
+import UtilisationStrip from './motion/UtilisationStrip.astro';
 import TraceStrip from './motion/TraceStrip.astro';
 
 interface Props {
@@ -59,7 +60,7 @@ const FIGURES = {
   historisation: HistorianStrip,
   alarmes: SpindleWearStrip,
   tableaux: DashboardStrip,
-  indicateurs: AirLeakStrip,
+  indicateurs: UtilisationStrip,
   revisions: TraceStrip,
 } as const;
 

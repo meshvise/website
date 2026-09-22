@@ -164,7 +164,7 @@
         {
           "id": "indicateurs",
           "title": "Indicators",
-          "body": "Micro-stops, run rate and night-time baseload, calculated from your counters."
+          "body": "Run rate, micro-stops, night-time baseload: calculated from your counters, to follow what improves."
         },
         {
           "id": "revisions",
