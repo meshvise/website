@@ -212,16 +212,14 @@
         "price": "Sur demande",
         "note": "Pour les sites sans équipe technique",
         "cta": "Voir l'offre"
-      },
-      "link": "Voir les tarifs"
+      }
     },
     "final": {
       "title": "Voir Meshvise fonctionner",
       "body": "Un site industriel simulé : vingt-deux machines, treize protocoles, trente jours d'historique. Les alarmes, l'historique et les tableaux de bord sont ceux de l'application."
     },
     "ai": {
-      "title": "Grâce à l'IA, répondez enfin à vos questions.",
-      "cta": "Brancher une IA sur son atelier"
+      "title": "Grâce à l'IA, répondez enfin à vos questions."
     }
   },
   "why": {

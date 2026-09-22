@@ -27,7 +27,6 @@
 import fr from '../i18n/fr.json';
 import en from '../i18n/en.json';
 import { t, type Lang } from '../i18n';
-import { href } from '../i18n/routes';
 import AskAnswer from './AskAnswer.astro';
 
 interface Props {
@@ -35,7 +34,6 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const lienGuide = `${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`;
 
 /** Guillemets de la langue : chevrons en français, apostrophes en anglais. */
 ---
@@ -44,12 +42,11 @@ const lienGuide = `${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`;
   <div class="wrap mid">
     <h2 class="t-page head">{t(lang, 'home.ai.title')}</h2>
     <AskAnswer lang={lang} />
-    <a href={lienGuide} class="lien mt-8 inline-block">{t(lang, 'home.ai.cta')}</a>
   </div>
 </section>
 
 <style>
-  /* Toute la section est centree : un axe unique, du titre au lien.
+  /* Toute la section est centree : un axe unique, du titre à l'animation.
      Elle est la seule de l'accueil sur fond sombre : c'est l'argument fort
      de la page, et le fond marque la rupture entre les métiers, sur fond
      clair, et les fonctionnalités, sur fond blanc. */
@@ -71,20 +68,6 @@ const lienGuide = `${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`;
     --color-accent-border: rgb(198 185 238 / 0.6);
     --color-accent-bg: rgb(198 185 238 / 0.3);
     --color-accent-strong: #d8cff5;
-  }
-
-  /* Le lien, lisible sur le fond sombre. */
-  .lien {
-    color: var(--color-accent-soft);
-    text-decoration: underline;
-    text-decoration-color: color-mix(in srgb, var(--color-accent-soft) 40%, transparent);
-    text-underline-offset: 0.25em;
-    text-decoration-thickness: 1px;
-    transition: color 160ms ease, text-decoration-color 160ms ease;
-  }
-  .lien:hover {
-    color: #fff;
-    text-decoration-color: #fff;
   }
 
 </style>

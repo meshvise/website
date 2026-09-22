@@ -22,6 +22,7 @@
 import { mt as t, type Lang } from './text';
 import Stat from './Stat.astro';
 import type { Ligne } from './Stat.astro';
+import { decimal } from './frame';
 import './strip.css';
 
 interface Props {
@@ -30,6 +31,10 @@ interface Props {
 
 const { lang } = Astro.props;
 const k = (cle: string) => t(lang, `motion.traceStrip.${cle}`);
+const dec = (v: number) => decimal(v, 1, lang);
+/** Le seuil de l'huile de coupe, avant et après le resserrage. */
+const LARGE = 24.0;
+const SERRE = 22.5;
 
 const REVISIONS = 14;
 const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
@@ -39,7 +44,7 @@ const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
 
 const journal = [
   { initiales: 'CL', teinte: 'a', qui: 'C. Lefèvre', quoi: k('tcn1'), valeur: k('tcn1_v'), quand: k('d12') },
-  { initiales: 'MM', teinte: 'b', qui: 'M. Martin', quoi: k('oil'), valeur: '24,0 → 22,5 °C', quand: k('d31'), cible: true },
+  { initiales: 'MM', teinte: 'b', qui: 'M. Martin', quoi: k('oil'), valeur: `${dec(LARGE)} → ${dec(SERRE)} °C`, quand: k('d31'), cible: true },
   { initiales: 'PD', teinte: 'c', qui: 'P. Dubois', quoi: k('air'), valeur: k('air_v'), quand: k('d26') },
 ];
 ---
@@ -56,7 +61,7 @@ const journal = [
         <span class="trs-qui">J. Dupont</span>
         <span class="trs-quoi">{k('rollback')}</span>
       </span>
-      <span class="trs-valeur trs-valeur--ok">22,5 → 24,0 °C</span>
+      <span class="trs-valeur trs-valeur--ok">{`${dec(SERRE)} → ${dec(LARGE)} °C`}</span>
       <span class="trs-quand">
         <svg class="trs-coche" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="10" /><path d="M5.5 10.2 L8.6 13.2 L14.6 7" /></svg>
       </span>

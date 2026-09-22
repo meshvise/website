@@ -212,16 +212,14 @@
         "price": "On request",
         "note": "For sites without a technical team",
         "cta": "See the offer"
-      },
-      "link": "See the rates"
+      }
     },
     "final": {
       "title": "See Meshvise running",
       "body": "A simulated industrial site: twenty-two machines, thirteen protocols, thirty days of history. The alarms, history and dashboards are the ones in the application."
     },
     "ai": {
-      "title": "With AI, finally answer your questions.",
-      "cta": "Plugging an AI into a shop floor"
+      "title": "With AI, finally answer your questions."
     }
   },
   "why": {
