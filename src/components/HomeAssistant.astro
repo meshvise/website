@@ -40,7 +40,7 @@ const lienGuide = `${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`;
 /** Guillemets de la langue : chevrons en français, apostrophes en anglais. */
 ---
 
-<section id="assistant" class="section dark-block relative overflow-hidden">
+<section id="assistant" class="section dark-block relative overflow-hidden fondu">
   <div class="wrap mid">
     <h2 class="t-page head">{t(lang, 'home.ai.title')}</h2>
     <div class="ecran">
@@ -57,6 +57,41 @@ const lienGuide = `${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`;
      clair, et les fonctionnalités, sur fond blanc. L'animation garde son
      dessin clair, posée sur un panneau comme sur un écran. */
   .mid { text-align: center; }
+
+  /* Pas de coupure nette : le sombre naît du fond clair des métiers et se
+     fond dans le blanc des fonctionnalités. Le fondu tient dans la marge
+     haute et basse de la section, si bien que le titre blanc et le lien
+     restent toujours sur du sombre. */
+  /* Le dégradé est adouci par paliers : un dégradé linéaire entre un fond
+     clair et un fond sombre fait une bande de brouillard. */
+  .fondu {
+    --fondu: 10rem;
+    --haut: var(--color-canvas);
+    --bas: var(--color-surface);
+    --sombre: var(--color-brand);
+    padding-block: 11rem;
+    background: linear-gradient(
+      to bottom,
+      var(--haut) 0,
+      color-mix(in srgb, var(--sombre) 6%, var(--haut)) calc(var(--fondu) * 0.2),
+      color-mix(in srgb, var(--sombre) 22%, var(--haut)) calc(var(--fondu) * 0.4),
+      color-mix(in srgb, var(--sombre) 50%, var(--haut)) calc(var(--fondu) * 0.6),
+      color-mix(in srgb, var(--sombre) 80%, var(--haut)) calc(var(--fondu) * 0.8),
+      var(--sombre) var(--fondu),
+      var(--sombre) calc(100% - var(--fondu)),
+      color-mix(in srgb, var(--sombre) 80%, var(--bas)) calc(100% - var(--fondu) * 0.8),
+      color-mix(in srgb, var(--sombre) 50%, var(--bas)) calc(100% - var(--fondu) * 0.6),
+      color-mix(in srgb, var(--sombre) 22%, var(--bas)) calc(100% - var(--fondu) * 0.4),
+      color-mix(in srgb, var(--sombre) 6%, var(--bas)) calc(100% - var(--fondu) * 0.2),
+      var(--bas) 100%
+    );
+  }
+  @media (max-width: 767px) {
+    .fondu {
+      --fondu: 5rem;
+      padding-block: 6.5rem;
+    }
+  }
   .head { max-width: 26ch; margin-inline: auto; margin-bottom: 0.5rem; }
 
   .ecran {
