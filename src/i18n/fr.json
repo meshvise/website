@@ -9,12 +9,12 @@
     "faq": "FAQ",
     "about": "À propos",
     "demo": "Voir la démo",
-    "trial": "Essai 7 jours",
+    "trial": "Essai sur vos équipements",
     "contact": "Contact"
   },
   "common": {
     "cta_demo": "Voir la démo",
-    "cta_trial": "Essayer 7 jours",
+    "cta_trial": "Demander un essai",
     "cta_calc": "Calculer ce que ça vous coûte",
     "cta_contact": "Prendre contact",
     "cta_request_demo": "Demander une démonstration",
@@ -327,7 +327,9 @@
     "note": "Réponse sous deux jours ouvrés, par la personne qui a écrit le code.",
     "mailto_subject": "Demande de démonstration Meshvise",
     "submit_quote": "Demander un devis",
-    "mailto_subject_quote": "Demande de devis Meshvise"
+    "mailto_subject_quote": "Demande de devis Meshvise",
+    "submit_trial": "Demander un essai",
+    "mailto_subject_trial": "Demande d'essai Meshvise"
   },
   "product": {
     "meta": {
@@ -818,8 +820,8 @@
       "body": "Décrivez votre site : nombre d'équipements, protocoles, ce que vous voulez mesurer. Le devis reprend la licence au tarif catalogue et chiffre la mise en service. Réponse sous deux jours ouvrés."
     },
     "trial": {
-      "name": "Essai 7 jours",
-      "tagline": "L'application complète sur votre infrastructure, pendant sept jours."
+      "name": "Essai sur vos équipements",
+      "tagline": "L'application complète sur votre infrastructure, avec vos équipements. Durée et périmètre sur devis."
     }
   },
   "integrators": {
@@ -1000,7 +1002,7 @@
     },
     "trial_how": {
       "q": "Comment se passe l'essai ?",
-      "a": "Vous remplissez un formulaire, vous recevez une licence par courriel avec un fichier Docker Compose prêt à l'emploi. Sept jours sur votre infrastructure, avec vos équipements. À l'expiration, lecture seule, données conservées."
+      "a": "Vous décrivez votre site dans le formulaire de demande d'essai. Nous vous proposons un devis qui fixe la durée, le périmètre et l'accompagnement. L'essai tourne ensuite sur votre infrastructure, avec vos équipements."
     },
     "demo_vs_trial": {
       "q": "Quelle différence entre la démo et l'essai ?",
@@ -1036,43 +1038,27 @@
   },
   "trial": {
     "meta": {
-      "title": "Essai 7 jours · Meshvise",
-      "description": "Recevez une licence d'essai de sept jours par courriel, lancez Meshvise sur votre infrastructure avec vos automates, validez en conditions réelles. Sans reconduction ni facturation à l'échéance."
+      "title": "Essai sur vos équipements · Meshvise",
+      "description": "Essayez Meshvise sur votre infrastructure, branché à vos automates, en conditions réelles. Durée, périmètre et accompagnement de l'essai sur devis."
     },
-    "eyebrow": "Essai 7 jours",
-    "title": "Meshvise sur votre infrastructure, pendant sept jours.",
-    "subtitle_html": "Remplissez ce formulaire, recevez par courriel votre licence et un <code>docker-compose.yml</code> prêt à l'emploi. Vous lancez <code>docker compose up -d</code> sur votre serveur, vous branchez vos automates, vous validez en conditions réelles.",
-    "form": {
-      "name_label": "Nom",
-      "name_placeholder": "Votre nom",
-      "email_label": "Courriel professionnel",
-      "email_placeholder": "vous@société.fr",
-      "company_label": "Entreprise",
-      "company_placeholder": "Votre société",
-      "use_case_label": "Cas d'usage",
-      "use_case_placeholder": "Quel type de site, combien de points, quels automates...",
-      "submit": "Recevoir ma licence d'essai",
-      "submitting": "Envoi en cours...",
-      "error_generic": "L'envoi a échoué. Réessayez ou écrivez à contact@meshvise.com.",
-      "error_turnstile": "Validez le contrôle anti-robot avant d'envoyer.",
-      "error_rate_limit": "Vous avez déjà demandé une licence récemment. Réessayez dans 24 heures ou écrivez à contact@meshvise.com.",
-      "error_dedupe": "Une licence a déjà été émise pour cette adresse dans les trente derniers jours. Vérifiez votre boîte de réception, courrier indésirable compris, ou écrivez à contact@meshvise.com."
-    },
-    "disclaimer": {
-      "limits_html": "Limites de la licence d'essai : 5 drivers, 15 machines, 500 points, fonctionnalités complètes (acquisition, historisation, alarmes, logique visuelle, accès SQL).",
-      "duration_html": "Durée : sept jours à compter de l'émission. À l'expiration, l'application passe en <strong>lecture seule</strong> : vos données restent vôtres, l'export reste actif.",
-      "no_card_html": "L'essai n'engage à rien : pas de reconduction, pas de facturation à l'échéance. Aucun envoi commercial au-delà du suivi de cet essai."
-    },
-    "what_next": {
-      "title": "Ce qui arrive ensuite",
-      "step_1_html": "<strong>Immédiat :</strong> courriel avec <code>license.jwt</code>, <code>docker-compose.yml</code> et la commande d'installation.",
-      "step_2_html": "<strong>Jour 6 :</strong> rappel vingt-quatre heures avant l'expiration, avec une proposition de rendez-vous.",
-      "step_3_html": "<strong>Jour 7 :</strong> bilan de l'essai. Aucune relance ensuite."
-    },
-    "success": {
-      "title": "Vérifiez votre boîte de réception",
-      "body_html": "Un courriel vient d'être envoyé à <strong class=\"font-mono\">{email}</strong>, avec votre licence et la commande d'installation. Sans réception dans les cinq minutes, courrier indésirable compris, écrivez à <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>.",
-      "back": "Retour à l'accueil"
-    }
+    "title": "Meshvise sur vos équipements, avant de décider.",
+    "subtitle": "L'essai tourne sur votre infrastructure, branché à vos automates. Sa durée, son périmètre et l'accompagnement se fixent sur devis, selon votre site.",
+    "steps_title": "Comment se passe l'essai",
+    "steps": [
+      {
+        "k": "Vous décrivez votre site",
+        "v": "Vos équipements, leurs protocoles, ce que vous voulez voir. Quelques lignes suffisent pour commencer."
+      },
+      {
+        "k": "Nous vous proposons un devis",
+        "v": "La durée de l'essai, son périmètre et l'accompagnement, chiffrés pour votre site. Réponse sous deux jours ouvrés."
+      },
+      {
+        "k": "Meshvise tourne chez vous",
+        "v": "Installé sur votre serveur, relié à vos automates. Vous jugez en conditions réelles, sur vos propres mesures."
+      }
+    ],
+    "form_title": "Demander un essai",
+    "form_body": "Décrivez votre site en quelques mots : type d'installation, nombre d'équipements, protocoles. Nous revenons vers vous avec une proposition d'essai."
   }
 }

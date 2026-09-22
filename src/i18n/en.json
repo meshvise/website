@@ -9,12 +9,12 @@
     "faq": "FAQ",
     "about": "About",
     "demo": "See the demo",
-    "trial": "7-day trial",
+    "trial": "Trial on your equipment",
     "contact": "Contact"
   },
   "common": {
     "cta_demo": "See the demo",
-    "cta_trial": "Try for 7 days",
+    "cta_trial": "Request a trial",
     "cta_calc": "Calculate what it costs you",
     "cta_contact": "Get in touch",
     "cta_request_demo": "Request a demonstration",
@@ -327,7 +327,9 @@
     "note": "Reply within two business days, from the person who wrote the code.",
     "mailto_subject": "Meshvise demonstration request",
     "submit_quote": "Request a quote",
-    "mailto_subject_quote": "Meshvise quote request"
+    "mailto_subject_quote": "Meshvise quote request",
+    "submit_trial": "Request a trial",
+    "mailto_subject_trial": "Meshvise trial request"
   },
   "product": {
     "meta": {
@@ -818,8 +820,8 @@
       "body": "Describe your site: number of devices, protocols, what you want to measure. The quote states the licence at list rate and prices the commissioning. Answer within two business days."
     },
     "trial": {
-      "name": "7-day trial",
-      "tagline": "The full application on your own infrastructure, for seven days."
+      "name": "Trial on your equipment",
+      "tagline": "The full application on your own infrastructure, with your equipment. Duration and scope on quote."
     }
   },
   "integrators": {
@@ -1000,7 +1002,7 @@
     },
     "trial_how": {
       "q": "How does the trial work?",
-      "a": "You fill in a form, you receive a licence by email with a ready-to-use Docker Compose file. Seven days on your infrastructure, with your equipment. On expiry, read-only, data kept."
+      "a": "You describe your site in the trial request form. We send you a quote that sets the duration, the scope and the support. The trial then runs on your infrastructure, with your equipment."
     },
     "demo_vs_trial": {
       "q": "What is the difference between the demo and the trial?",
@@ -1036,43 +1038,27 @@
   },
   "trial": {
     "meta": {
-      "title": "7-day trial · Meshvise",
-      "description": "Get a seven-day trial licence by email, run Meshvise on your own infrastructure with your PLCs, validate in real conditions. No renewal, no invoice at expiry."
+      "title": "Trial on your equipment · Meshvise",
+      "description": "Try Meshvise on your own infrastructure, connected to your PLCs, in real conditions. Trial duration, scope and support on quote."
     },
-    "eyebrow": "7-day trial",
-    "title": "Meshvise on your infrastructure, for seven days.",
-    "subtitle_html": "Fill in this form, receive by email your licence and a ready-to-use <code>docker-compose.yml</code>. Run <code>docker compose up -d</code> on your server, wire up your PLCs, validate in real conditions.",
-    "form": {
-      "name_label": "Name",
-      "name_placeholder": "Your name",
-      "email_label": "Work email",
-      "email_placeholder": "you@company.com",
-      "company_label": "Company",
-      "company_placeholder": "Your company",
-      "use_case_label": "Use case",
-      "use_case_placeholder": "What kind of site, how many points, which PLCs...",
-      "submit": "Send my trial licence",
-      "submitting": "Sending...",
-      "error_generic": "The request failed. Try again or write to contact@meshvise.com.",
-      "error_turnstile": "Complete the anti-robot check before submitting.",
-      "error_rate_limit": "You already requested a licence recently. Try again in 24 hours or write to contact@meshvise.com.",
-      "error_dedupe": "A licence has already been issued for this address in the last thirty days. Check your inbox, junk folder included, or write to contact@meshvise.com."
-    },
-    "disclaimer": {
-      "limits_html": "Trial licence limits: 5 drivers, 15 machines, 500 points, full features (acquisition, history, alarms, visual logic, SQL access).",
-      "duration_html": "Duration: seven days from issuance. On expiry, the application switches to <strong>read-only</strong>: your data stays yours, export remains available.",
-      "no_card_html": "The trial commits you to nothing: no renewal, no invoice at expiry. No marketing emails beyond the trial follow-up."
-    },
-    "what_next": {
-      "title": "What happens next",
-      "step_1_html": "<strong>Immediately:</strong> email with <code>license.jwt</code>, <code>docker-compose.yml</code> and the install command.",
-      "step_2_html": "<strong>Day 6:</strong> reminder twenty-four hours before expiry, with a proposed meeting time.",
-      "step_3_html": "<strong>Day 7:</strong> trial review. No follow-up afterwards."
-    },
-    "success": {
-      "title": "Check your inbox",
-      "body_html": "An email has been sent to <strong class=\"font-mono\">{email}</strong> with your licence and the install command. If nothing arrives within five minutes, junk folder included, write to <a href=\"mailto:contact@meshvise.com\" class=\"text-brand hover:underline\">contact@meshvise.com</a>.",
-      "back": "Back to home"
-    }
+    "title": "Meshvise on your equipment, before you decide.",
+    "subtitle": "The trial runs on your infrastructure, connected to your PLCs. Its duration, scope and support are set on quote, to fit your site.",
+    "steps_title": "How the trial works",
+    "steps": [
+      {
+        "k": "You describe your site",
+        "v": "Your equipment, its protocols, what you want to see. A few lines are enough to start."
+      },
+      {
+        "k": "We send you a quote",
+        "v": "The trial duration, its scope and the support, priced for your site. Reply within two working days."
+      },
+      {
+        "k": "Meshvise runs on your premises",
+        "v": "Installed on your server, connected to your PLCs. You judge in real conditions, on your own measurements."
+      }
+    ],
+    "form_title": "Request a trial",
+    "form_body": "Describe your site in a few words: type of installation, number of devices, protocols. We come back to you with a trial proposal."
   }
 }

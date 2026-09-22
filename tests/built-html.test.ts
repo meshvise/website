@@ -18,7 +18,7 @@ const pages = {
   en: resolve(dist, 'en', 'index.html'),
   fr_trial: resolve(dist, 'fr', 'trial', 'index.html'),
   en_trial: resolve(dist, 'en', 'trial', 'index.html'),
-  fr_about: resolve(dist, 'fr', 'about', 'index.html'),
+  fr_about: resolve(dist, 'fr', 'a-propos', 'index.html'),
   en_about: resolve(dist, 'en', 'about', 'index.html'),
 };
 
@@ -117,31 +117,28 @@ describe('Apex root redirects to /fr/', () => {
   });
 });
 
-describe('Trial pages wire to /api/trial and Turnstile', () => {
+// L'essai est sur devis depuis le 2026-09-22 : la page ne délivre plus de
+// licence en libre-service, elle recueille une demande. Le formulaire est
+// celui du devis, avec l'objet de courriel propre à l'essai.
+describe('Trial pages collect a trial request (trial on quote)', () => {
   for (const lang of ['fr', 'en'] as const) {
     const key = `${lang}_trial` as keyof typeof html;
 
-    it(`${lang}/trial/index.html POSTs to /api/trial`, () => {
-      // The fetch URL is rendered inline in the page script (since it's
-      // is:inline). It must be the same-origin /api/trial route.
-      expect(html[key]).toContain("'/api/trial'");
-    });
-
-    it(`${lang}/trial/index.html embeds the Turnstile widget script`, () => {
-      expect(html[key]).toMatch(/challenges\.cloudflare\.com\/turnstile\/v0\/api\.js/);
-    });
-
-    it(`${lang}/trial/index.html exposes a Turnstile siteKey`, () => {
-      // Must be either a real key or Cloudflare's public test key.
-      // We just check the data-sitekey attribute is set and non-empty.
-      expect(html[key]).toMatch(/class="cf-turnstile"[^>]*data-sitekey="[^"]+"/);
-    });
-
-    it(`${lang}/trial/index.html has the form fields name, email, company, useCase`, () => {
+    it(`${lang}/trial/index.html has a request form with name, email, company, install`, () => {
+      expect(html[key]).toMatch(/data-contact-form/);
       expect(html[key]).toMatch(/name="name"/);
       expect(html[key]).toMatch(/name="email"/);
       expect(html[key]).toMatch(/name="company"/);
-      expect(html[key]).toMatch(/name="useCase"/);
+      expect(html[key]).toMatch(/name="install"/);
+    });
+
+    it(`${lang}/trial/index.html sends a trial request, not a quote or demo request`, () => {
+      expect(html[key]).toMatch(lang === 'fr' ? /data-subject="Demande d'essai Meshvise"/ : /data-subject="Meshvise trial request"/);
+    });
+
+    it(`${lang}/trial/index.html no longer issues a self-serve licence`, () => {
+      expect(html[key]).not.toContain("'/api/trial'");
+      expect(html[key]).not.toMatch(/7 jours|sept jours|7-day|seven days/i);
     });
   }
 });
