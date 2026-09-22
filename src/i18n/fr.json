@@ -74,7 +74,7 @@
     "doors": {
       "left": {
         "title": "Vous n'avez pas encore de supervision.",
-        "body": "Vos relevés sont sur un carnet, votre taux de rendement dans un tableur, et une alarme de nuit veut dire un déplacement. Voici ce que ça vous coûte.",
+        "body": "Vos relevés sont sur un carnet, votre taux de rendement dans un tableur, et une alarme de nuit veut dire un déplacement. Voici ce que la supervision vous fait gagner.",
         "cta": "Pourquoi superviser"
       },
       "right": {
@@ -223,43 +223,37 @@
   },
   "why": {
     "meta": {
-      "title": "Pourquoi superviser · Ce que vous coûte de ne pas savoir · Meshvise",
-      "description": "Des arrêts que personne ne note, une machine qui tourne la nuit, un déplacement pour lire un écran : trois coûts réels que la supervision rend visibles dès la première semaine."
+      "title": "Pourquoi superviser · Ce que la supervision fait gagner · Meshvise",
+      "description": "Moins d'arrêts, moins d'énergie gaspillée, des décisions prises sur des faits : ce que la supervision fait gagner à un site industriel."
     },
     "hero": {
       "title": "Ce que vous coûte de ne pas savoir.",
-      "subtitle": "Ces coûts sont réels et n'apparaissent dans aucun compte. En voici trois, que Meshvise rend visibles dès la première semaine."
+      "subtitle": "Superviser, c'est voir ce qui se passe réellement sur le site. Voici ce que ça fait gagner."
     },
-    "costs": [
-      {
-        "key": "arrets",
-        "figure": "1 h",
-        "unit": "de production perdue chaque jour",
-        "title": "Les arrêts que personne ne note",
-        "body": "Vingt arrêts de trois minutes ne passent sur aucun carnet. Additionnés, ils font une heure par jour. Meshvise les compte dès que la machine est branchée.",
-        "alt": "Une journée de production, sur laquelle vingt arrêts de trois minutes apparaissent un à un, puis s'additionnent en une heure entière perdue."
-      },
-      {
-        "key": "nuit",
-        "figure": "13 000 €",
-        "unit": "par an, pour un atelier vide",
-        "title": "La machine qui tourne la nuit",
-        "body": "Un compresseur qui fuit consomme la nuit et le week-end presque comme en production. 18 kW de trop, 5 000 heures par an, à 0,14 € le kWh. Meshvise le montre dès la première nuit.",
-        "alt": "Cinq jours de consommation : la nuit, la courbe ne redescend jamais au niveau de veille, et l'écart entre les deux, chaque nuit, est de l'énergie perdue."
-      },
-      {
-        "key": "alarme",
-        "figure": "2 h",
-        "unit": "de route pour lire un écran",
-        "title": "L'alarme de deux heures du matin",
-        "body": "Sans supervision, une alarme de nuit veut dire un déplacement pour savoir si c'est grave. Avec Meshvise, la réponse arrive sur le téléphone.",
-        "alt": "Une voiture sur une route de nuit, barrée ; à côté, un téléphone reçoit l'alarme, puis une coche verte : la réponse sans se déplacer."
-      }
-    ],
     "cta": {
       "title": "Une démonstration sur vos équipements",
       "body": "Trente minutes en visio, sur un cas proche du vôtre. Sans engagement."
-    }
+    },
+    "gains": [
+      {
+        "key": "arrets",
+        "title": "Moins d'arrêts",
+        "body": "Chaque arrêt est enregistré, même le plus court, avec sa durée et son moment. Ceux que personne ne notait apparaissent, s'additionnent, et on sait enfin où la production se perd.",
+        "alt": "Une journée de production sur laquelle de courts arrêts apparaissent un à un, puis s'additionnent en un temps perdu bien visible."
+      },
+      {
+        "key": "nuit",
+        "title": "Moins d'énergie gaspillée",
+        "body": "Ce qui consomme hors production devient visible : les machines qui tournent la nuit, les fuites, les veilles qui n'en sont pas. On arrête de payer pour un atelier vide.",
+        "alt": "Plusieurs jours de consommation : la nuit, la courbe ne redescend pas au niveau de veille, et l'écart, chaque nuit, est de l'énergie perdue."
+      },
+      {
+        "key": "decisions",
+        "title": "Des décisions sur des faits",
+        "body": "Les indicateurs sont calculés depuis les machines, pas reconstitués à la main. On sait ce qui progresse et ce qui recule, et on décide sur des chiffres plutôt que sur des impressions.",
+        "alt": "Un indicateur suivi semaine après semaine : les barres montent, la tendance se trace et une flèche confirme la progression."
+      }
+    ]
   },
   "contact_form": {
     "name": "Nom",

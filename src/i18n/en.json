@@ -74,7 +74,7 @@
     "doors": {
       "left": {
         "title": "You have no supervision yet.",
-        "body": "Your readings are in a notebook, your OEE in a spreadsheet, and a night alarm means driving to site. Here is what it costs you.",
+        "body": "Your readings are in a notebook, your OEE in a spreadsheet, and a night alarm means driving to site. Here is what supervision gains you.",
         "cta": "Why supervise"
       },
       "right": {
@@ -223,43 +223,37 @@
   },
   "why": {
     "meta": {
-      "title": "Why supervise · What not knowing costs you · Meshvise",
-      "description": "Stoppages nobody records, a machine running at night, a drive to read a screen: three real costs that supervision makes visible in the first week."
+      "title": "Why supervise · What supervision gains you · Meshvise",
+      "description": "Fewer stoppages, less wasted energy, decisions based on facts: what supervision gains an industrial site."
     },
     "hero": {
       "title": "What not knowing costs you.",
-      "subtitle": "These costs are real and show up in no account. Here are three that Meshvise makes visible in the first week."
+      "subtitle": "Supervising means seeing what really happens on site. Here is what it gains you."
     },
-    "costs": [
-      {
-        "key": "arrets",
-        "figure": "1 h",
-        "unit": "of production lost every day",
-        "title": "The stoppages nobody records",
-        "body": "Twenty three-minute stoppages never make it into a logbook. Added up, they make one hour a day. Meshvise counts them as soon as the machine is connected.",
-        "alt": "A production day on which twenty three-minute stoppages appear one by one, then add up to a whole hour lost."
-      },
-      {
-        "key": "nuit",
-        "figure": "€13,000",
-        "unit": "a year, for an empty shop floor",
-        "title": "The machine running at night",
-        "body": "A leaking compressor draws almost as much at night and at weekends as during production. 18 kW too much, 5,000 hours a year, at €0.14 per kWh. Meshvise shows it from the first night.",
-        "alt": "Five days of consumption: at night the curve never drops back to standby level, and the gap between the two, every night, is wasted energy."
-      },
-      {
-        "key": "alarme",
-        "figure": "2 h",
-        "unit": "of driving to read a screen",
-        "title": "The two a.m. alarm",
-        "body": "Without supervision, a night alarm means driving to site to find out whether it matters. With Meshvise, the answer reaches your phone.",
-        "alt": "A car on a night road, crossed out; next to it, a phone receives the alarm, then a green check: the answer without going on site."
-      }
-    ],
     "cta": {
       "title": "A demonstration on your equipment",
       "body": "Thirty minutes by video call, on a case close to yours. No commitment."
-    }
+    },
+    "gains": [
+      {
+        "key": "arrets",
+        "title": "Fewer stoppages",
+        "body": "Every stoppage is recorded, even the shortest, with its duration and its time. The ones nobody wrote down appear, add up, and you finally know where production is lost.",
+        "alt": "A production day on which short stoppages appear one by one, then add up to a clearly visible loss of time."
+      },
+      {
+        "key": "nuit",
+        "title": "Less wasted energy",
+        "body": "What consumes outside production becomes visible: machines running at night, leaks, standby modes that are not. You stop paying for an empty shop floor.",
+        "alt": "Several days of consumption: at night the curve does not drop back to standby level, and the gap, every night, is wasted energy."
+      },
+      {
+        "key": "decisions",
+        "title": "Decisions based on facts",
+        "body": "Indicators are calculated from the machines, not rebuilt by hand. You know what improves and what slips, and you decide on figures rather than impressions.",
+        "alt": "An indicator tracked week after week: the bars rise, the trend is drawn and an arrow confirms the improvement."
+      }
+    ]
   },
   "contact_form": {
     "name": "Name",
