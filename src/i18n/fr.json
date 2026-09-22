@@ -149,7 +149,7 @@
         {
           "id": "historisation",
           "title": "Historisation",
-          "body": "Chaque mesure enregistrée selon la politique de son point, datée à la source, dans une base PostgreSQL standard."
+          "body": "Chaque mesure enregistrée selon la politique de son point, datée à la source, dans une base de données standard."
         },
         {
           "id": "alarmes",
@@ -159,7 +159,7 @@
         {
           "id": "tableaux",
           "title": "Tableaux de bord",
-          "body": "Des modèles prêts dès l'installation, un éditeur sans code, le présent qui arrive en direct."
+          "body": "Des modèles prêts dès l'installation, et vos propres tableaux de bord à composer sans code, alimentés en direct."
         },
         {
           "id": "indicateurs",

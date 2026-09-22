@@ -6,8 +6,9 @@
  * rythme : l'une à intervalle fixe, l'autre à chaque changement, la
  * dernière seulement au-delà d'un écart. C'est ce que dit « chaque point
  * selon sa propre politique », montré plutôt qu'écrit. La base se remplit
- * pendant que le compteur additionne les mesures, et son nom est le seul
- * mot du dessin : PostgreSQL, parce qu'une base standard est l'argument.
+ * pendant que le compteur additionne les mesures. Le seul mot du dessin est
+ * « base de données » : le nom du moteur ne parle qu'aux informaticiens, et
+ * l'accueil s'adresse d'abord à l'atelier (choix de Bruno, 2026-09-22).
  *
  * Le chiffre est celui du parc de démonstration de Bellecombe : 4 189 091
  * lignes dans `point_history` pour trente jours d'historique scénarisé sur
@@ -58,11 +59,7 @@ const chemin = (y: number) =>
 ---
 
 <figure class="mvf mvs" role="img" aria-label={t(lang, 'motion.historianStrip.alt')}>
-  <Stat
-    lignes={lignes}
-    unite={t(lang, 'motion.historianStrip.unit')}
-    phrase={t(lang, 'motion.historianStrip.caption')}
-  />
+  <Stat lignes={lignes} unite={t(lang, 'motion.historianStrip.unit')} />
 
   <svg viewBox={`0 0 ${W} ${H}`} class="mvs-svg" aria-hidden="true" focusable="false">
     <defs>
@@ -111,7 +108,7 @@ const chemin = (y: number) =>
       d={`M ${BX} ${BY} V ${BY + BH} A ${BL / 2} ${RY} 0 0 0 ${BX + BL} ${BY + BH} V ${BY}`}
     />
     <ellipse class="hst-couvercle" cx={BX + BL / 2} cy={BY} rx={BL / 2} ry={RY} />
-    <text class="hst-nom" x={BX + BL / 2} y={BY + BH / 2 + 12} text-anchor="middle">PostgreSQL</text>
+    <text class="hst-nom" x={BX + BL / 2} y={BY + BH / 2 + 12} text-anchor="middle">{t(lang, 'motion.historianStrip.db')}</text>
   </svg>
 </figure>
 
@@ -158,7 +155,7 @@ const chemin = (y: number) =>
     stroke-width: 2.6;
   }
   .hst-nom {
-    font-size: 19px;
+    font-size: 17px;
     font-weight: 600;
     letter-spacing: -0.01em;
     fill: var(--color-ink);

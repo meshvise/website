@@ -24,8 +24,9 @@ interface Props {
   lignes: Ligne[];
   /** L'unité, constante, posée à côté du chiffre. */
   unite?: string;
-  /** Ce que le chiffre veut dire. Une phrase, pas deux. */
-  phrase: string;
+  /** Ce que le chiffre veut dire. Une phrase, pas deux, ou aucune quand
+   *  l'unité suffit. */
+  phrase?: string;
   lang?: Lang;
 }
 
@@ -56,5 +57,5 @@ const suite: Ligne[] = Array.from({ length: IMAGES }, (_, i) => {
       }
     </div>
   </div>
-  <p class="mvs-caption mvs-a" style="animation-name: mvs-caption">{phrase}</p>
+  {phrase && <p class="mvs-caption mvs-a" style="animation-name: mvs-caption">{phrase}</p>}
 </div>

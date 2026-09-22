@@ -235,13 +235,13 @@
     },
     "dashStrip": {
       "unit": "dashboards",
-      "caption": "ready to use, shipped with the product",
-      "alt": "Four dashboards shipped with Meshvise. One of them fills in before your eyes: eight machines switch to running, four power bars take their value, a week of consumption is drawn."
+      "caption": "ready to use, plus your own, built without code",
+      "alt": "Four dashboards shipped with Meshvise. One of them fills in before your eyes: eight machines switch to running, four power bars take their value, a week of consumption is drawn. Then a cursor presses the button to create a new dashboard."
     },
     "historianStrip": {
       "unit": "million measurements",
-      "caption": "recorded in 30 days on the demonstration shop floor, each point at its own pace",
-      "alt": "Three machines send their measurements to a PostgreSQL database, each at its own pace: at a fixed interval, on every change, beyond a deadband. The database fills up: 4.2 million measurements in thirty days on the demonstration shop floor."
+      "alt": "Three machines send their measurements to a database, each at its own pace: at a fixed interval, on every change, beyond a deadband. The database fills up: 4.2 million measurements in thirty days on the demonstration shop floor.",
+      "db": "Database"
     },
     "traceStrip": {
       "unit": "revisions",

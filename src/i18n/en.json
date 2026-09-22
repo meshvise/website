@@ -149,7 +149,7 @@
         {
           "id": "historisation",
           "title": "Historian",
-          "body": "Every measurement recorded under its point's own policy, timestamped at the source, in a standard PostgreSQL database."
+          "body": "Every measurement recorded under its point's own policy, timestamped at the source, in a standard database."
         },
         {
           "id": "alarmes",
@@ -159,7 +159,7 @@
         {
           "id": "tableaux",
           "title": "Dashboards",
-          "body": "Templates ready at installation, a no-code editor, the present arriving live."
+          "body": "Templates ready at installation, and your own dashboards to build without code, fed live."
         },
         {
           "id": "indicateurs",

@@ -235,13 +235,13 @@
     },
     "dashStrip": {
       "unit": "tableaux de bord",
-      "caption": "prêts à l'emploi, livrés avec le produit",
-      "alt": "Quatre tableaux de bord livrés avec Meshvise. L'un d'eux se remplit sous les yeux : huit machines passent en marche, quatre barres de puissance prennent leur valeur, une semaine de consommation se trace."
+      "caption": "prêts à l'emploi, et les vôtres à composer sans code",
+      "alt": "Quatre tableaux de bord livrés avec Meshvise. L'un d'eux se remplit sous les yeux : huit machines passent en marche, quatre barres de puissance prennent leur valeur, une semaine de consommation se trace. Puis un curseur presse le bouton de création d'un nouveau tableau de bord."
     },
     "historianStrip": {
       "unit": "millions de mesures",
-      "caption": "enregistrées en 30 jours sur l'atelier de démonstration, chaque point à son rythme",
-      "alt": "Trois machines envoient leurs mesures vers une base PostgreSQL, chacune à son rythme : à intervalle fixe, à chaque changement, au-delà d'un écart. La base se remplit : 4,2 millions de mesures en trente jours sur l'atelier de démonstration."
+      "alt": "Trois machines envoient leurs mesures vers une base de données, chacune à son rythme : à intervalle fixe, à chaque changement, au-delà d'un écart. La base se remplit : 4,2 millions de mesures en trente jours sur l'atelier de démonstration.",
+      "db": "Base de données"
     },
     "traceStrip": {
       "unit": "révisions",
