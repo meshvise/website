@@ -43,9 +43,7 @@ const lienGuide = `${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`;
 <section id="assistant" class="section dark-block relative overflow-hidden">
   <div class="wrap mid">
     <h2 class="t-page head">{t(lang, 'home.ai.title')}</h2>
-    <div class="ecran">
-      <AskAnswer lang={lang} />
-    </div>
+    <AskAnswer lang={lang} />
     <a href={lienGuide} class="lien mt-8 inline-block">{t(lang, 'home.ai.cta')}</a>
   </div>
 </section>
@@ -54,23 +52,25 @@ const lienGuide = `${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`;
   /* Toute la section est centree : un axe unique, du titre au lien.
      Elle est la seule de l'accueil sur fond sombre : c'est l'argument fort
      de la page, et le fond marque la rupture entre les métiers, sur fond
-     clair, et les fonctionnalités, sur fond blanc. L'animation garde son
-     dessin clair, posée sur un panneau comme sur un écran. */
+     clair, et les fonctionnalités, sur fond blanc. */
   .mid { text-align: center; }
   .head { max-width: 26ch; margin-inline: auto; margin-bottom: 0.5rem; }
 
-  .ecran {
-    max-width: 48rem;
-    margin: 2.75rem auto 0;
-    padding: 2.25rem 2rem 2.5rem;
-    border-radius: 18px;
-    background: var(--color-surface);
-    box-shadow:
-      0 1px 0 rgb(255 255 255 / 0.06) inset,
-      0 30px 70px -30px rgb(0 0 0 / 0.65);
-    text-align: left;
+  /* L'animation se pose directement sur le fond sombre, sans cadre (un
+     panneau blanc a été essayé le 2026-09-22 et écarté). Elle garde son
+     code : seules ses couleurs sont redéfinies ici, par les variables qu'il
+     lit, y compris dans ses images clés. */
+  .mid :global(.fig) {
+    --color-surface: rgb(255 255 255 / 0.06);
+    --color-ink: #ffffff;
+    --color-ink-2: #c8d0dc;
+    --color-n-100: rgb(255 255 255 / 0.05);
+    --color-n-500: #9aa4b3;
+    --color-line: rgb(255 255 255 / 0.12);
+    --color-accent-border: rgb(198 185 238 / 0.35);
+    --color-accent-bg: rgb(198 185 238 / 0.18);
+    --color-accent-strong: #c6b9ee;
   }
-  .ecran :global(.fig) { margin-top: 0; }
 
   /* Le lien, lisible sur le fond sombre. */
   .lien {
@@ -86,7 +86,4 @@ const lienGuide = `${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`;
     text-decoration-color: #fff;
   }
 
-  @media (max-width: 640px) {
-    .ecran { padding: 1.5rem 1rem 1.75rem; border-radius: 14px; }
-  }
 </style>
