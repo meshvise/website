@@ -174,7 +174,6 @@
     "day_after": "D+",
     "day_before": "D-",
     "strip": {
-      "always": "around the clock",
       "section": "V-02 · COMPRESSED AIR LEAK",
       "title": "The bill nobody reads",
       "lede": "The compressor runs at night and over the weekend. The shop is empty, production is stopped, and the air flow never drops back to idle.",
@@ -184,18 +183,14 @@
       "caption": "of compressed air paid for and never used, every year"
     },
     "spindleStrip": {
-      "limit": "ISO 10816",
       "caption_a": "above the limit for",
       "days": "days",
-      "now": "today",
       "section": "V-01 · SPINDLE WEAR",
       "title": "What shows before the breakdown",
       "lede": "A spindle does not fail all at once. Its vibration climbs for weeks, and nobody measures it because nobody looks at it.",
       "p1": "Meshvise reads the RMS vibration velocity on the machining centre and keeps it day after day. It holds at 2.2 mm/s for nine days, then drifts by 3.1 mm/s over three weeks. On the twenty-sixth day it crosses the 4.5 mm/s limit of ISO 10816, and the alarm goes out by email with the history.",
       "p2": "The bearing temperature of the same spindle has risen 17 °C in twelve days. Two independent measurements reach the same conclusion, so the spindle is pulled on a Saturday, machine cold, instead of failing mid-run.",
-      "alt": "Thirty days of spindle vibration on machining centre CU1. The RMS velocity holds at 2.2 mm/s for nine days, then drifts by 3.1 mm/s over three weeks to reach 5.3 mm/s today. It crosses the ISO 10816 limit of 4.5 mm/s on the twenty-sixth day, and has stayed above it for four days.",
-      "ago_pre": "",
-      "ago_post": "days ago"
+      "alt": "Thirty days of spindle vibration on machining centre CU1. The value holds at 2.2 mm/s for nine days, then drifts up to 5.3 mm/s. As it crosses the ISO 10816 limit of 4.5 mm/s, the alarm goes off, and the spindle has stayed above it for four days."
     },
     "meterStrip": {
       "caption_a": "value held, no sample received for",
@@ -210,51 +205,38 @@
     },
     "thresholdStrip": {
       "fires": "alarms",
-      "caption_a": "for a process that did not move a tenth of a degree, in",
-      "days": "days",
       "section": "V-04 · ALARM LIMIT SET TOO TIGHT",
       "title": "The alarm nobody reads any more",
       "lede": "An alarm that fires almost every day and clears itself within minutes informs nobody. It only teaches people to stop looking.",
       "p1": "The cutting oil chiller has had the same afternoon for three weeks: the daily maximum swings between 22.37 and 22.95 °C. What changed is the limit. Someone tightened it from 24.0 to 22.5 °C, and the alarm started firing eight times in eleven days.",
       "p2": "Every limit change is a dated, signed revision. The burst that followed therefore has a named cause, and the rollback can be written knowing what it undoes: 24.0 °C, one degree of hysteresis. The process itself was never at fault.",
-      "alt": "Twenty-one days of daily maximum cutting oil temperature. The curve does not change: it swings between 22.37 and 22.95 °C from the first day to the last. What changes is the alarm limit, lowered from 24.0 to 22.5 °C for eleven days. Eight alarms fall inside that window, and none outside it.",
-      "rev_tight": "#7 limit tightened",
-      "rev_back": "#11 rollback"
+      "alt": "Twenty-one days of cutting oil temperature that does not move. A revision tightens the alarm limit from 24.0 to 22.5 °C: eight alarms fire in eleven days. A second revision rolls it back, and the alarms stop.",
+      "caption": "caused by one revision, stopped by its rollback"
     },
     "engineStrip": {
       "protocols": "protocols",
       "caption": "one acquisition engine, all of them included in the licence",
-      "out": "meshvise/p/{id}/value · the same message, whatever the protocol",
       "section": "V-05 · THIRTEEN PROTOCOLS",
       "title": "Thirteen protocols, one engine",
       "lede": "Thirteen industrial protocols, thirteen ways to connect a device, and a single acquisition engine behind them.",
       "p1": "Eight protocols are polled at the rate you choose, one is subscribed to and only receives on change, four push their values when the device decides. That is the distinction that matters when wiring, not the alphabetical list.",
       "p2": "Whatever the source protocol, what comes out is the same message: a version, an identifier, a timestamp, a quality, a value. There is no module to buy per PLC brand.",
-      "alt": "Thirteen industrial protocols listed: Modbus TCP, Modbus RTU, OPC UA, BACnet over IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B and MTConnect. All converge on a single acquisition engine, included in the licence, which publishes the same fact message whatever the source protocol."
+      "alt": "Thirteen industrial protocols wired one by one to a single engine, Meshvise: Modbus TCP, Modbus RTU, OPC UA, BACnet over IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B and MTConnect, all included in the licence."
     },
     "chainStrip": {
-      "facts": "facts",
-      "caption": "kept on disk when the bus link goes down, replayed in order with their original timestamps",
-      "src": "Device",
-      "drv": "Driver",
-      "bus": "Fact bus",
-      "cons": "Screen · History · Alarm",
-      "note": "the historian holds its own store, for a database outage",
-      "section": "V-06 · THE DATA CHAIN",
-      "title": "One fact published once, read by three",
-      "lede": "A value is read once, published once, and served to everyone who needs it. Nobody goes back to the device.",
-      "p1": "The driver reads at its own rate and publishes a fact on the bus. The screen subscribes to it, the historian writes it to the database, the alarm rule evaluates it. The timestamp is taken at the source and never rewritten downstream.",
-      "p2": "When the bus link goes down, the driver queues its facts on local disk, up to one million, and replays them in publication order. The historian holds its own store for a database outage: two separate stores, because these are two separate failures.",
-      "alt": "The chain a value travels: a device, a driver, the fact bus, then the screen, the history and the alarm rule. When the link between the driver and the bus is cut, the driver queues its facts on local disk, up to one million, and replays them in publication order with their original timestamps."
+      "caption": "when the link goes down, everything is kept on disk, then caught up in order",
+      "section": "V-06 · NOTHING IS LOST",
+      "title": "An outage that leaves no gap",
+      "lede": "When the link goes down, measurements keep being read. They wait on disk, and come back in order when the link returns.",
+      "p1": "When the link to the bus is cut, the driver queues its facts on local disk, up to one million, and replays them in publication order with their original timestamps. The historian has its own reserve for a database outage: two separate reserves, because these are two separate failures.",
+      "p2": "The driver reads at its own pace and publishes a fact once. The screen subscribes to it, the historian writes it to the database, the alarm rule evaluates it. The timestamp is taken at the source and never rewritten downstream.",
+      "alt": "A measurement drawn continuously. The link goes down: a red badge lights up and the following measurements are kept on disk, as grey dots. The link comes back: the badge turns green, the kept measurements are caught up and the curve carries on, with no gap. Zero measurements lost.",
+      "lost": "measurements lost"
     },
     "dashStrip": {
       "unit": "dashboards",
       "caption": "ready to use, shipped with the product",
-      "board": "Right now",
-      "live": "live",
-      "states": "Machine states",
-      "power": "Power draw",
-      "alt": "Four dashboards shipped with Meshvise. The \"Right now\" template fills in: eight machines switch to running, and the power draw of each is shown live."
+      "alt": "Four dashboards shipped with Meshvise. One of them fills in before your eyes: eight machines switch to running, four power bars take their value, a week of consumption is drawn."
     }
   }
 }

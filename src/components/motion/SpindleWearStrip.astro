@@ -6,8 +6,10 @@
  * défile jour après jour, de 2,2 à 5,3 mm/s, et passe au rouge exactement
  * quand la courbe franchit le seuil. C'est ce que fait un enregistreur.
  *
- * Ni grille, ni cartouche, ni bandeau d'acte, ni caméra. Une courbe, un
- * seuil, un point, un chiffre, une phrase.
+ * Ni grille, ni cartouche, ni bandeau d'acte, ni caméra, ni texte dans le
+ * dessin : une courbe, un seuil, un point, une cloche, un chiffre, une
+ * phrase. L'étiquette du seuil et les deux bouts de l'axe ont été retirés
+ * le 2026-09-22 : la phrase du dessus dit déjà les deux.
  *
  * La série reproduit la formule du jeu de démonstration : profil `mm/s`
  * (base 2,2), scénario `spindle-wear` (`ramp`, 3,1 mm/s sur les vingt et un
@@ -48,10 +50,10 @@ const lignes: Ligne[] = serie.map((v) => ({
   ton: v >= SEUIL ? 'crit' : 'ink',
 }));
 
-// ── La bande : l'axe est tronqué, et les deux niveaux sont nommés ──────
+// ── La bande : l'axe est tronqué ───────────────────────────────────────
 // Une échelle partant de zéro écrase une dérive de trois millimètres par
 // seconde en un liseré. Elle est donc cadrée sur l'intervalle où la mesure
-// vit, et les deux bornes qui comptent sont écrites en toutes lettres.
+// vit.
 const W = 720;
 const H = 200;
 const X0 = 6;
@@ -82,13 +84,9 @@ const yHit = y(serie[jFranchi]);
 
   <svg viewBox={`0 0 ${W} ${H}`} class="mvs-svg" aria-hidden="true" focusable="false">
     <!-- Le seuil normalisé : il préexiste à la dérive, il arrive donc avant
-         que la courbe ne l'atteigne. Son étiquette est à gauche, là où rien
-         ne la croise pendant les trois premières semaines. -->
+         que la courbe ne l'atteigne. -->
     <g class="mvs-a" style="animation-name: sws-limit">
       <line class="mvs-limit" x1={X0} y1={ySeuil} x2={X1} y2={ySeuil} />
-      <text class="mvs-limit-t" x={X0 + 2} y={ySeuil - 13}>
-        {t(lang, 'motion.spindleStrip.limit')} · {dec(SEUIL)} mm/s
-      </text>
     </g>
 
     <polyline
@@ -101,14 +99,18 @@ const yHit = y(serie[jFranchi]);
          fois, au moment où le crayon passe au-dessus du trait. -->
     <circle class="mvs-ping mvs-a" style="animation-name: sws-ping" cx={xHit} cy={yHit} r="6" />
     <circle class="mvs-dot mvs-a" style="animation-name: sws-dot" cx={xHit} cy={yHit} r="5" />
-  </svg>
 
-  <div class="mvs-axis" aria-hidden="true">
-    <span>
-      {`${t(lang, 'motion.spindleStrip.ago_pre')} ${JOURS} ${t(lang, 'motion.spindleStrip.ago_post')}`.trim()}
-    </span>
-    <span>{t(lang, 'motion.spindleStrip.now')}</span>
-  </div>
+    <!-- L'alarme qui part. Une cloche, pas un mot : la phrase du dessus dit
+         déjà ce qu'elle signale. -->
+    <g transform={`translate(${xHit} ${yHit - 44})`}>
+      <g class="sws-bell mvs-a" style="animation-name: sws-bell">
+        <circle r="17" class="sws-bell-bg" />
+        <path class="sws-bell-ic" d="M-6.5 3.5 V-1 A6.5 6.5 0 0 1 6.5 -1 V3.5 L8.5 6 H-8.5 Z" />
+        <circle class="sws-bell-ic" cx="0" cy="8.6" r="2" />
+        <circle class="sws-bell-ic" cx="0" cy="-8.3" r="1.5" />
+      </g>
+    </g>
+  </svg>
 </figure>
 
 <script>
@@ -117,8 +119,27 @@ const yHit = y(serie[jFranchi]);
   observerLesFigures();
 </script>
 
+<style>
+  .sws-bell-bg { fill: var(--color-crit); }
+  .sws-bell-ic { fill: #fff; }
+  .sws-bell {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+</style>
+
 <style is:global>
   @media (prefers-reduced-motion: no-preference) {
+    /* La cloche sonne juste après le franchissement : elle apparaît, puis
+       balance deux fois et se pose. */
+    @keyframes sws-bell {
+      0%, 36% { opacity: 0; transform: scale(0.4) rotate(0); }
+      41% { opacity: 1; transform: scale(1.12) rotate(0); }
+      45% { transform: scale(1) rotate(-16deg); }
+      49% { transform: rotate(13deg); }
+      53% { transform: rotate(-8deg); }
+      57%, 100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
     @keyframes sws-limit {
       0%, 10% { opacity: 0; transform: translateX(26px); }
       26%, 100% { opacity: 1; transform: translateX(0); }

@@ -149,7 +149,7 @@
         {
           "id": "historisation",
           "title": "Historian",
-          "body": "Every point recorded under its own policy, in a standard database. During a network outage, measurements are kept and caught up."
+          "body": "Every point recorded under its own policy, in a standard database. When the link goes down, measurements are kept and caught up."
         },
         {
           "id": "alarmes",

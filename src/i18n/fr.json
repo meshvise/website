@@ -149,7 +149,7 @@
         {
           "id": "historisation",
           "title": "Historisation",
-          "body": "Chaque point enregistré selon sa propre politique, dans une base standard. Pendant une coupure réseau, les mesures sont gardées puis rattrapées."
+          "body": "Chaque point enregistré selon sa propre politique, dans une base standard. Quand la liaison tombe, les mesures sont gardées puis rattrapées."
         },
         {
           "id": "alarmes",

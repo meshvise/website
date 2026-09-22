@@ -3,22 +3,25 @@
  * V-07 · Tableaux de bord. Registre dépouillé.
  *
  * La seule figure de la série qui ne raconte pas un scénario : elle montre
- * un écran qui se remplit. Le compteur additionne les modèles livrés, puis
- * un tableau de bord « En ce moment » se pose : les machines passent en
- * marche une à une, les barres de puissance prennent leur valeur. Le point
- * « en direct » bat trois fois et se tait, comme le reste de la série : la
- * figure joue une fois et tient sa dernière image.
+ * un tableau de bord qui se remplit. Le compteur additionne les modèles
+ * livrés, puis trois cartes se posent et prennent vie : huit machines passent
+ * en marche une à une, quatre barres de puissance prennent leur valeur, une
+ * semaine de consommation se trace. Aucun mot dans le dessin : les titres de
+ * cartes sont des traits gris, comme sur un écran vu de loin. Le point « en
+ * direct » bat trois fois et se tait ; la figure joue une fois et tient sa
+ * dernière image, comme le reste de la série.
  *
- * Tout ce qui est écrit vient du produit. Quatre modèles livrés dans le
+ * Tout ce qui est dessiné vient du produit : quatre modèles livrés dans le
  * code (En ce moment, Vue d'ensemble opérations, Énergie et efficacité,
- * Fiabilité et audit), les huit machines de production du parc de
- * Bellecombe, et les puissances relevées sur le widget « Puissance
- * appelée » du modèle « En ce moment » le 2026-09-16.
+ * Fiabilité et audit), les huit machines de production de Bellecombe, les
+ * puissances relevées sur le widget « Puissance appelée » le 2026-09-16
+ * (46,8, 37,8, 28,3 et 25,7 kW), et la forme de la semaine du modèle
+ * « Énergie et efficacité » : cinq journées de production, un week-end plat.
  */
 import { mt as t, type Lang } from './text';
 import Stat from './Stat.astro';
 import type { Ligne } from './Stat.astro';
-import { decimal } from './frame';
+import { toPoints } from './frame';
 import './strip.css';
 
 interface Props {
@@ -26,7 +29,6 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const dec = (v: number, n = 1) => decimal(v, n, lang);
 
 const MODELES = 4;
 const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
@@ -34,60 +36,61 @@ const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
   ton: 'ink',
 }));
 
-const machines = ['CU1', 'CU2', 'CU3', 'TCN1', 'TP1', 'FU1', 'RP1', 'SR1'];
+const MACHINES = 8;
+const puissances = [46.8, 37.8, 28.3, 25.7];
+const ECHELLE = 55;
 
-const puissances = [
-  { nom: 'SR1', kw: 46.8 },
-  { nom: 'FU1', kw: 37.8 },
-  { nom: 'RP1', kw: 28.3 },
-  { nom: 'TP1', kw: 25.7 },
-];
-/** L'échelle des barres : un peu au-dessus de la plus forte, comme le widget. */
-const ECHELLE = 60;
+// La semaine : cinq journées de production, puis le week-end au talon.
+const SW = 600;
+const SH = 96;
+const semaine = Array.from({ length: 7 * 12 + 1 }, (_, k) => {
+  const jour = Math.floor(k / 12);
+  const heure = (k % 12) * 2;
+  const production = jour < 5 && heure >= 6 && heure < 20;
+  const bruit = Math.sin(k * 1.7) * 3 + Math.sin(k * 0.61) * 2;
+  const v = production ? 78 + bruit : 22 + bruit * 0.5;
+  return [(k / (7 * 12)) * SW, SH - 6 - (v / 90) * (SH - 12)] as [number, number];
+});
+const trace = toPoints(semaine);
+const aire = `M 0 ${SH} L ${trace.replaceAll(' ', ' L ')} L ${SW} ${SH} Z`;
 ---
 
 <figure class="mvf mvs" role="img" aria-label={t(lang, 'motion.dashStrip.alt')}>
   <Stat lignes={lignes} unite={t(lang, 'motion.dashStrip.unit')} phrase={t(lang, 'motion.dashStrip.caption')} />
 
   <div class="dbs-board" aria-hidden="true">
-    <div class="dbs-head mvs-pop" style="--i: 1">
-      <span class="dbs-title">{t(lang, 'motion.dashStrip.board')}</span>
-      <span class="dbs-live"><span class="dbs-dot"></span>{t(lang, 'motion.dashStrip.live')}</span>
+    <div class="dbs-head">
+      <span class="dbs-titre" />
+      <span class="dbs-dot" />
     </div>
 
     <div class="dbs-grid">
-      <div class="dbs-panel mvs-pop" style="--i: 2">
-        <p class="dbs-ptitle">{t(lang, 'motion.dashStrip.states')}</p>
-        <ul class="dbs-states">
+      <div class="dbs-carte mvs-pop" style="--i: 2">
+        <span class="dbs-ctitre" style="width: 46%" />
+        <ul class="dbs-etats">
+          {Array.from({ length: MACHINES }, (_, i) => <li style={`--i: ${i}`} />)}
+        </ul>
+      </div>
+
+      <div class="dbs-carte mvs-pop" style="--i: 3">
+        <span class="dbs-ctitre" style="width: 58%" />
+        <ul class="dbs-barres">
           {
-            machines.map((m, i) => (
-              <li class="mvs-pop" style={`--i: ${i + 4}`}>
-                <span class="dbs-run" />
-                {m}
+            puissances.map((kw, i) => (
+              <li>
+                <span class="dbs-fill" style={`--w: ${(kw / ECHELLE).toFixed(3)}; --i: ${i}`} />
               </li>
             ))
           }
         </ul>
       </div>
 
-      <div class="dbs-panel mvs-pop" style="--i: 3">
-        <p class="dbs-ptitle">{t(lang, 'motion.dashStrip.power')}</p>
-        <ul class="dbs-bars">
-          {
-            puissances.map((p, i) => (
-              <li>
-                <span class="dbs-name">{p.nom}</span>
-                <span class="dbs-track">
-                  <span class="dbs-fill" style={`--w: ${(p.kw / ECHELLE).toFixed(3)}; --i: ${i + 6}`} />
-                </span>
-                <span class="dbs-val mvs-pop" style={`--i: ${i + 9}`}>
-                  {dec(p.kw)}
-                  <span class="dbs-unit">kW</span>
-                </span>
-              </li>
-            ))
-          }
-        </ul>
+      <div class="dbs-carte dbs-large mvs-pop" style="--i: 4">
+        <span class="dbs-ctitre" style="width: 30%" />
+        <svg viewBox={`0 0 ${SW} ${SH}`} preserveAspectRatio="none" class="dbs-courbe">
+          <path class="dbs-aire" d={aire} />
+          <polyline class="dbs-trait" pathLength="1" points={trace} />
+        </svg>
       </div>
     </div>
   </div>
@@ -102,98 +105,77 @@ const ECHELLE = 60;
 <style>
   .dbs-board {
     display: grid;
-    gap: 0.75rem;
+    gap: 0.85rem;
+    padding: 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-canvas);
   }
   .dbs-head {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  .dbs-title {
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--color-ink);
-  }
-  .dbs-live {
-    display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.05em;
-    color: var(--color-n-500);
+    justify-content: space-between;
   }
+  /* Les titres sont des traits : un écran vu de loin, pas un texte à lire. */
+  .dbs-titre,
+  .dbs-ctitre {
+    display: block;
+    height: 9px;
+    border-radius: 5px;
+    background: var(--color-n-200);
+  }
+  .dbs-titre { width: 28%; height: 11px; background: var(--color-n-300); }
   .dbs-dot {
-    width: 7px;
-    height: 7px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: var(--color-normal);
   }
 
   .dbs-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
   }
-  .dbs-panel {
+  .dbs-carte {
+    display: grid;
+    gap: 0.9rem;
+    align-content: start;
+    padding: 0.9rem 1rem 1rem;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-md);
-    background: var(--color-canvas);
-    padding: 0.85rem 0.95rem 0.95rem;
+    background: var(--color-surface);
   }
-  .dbs-ptitle {
-    margin: 0 0 0.7rem;
-    font-size: 0.8125rem;
-    color: var(--color-ink-2);
-  }
+  .dbs-large { grid-column: 1 / -1; }
 
-  /* L'état des machines : une pastille verte par machine en marche. */
-  .dbs-states {
+  /* Huit machines : huit pastilles, qui passent du gris au vert. */
+  .dbs-etats {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.45rem 0.75rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    justify-items: center;
   }
-  .dbs-states li {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    color: var(--color-ink);
-  }
-  .dbs-run {
-    width: 8px;
-    height: 8px;
+  .dbs-etats li {
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background: var(--color-normal);
-    flex: none;
   }
 
-  /* La puissance appelée : une barre par machine, en laiton comme tout ce
-     qui est mesuré dans la série. */
-  .dbs-bars {
+  /* Quatre barres de puissance, en laiton comme tout ce qui est mesuré. */
+  .dbs-barres {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.55rem;
+    gap: 0.7rem;
   }
-  .dbs-bars li {
-    display: grid;
-    grid-template-columns: 2.6rem minmax(0, 1fr) 4.4rem;
-    align-items: center;
-    gap: 0.6rem;
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-  }
-  .dbs-name { color: var(--color-ink-2); }
-  .dbs-track {
-    height: 6px;
-    border-radius: 3px;
+  .dbs-barres li {
+    height: 12px;
+    border-radius: 6px;
     background: var(--color-n-150);
     overflow: hidden;
   }
@@ -201,47 +183,77 @@ const ECHELLE = 60;
     display: block;
     height: 100%;
     width: calc(var(--w) * 100%);
-    border-radius: 3px;
+    border-radius: 6px;
     background: var(--color-brass);
     transform-origin: left center;
   }
-  .dbs-val {
-    text-align: right;
-    color: var(--color-ink);
-    font-variant-numeric: tabular-nums;
+
+  .dbs-courbe {
+    display: block;
+    width: 100%;
+    height: 96px;
   }
-  .dbs-unit {
-    color: var(--color-muted);
-    margin-left: 0.2em;
+  .dbs-aire { fill: var(--color-brass-bg); }
+  .dbs-trait {
+    fill: none;
+    stroke: var(--color-brass);
+    stroke-width: 2.4;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
   }
 
   @media (prefers-reduced-motion: no-preference) {
+    .dbs-etats li {
+      animation: dbs-marche 0.35s ease-out both;
+      animation-delay: calc(0.75s + var(--i) * 0.1s);
+    }
     .dbs-fill {
-      animation: dbs-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-      animation-delay: calc(var(--i, 0) * 0.11s);
+      animation: dbs-pousse 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: calc(0.9s + var(--i) * 0.12s);
+    }
+    .dbs-trait {
+      stroke-dasharray: 1;
+      animation: dbs-trace 1.3s linear both;
+      animation-delay: 1.15s;
+    }
+    .dbs-aire {
+      animation: dbs-aire 0.6s ease-out both;
+      animation-delay: 2.2s;
     }
     /* Trois battements, puis le point reste allumé. */
     .dbs-dot {
-      animation: dbs-pulse 1.4s ease-out 3 both;
-      animation-delay: 1.3s;
+      animation: dbs-pouls 1.3s ease-out 3 both;
+      animation-delay: 1s;
     }
   }
 
-  /* Sous cette largeur les deux panneaux s'empilent. */
-  @media (max-width: 560px) {
+  /* Sous cette largeur les deux petites cartes s'empilent. */
+  @media (max-width: 520px) {
     .dbs-grid { grid-template-columns: minmax(0, 1fr); }
   }
 </style>
 
 <style is:global>
   @media (prefers-reduced-motion: no-preference) {
-    @keyframes dbs-grow {
+    @keyframes dbs-marche {
+      from { background: var(--color-n-200); transform: scale(0.7); }
+      to { background: var(--color-normal); transform: scale(1); }
+    }
+    @keyframes dbs-pousse {
       from { transform: scaleX(0); }
       to { transform: scaleX(1); }
     }
-    @keyframes dbs-pulse {
-      0% { box-shadow: 0 0 0 0 rgb(11 122 64 / 0.45); }
-      70% { box-shadow: 0 0 0 7px rgb(11 122 64 / 0); }
+    @keyframes dbs-trace {
+      from { stroke-dashoffset: 1; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes dbs-aire {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes dbs-pouls {
+      0% { box-shadow: 0 0 0 0 rgb(11 122 64 / 0.5); }
+      70% { box-shadow: 0 0 0 9px rgb(11 122 64 / 0); }
       100% { box-shadow: 0 0 0 0 rgb(11 122 64 / 0); }
     }
   }

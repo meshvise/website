@@ -12,6 +12,12 @@
  * figure le montre en ne lui faisant rien faire : elle est posée dès la
  * première seconde, et c'est le trait de seuil qui se déplace.
  *
+ * Sur l'accueil elle illustre la traçabilité : les deux révisions sont des
+ * pastilles posées sur les coins de la marche, un crayon et une flèche de
+ * retour, et aucun mot n'est écrit dans le dessin. La valeur du seuil, les
+ * deux bouts de l'axe et les étiquettes de révision ont été retirés le
+ * 2026-09-22 : la phrase du dessus dit la cause et le remède.
+ *
  * Valeurs du scénario `crying-wolf` du seed : seuil haut de l'alarme
  * « Huile de coupe » abaissé de 24,0 à 22,5 °C par une révision signée au
  * seizième jour avant aujourd'hui, remis à 24,0 avec une hystérésis d'un
@@ -21,22 +27,14 @@
 import { mt as t, type Lang } from './text';
 import Stat from './Stat.astro';
 import type { Ligne } from './Stat.astro';
-import { toPoints, decimal } from './frame';
+import { toPoints } from './frame';
 import './strip.css';
 
 interface Props {
   lang: Lang;
-  /**
-   * Nomme les deux révisions qui bornent la fenêtre. L'accueil s'en sert
-   * pour illustrer la traçabilité : sans les noms, la figure montre une
-   * salve d'alarmes ; avec eux, elle montre une salve qui a une cause.
-   * La page d'aperçu garde la figure nue, telle qu'elle a été jugée.
-   */
-  revisions?: boolean;
 }
 
-const { lang, revisions = false } = Astro.props;
-const dec = (v: number, n = 1) => decimal(v, n, lang);
+const { lang } = Astro.props;
 
 // ── Les chiffres du scénario ───────────────────────────────────────────
 const JOURS = 21;
@@ -44,7 +42,6 @@ const SEUIL_LARGE = 24.0;
 const SEUIL_SERRE = 22.5;
 const J_SERRAGE = 5; // seize jours avant aujourd'hui
 const J_RETOUR = 15; // six jours avant aujourd'hui
-const FENETRE = J_RETOUR - J_SERRAGE + 1;
 
 /** Maximum journalier de la température de départ d'huile de coupe. Le
  *  groupe froid fait le même après-midi du premier au dernier jour. */
@@ -64,12 +61,15 @@ const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => {
 });
 
 // ── La bande : l'axe est tronqué sur le demi-degré où la mesure vit ────
+// Le haut du dessin porte les deux pastilles de révision, posées sur les
+// coins de la marche du seuil : la bande commence donc plus bas.
 const W = 720;
-const H = 220;
+const H = 262;
 const X0 = 6;
 const X1 = 714;
-const Y0 = 16;
-const Y1 = 176;
+const Y0 = 58;
+const Y1 = 218;
+const R_PIN = 19;
 const V_MIN = 22.25;
 const V_MAX = 23.05;
 const TICK_H = 26; // la voie des déclenchements, sous la bande
@@ -82,13 +82,14 @@ const ySerre = y(SEUIL_SERRE);
 
 // Le seuil, en trois marches. Seule celle du milieu entre dans le cadre :
 // 24,0 °C est très au-dessus de l'intervalle utile, et c'est le propos.
+const Y_HAUT = R_PIN + 2; // 24,0 °C, hors cadre : le seuil d'avant et d'après
 const marche = toPoints([
-  [x(0), Y0 - 30],
-  [x(J_SERRAGE), Y0 - 30],
+  [x(0), Y_HAUT],
+  [x(J_SERRAGE), Y_HAUT],
   [x(J_SERRAGE), ySerre],
   [x(J_RETOUR), ySerre],
-  [x(J_RETOUR), Y0 - 30],
-  [x(JOURS), Y0 - 30],
+  [x(J_RETOUR), Y_HAUT],
+  [x(JOURS), Y_HAUT],
 ]);
 ---
 
@@ -96,7 +97,7 @@ const marche = toPoints([
   <Stat
     lignes={lignes}
     unite={t(lang, 'motion.thresholdStrip.fires')}
-    phrase={`${t(lang, 'motion.thresholdStrip.caption_a')} ${FENETRE} ${t(lang, 'motion.thresholdStrip.days')}`}
+    phrase={t(lang, 'motion.thresholdStrip.caption')}
   />
 
   <svg viewBox={`0 0 ${W} ${H}`} class="mvs-svg" aria-hidden="true" focusable="false">
@@ -117,22 +118,23 @@ const marche = toPoints([
 
     <!-- Le seuil, qui descend puis remonte. C'est lui qui se déplace. -->
     <polyline class="mvs-limit tts-step mvs-a" style="animation-name: tts-step" points={marche} />
-    <text class="mvs-limit-t mvs-a" style="animation-name: tts-step" x={x(J_SERRAGE) + 8} y={ySerre - 11}>
-      {dec(SEUIL_SERRE)} °C
-    </text>
 
-    {
-      revisions && (
-        <g class="mvs-a" style="animation-name: tts-step">
-          <text class="mvs-ref-t" x={x(J_SERRAGE) + 8} y={Y0 + 14}>
-            {t(lang, 'motion.thresholdStrip.rev_tight')}
-          </text>
-          <text class="mvs-ref-t" x={x(J_RETOUR) - 8} y={Y0 + 14} text-anchor="end">
-            {t(lang, 'motion.thresholdStrip.rev_back')}
-          </text>
-        </g>
-      )
-    }
+    <!-- Les deux révisions, sur les coins de la marche : un crayon pour
+         celle qui resserre le seuil, une flèche de retour pour celle qui le
+         remet. La première tombe avec le seuil, la seconde après la salve. -->
+    <g transform={`translate(${x(J_SERRAGE)} ${Y_HAUT})`}>
+      <g class="tts-pin mvs-a" style="animation-name: tts-pin-a">
+        <circle r={R_PIN} class="tts-pin-bg" />
+        <path class="tts-pin-ic" d="M-6.5 6.5 L-5.2 1.8 L3.6 -7 L7 -3.6 L-1.8 5.2 Z" />
+      </g>
+    </g>
+    <g transform={`translate(${x(J_RETOUR)} ${Y_HAUT})`}>
+      <g class="tts-pin mvs-a" style="animation-name: tts-pin-b">
+        <circle r={R_PIN} class="tts-pin-bg" />
+        <path class="tts-pin-st" d="M-6.5 -1.5 A6.5 6.5 0 1 1 -2.5 5.8" />
+        <path class="tts-pin-ic" d="M-10.5 -3.2 L-2.8 -3.2 L-6.8 2.2 Z" />
+      </g>
+    </g>
 
     <!-- Le journal : un bâton par déclenchement, dans l'ordre. -->
     <g class="tts-log">
@@ -151,13 +153,6 @@ const marche = toPoints([
       }
     </g>
   </svg>
-
-  <div class="mvs-axis" aria-hidden="true">
-    <span>
-      {`${t(lang, 'motion.spindleStrip.ago_pre')} ${JOURS} ${t(lang, 'motion.spindleStrip.ago_post')}`.trim()}
-    </span>
-    <span>{t(lang, 'motion.spindleStrip.now')}</span>
-  </div>
 </figure>
 
 <script>
@@ -169,6 +164,18 @@ const marche = toPoints([
 <style>
   .tts-window { fill-opacity: 0.08; }
   .tts-step { fill: none; }
+  .tts-pin-bg { fill: var(--color-accent); }
+  .tts-pin-ic { fill: #fff; }
+  .tts-pin-st {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+  }
+  .tts-pin {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
 </style>
 
 <style is:global>
@@ -180,6 +187,16 @@ const marche = toPoints([
     @keyframes tts-step {
       0%, 10% { opacity: 0; }
       24%, 100% { opacity: 1; }
+    }
+    @keyframes tts-pin-a {
+      0%, 12% { opacity: 0; transform: scale(0.3); }
+      19% { opacity: 1; transform: scale(1.15); }
+      24%, 100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes tts-pin-b {
+      0%, 63% { opacity: 0; transform: scale(0.3); }
+      70% { opacity: 1; transform: scale(1.15); }
+      75%, 100% { opacity: 1; transform: scale(1); }
     }
     /* Les huit bâtons tombent dans l'ordre du journal, entre 26 et 62 % du
        cycle, au même rythme que le compteur qui les additionne. */

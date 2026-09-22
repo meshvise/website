@@ -6,8 +6,10 @@
  * compose de zéro à 13 900 € pendant que la semaine se trace, parce que
  * c'est exactement ce que fait une facture, un mètre cube après l'autre.
  *
- * Une semaine de débit, deux niveaux, l'écart entre les deux. Le reste est
- * dans le texte.
+ * Une semaine de débit, deux niveaux, l'écart entre les deux, et aucun mot
+ * dans le dessin : les étiquettes des niveaux, la somme de l'écart et les
+ * jours de la semaine ont été retirés le 2026-09-22. Le chiffre du dessus
+ * dit ce que coûte l'écart ; cinq bosses puis un plat disent la semaine.
  *
  * Valeurs du jeu de démonstration : rythme d'atelier du seed (lundi au
  * vendredi, 06:00 à 20:00, creux de pause à 12:30), profil `airflow`
@@ -18,7 +20,7 @@
 import { mt as t, type Lang } from './text';
 import Stat from './Stat.astro';
 import type { Ligne } from './Stat.astro';
-import { toPoints, polylineLength, decimal, thousands } from './frame';
+import { toPoints, polylineLength, thousands } from './frame';
 import './strip.css';
 
 interface Props {
@@ -26,14 +28,12 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const dec = (v: number, n = 1) => decimal(v, n, lang);
 const ent = (v: number) => thousands(v, lang);
 
 // ── Les chiffres du scénario ───────────────────────────────────────────
 const HEURES = 168;
 const VEILLE = 45; // profil `airflow`, valeur de veille
 const PLANCHER = 255; // scénario `air-leak`, plancher observé
-const FUITE = PLANCHER - VEILLE;
 const KW_FUITE = 24 - 4.5; // plancher au sous-compteur moins sa veille
 const H_AN = (HEURES - 5 * 14) * 52; // 98 h hors production par semaine
 const TARIF = 0.14; // euro par kWh, contrat industriel
@@ -82,7 +82,6 @@ const longueur = polylineLength(pts);
 
 const yPlancher = y(PLANCHER);
 const yVeille = y(VEILLE);
-const jours = t(lang, 'motion.air.days').split(',');
 ---
 
 <figure class="mvf mvs" role="img" aria-label={t(lang, 'motion.strip.alt')}>
@@ -93,7 +92,7 @@ const jours = t(lang, 'motion.air.days').split(',');
          dans le sens où on le découvre : on part du plancher constaté et on
          descend vers ce qu'on aurait dû lire. -->
     <rect
-      class="mvs-gap mvs-a"
+      class="mvs-gap als-gap mvs-a"
       style="animation-name: als-gap"
       x={X0}
       y={yPlancher}
@@ -109,32 +108,12 @@ const jours = t(lang, 'motion.air.days').split(',');
 
     <g class="mvs-a" style="animation-name: als-floor">
       <line class="mvs-limit" x1={X0} y1={yPlancher} x2={X1} y2={yPlancher} />
-      <text class="mvs-limit-t" x={X0 + 2} y={yPlancher + 20}>
-        {ent(PLANCHER)} m³/h · {t(lang, 'motion.air.floor_seen')}
-      </text>
     </g>
 
     <g class="mvs-a" style="animation-name: als-idle">
       <line class="mvs-ref" x1={X0} y1={yVeille} x2={X1} y2={yVeille} />
-      <text class="mvs-ref-t" x={X0 + 2} y={yVeille - 10}>
-        {ent(VEILLE)} m³/h · {t(lang, 'motion.air.floor_expected')}
-      </text>
     </g>
-
-    <text
-      class="mvs-limit-t als-sum mvs-a"
-      style="animation-name: als-sum"
-      x={(X0 + X1) / 2}
-      y={(yPlancher + yVeille) / 2 + 7}
-      text-anchor="middle"
-    >
-      {ent(FUITE)} m³/h · {t(lang, 'motion.strip.always')}
-    </text>
   </svg>
-
-  <div class="mvs-axis" aria-hidden="true">
-    {jours.map((nom) => <span>{nom}</span>)}
-  </div>
 </figure>
 
 <script>
@@ -144,10 +123,8 @@ const jours = t(lang, 'motion.air.days').split(',');
 </script>
 
 <style>
-  .als-sum {
-    font-size: 20px;
-    font-weight: 500;
-  }
+  /* L'écart est l'argument de la figure : plus appuyé que dans les autres. */
+  .als-gap { fill-opacity: 0.18; }
 </style>
 
 <style is:global>
@@ -163,10 +140,6 @@ const jours = t(lang, 'motion.air.days').split(',');
     @keyframes als-gap {
       0%, 48% { transform: scaleY(0); }
       70%, 100% { transform: scaleY(1); }
-    }
-    @keyframes als-sum {
-      0%, 62% { opacity: 0; transform: translateY(8px); }
-      78%, 100% { opacity: 1; transform: translateY(0); }
     }
   }
 </style>

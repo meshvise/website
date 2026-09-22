@@ -174,7 +174,6 @@
     "day_after": "J+",
     "day_before": "J-",
     "strip": {
-      "always": "en permanence",
       "section": "V-02 · FUITE D'AIR COMPRIMÉ",
       "title": "La facture que personne ne lit",
       "lede": "Le compresseur tourne la nuit et le week-end. L'atelier est vide, la production est à l'arrêt, et le débit d'air ne retombe jamais à la veille.",
@@ -184,18 +183,14 @@
       "caption": "d'air comprimé payé et jamais utilisé, chaque année"
     },
     "spindleStrip": {
-      "limit": "ISO 10816",
       "caption_a": "au-dessus du seuil depuis",
       "days": "jours",
-      "now": "aujourd'hui",
       "section": "V-01 · USURE DE BROCHE",
       "title": "Ce qui se voit avant la panne",
       "lede": "Une broche ne casse pas d'un coup. Sa vibration monte pendant des semaines, et personne ne la mesure parce que personne ne la regarde.",
       "p1": "Meshvise lit la valeur efficace de vibration sur le centre d'usinage et la garde jour après jour. Elle tient à 2,2 mm/s pendant neuf jours, puis dérive de 3,1 mm/s en trois semaines. Au vingt-sixième jour elle franchit le seuil de 4,5 mm/s de la norme ISO 10816, et l'alarme part par courriel avec l'historique.",
       "p2": "La température de roulement de la même broche a pris 17 °C en douze jours. Deux mesures indépendantes concluent pareil, donc la dépose se programme un samedi, machine froide, au lieu de subir un arrêt en pleine série.",
-      "alt": "Trente jours de vibration de broche sur le centre d'usinage CU1. La valeur efficace tient à 2,2 mm/s pendant neuf jours, puis dérive de 3,1 mm/s en trois semaines pour atteindre 5,3 mm/s aujourd'hui. Elle franchit le seuil ISO 10816 de 4,5 mm/s au vingt-sixième jour, et reste au-dessus depuis quatre jours.",
-      "ago_pre": "il y a",
-      "ago_post": "jours"
+      "alt": "Trente jours de vibration de broche sur le centre d'usinage CU1. La valeur tient à 2,2 mm/s pendant neuf jours, puis dérive jusqu'à 5,3 mm/s. Au passage du seuil ISO 10816 de 4,5 mm/s, l'alarme part, et la broche reste au-dessus depuis quatre jours."
     },
     "meterStrip": {
       "caption_a": "valeur maintenue, aucun échantillon reçu depuis",
@@ -210,51 +205,38 @@
     },
     "thresholdStrip": {
       "fires": "déclenchements",
-      "caption_a": "pour un procédé qui n'a pas bougé d'un dixième de degré, en",
-      "days": "jours",
       "section": "V-04 · ALARME AU SEUIL TROP SERRÉ",
       "title": "L'alarme que plus personne ne lit",
       "lede": "Une alarme qui tire presque chaque jour et se referme en quelques minutes n'informe plus personne. Elle apprend seulement à ne plus regarder.",
       "p1": "Le groupe froid d'huile de coupe fait le même après-midi depuis trois semaines : le maximum journalier oscille entre 22,37 et 22,95 °C. Ce qui a changé, c'est le seuil. Quelqu'un l'a resserré de 24,0 à 22,5 °C, et l'alarme s'est mise à tirer huit fois en onze jours.",
       "p2": "Chaque modification de seuil est une révision datée et signée. La salve qui l'a suivie a donc une cause nommée, et le retour arrière se rédige en connaissance de cause : 24,0 °C, hystérésis d'un degré. Le procédé, lui, n'a jamais eu tort.",
-      "alt": "Vingt et un jours de maximum journalier de température d'huile de coupe. La courbe ne change pas : elle oscille entre 22,37 et 22,95 °C du premier au dernier jour. Ce qui change, c'est le seuil d'alarme, abaissé de 24,0 à 22,5 °C pendant onze jours. Huit déclenchements tombent dans cette fenêtre, et aucun en dehors.",
-      "rev_tight": "#7 seuil resserré",
-      "rev_back": "#11 retour arrière"
+      "alt": "Vingt et un jours de température d'huile de coupe, qui ne bouge pas. Une révision resserre le seuil d'alarme de 24,0 à 22,5 °C : huit déclenchements tombent en onze jours. Une seconde révision le remet en arrière, et les déclenchements cessent.",
+      "caption": "nés d'une révision, arrêtés par son retour arrière"
     },
     "engineStrip": {
       "protocols": "protocoles",
       "caption": "un seul moteur d'acquisition, tous inclus dans la licence",
-      "out": "meshvise/p/{id}/value · le même message, quel que soit le protocole",
       "section": "V-05 · TREIZE PROTOCOLES",
       "title": "Treize protocoles, un seul moteur",
       "lede": "Treize protocoles industriels, treize manières de brancher un équipement, et un seul moteur d'acquisition derrière.",
       "p1": "Huit protocoles s'interrogent à la cadence que vous choisissez, un s'abonne et ne reçoit qu'à la variation, quatre poussent leurs valeurs quand l'équipement le décide. C'est cette distinction qui compte au moment de câbler, pas la liste alphabétique.",
       "p2": "Quel que soit le protocole d'origine, ce qui sort est le même message : une version, un identifiant, un horodatage, une qualité, une valeur. Il n'y a pas de module à acheter par marque d'automate.",
-      "alt": "Treize protocoles industriels listés : Modbus TCP, Modbus RTU, OPC UA, BACnet sur IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B et MTConnect. Tous convergent sur un seul moteur d'acquisition, inclus dans la licence, qui publie le même message de fait quel que soit le protocole d'origine."
+      "alt": "Treize protocoles industriels reliés un à un à un seul moteur, Meshvise : Modbus TCP, Modbus RTU, OPC UA, BACnet sur IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B et MTConnect, tous inclus dans la licence."
     },
     "chainStrip": {
-      "facts": "faits",
-      "caption": "gardés sur disque quand la liaison au bus tombe, rejoués dans l'ordre avec leur horodatage d'origine",
-      "src": "Équipement",
-      "drv": "Pilote",
-      "bus": "Bus de faits",
-      "cons": "Écran · Historique · Alarme",
-      "note": "l'historien a sa propre réserve, pour la panne de la base",
-      "section": "V-06 · LA CHAÎNE DE LA DONNÉE",
-      "title": "Un fait publié une fois, lu par trois",
-      "lede": "Une valeur est lue une fois, publiée une fois, et servie à tous ceux qui en ont besoin. Personne ne retourne interroger l'équipement.",
-      "p1": "Le pilote lit à sa cadence et publie un fait sur le bus. L'écran s'y abonne, l'historien l'écrit en base, la règle d'alarme l'évalue. L'horodatage est pris à la source et n'est jamais réécrit en aval.",
-      "p2": "Quand la liaison au bus se coupe, le pilote empile ses faits sur son disque local, jusqu'à un million, et les rejoue dans leur ordre de publication. L'historien dispose de sa propre réserve pour la panne de la base : deux réserves distinctes, parce que ce sont deux pannes distinctes.",
-      "alt": "La chaîne que parcourt une valeur : un équipement, un pilote, le bus de faits, puis l'écran, l'historique et la règle d'alarme. Quand la liaison entre le pilote et le bus est coupée, le pilote empile ses faits sur son disque local, jusqu'à un million, et les rejoue dans leur ordre de publication avec leur horodatage d'origine."
+      "caption": "quand la liaison tombe, tout est gardé sur disque puis rattrapé dans l'ordre",
+      "section": "V-06 · RIEN NE SE PERD",
+      "title": "Une coupure qui ne laisse pas de trou",
+      "lede": "Quand la liaison tombe, les mesures continuent d'être relevées. Elles attendent sur disque, et reviennent dans l'ordre quand la liaison revient.",
+      "p1": "Quand la liaison au bus se coupe, le pilote empile ses faits sur son disque local, jusqu'à un million, et les rejoue dans leur ordre de publication avec leur horodatage d'origine. L'historien dispose de sa propre réserve pour la panne de la base : deux réserves distinctes, parce que ce sont deux pannes distinctes.",
+      "p2": "Le pilote lit à sa cadence et publie un fait une seule fois. L'écran s'y abonne, l'historien l'écrit en base, la règle d'alarme l'évalue. L'horodatage est pris à la source et n'est jamais réécrit en aval.",
+      "alt": "Une mesure tracée en continu. La liaison tombe : une pastille rouge s'allume et les mesures suivantes sont gardées sur disque, en points gris. La liaison revient : la pastille passe au vert, les mesures gardées sont rattrapées et la courbe reprend, sans aucun trou. Zéro mesure perdue.",
+      "lost": "mesure perdue"
     },
     "dashStrip": {
       "unit": "tableaux de bord",
       "caption": "prêts à l'emploi, livrés avec le produit",
-      "board": "En ce moment",
-      "live": "en direct",
-      "states": "État des machines",
-      "power": "Puissance appelée",
-      "alt": "Quatre tableaux de bord livrés avec Meshvise. Le modèle « En ce moment » se remplit : huit machines passent en marche, et la puissance appelée de chacune s'affiche en direct."
+      "alt": "Quatre tableaux de bord livrés avec Meshvise. L'un d'eux se remplit sous les yeux : huit machines passent en marche, quatre barres de puissance prennent leur valeur, une semaine de consommation se trace."
     }
   }
 }

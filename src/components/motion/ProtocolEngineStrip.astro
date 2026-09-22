@@ -2,16 +2,17 @@
 /**
  * V-05 · Treize protocoles, un seul moteur. Registre dépouillé.
  *
- * Pas de courbe : une liste. Les treize noms entrent en cascade pendant
- * que le compteur les additionne, puis un seul trait les ramène à une
- * seule sortie, qui porte le nom du message publié. La convergence est
- * dite par la typographie plutôt que par treize fils dessinés.
+ * Une étoile : les treize protocoles entrent un à un de part et d'autre, et
+ * chacun tire son fil jusqu'au moteur au centre, pendant que le compteur les
+ * additionne. Quand le dernier fil arrive, le moteur s'allume une fois. La
+ * convergence se voit au lieu de se lire : la ligne technique qui nommait le
+ * message publié (`meshvise/p/{id}/value`) a été retirée le 2026-09-22, elle
+ * ne parlait qu'à ceux qui savent déjà.
  *
  * Les transports affichés sont ceux du parc de démonstration de Bellecombe
  * (`apps/gateway-py/data/fleet.seed.json`) et non des valeurs de catalogue.
  * Treize et non douze : MTConnect est livré depuis le 2026-09-09 et CU3
- * l'utilise. Le port 851 de Beckhoff ADS est le port AMS du runtime, celui
- * que le pilote passe à pyads, et non le 48898 du routeur.
+ * l'utilise.
  */
 import { mt as t, type Lang } from './text';
 import Stat from './Stat.astro';
@@ -24,27 +25,63 @@ interface Props {
 
 const { lang } = Astro.props;
 
-const protocoles = [
-  'Modbus TCP',
-  'Modbus RTU',
-  'OPC UA',
-  'BACnet/IP',
-  'Siemens S7',
-  'MQTT',
-  'EtherNet/IP',
-  'Beckhoff ADS',
-  'REST',
-  'WebSocket',
-  'Webhook',
-  'Sparkplug B',
-  'MTConnect',
-];
+const gauche = ['Modbus TCP', 'Modbus RTU', 'OPC UA', 'BACnet/IP', 'Siemens S7', 'MQTT', 'EtherNet/IP'];
+const droite = ['Beckhoff ADS', 'REST', 'WebSocket', 'Webhook', 'Sparkplug B', 'MTConnect'];
+const TOTAL = gauche.length + droite.length;
 
-// Le compteur additionne les pastilles à mesure qu'elles entrent.
+// Le compteur additionne les protocoles à mesure qu'ils entrent.
 const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
-  valeur: String(Math.round((i / 30) * protocoles.length)),
+  valeur: String(Math.round((i / 30) * TOTAL)),
   ton: 'ink',
 }));
+
+// ── L'étoile ───────────────────────────────────────────────────────────
+const W = 720;
+const H = 330;
+const CX = W / 2;
+const CY = H / 2;
+const NOYAU_L = 150;
+const NOYAU_H = 58;
+const NX0 = CX - NOYAU_L / 2;
+const NX1 = CX + NOYAU_L / 2;
+
+const PAS = 44; // écart vertical entre deux protocoles
+const PASTILLE_H = 30;
+const CHASSE = 9; // largeur d'un caractère de la mono à 15 px
+const MARGE = 11;
+const BORD_G = 212; // bord droit des pastilles de gauche
+const BORD_D = 508; // bord gauche des pastilles de droite
+
+type Branche = { nom: string; i: number; x: number; y: number; w: number; fil: string; ancre: number };
+
+const branches: Branche[] = [
+  ...gauche.map((nom, k) => {
+    const y = CY + (k - (gauche.length - 1) / 2) * PAS;
+    const w = nom.length * CHASSE + 2 * MARGE;
+    return {
+      nom,
+      i: k * 2,
+      x: BORD_G - w,
+      y,
+      w,
+      ancre: BORD_G - MARGE,
+      fil: `M ${BORD_G} ${y} C ${BORD_G + 44} ${y}, ${NX0 - 44} ${CY}, ${NX0} ${CY}`,
+    };
+  }),
+  ...droite.map((nom, k) => {
+    const y = CY + (k - (droite.length - 1) / 2) * PAS;
+    const w = nom.length * CHASSE + 2 * MARGE;
+    return {
+      nom,
+      i: k * 2 + 1,
+      x: BORD_D,
+      y,
+      w,
+      ancre: BORD_D + MARGE,
+      fil: `M ${BORD_D} ${y} C ${BORD_D - 44} ${y}, ${NX1 + 44} ${CY}, ${NX1} ${CY}`,
+    };
+  }),
+];
 ---
 
 <figure class="mvf mvs" role="img" aria-label={t(lang, 'motion.engineStrip.alt')}>
@@ -54,22 +91,48 @@ const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
     phrase={t(lang, 'motion.engineStrip.caption')}
   />
 
-  <div class="mvs-chips" aria-hidden="true">
+  <svg viewBox={`0 0 ${W} ${H}`} class="mvs-svg pes-etoile" aria-hidden="true" focusable="false">
+    <!-- Les fils d'abord, sous les pastilles : chacun part quand sa pastille
+         entre et arrive au moteur un instant après. -->
     {
-      protocoles.map((nom, i) => (
-        <span class="mvs-chip mvs-pop" style={`--i: ${i}`}>
-          {nom}
-        </span>
+      branches.map((b) => (
+        <path class="pes-fil" pathLength="1" style={`--i: ${b.i}`} d={b.fil} />
       ))
     }
-  </div>
 
-  <!-- Le trait qui ramène les treize à un seul point de sortie. -->
-  <div class="pes-out" aria-hidden="true">
-    <div class="mvs-rule mvs-a" style="animation-name: mvs-rule"></div>
-    <p class="mvs-out mvs-a" style="animation-name: mvs-caption">
-      {t(lang, 'motion.engineStrip.out')}
-    </p>
+    {
+      branches.map((b) => (
+        <g class="mvs-pop" style={`--i: ${b.i}`}>
+          <rect class="pes-pastille" x={b.x} y={b.y - PASTILLE_H / 2} width={b.w} height={PASTILLE_H} rx="7" />
+          <text
+            class="pes-nom"
+            x={b.ancre}
+            y={b.y}
+            text-anchor={b.x < CX ? 'end' : 'start'}
+            dominant-baseline="central"
+          >
+            {b.nom}
+          </text>
+        </g>
+      ))
+    }
+
+    <!-- Le moteur. Il est là dès le début, et s'allume quand le dernier fil
+         l'atteint. -->
+    <rect class="pes-halo" x={NX0} y={CY - NOYAU_H / 2} width={NOYAU_L} height={NOYAU_H} rx="14" />
+    <rect class="pes-noyau" x={NX0} y={CY - NOYAU_H / 2} width={NOYAU_L} height={NOYAU_H} rx="14" />
+    <text class="pes-marque" x={CX} y={CY} text-anchor="middle" dominant-baseline="central">Meshvise</text>
+  </svg>
+
+  <!-- Sur téléphone, l'étoile réduite à la largeur de l'écran rendrait les
+       noms illisibles : les pastilles s'empilent, un trait les ramène au
+       moteur. Même idée, même ordre d'entrée. -->
+  <div class="pes-pile" aria-hidden="true">
+    <div class="mvs-chips">
+      {[...gauche, ...droite].map((nom, i) => <span class="mvs-chip mvs-pop" style={`--i: ${i}`}>{nom}</span>)}
+    </div>
+    <span class="pes-trait mvs-pop" style={`--i: ${TOTAL}`} />
+    <span class="pes-bloc mvs-pop" style={`--i: ${TOTAL + 1}`}>Meshvise</span>
   </div>
 </figure>
 
@@ -80,9 +143,82 @@ const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
 </script>
 
 <style>
-  .pes-out {
-    display: grid;
-    gap: 0.625rem;
-    margin-top: 0.25rem;
+  .pes-pile { display: none; }
+  @media (max-width: 560px) {
+    .mvs .pes-etoile { display: none; }
+    .pes-pile {
+      display: grid;
+      justify-items: center;
+      gap: 0.6rem;
+    }
+    .pes-pile .mvs-chips { justify-content: center; }
+    .pes-trait {
+      width: 2px;
+      height: 26px;
+      background: var(--color-brass-light);
+    }
+    .pes-bloc {
+      padding: 0.7rem 1.6rem;
+      border-radius: 12px;
+      background: var(--color-ink);
+      color: #fff;
+      font-size: 1.125rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+  }
+
+  .pes-fil {
+    fill: none;
+    stroke: var(--color-brass-light);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .pes-pastille { fill: var(--color-n-100); }
+  .pes-nom {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    fill: var(--color-ink);
+  }
+  .pes-noyau { fill: var(--color-ink); }
+  .pes-halo {
+    fill: none;
+    stroke: var(--color-brass);
+    stroke-width: 2;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .pes-marque {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    fill: #fff;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pes-fil {
+      stroke-dasharray: 1;
+      animation: pes-fil 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: calc(var(--i, 0) * 0.11s + 0.12s);
+    }
+    /* Le moteur s'allume une fois, quand le treizième fil l'atteint. */
+    .pes-halo {
+      animation: pes-halo 0.9s ease-out both;
+      animation-delay: 1.95s;
+    }
+  }
+</style>
+
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes pes-fil {
+      from { stroke-dashoffset: 1; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes pes-halo {
+      0% { opacity: 0.9; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.35, 1.8); }
+    }
   }
 </style>
