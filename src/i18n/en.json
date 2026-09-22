@@ -149,7 +149,7 @@
         {
           "id": "historisation",
           "title": "Historian",
-          "body": "Every point recorded under its own policy, in a standard database. When the link goes down, measurements are kept and caught up."
+          "body": "Every measurement recorded under its point's own policy, timestamped at the source, in a standard PostgreSQL database."
         },
         {
           "id": "alarmes",

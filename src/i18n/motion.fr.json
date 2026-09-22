@@ -237,6 +237,26 @@
       "unit": "tableaux de bord",
       "caption": "prêts à l'emploi, livrés avec le produit",
       "alt": "Quatre tableaux de bord livrés avec Meshvise. L'un d'eux se remplit sous les yeux : huit machines passent en marche, quatre barres de puissance prennent leur valeur, une semaine de consommation se trace."
+    },
+    "historianStrip": {
+      "unit": "millions de mesures",
+      "caption": "enregistrées en 30 jours sur l'atelier de démonstration, chaque point à son rythme",
+      "alt": "Trois machines envoient leurs mesures vers une base PostgreSQL, chacune à son rythme : à intervalle fixe, à chaque changement, au-delà d'un écart. La base se remplit : 4,2 millions de mesures en trente jours sur l'atelier de démonstration."
+    },
+    "traceStrip": {
+      "unit": "révisions",
+      "caption": "datées, signées, et réversibles en une opération",
+      "tcn1": "Seuil de rebut du tour TCN1",
+      "tcn1_v": "6 pièces",
+      "oil": "Seuil haut de l'huile de coupe",
+      "air": "Alerte de pression réseau",
+      "air_v": "6,0 bar",
+      "d12": "12 sept.",
+      "d31": "31 août",
+      "d26": "26 août",
+      "rollback": "Annule le changement de M. Martin",
+      "button": "Revenir en arrière",
+      "alt": "Journal des révisions de configuration : qui a changé quoi et quand. M. Martin a resserré le seuil de l'huile de coupe de 24,0 à 22,5 °C. Un bouton Revenir en arrière est pressé sur cette révision : une nouvelle révision de J. Dupont remet le seuil à 24,0 °C, en une opération."
     }
   }
 }

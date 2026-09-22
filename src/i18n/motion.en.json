@@ -237,6 +237,26 @@
       "unit": "dashboards",
       "caption": "ready to use, shipped with the product",
       "alt": "Four dashboards shipped with Meshvise. One of them fills in before your eyes: eight machines switch to running, four power bars take their value, a week of consumption is drawn."
+    },
+    "historianStrip": {
+      "unit": "million measurements",
+      "caption": "recorded in 30 days on the demonstration shop floor, each point at its own pace",
+      "alt": "Three machines send their measurements to a PostgreSQL database, each at its own pace: at a fixed interval, on every change, beyond a deadband. The database fills up: 4.2 million measurements in thirty days on the demonstration shop floor."
+    },
+    "traceStrip": {
+      "unit": "revisions",
+      "caption": "dated, signed, and reversible in one operation",
+      "tcn1": "Scrap limit on lathe TCN1",
+      "tcn1_v": "6 parts",
+      "oil": "Cutting oil high limit",
+      "air": "Network pressure alert",
+      "air_v": "6.0 bar",
+      "d12": "12 Sept",
+      "d31": "31 Aug",
+      "d26": "26 Aug",
+      "rollback": "Undoes M. Martin's change",
+      "button": "Roll back",
+      "alt": "Configuration revision log: who changed what and when. M. Martin tightened the cutting oil limit from 24.0 to 22.5 °C. A Roll back button is pressed on that revision: a new revision by J. Dupont sets the limit back to 24.0 °C, in one operation."
     }
   }
 }

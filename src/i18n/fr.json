@@ -149,7 +149,7 @@
         {
           "id": "historisation",
           "title": "Historisation",
-          "body": "Chaque point enregistré selon sa propre politique, dans une base standard. Quand la liaison tombe, les mesures sont gardées puis rattrapées."
+          "body": "Chaque mesure enregistrée selon la politique de son point, datée à la source, dans une base PostgreSQL standard."
         },
         {
           "id": "alarmes",
