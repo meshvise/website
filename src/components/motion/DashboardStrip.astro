@@ -1,0 +1,248 @@
+---
+/**
+ * V-07 · Tableaux de bord. Registre dépouillé.
+ *
+ * La seule figure de la série qui ne raconte pas un scénario : elle montre
+ * un écran qui se remplit. Le compteur additionne les modèles livrés, puis
+ * un tableau de bord « En ce moment » se pose : les machines passent en
+ * marche une à une, les barres de puissance prennent leur valeur. Le point
+ * « en direct » bat trois fois et se tait, comme le reste de la série : la
+ * figure joue une fois et tient sa dernière image.
+ *
+ * Tout ce qui est écrit vient du produit. Quatre modèles livrés dans le
+ * code (En ce moment, Vue d'ensemble opérations, Énergie et efficacité,
+ * Fiabilité et audit), les huit machines de production du parc de
+ * Bellecombe, et les puissances relevées sur le widget « Puissance
+ * appelée » du modèle « En ce moment » le 2026-09-16.
+ */
+import { mt as t, type Lang } from './text';
+import Stat from './Stat.astro';
+import type { Ligne } from './Stat.astro';
+import { decimal } from './frame';
+import './strip.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const dec = (v: number, n = 1) => decimal(v, n, lang);
+
+const MODELES = 4;
+const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
+  valeur: String(Math.round((i / 30) * MODELES)),
+  ton: 'ink',
+}));
+
+const machines = ['CU1', 'CU2', 'CU3', 'TCN1', 'TP1', 'FU1', 'RP1', 'SR1'];
+
+const puissances = [
+  { nom: 'SR1', kw: 46.8 },
+  { nom: 'FU1', kw: 37.8 },
+  { nom: 'RP1', kw: 28.3 },
+  { nom: 'TP1', kw: 25.7 },
+];
+/** L'échelle des barres : un peu au-dessus de la plus forte, comme le widget. */
+const ECHELLE = 60;
+---
+
+<figure class="mvf mvs" role="img" aria-label={t(lang, 'motion.dashStrip.alt')}>
+  <Stat lignes={lignes} unite={t(lang, 'motion.dashStrip.unit')} phrase={t(lang, 'motion.dashStrip.caption')} />
+
+  <div class="dbs-board" aria-hidden="true">
+    <div class="dbs-head mvs-pop" style="--i: 1">
+      <span class="dbs-title">{t(lang, 'motion.dashStrip.board')}</span>
+      <span class="dbs-live"><span class="dbs-dot"></span>{t(lang, 'motion.dashStrip.live')}</span>
+    </div>
+
+    <div class="dbs-grid">
+      <div class="dbs-panel mvs-pop" style="--i: 2">
+        <p class="dbs-ptitle">{t(lang, 'motion.dashStrip.states')}</p>
+        <ul class="dbs-states">
+          {
+            machines.map((m, i) => (
+              <li class="mvs-pop" style={`--i: ${i + 4}`}>
+                <span class="dbs-run" />
+                {m}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="dbs-panel mvs-pop" style="--i: 3">
+        <p class="dbs-ptitle">{t(lang, 'motion.dashStrip.power')}</p>
+        <ul class="dbs-bars">
+          {
+            puissances.map((p, i) => (
+              <li>
+                <span class="dbs-name">{p.nom}</span>
+                <span class="dbs-track">
+                  <span class="dbs-fill" style={`--w: ${(p.kw / ECHELLE).toFixed(3)}; --i: ${i + 6}`} />
+                </span>
+                <span class="dbs-val mvs-pop" style={`--i: ${i + 9}`}>
+                  {dec(p.kw)}
+                  <span class="dbs-unit">kW</span>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<script>
+  import { observerLesFigures } from './observe';
+
+  observerLesFigures();
+</script>
+
+<style>
+  .dbs-board {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .dbs-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .dbs-title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+  .dbs-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    color: var(--color-n-500);
+  }
+  .dbs-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-normal);
+  }
+
+  .dbs-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: 0.75rem;
+  }
+  .dbs-panel {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-canvas);
+    padding: 0.85rem 0.95rem 0.95rem;
+  }
+  .dbs-ptitle {
+    margin: 0 0 0.7rem;
+    font-size: 0.8125rem;
+    color: var(--color-ink-2);
+  }
+
+  /* L'état des machines : une pastille verte par machine en marche. */
+  .dbs-states {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem 0.75rem;
+  }
+  .dbs-states li {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-ink);
+  }
+  .dbs-run {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-normal);
+    flex: none;
+  }
+
+  /* La puissance appelée : une barre par machine, en laiton comme tout ce
+     qui est mesuré dans la série. */
+  .dbs-bars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+  .dbs-bars li {
+    display: grid;
+    grid-template-columns: 2.6rem minmax(0, 1fr) 4.4rem;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+  .dbs-name { color: var(--color-ink-2); }
+  .dbs-track {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--color-n-150);
+    overflow: hidden;
+  }
+  .dbs-fill {
+    display: block;
+    height: 100%;
+    width: calc(var(--w) * 100%);
+    border-radius: 3px;
+    background: var(--color-brass);
+    transform-origin: left center;
+  }
+  .dbs-val {
+    text-align: right;
+    color: var(--color-ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .dbs-unit {
+    color: var(--color-muted);
+    margin-left: 0.2em;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dbs-fill {
+      animation: dbs-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: calc(var(--i, 0) * 0.11s);
+    }
+    /* Trois battements, puis le point reste allumé. */
+    .dbs-dot {
+      animation: dbs-pulse 1.4s ease-out 3 both;
+      animation-delay: 1.3s;
+    }
+  }
+
+  /* Sous cette largeur les deux panneaux s'empilent. */
+  @media (max-width: 560px) {
+    .dbs-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
+
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes dbs-grow {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    @keyframes dbs-pulse {
+      0% { box-shadow: 0 0 0 0 rgb(11 122 64 / 0.45); }
+      70% { box-shadow: 0 0 0 7px rgb(11 122 64 / 0); }
+      100% { box-shadow: 0 0 0 0 rgb(11 122 64 / 0); }
+    }
+  }
+</style>

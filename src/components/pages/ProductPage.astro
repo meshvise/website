@@ -5,6 +5,19 @@ import en from '../../i18n/en.json';
 import PageHero from '../PageHero.astro';
 import ProtocolGrid from '../ProtocolGrid.astro';
 import ScreenPlaceholder from '../ScreenPlaceholder.astro';
+import { Image } from 'astro:assets';
+import acqFr from '../../assets/screens/fr/acquisition.png';
+import histFr from '../../assets/screens/fr/historisation.png';
+import alarmsFr from '../../assets/screens/fr/alarmes.png';
+import kpiFr from '../../assets/screens/fr/indicateurs.png';
+import dashFr from '../../assets/screens/fr/tableaux.png';
+import traceFr from '../../assets/screens/fr/revisions.png';
+import acqEn from '../../assets/screens/en/acquisition.png';
+import histEn from '../../assets/screens/en/historisation.png';
+import alarmsEn from '../../assets/screens/en/alarmes.png';
+import kpiEn from '../../assets/screens/en/indicateurs.png';
+import dashEn from '../../assets/screens/en/tableaux.png';
+import traceEn from '../../assets/screens/en/revisions.png';
 import FinalCTA from '../FinalCTA.astro';
 import ProcessBackground from '../bg/ProcessBackground.astro';
 import { t, type Lang } from '../../i18n';
@@ -12,21 +25,46 @@ import { href } from '../../i18n/routes';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
+/**
+ * Les captures du produit, prises sur le parc de démonstration de
+ * Bellecombe, une série par langue : le produit est traduit, la page
+ * anglaise montre donc l'interface en anglais. C'est ici qu'elles vivent :
+ * l'accueil donne envie avec des figures animées, la page Produit montre
+ * l'outil.
+ *
+ * Pour les refaire : navigateur à 1232 × 800 px en densité 2, recadrage de
+ * 976 × 610 px sans la barre latérale, le même cadre pour les six. Deux
+ * écrans sont retouchés avant la prise, par masquage et rien d'autre : les
+ * révisions perdent la colonne du nombre de changements et laissent leurs
+ * messages revenir à la ligne (sinon le tableau défile et perd son bouton
+ * de retour arrière), et la liste des pilotes ne garde que ceux qui
+ * acquièrent (le 2026-09-16, six ou sept pilotes du parc étaient en échec
+ * face à leur simulateur, défaut signalé à part).
+ */
+const CAPTURES = {
+  fr: { acq: acqFr, hist: histFr, alarms: alarmsFr, kpi: kpiFr, dash: dashFr, trace: traceFr },
+  en: { acq: acqEn, hist: histEn, alarms: alarmsEn, kpi: kpiEn, dash: dashEn, trace: traceEn },
+} as const;
+const captures = CAPTURES[lang];
+type Capture = keyof typeof captures;
+
 // La page suit la chaîne de la donnée : on la lit, on la garde, on
 // surveille, on la calcule, on la montre, on la commande, on la trace.
-const sections = [
-  { id: 'hist',     kind: 'history' },
-  { id: 'alarms',   kind: 'alarms' },
-  { id: 'kpi',      kind: null },
-  { id: 'dash',     kind: 'dashboard' },
+// `shot` est une vraie capture ; `kind` un écran dessiné, gardé seulement
+// là où le parc de démonstration n'a rien à montrer (aucun synoptique).
+const sections: { id: string; shot?: Capture; kind?: 'synoptic' }[] = [
+  { id: 'hist', shot: 'hist' },
+  { id: 'alarms', shot: 'alarms' },
+  { id: 'kpi', shot: 'kpi' },
+  { id: 'dash', shot: 'dash' },
   { id: 'synoptic', kind: 'synoptic' },
-  { id: 'live',     kind: null },
-  { id: 'logic',    kind: null },
-  { id: 'reports',  kind: null },
-  { id: 'trace',    kind: 'history' },
-  { id: 'sec',      kind: null },
-  { id: 'ops',      kind: null },
-] as const;
+  { id: 'live' },
+  { id: 'logic' },
+  { id: 'reports' },
+  { id: 'trace', shot: 'trace' },
+  { id: 'sec' },
+  { id: 'ops' },
+];
 
 const assistantFacts = (lang === 'fr' ? fr : en).product.assistant.facts as {
   k: string;
@@ -50,21 +88,45 @@ const assistantFacts = (lang === 'fr' ? fr : en).product.assistant.facts as {
         <p class="t-lede">{t(lang, 'product.acq.intro')}</p>
       </div>
       <ProtocolGrid lang={lang} />
-      <p class="t-body mt-6 max-w-3xl">{t(lang, 'product.acq.after')}</p>
+      <div class="grid gap-8 items-center lg:grid-cols-12 mt-10">
+        <p class="t-body lg:col-span-5">{t(lang, 'product.acq.after')}</p>
+        <figure class="lg:col-span-7 shot">
+          <Image
+            src={captures.acq}
+            alt={t(lang, 'product.shots.acq')}
+            widths={[720, 1440]}
+            sizes="(max-width: 1023px) 100vw, 720px"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      </div>
     </div>
   </section>
 
   <div class="bg-surface border-t border-line">
     {sections.map((s) => (
       <section id={s.id} class="wrap py-16 md:py-20 border-b border-line">
-        <div class={`grid gap-8 items-start ${s.kind ? 'lg:grid-cols-12' : ''}`}>
-          <div class={s.kind ? 'lg:col-span-5' : 'max-w-3xl'}>
+        <div class={`grid gap-8 items-start ${s.shot || s.kind ? 'lg:grid-cols-12' : ''}`}>
+          <div class={s.shot || s.kind ? 'lg:col-span-5' : 'max-w-3xl'}>
             <h2 class="t-section">{t(lang, `product.${s.id}.title`)}</h2>
             <p class="t-body mt-3">{t(lang, `product.${s.id}.body`)}</p>
             {s.id === 'kpi' && (
               <p class="t-body mt-4 pl-5 border-l-2 border-warn text-ink">{t(lang, 'product.kpi.wip')}</p>
             )}
           </div>
+          {s.shot && (
+            <figure class="lg:col-span-7 shot">
+              <Image
+                src={captures[s.shot]}
+                alt={t(lang, `product.shots.${s.shot}`)}
+                widths={[720, 1440]}
+                sizes="(max-width: 1023px) 100vw, 720px"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          )}
           {s.kind && (
             <div class="lg:col-span-7">
               <ScreenPlaceholder kind={s.kind} lang={lang} label={t(lang, 'home.see.placeholder')} />
@@ -112,6 +174,23 @@ const assistantFacts = (lang === 'fr' ? fr : en).product.assistant.facts as {
 </Base>
 
 <style>
+  /* Une capture du produit : cadrée, posée sur la page, jamais recadrée à
+     l'affichage. Toutes sont au même format 16:10. */
+  .shot {
+    margin: 0;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-canvas);
+    box-shadow:
+      0 1px 2px rgb(22 27 35 / 0.04),
+      0 18px 40px -22px rgb(22 27 35 / 0.22);
+  }
+  .shot :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
   .facts {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

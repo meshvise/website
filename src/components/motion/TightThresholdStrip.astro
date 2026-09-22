@@ -26,9 +26,16 @@ import './strip.css';
 
 interface Props {
   lang: Lang;
+  /**
+   * Nomme les deux révisions qui bornent la fenêtre. L'accueil s'en sert
+   * pour illustrer la traçabilité : sans les noms, la figure montre une
+   * salve d'alarmes ; avec eux, elle montre une salve qui a une cause.
+   * La page d'aperçu garde la figure nue, telle qu'elle a été jugée.
+   */
+  revisions?: boolean;
 }
 
-const { lang } = Astro.props;
+const { lang, revisions = false } = Astro.props;
 const dec = (v: number, n = 1) => decimal(v, n, lang);
 
 // ── Les chiffres du scénario ───────────────────────────────────────────
@@ -113,6 +120,19 @@ const marche = toPoints([
     <text class="mvs-limit-t mvs-a" style="animation-name: tts-step" x={x(J_SERRAGE) + 8} y={ySerre - 11}>
       {dec(SEUIL_SERRE)} °C
     </text>
+
+    {
+      revisions && (
+        <g class="mvs-a" style="animation-name: tts-step">
+          <text class="mvs-ref-t" x={x(J_SERRAGE) + 8} y={Y0 + 14}>
+            {t(lang, 'motion.thresholdStrip.rev_tight')}
+          </text>
+          <text class="mvs-ref-t" x={x(J_RETOUR) - 8} y={Y0 + 14} text-anchor="end">
+            {t(lang, 'motion.thresholdStrip.rev_back')}
+          </text>
+        </g>
+      )
+    }
 
     <!-- Le journal : un bâton par déclenchement, dans l'ordre. -->
     <g class="tts-log">

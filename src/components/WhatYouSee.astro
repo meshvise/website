@@ -2,95 +2,70 @@
 /**
  * Ce que vous gérez avec Meshvise.
  *
- * Six fonctionnalités, chacune montrée par une vraie capture du parc de
- * démonstration de Bellecombe. Les faux écrans dessinés en SVG qui occupaient
- * la place portaient les noms d'un parc HVAC retiré depuis, et la note « tout
- * ce qui est montré ici se trouve dans la démonstration en ligne » était
- * fausse : la démonstration en ligne est un instantané de mai.
+ * Six fonctionnalités, chacune illustrée par une figure animée. Les
+ * captures d'écran du produit sont sur la page Produit : l'accueil donne
+ * envie, la page Produit montre l'outil. Une capture de formulaire d'alarme
+ * prouve que le formulaire existe ; une broche qui dérive pendant trente
+ * jours puis franchit son seuil dit pourquoi on en a besoin.
  *
- * Ce qui n'est pas écrit ici l'est volontairement, d'après le registre de
- * l'audit du 2026-09-15 : aucune commande vers le procédé (AUD-001), aucune
- * garantie sur la qualité des mesures, ni TRS, ni « disponibilité » (sans
- * horaires d'ouverture c'est un taux de marche), ni années d'historique.
- * Les synoptiques attendent un parc qui en porte un.
+ * Cinq figures viennent de la série préparée sur `/preview-motion/`, une a
+ * été faite pour cette section, faute de scénario qui parle de tableaux de
+ * bord :
  *
- * La forme : la liste à gauche, la capture à droite, sans avance automatique.
- * Les six phrases restent toutes lisibles sans cliquer, donc la capture
- * illustre ce qu'on lit au lieu de le cacher ; et la page porte déjà un
- * carrousel (les métiers) et une animation (l'IA), un troisième mouvement
- * ferait un accueil qui ne tient jamais en place. Sous 1024 px, chaque
- * capture suit sa phrase et il n'y a plus rien à choisir.
+ *   acquisition    V-05  treize protocoles, un seul moteur
+ *   historisation  V-06  la chaîne de la donnée, gardée pendant la coupure
+ *   alarmes        V-01  la broche qui franchit le seuil ISO 10816
+ *   tableaux       V-07  un tableau de bord livré qui se remplit
+ *   indicateurs    V-02  le talon nocturne de l'air comprimé, en euros
+ *   traçabilité    V-04  la salve d'alarmes et les deux révisions qui la bornent
  *
- * Les captures sont faites à 1232 × 800 px en densité 2, recadrées à 976 ×
- * 610 px de contenu, sans la barre latérale : le même cadre partout, donc la
- * scène ne change jamais de hauteur d'une fonctionnalité à l'autre.
+ * V-03, la valeur figée, est écartée : elle promet que le produit repère une
+ * source qui se tait, ce que l'audit du 2026-09-15 contredit encore.
  *
- * Deux écrans ont été retouchés avant la prise, par masquage et rien d'autre.
- * Les révisions perdent la colonne du nombre de changements et laissent leurs
- * messages revenir à la ligne : sinon le tableau défile et perd sa colonne de
- * retour arrière, ou devient illisible à l'échelle de la page. La liste des
- * pilotes ne garde que ceux qui acquièrent : le 2026-09-16, six ou sept pilotes
- * du parc de démonstration étaient en échec face à leur simulateur (Modbus,
- * EtherNet/IP), défaut signalé à part et pas encore attribué au simulateur ou
- * au pilote.
+ * Ce qui n'est pas écrit ici l'est volontairement, d'après le même registre :
+ * aucune commande vers le procédé (AUD-001), aucune garantie sur la qualité
+ * des mesures, ni TRS, ni « disponibilité » (sans horaires d'ouverture c'est
+ * un taux de marche), ni années d'historique.
+ *
+ * La forme : la liste à gauche, la figure à droite, sans avance automatique.
+ * Les six phrases restent toutes lisibles sans cliquer ; la page porte déjà
+ * un carrousel (les métiers), un troisième mouvement ferait un accueil qui
+ * ne tient jamais en place. Choisir une fonctionnalité rejoue sa figure
+ * depuis le début : une figure jouée pendant qu'elle était cachée arriverait
+ * sinon déjà finie. Sous 1024 px, chaque figure suit sa phrase et
+ * `observe.ts` la rejoue quand elle entre dans l'écran.
  */
-import { Image } from 'astro:assets';
 import fr from '../i18n/fr.json';
 import en from '../i18n/en.json';
 import { t, type Lang } from '../i18n';
 
-import acquisitionFr from '../assets/screens/fr/acquisition.png';
-import historisationFr from '../assets/screens/fr/historisation.png';
-import alarmesFr from '../assets/screens/fr/alarmes.png';
-import tableauxFr from '../assets/screens/fr/tableaux.png';
-import indicateursFr from '../assets/screens/fr/indicateurs.png';
-import revisionsFr from '../assets/screens/fr/revisions.png';
-import acquisitionEn from '../assets/screens/en/acquisition.png';
-import historisationEn from '../assets/screens/en/historisation.png';
-import alarmesEn from '../assets/screens/en/alarmes.png';
-import tableauxEn from '../assets/screens/en/tableaux.png';
-import indicateursEn from '../assets/screens/en/indicateurs.png';
-import revisionsEn from '../assets/screens/en/revisions.png';
+import ProtocolEngineStrip from './motion/ProtocolEngineStrip.astro';
+import DataChainStrip from './motion/DataChainStrip.astro';
+import SpindleWearStrip from './motion/SpindleWearStrip.astro';
+import DashboardStrip from './motion/DashboardStrip.astro';
+import AirLeakStrip from './motion/AirLeakStrip.astro';
+import TightThresholdStrip from './motion/TightThresholdStrip.astro';
 
 interface Props {
   lang: Lang;
 }
 
-/**
- * Une série de captures par langue : le produit est traduit, la page anglaise
- * montre donc l'interface en anglais. Indexées par identifiant, réordonner le
- * dictionnaire ne décale pas les captures.
- */
-const CAPTURES = {
-  fr: {
-    acquisition: acquisitionFr,
-    historisation: historisationFr,
-    alarmes: alarmesFr,
-    tableaux: tableauxFr,
-    indicateurs: indicateursFr,
-    revisions: revisionsFr,
-  },
-  en: {
-    acquisition: acquisitionEn,
-    historisation: historisationEn,
-    alarmes: alarmesEn,
-    tableaux: tableauxEn,
-    indicateurs: indicateursEn,
-    revisions: revisionsEn,
-  },
+/** Indexées par identifiant : réordonner le dictionnaire ne décale pas les figures. */
+const FIGURES = {
+  acquisition: ProtocolEngineStrip,
+  historisation: DataChainStrip,
+  alarmes: SpindleWearStrip,
+  tableaux: DashboardStrip,
+  indicateurs: AirLeakStrip,
+  revisions: TightThresholdStrip,
 } as const;
-
-/** Largeur d'affichage de la capture sur grand écran, en pixels CSS. */
-const LARGEUR = 720;
 
 const { lang } = Astro.props;
 const dict = (lang === 'fr' ? fr : en).home.see;
-const captures = CAPTURES[lang];
 const features = dict.features as {
-  id: keyof typeof captures;
+  id: keyof typeof FIGURES;
   title: string;
   body: string;
-  alt: string;
 }[];
 ---
 
@@ -101,34 +76,29 @@ const features = dict.features as {
     </div>
 
     <div class="feat" data-feat aria-label={dict.aria} role="group">
-      {features.map((f, i) => (
-        <div class="item" style={`--row: ${i + 1}`}>
-          <div class:list={['text', i === 0 && 'is-on']}>
-            <h3 class="name">
-              <button
-                type="button"
-                class="pick"
-                aria-pressed={i === 0 ? 'true' : 'false'}
-                aria-controls={`feat-shot-${i}`}
-                data-i={i}
-              >
-                {f.title}
-              </button>
-            </h3>
-            <p class="body">{f.body}</p>
+      {features.map((f, i) => {
+        const Figure = FIGURES[f.id];
+        return (
+          <div class="item" style={`--row: ${i + 1}`}>
+            <div class:list={['text', i === 0 && 'is-on']}>
+              <h3 class="name">
+                <button
+                  type="button"
+                  class="pick"
+                  aria-pressed={i === 0 ? 'true' : 'false'}
+                  aria-controls={`feat-fig-${i}`}
+                >
+                  {f.title}
+                </button>
+              </h3>
+              <p class="body">{f.body}</p>
+            </div>
+            <div id={`feat-fig-${i}`} class:list={['shot', i === 0 && 'is-on']}>
+              {f.id === 'revisions' ? <Figure lang={lang} revisions /> : <Figure lang={lang} />}
+            </div>
           </div>
-          <figure id={`feat-shot-${i}`} class:list={['shot', i === 0 && 'is-on']}>
-            <Image
-              src={captures[f.id]}
-              alt={f.alt}
-              widths={[LARGEUR, LARGEUR * 2]}
-              sizes={`(max-width: 1023px) 100vw, ${LARGEUR}px`}
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-        </div>
-      ))}
+        );
+      })}
     </div>
   </div>
 </section>
@@ -136,17 +106,29 @@ const features = dict.features as {
 <script>
   /**
    * Le HTML arrive dans son état de départ, la première fonctionnalité
-   * sélectionnée : le script ne fait que déplacer la sélection.
+   * sélectionnée : le script ne fait que déplacer la sélection, et rejouer
+   * la figure qu'il découvre.
    */
+  const calme = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function rejouer(el: HTMLElement) {
+    if (calme.matches || typeof el.getAnimations !== 'function') return;
+    for (const animation of el.getAnimations({ subtree: true })) {
+      animation.currentTime = 0;
+      animation.play();
+    }
+  }
+
   document.querySelectorAll<HTMLElement>('[data-feat]').forEach((feat) => {
     const boutons = Array.from(feat.querySelectorAll<HTMLButtonElement>('.pick'));
     const textes = Array.from(feat.querySelectorAll<HTMLElement>('.text'));
-    const captures = Array.from(feat.querySelectorAll<HTMLElement>('.shot'));
+    const figures = Array.from(feat.querySelectorAll<HTMLElement>('.shot'));
 
     function montrer(i: number) {
       boutons.forEach((b, n) => b.setAttribute('aria-pressed', n === i ? 'true' : 'false'));
       textes.forEach((el, n) => el.classList.toggle('is-on', n === i));
-      captures.forEach((el, n) => el.classList.toggle('is-on', n === i));
+      figures.forEach((el, n) => el.classList.toggle('is-on', n === i));
+      rejouer(figures[i]);
     }
 
     boutons.forEach((b, i) => b.addEventListener('click', () => montrer(i)));
@@ -180,43 +162,24 @@ const features = dict.features as {
     color: var(--color-ink-2);
   }
 
-  .shot {
-    margin: 0;
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    background: var(--color-canvas);
-    box-shadow:
-      0 1px 2px rgb(22 27 35 / 0.04),
-      0 18px 40px -22px rgb(22 27 35 / 0.22);
-  }
-  .shot :global(img) {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 10;
-    object-fit: cover;
-    object-position: top left;
-  }
-
-  /* Sous 1024 px : chaque capture suit sa phrase, rien à choisir. */
+  /* Sous 1024 px : chaque figure suit sa phrase, rien à choisir. */
   @media (max-width: 1023px) {
-    .item + .item { margin-top: 2.75rem; }
-    .shot { margin-top: 1rem; }
+    .item + .item { margin-top: 3rem; }
+    .shot { margin-top: 1.5rem; }
     .pick { cursor: default; }
   }
 
-  /* À partir de 1024 px : la liste à gauche, la capture à droite. Les items
-     s'effacent de la grille pour que textes et captures en soient enfants
-     directs : chaque texte prend sa ligne, les six captures s'empilent dans
-     la même zone de la seconde colonne, et la scène prend la hauteur d'une
-     seule d'entre elles sans jamais sauter. */
+  /* À partir de 1024 px : la liste à gauche, la figure à droite. Les items
+     s'effacent de la grille pour que textes et figures en soient enfants
+     directs : chaque texte prend sa ligne, les six figures s'empilent dans
+     la même zone de la seconde colonne, et la scène prend la hauteur de la
+     plus haute sans jamais sauter. */
   @media (min-width: 1024px) {
     .feat {
       display: grid;
       grid-template-columns: minmax(0, 4.5fr) minmax(0, 7.5fr);
       grid-template-rows: repeat(6, auto) 1fr;
-      column-gap: 3.5rem;
+      column-gap: 4.5rem;
     }
     .item { display: contents; }
 
@@ -252,24 +215,12 @@ const features = dict.features as {
     .shot {
       grid-column: 2;
       grid-row: 1 / -1;
-      /* La liste est plus haute que la capture : centrée, l'écart se partage
-         au lieu de s'accumuler sous l'image. */
+      /* Les figures n'ont pas la même hauteur : chacune se centre sur la
+         liste, l'écart se partage au lieu de s'accumuler sous elle. */
       align-self: center;
-      opacity: 0;
       visibility: hidden;
     }
-    .shot.is-on {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-
-  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-    .shot.is-on { animation: feat-entree 280ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-  }
-  @keyframes feat-entree {
-    from { opacity: 0; transform: translateY(0.375rem); }
-    to { opacity: 1; transform: none; }
+    .shot.is-on { visibility: visible; }
   }
 
   @media (prefers-reduced-motion: reduce) {

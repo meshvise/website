@@ -144,38 +144,32 @@
         {
           "id": "acquisition",
           "title": "Multi-protocol acquisition",
-          "body": "Thirteen protocols in a single engine, whatever the brand of your PLCs. During a network outage, measurements are kept and caught up.",
-          "alt": "Meshvise driver list: OPC UA, Modbus, BACnet, S7, MQTT and the other protocols of a machine shop, each with its address and polling rate."
+          "body": "Thirteen protocols in a single engine, whatever the brand of your PLCs."
         },
         {
           "id": "historisation",
           "title": "Historian",
-          "body": "Every point recorded under its own policy, in a standard database.",
-          "alt": "Seven-day energy consumption curve in Meshvise, with the configuration deployment marked on the period."
+          "body": "Every point recorded under its own policy, in a standard database. During a network outage, measurements are kept and caught up."
         },
         {
           "id": "alarmes",
           "title": "Alarms",
-          "body": "Severities, hysteresis, delay, acknowledgement, shelving, email or webhook notification.",
-          "alt": "Spindle vibration alarm settings in Meshvise: severity, threshold, deadband, delay, notification group and webhook."
+          "body": "Severities, hysteresis, delay, acknowledgement, shelving, email or webhook notification."
         },
         {
           "id": "tableaux",
           "title": "Dashboards",
-          "body": "Templates ready at installation, a no-code editor, the present arriving live.",
-          "alt": "Meshvise \"Right now\" dashboard: alarms, machine states and power draw, live."
+          "body": "Templates ready at installation, a no-code editor, the present arriving live."
         },
         {
           "id": "indicateurs",
           "title": "Indicators",
-          "body": "Micro-stops, run rate and night-time baseload, calculated from your counters.",
-          "alt": "Meshvise Indicators screen: micro-stops per hour and run rate of the machining centres, with their window and coverage."
+          "body": "Micro-stops, run rate and night-time baseload, calculated from your counters."
         },
         {
           "id": "revisions",
           "title": "Traceability",
-          "body": "Who changed what and when, and a rollback in one operation.",
-          "alt": "Configuration revision history in Meshvise: message, author and date of each change."
+          "body": "Who changed what and when, and a rollback in one operation."
         }
       ],
       "placeholder": "Demo screenshot"
@@ -478,6 +472,14 @@
       ],
       "not": "Meshvise has no AI: it diagnoses nothing and answers no question. It is a socket. The intelligence stays with the model you chose; what Meshvise brings is equipment whose data is named, qualified and governed.",
       "cta": "Plugging in an AI, in practice"
+    },
+    "shots": {
+      "acq": "Meshvise driver list: OPC UA, Modbus, BACnet, S7, MQTT and the other protocols of a machine shop, each with its address and polling rate.",
+      "hist": "Seven-day energy consumption curve in Meshvise, with the configuration deployment marked on the period.",
+      "alarms": "Spindle vibration alarm settings in Meshvise: severity, threshold, deadband, delay, notification group and webhook.",
+      "kpi": "Meshvise Indicators screen: the night-time baseload of each meter, and for each indicator its window, its coverage or the reason it is missing.",
+      "dash": "Meshvise \"Right now\" dashboard: alarms, machine states and power draw, live.",
+      "trace": "Configuration revision history in Meshvise: message, author and date of each change, with a rollback on every line."
     }
   },
   "protocols": {

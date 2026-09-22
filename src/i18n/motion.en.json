@@ -217,7 +217,9 @@
       "lede": "An alarm that fires almost every day and clears itself within minutes informs nobody. It only teaches people to stop looking.",
       "p1": "The cutting oil chiller has had the same afternoon for three weeks: the daily maximum swings between 22.37 and 22.95 °C. What changed is the limit. Someone tightened it from 24.0 to 22.5 °C, and the alarm started firing eight times in eleven days.",
       "p2": "Every limit change is a dated, signed revision. The burst that followed therefore has a named cause, and the rollback can be written knowing what it undoes: 24.0 °C, one degree of hysteresis. The process itself was never at fault.",
-      "alt": "Twenty-one days of daily maximum cutting oil temperature. The curve does not change: it swings between 22.37 and 22.95 °C from the first day to the last. What changes is the alarm limit, lowered from 24.0 to 22.5 °C for eleven days. Eight alarms fall inside that window, and none outside it."
+      "alt": "Twenty-one days of daily maximum cutting oil temperature. The curve does not change: it swings between 22.37 and 22.95 °C from the first day to the last. What changes is the alarm limit, lowered from 24.0 to 22.5 °C for eleven days. Eight alarms fall inside that window, and none outside it.",
+      "rev_tight": "#7 limit tightened",
+      "rev_back": "#11 rollback"
     },
     "engineStrip": {
       "protocols": "protocols",
@@ -244,6 +246,15 @@
       "p1": "The driver reads at its own rate and publishes a fact on the bus. The screen subscribes to it, the historian writes it to the database, the alarm rule evaluates it. The timestamp is taken at the source and never rewritten downstream.",
       "p2": "When the bus link goes down, the driver queues its facts on local disk, up to one million, and replays them in publication order. The historian holds its own store for a database outage: two separate stores, because these are two separate failures.",
       "alt": "The chain a value travels: a device, a driver, the fact bus, then the screen, the history and the alarm rule. When the link between the driver and the bus is cut, the driver queues its facts on local disk, up to one million, and replays them in publication order with their original timestamps."
+    },
+    "dashStrip": {
+      "unit": "dashboards",
+      "caption": "ready to use, shipped with the product",
+      "board": "Right now",
+      "live": "live",
+      "states": "Machine states",
+      "power": "Power draw",
+      "alt": "Four dashboards shipped with Meshvise. The \"Right now\" template fills in: eight machines switch to running, and the power draw of each is shown live."
     }
   }
 }

@@ -217,7 +217,9 @@
       "lede": "Une alarme qui tire presque chaque jour et se referme en quelques minutes n'informe plus personne. Elle apprend seulement à ne plus regarder.",
       "p1": "Le groupe froid d'huile de coupe fait le même après-midi depuis trois semaines : le maximum journalier oscille entre 22,37 et 22,95 °C. Ce qui a changé, c'est le seuil. Quelqu'un l'a resserré de 24,0 à 22,5 °C, et l'alarme s'est mise à tirer huit fois en onze jours.",
       "p2": "Chaque modification de seuil est une révision datée et signée. La salve qui l'a suivie a donc une cause nommée, et le retour arrière se rédige en connaissance de cause : 24,0 °C, hystérésis d'un degré. Le procédé, lui, n'a jamais eu tort.",
-      "alt": "Vingt et un jours de maximum journalier de température d'huile de coupe. La courbe ne change pas : elle oscille entre 22,37 et 22,95 °C du premier au dernier jour. Ce qui change, c'est le seuil d'alarme, abaissé de 24,0 à 22,5 °C pendant onze jours. Huit déclenchements tombent dans cette fenêtre, et aucun en dehors."
+      "alt": "Vingt et un jours de maximum journalier de température d'huile de coupe. La courbe ne change pas : elle oscille entre 22,37 et 22,95 °C du premier au dernier jour. Ce qui change, c'est le seuil d'alarme, abaissé de 24,0 à 22,5 °C pendant onze jours. Huit déclenchements tombent dans cette fenêtre, et aucun en dehors.",
+      "rev_tight": "#7 seuil resserré",
+      "rev_back": "#11 retour arrière"
     },
     "engineStrip": {
       "protocols": "protocoles",
@@ -244,6 +246,15 @@
       "p1": "Le pilote lit à sa cadence et publie un fait sur le bus. L'écran s'y abonne, l'historien l'écrit en base, la règle d'alarme l'évalue. L'horodatage est pris à la source et n'est jamais réécrit en aval.",
       "p2": "Quand la liaison au bus se coupe, le pilote empile ses faits sur son disque local, jusqu'à un million, et les rejoue dans leur ordre de publication. L'historien dispose de sa propre réserve pour la panne de la base : deux réserves distinctes, parce que ce sont deux pannes distinctes.",
       "alt": "La chaîne que parcourt une valeur : un équipement, un pilote, le bus de faits, puis l'écran, l'historique et la règle d'alarme. Quand la liaison entre le pilote et le bus est coupée, le pilote empile ses faits sur son disque local, jusqu'à un million, et les rejoue dans leur ordre de publication avec leur horodatage d'origine."
+    },
+    "dashStrip": {
+      "unit": "tableaux de bord",
+      "caption": "prêts à l'emploi, livrés avec le produit",
+      "board": "En ce moment",
+      "live": "en direct",
+      "states": "État des machines",
+      "power": "Puissance appelée",
+      "alt": "Quatre tableaux de bord livrés avec Meshvise. Le modèle « En ce moment » se remplit : huit machines passent en marche, et la puissance appelée de chacune s'affiche en direct."
     }
   }
 }
