@@ -31,13 +31,19 @@
  * des mesures, ni TRS, ni « disponibilité » (sans horaires d'ouverture c'est
  * un taux de marche), ni années d'historique.
  *
- * La forme : la liste à gauche, la figure à droite, sans avance automatique.
- * Les six phrases restent toutes lisibles sans cliquer ; la page porte déjà
- * un carrousel (les métiers), un troisième mouvement ferait un accueil qui
- * ne tient jamais en place. Choisir une fonctionnalité rejoue sa figure
- * depuis le début : une figure jouée pendant qu'elle était cachée arriverait
- * sinon déjà finie. Sous 1024 px, chaque figure suit sa phrase et
- * `observe.ts` la rejoue quand elle entre dans l'écran.
+ * La forme : la liste à gauche, la figure à droite, et la section défile
+ * seule (demande de Bruno, 2026-09-22). Chaque fonctionnalité reste le temps
+ * que sa figure se joue et se lise, pendant que le trait de gauche se remplit
+ * pour dire que ça avance ; c'est la fin de ce remplissage qui passe à la
+ * suivante, si bien que la pause et la reprise restent synchrones sans
+ * minuteur à part. Le survol et le focus clavier mettent en pause, la
+ * sortie de l'écran aussi ; un clic choisit, et le défilement reprend depuis
+ * le choix. Choisir une fonctionnalité rejoue sa figure depuis le début :
+ * une figure jouée pendant qu'elle était cachée arriverait sinon déjà finie.
+ *
+ * Sous 1024 px, chaque figure suit sa phrase, rien ne défile, et
+ * `observe.ts` rejoue chaque figure quand elle entre dans l'écran. Sous
+ * `prefers-reduced-motion`, rien ne défile non plus.
  */
 import fr from '../i18n/fr.json';
 import en from '../i18n/en.json';
@@ -64,6 +70,13 @@ const FIGURES = {
   revisions: TraceStrip,
 } as const;
 
+/**
+ * Durée d'affichage d'une fonctionnalité quand la section défile seule, en
+ * millisecondes. Les figures se jouent en quatre à cinq secondes : il reste
+ * de quoi lire leur dernière image avant de passer à la suivante.
+ */
+const DUREE = 6500;
+
 const { lang } = Astro.props;
 const dict = (lang === 'fr' ? fr : en).home.see;
 const features = dict.features as {
@@ -79,7 +92,7 @@ const features = dict.features as {
       <h2 class="t-page">{t(lang, 'home.see.title')}</h2>
     </div>
 
-    <div class="feat" data-feat aria-label={dict.aria} role="group">
+    <div class="feat" data-feat data-duree={DUREE} style={`--duree: ${DUREE}ms`} aria-label={dict.aria} role="group">
       {features.map((f, i) => {
         const Figure = FIGURES[f.id];
         return (
@@ -110,10 +123,11 @@ const features = dict.features as {
 <script>
   /**
    * Le HTML arrive dans son état de départ, la première fonctionnalité
-   * sélectionnée : le script ne fait que déplacer la sélection, et rejouer
-   * la figure qu'il découvre.
+   * sélectionnée : le script déplace la sélection, rejoue la figure qu'il
+   * découvre, et fait défiler la section quand l'écran s'y prête.
    */
   const calme = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const large = window.matchMedia('(min-width: 1024px)');
 
   function rejouer(el: HTMLElement) {
     if (calme.matches || typeof el.getAnimations !== 'function') return;
@@ -127,15 +141,63 @@ const features = dict.features as {
     const boutons = Array.from(feat.querySelectorAll<HTMLButtonElement>('.pick'));
     const textes = Array.from(feat.querySelectorAll<HTMLElement>('.text'));
     const figures = Array.from(feat.querySelectorAll<HTMLElement>('.shot'));
+    let actif = 0;
+    let visible = false;
+    let survol = false;
+    let clavier = false;
 
     function montrer(i: number) {
-      boutons.forEach((b, n) => b.setAttribute('aria-pressed', n === i ? 'true' : 'false'));
-      textes.forEach((el, n) => el.classList.toggle('is-on', n === i));
-      figures.forEach((el, n) => el.classList.toggle('is-on', n === i));
-      rejouer(figures[i]);
+      actif = (i + boutons.length) % boutons.length;
+      boutons.forEach((b, n) => b.setAttribute('aria-pressed', n === actif ? 'true' : 'false'));
+      textes.forEach((el, n) => el.classList.toggle('is-on', n === actif));
+      figures.forEach((el, n) => el.classList.toggle('is-on', n === actif));
+      rejouer(figures[actif]);
     }
 
-    boutons.forEach((b, i) => b.addEventListener('click', () => montrer(i)));
+    /** Le défilement tourne quand l'écran est large, que le visiteur n'a pas
+     *  demandé moins de mouvement, et que la section est à l'écran. */
+    function mettreAJour() {
+      const defile = large.matches && !calme.matches;
+      feat.classList.toggle('defile', defile);
+      feat.classList.toggle('en-pause', !visible || survol || clavier);
+    }
+
+    boutons.forEach((b, i) =>
+      b.addEventListener('click', () => {
+        montrer(i);
+        mettreAJour();
+      })
+    );
+
+    // La fin du remplissage du trait actif passe à la fonctionnalité suivante.
+    feat.addEventListener('animationend', (e) => {
+      if (e.animationName !== 'feat-progres') return;
+      if (!feat.classList.contains('defile') || feat.classList.contains('en-pause')) return;
+      montrer(actif + 1);
+    });
+
+    feat.addEventListener('pointerenter', () => { survol = true; mettreAJour(); });
+    feat.addEventListener('pointerleave', () => { survol = false; mettreAJour(); });
+    // Le focus ne met en pause que s'il vient du clavier : un clic laisse le
+    // focus sur le bouton, et figerait sinon le défilement pour de bon.
+    feat.addEventListener('focusin', (e) => {
+      clavier = !!(e.target as Element | null)?.matches?.(':focus-visible');
+      mettreAJour();
+    });
+    feat.addEventListener('focusout', () => { clavier = false; mettreAJour(); });
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(
+        (entrees) => {
+          visible = entrees[0].isIntersecting;
+          mettreAJour();
+        },
+        { threshold: 0.3 }
+      ).observe(feat);
+    }
+    large.addEventListener('change', mettreAJour);
+    calme.addEventListener('change', mettreAJour);
+    mettreAJour();
   });
 </script>
 
@@ -198,6 +260,23 @@ const features = dict.features as {
     .text:hover { border-left-color: var(--color-line-strong); }
     .text.is-on { border-left-color: var(--color-accent); }
 
+    /* Quand la section défile, le trait de l'élément actif se remplit du
+       haut vers le bas pendant sa durée d'affichage ; sa fin passe au
+       suivant. En pause, il s'arrête où il en est. */
+    .feat.defile .text.is-on { border-left-color: var(--color-line); }
+    .feat.defile .text.is-on::before {
+      content: '';
+      position: absolute;
+      left: -2px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--color-accent);
+      transform-origin: top;
+      animation: feat-progres var(--duree) linear both;
+    }
+    .feat.defile.en-pause .text.is-on::before { animation-play-state: paused; }
+
     /* Toute la ligne est cliquable, le bouton reste la cible du clavier et
        des lecteurs d'écran. */
     .pick { cursor: pointer; }
@@ -229,5 +308,9 @@ const features = dict.features as {
 
   @media (prefers-reduced-motion: reduce) {
     .text { transition: none; }
+  }
+  @keyframes feat-progres {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
   }
 </style>
