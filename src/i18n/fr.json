@@ -195,16 +195,20 @@
         "note": "Accès direct"
       },
       "trial": {
-        "name": "Essai 7 jours",
+        "name": "Essai sur vos équipements",
         "price": "Sept jours",
-        "note": "Sur votre infrastructure, avec vos équipements"
+        "note": "Sur votre infrastructure"
       },
       "onprem": {
         "name": "On-Premise",
         "price": "Licence annuelle",
         "note": "Par site, tous protocoles, tous points"
       },
-      "managed_line": "Exploitation déléguée sur demande, pour les sites sans équipe technique.",
+      "managed": {
+        "name": "Exploitation déléguée",
+        "price": "Sur demande",
+        "note": "Pour les sites sans équipe technique"
+      },
       "link": "Voir les tarifs"
     },
     "final": {

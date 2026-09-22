@@ -195,16 +195,20 @@
         "note": "Direct access"
       },
       "trial": {
-        "name": "7-day trial",
+        "name": "Trial on your equipment",
         "price": "Seven days",
-        "note": "On your infrastructure, with your equipment"
+        "note": "On your infrastructure"
       },
       "onprem": {
         "name": "On-Premise",
         "price": "Annual licence",
         "note": "Per site, all protocols, all points"
       },
-      "managed_line": "Managed operations on request, for sites without a technical team.",
+      "managed": {
+        "name": "Managed operations",
+        "price": "On request",
+        "note": "For sites without a technical team"
+      },
       "link": "See the rates"
     },
     "final": {

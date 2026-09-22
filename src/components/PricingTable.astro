@@ -4,7 +4,9 @@
  * n'y figurent pas : ce ne sont pas des tarifs, ils vivent dans la
  * navigation et sur l'accueil. La colonne de droite est volontairement
  * plus courte : l'exploitation déléguée n'est pas livrable, et rien n'y
- * est promis. Le texte le dit, aucun badge n'a à le signaler.
+ * est promis. Le texte le dit, aucun badge n'a à le signaler. Elle porte
+ * une ancre : la carte de l'accueil y mène, et sur mobile elle se trouve
+ * sous toute la licence.
  */
 import fr from '../i18n/fr.json';
 import en from '../i18n/en.json';
@@ -40,7 +42,7 @@ const d = (lang === 'fr' ? fr : en).pricing;
       <a href="#devis" class="mt-7 btn btn-primary justify-center sm:self-start sm:px-8">{t(lang, 'pricing.cta_quote')}</a>
     </div>
 
-    <div class="flex flex-col p-6 md:p-8 border-t md:border-t-0 md:border-l border-line bg-surface">
+    <div id="exploitation-deleguee" class="flex flex-col p-6 md:p-8 border-t md:border-t-0 md:border-l border-line bg-surface">
       <h3 class="text-[16px] font-medium text-ink">{d.managed.name}</h3>
       <div class="mt-4 mono text-[20px] font-medium text-ink leading-none">{d.managed.price}</div>
       <p class="t-body mt-4 flex-1">{d.managed.tagline} {d.managed.body}</p>
