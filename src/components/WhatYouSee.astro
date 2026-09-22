@@ -147,7 +147,13 @@ const features = dict.features as {
     let clavier = false;
 
     function montrer(i: number) {
+      const avant = actif;
       actif = (i + boutons.length) % boutons.length;
+      if (avant !== actif && !calme.matches) {
+        const sortante = figures[avant];
+        sortante.classList.add('sortante');
+        window.setTimeout(() => sortante.classList.remove('sortante'), 280);
+      }
       boutons.forEach((b, n) => b.setAttribute('aria-pressed', n === actif ? 'true' : 'false'));
       textes.forEach((el, n) => el.classList.toggle('is-on', n === actif));
       figures.forEach((el, n) => el.classList.toggle('is-on', n === actif));
@@ -301,13 +307,36 @@ const features = dict.features as {
       /* Les figures n'ont pas la même hauteur : chacune se centre sur la
          liste, l'écart se partage au lieu de s'accumuler sous elle. */
       align-self: center;
+      opacity: 0;
       visibility: hidden;
     }
-    .shot.is-on { visibility: visible; }
+    .shot.is-on {
+      opacity: 1;
+      visibility: visible;
+    }
+    .name,
+    .body { transition: color 300ms ease; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .text { transition: none; }
+  }
+  /* Fondu enchaîné, comme les métiers plus haut : la sortante s'efface par
+     une animation posée par le script, l'entrante monte juste après. */
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .shot.is-on { animation: feat-entree 600ms cubic-bezier(0.22, 1, 0.36, 1) both 180ms; }
+    .shot.sortante {
+      visibility: visible;
+      animation: feat-sortie 260ms ease both;
+    }
+  }
+  @keyframes feat-sortie {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  @keyframes feat-entree {
+    from { opacity: 0; transform: translateY(0.625rem); }
+    to { opacity: 1; transform: none; }
   }
   @keyframes feat-progres {
     from { transform: scaleY(0); }

@@ -142,7 +142,9 @@ const LARGEUR = 460;
     let clavier = false;
 
     function montrer(i: number, donnerLeFocus = false) {
+      const avant = actif;
       actif = (i + onglets.length) % onglets.length;
+      if (avant !== actif) sortir(vues[avant]);
       onglets.forEach((o, n) => {
         const est = n === actif;
         o.setAttribute('aria-selected', est ? 'true' : 'false');
@@ -150,6 +152,14 @@ const LARGEUR = 460;
       });
       vues.forEach((v, n) => v.classList.toggle('is-on', n === actif));
       if (donnerLeFocus) onglets[actif].focus();
+    }
+
+    /** La vue quittée s'efface en fondu : la classe tient le temps de
+     *  l'animation, puis est retirée. */
+    function sortir(vue: HTMLElement) {
+      if (calme.matches) return;
+      vue.classList.add('sortante');
+      window.setTimeout(() => vue.classList.remove('sortante'), 260);
     }
 
     function mettreAJour() {
@@ -281,10 +291,14 @@ const LARGEUR = 460;
     display: grid;
     margin-top: 2.25rem;
   }
-  /* La sortante disparaît d'un coup, seule l'entrante est animée. Un fondu
-     croisé ferait lire deux phrases superposées pendant 320 ms, ce qui est
-     illisible sur du texte long : c'est acceptable sur une image, jamais sur
-     une ligne qu'on est en train de lire. */
+  /* Un fondu enchaîné plutôt que croisé : la sortante s'efface en 240 ms,
+     l'entrante attend 180 ms puis monte en fondu. Les deux phrases ne se
+     superposent qu'à peine, pâles toutes les deux : un fondu croisé complet
+     les ferait lire l'une sur l'autre, et une sortie sèche (la version
+     précédente) faisait un saut à chaque changement. La sortie est une
+     animation posée par le script (`sortante`) et non une transition :
+     l'opacité de la vue active vient de son animation d'entrée, et une
+     transition ne part jamais d'une valeur animée. */
   .slide {
     grid-area: 1 / 1;
     opacity: 0;
@@ -317,13 +331,21 @@ const LARGEUR = 460;
   }
   @media (prefers-reduced-motion: no-preference) {
     .slide.is-on {
-      animation: persona-entree 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: persona-entree 600ms cubic-bezier(0.22, 1, 0.36, 1) both 180ms;
     }
+    .slide.sortante {
+      visibility: visible;
+      animation: persona-sortie 240ms ease both;
+    }
+  }
+  @keyframes persona-sortie {
+    from { opacity: 1; }
+    to { opacity: 0; }
   }
   @keyframes persona-entree {
     from {
       opacity: 0;
-      transform: translateY(0.375rem);
+      transform: translateY(0.625rem);
     }
     to {
       opacity: 1;
