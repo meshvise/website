@@ -227,8 +227,10 @@
       "description": "Moins d'arrêts, moins d'énergie gaspillée, des décisions prises sur des faits : ce que la supervision fait gagner à un site industriel."
     },
     "hero": {
-      "title": "Ce que vous coûte de ne pas savoir.",
-      "subtitle": "Superviser, c'est voir ce qui se passe réellement sur le site. Voici ce que ça fait gagner."
+      "lead": "Ce que vous coûte",
+      "accent": "de ne pas savoir.",
+      "subtitle": "Superviser, c'est voir ce qui se passe réellement sur le site. Voici ce que ça fait gagner.",
+      "nav": "Les trois gains"
     },
     "cta": {
       "title": "Une démonstration sur vos équipements",
@@ -238,18 +240,21 @@
       {
         "key": "arrets",
         "title": "Moins d'arrêts",
+        "short": "Chaque arrêt compté, même le plus court.",
         "body": "Chaque arrêt est enregistré, même le plus court, avec sa durée et son moment. Ceux que personne ne notait apparaissent, s'additionnent, et on sait enfin où la production se perd.",
         "alt": "Une journée de production sur laquelle de courts arrêts apparaissent un à un, puis s'additionnent en un temps perdu bien visible."
       },
       {
         "key": "nuit",
         "title": "Moins d'énergie gaspillée",
+        "short": "Ce qui tourne pour rien, enfin visible.",
         "body": "Ce qui consomme hors production devient visible : les machines qui tournent la nuit, les fuites, les veilles qui n'en sont pas. On arrête de payer pour un atelier vide.",
         "alt": "Plusieurs jours de consommation : la nuit, la courbe ne redescend pas au niveau de veille, et l'écart, chaque nuit, est de l'énergie perdue."
       },
       {
         "key": "decisions",
         "title": "Des décisions sur des faits",
+        "short": "Des indicateurs calculés, pas estimés.",
         "body": "Les indicateurs sont calculés depuis les machines, pas reconstitués à la main. On sait ce qui progresse et ce qui recule, et on décide sur des chiffres plutôt que sur des impressions.",
         "alt": "Un indicateur suivi semaine après semaine : les barres montent, la tendance se trace et une flèche confirme la progression."
       }

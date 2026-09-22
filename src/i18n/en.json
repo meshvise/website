@@ -227,8 +227,10 @@
       "description": "Fewer stoppages, less wasted energy, decisions based on facts: what supervision gains an industrial site."
     },
     "hero": {
-      "title": "What not knowing costs you.",
-      "subtitle": "Supervising means seeing what really happens on site. Here is what it gains you."
+      "lead": "What not knowing",
+      "accent": "costs you.",
+      "subtitle": "Supervising means seeing what really happens on site. Here is what it gains you.",
+      "nav": "The three gains"
     },
     "cta": {
       "title": "A demonstration on your equipment",
@@ -238,18 +240,21 @@
       {
         "key": "arrets",
         "title": "Fewer stoppages",
+        "short": "Every stoppage counted, even the shortest.",
         "body": "Every stoppage is recorded, even the shortest, with its duration and its time. The ones nobody wrote down appear, add up, and you finally know where production is lost.",
         "alt": "A production day on which short stoppages appear one by one, then add up to a clearly visible loss of time."
       },
       {
         "key": "nuit",
         "title": "Less wasted energy",
+        "short": "What runs for nothing, finally visible.",
         "body": "What consumes outside production becomes visible: machines running at night, leaks, standby modes that are not. You stop paying for an empty shop floor.",
         "alt": "Several days of consumption: at night the curve does not drop back to standby level, and the gap, every night, is wasted energy."
       },
       {
         "key": "decisions",
         "title": "Decisions based on facts",
+        "short": "Indicators calculated, not estimated.",
         "body": "Indicators are calculated from the machines, not rebuilt by hand. You know what improves and what slips, and you decide on figures rather than impressions.",
         "alt": "An indicator tracked week after week: the bars rise, the trend is drawn and an arrow confirms the improvement."
       }
