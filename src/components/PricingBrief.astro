@@ -44,7 +44,7 @@ const courbe = Array.from({ length: 29 }, (_, i) => {
 const pouls = 'M104 96 H132 L138 84 L146 110 L153 74 L160 104 L165 96 H188';
 ---
 
-<section class="section" data-start>
+<section class="section depart" data-start>
   <div class="wrap">
     <div class="section-head">
       <h2 class="t-page">{t(lang, 'home.pricing_brief.title')}</h2>
@@ -184,6 +184,13 @@ const pouls = 'M104 96 H132 L138 84 L146 110 L153 74 L160 104 L165 96 H188';
 </script>
 
 <style>
+  /* Un gris un cran plus soutenu que le fond de page : la section se
+     détache des fonctionnalités, sur fond blanc, et du pied de page. */
+  .depart {
+    background: var(--color-n-100);
+    border-top: 1px solid var(--color-line);
+  }
+
   /* Le panneau du site, rendu cliquable : au survol, le filet se renforce,
      l'ombre se lève, la carte monte d'un cran et la flèche avance. */
   .start {

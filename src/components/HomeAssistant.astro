@@ -40,23 +40,53 @@ const lienGuide = `${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`;
 /** Guillemets de la langue : chevrons en français, apostrophes en anglais. */
 ---
 
-<section id="assistant" class="section">
+<section id="assistant" class="section dark-block relative overflow-hidden">
   <div class="wrap mid">
     <h2 class="t-page head">{t(lang, 'home.ai.title')}</h2>
-    <AskAnswer lang={lang} />
-
-
-    <a href={lienGuide} class="link mt-8 inline-block">{t(lang, 'home.ai.cta')}</a>
+    <div class="ecran">
+      <AskAnswer lang={lang} />
+    </div>
+    <a href={lienGuide} class="lien mt-8 inline-block">{t(lang, 'home.ai.cta')}</a>
   </div>
 </section>
 
 <style>
-  /* Toute la section est centree : un axe unique, du titre au lien. */
+  /* Toute la section est centree : un axe unique, du titre au lien.
+     Elle est la seule de l'accueil sur fond sombre : c'est l'argument fort
+     de la page, et le fond marque la rupture entre les métiers, sur fond
+     clair, et les fonctionnalités, sur fond blanc. L'animation garde son
+     dessin clair, posée sur un panneau comme sur un écran. */
   .mid { text-align: center; }
   .head { max-width: 26ch; margin-inline: auto; margin-bottom: 0.5rem; }
 
+  .ecran {
+    max-width: 48rem;
+    margin: 2.75rem auto 0;
+    padding: 2.25rem 2rem 2.5rem;
+    border-radius: 18px;
+    background: var(--color-surface);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.06) inset,
+      0 30px 70px -30px rgb(0 0 0 / 0.65);
+    text-align: left;
+  }
+  .ecran :global(.fig) { margin-top: 0; }
 
+  /* Le lien, lisible sur le fond sombre. */
+  .lien {
+    color: var(--color-accent-soft);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-accent-soft) 40%, transparent);
+    text-underline-offset: 0.25em;
+    text-decoration-thickness: 1px;
+    transition: color 160ms ease, text-decoration-color 160ms ease;
+  }
+  .lien:hover {
+    color: #fff;
+    text-decoration-color: #fff;
+  }
 
   @media (max-width: 640px) {
+    .ecran { padding: 1.5rem 1rem 1.75rem; border-radius: 14px; }
   }
 </style>

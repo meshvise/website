@@ -119,6 +119,9 @@ const aire = `M 0 ${SH} L ${trace.replaceAll(' ', ' L ')} L ${SW} ${SH} Z`;
 <style>
   .dbs-board {
     position: relative;
+    /* Le widget qui arrive part d'en dehors de sa case : sans cette coupe,
+       sa position de départ élargissait la page sur téléphone. */
+    overflow: clip;
     display: grid;
     gap: 0.85rem;
     padding: 1rem;
