@@ -192,22 +192,26 @@
       "demo": {
         "name": "Démonstration en ligne",
         "price": "Publique",
-        "note": "Accès direct"
+        "note": "Accès direct",
+        "cta": "Ouvrir la démo"
       },
       "trial": {
         "name": "Essai sur vos équipements",
         "price": "Sept jours",
-        "note": "Sur votre infrastructure"
+        "note": "Sur votre infrastructure",
+        "cta": "Demander l'essai"
       },
       "onprem": {
         "name": "On-Premise",
         "price": "Licence annuelle",
-        "note": "Par site, tous protocoles, tous points"
+        "note": "Par site, tous protocoles, tous points",
+        "cta": "Voir la licence"
       },
       "managed": {
         "name": "Exploitation déléguée",
         "price": "Sur demande",
-        "note": "Pour les sites sans équipe technique"
+        "note": "Pour les sites sans équipe technique",
+        "cta": "Voir l'offre"
       },
       "link": "Voir les tarifs"
     },

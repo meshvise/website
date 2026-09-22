@@ -192,22 +192,26 @@
       "demo": {
         "name": "Online demonstration",
         "price": "Public",
-        "note": "Direct access"
+        "note": "Direct access",
+        "cta": "Open the demo"
       },
       "trial": {
         "name": "Trial on your equipment",
         "price": "Seven days",
-        "note": "On your infrastructure"
+        "note": "On your infrastructure",
+        "cta": "Request the trial"
       },
       "onprem": {
         "name": "On-Premise",
         "price": "Annual licence",
-        "note": "Per site, all protocols, all points"
+        "note": "Per site, all protocols, all points",
+        "cta": "See the licence"
       },
       "managed": {
         "name": "Managed operations",
         "price": "On request",
-        "note": "For sites without a technical team"
+        "note": "For sites without a technical team",
+        "cta": "See the offer"
       },
       "link": "See the rates"
     },
