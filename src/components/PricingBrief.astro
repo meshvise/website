@@ -185,22 +185,10 @@ const pouls = 'M104 96 H132 L138 84 L146 110 L153 74 L160 104 L165 96 H188';
 
 <style>
   /* Un gris un cran plus soutenu que le fond de page : la section se
-     détache des fonctionnalités, sur fond blanc, et du pied de page. Le gris
-     monte du blanc et y redescend, en fondu plutôt qu'en coupure. */
+     détache des fonctionnalités, sur fond blanc, et du pied de page. */
   .depart {
-    --fondu: 8rem;
-    background: linear-gradient(
-      to bottom,
-      var(--color-surface) 0,
-      color-mix(in srgb, var(--color-n-100) 50%, var(--color-surface)) calc(var(--fondu) * 0.45),
-      var(--color-n-100) var(--fondu),
-      var(--color-n-100) calc(100% - var(--fondu)),
-      color-mix(in srgb, var(--color-n-100) 50%, var(--color-surface)) calc(100% - var(--fondu) * 0.45),
-      var(--color-surface) 100%
-    );
-  }
-  @media (max-width: 767px) {
-    .depart { --fondu: 4rem; }
+    background: var(--color-n-100);
+    border-top: 1px solid var(--color-line);
   }
 
   /* Le panneau du site, rendu cliquable : au survol, le filet se renforce,
