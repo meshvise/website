@@ -16,8 +16,8 @@ const pages = {
   apex: resolve(dist, 'index.html'),
   fr: resolve(dist, 'fr', 'index.html'),
   en: resolve(dist, 'en', 'index.html'),
-  fr_trial: resolve(dist, 'fr', 'trial', 'index.html'),
-  en_trial: resolve(dist, 'en', 'trial', 'index.html'),
+  fr_contact: resolve(dist, 'fr', 'contact', 'index.html'),
+  en_contact: resolve(dist, 'en', 'contact', 'index.html'),
   fr_about: resolve(dist, 'fr', 'a-propos', 'index.html'),
   en_about: resolve(dist, 'en', 'about', 'index.html'),
 };
@@ -36,8 +36,8 @@ beforeAll(() => {
     apex: readFileSync(pages.apex, 'utf-8'),
     fr: readFileSync(pages.fr, 'utf-8'),
     en: readFileSync(pages.en, 'utf-8'),
-    fr_trial: readFileSync(pages.fr_trial, 'utf-8'),
-    en_trial: readFileSync(pages.en_trial, 'utf-8'),
+    fr_contact: readFileSync(pages.fr_contact, 'utf-8'),
+    en_contact: readFileSync(pages.en_contact, 'utf-8'),
     fr_about: readFileSync(pages.fr_about, 'utf-8'),
     en_about: readFileSync(pages.en_about, 'utf-8'),
   };
@@ -48,8 +48,8 @@ describe('Built pages exist and have a <title>', () => {
     it(`${lang}/index.html has a <title>`, () => {
       expect(html[lang]).toMatch(/<title>[^<]+<\/title>/);
     });
-    it(`${lang}/trial/index.html has a <title>`, () => {
-      const key = `${lang}_trial` as keyof typeof html;
+    it(`${lang}/contact/index.html has a <title>`, () => {
+      const key = `${lang}_contact` as keyof typeof html;
       expect(html[key]).toMatch(/<title>[^<]+<\/title>/);
     });
     it(`${lang}/about/index.html has a <title>`, () => {
@@ -117,36 +117,38 @@ describe('Apex root redirects to /fr/', () => {
   });
 });
 
-// L'essai est sur devis depuis le 2026-09-22 : la page ne délivre plus de
-// licence en libre-service, elle recueille une demande. Le formulaire est
-// celui du devis, avec l'objet de courriel propre à l'essai.
-describe('Trial pages collect a trial request (trial on quote)', () => {
+// Depuis le 2026-09-23, tous les « Prendre contact » mènent à la page
+// Contact, qui porte le seul formulaire de demande ; la page d'essai est
+// retirée, l'essai se demande là, sujet « essai » choisi d'office.
+describe('Contact pages collect a request with its topic', () => {
   for (const lang of ['fr', 'en'] as const) {
-    const key = `${lang}_trial` as keyof typeof html;
+    const key = `${lang}_contact` as keyof typeof html;
 
-    it(`${lang}/trial/index.html has a request form with name, email, company, install`, () => {
+    it(`${lang}/contact/index.html has a request form with topic, name, email, company, install`, () => {
       expect(html[key]).toMatch(/data-contact-form/);
+      expect(html[key]).toMatch(/name="topic"/);
       expect(html[key]).toMatch(/name="name"/);
       expect(html[key]).toMatch(/name="email"/);
       expect(html[key]).toMatch(/name="company"/);
       expect(html[key]).toMatch(/name="install"/);
     });
 
-    it(`${lang}/trial/index.html sends a trial request, not a quote or demo request`, () => {
-      expect(html[key]).toMatch(lang === 'fr' ? /data-subject="Demande d'essai Meshvise"/ : /data-subject="Meshvise trial request"/);
+    it(`${lang}/contact/index.html offers the licence, managed operations and trial topics`, () => {
+      for (const topic of ['licence', 'exploitation', 'essai']) {
+        expect(html[key]).toContain(`value="${topic}"`);
+      }
     });
 
-    it(`${lang}/trial/index.html no longer issues a self-serve licence`, () => {
+    it(`${lang}/contact/index.html does not issue a self-serve licence`, () => {
       expect(html[key]).not.toContain("'/api/trial'");
-      expect(html[key]).not.toMatch(/7 jours|sept jours|7-day|seven days/i);
     });
   }
 });
 
-describe('Landing pages link to the trial page', () => {
+describe('Landing pages send the trial request to the Contact page', () => {
   for (const lang of ['fr', 'en'] as const) {
-    it(`${lang}/index.html links to /${lang}/trial/`, () => {
-      expect(html[lang]).toMatch(new RegExp(`href="/${lang}/trial/"`));
+    it(`${lang}/index.html links to /${lang}/contact/?sujet=essai`, () => {
+      expect(html[lang]).toContain(`href="/${lang}/contact/?sujet=essai"`);
     });
   }
 });
@@ -318,8 +320,8 @@ describe('Hard-rule lint on built HTML', () => {
   for (const key of [
     'fr',
     'en',
-    'fr_trial',
-    'en_trial',
+    'fr_contact',
+    'en_contact',
     'fr_about',
     'en_about',
   ] as const) {
@@ -360,7 +362,7 @@ describe('Pricing section renders 2 free + 3 commercial tiers (grille 2026-05-11
     it(`${lang} pricing wires the 2 free entry CTAs (demo + trial)`, () => {
       const section = pricingSection();
       expect(section).toContain('href="https://app.meshvise.com"');
-      expect(section).toContain(`href="/${lang}/trial/"`);
+      expect(section).toContain(`href="/${lang}/contact/?sujet=essai"`);
     });
 
     it(`${lang} pricing wires the 3 paid mailto CTAs (On-Premise / Managed Standard / Managed Premium)`, () => {

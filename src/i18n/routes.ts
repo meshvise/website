@@ -16,7 +16,6 @@ export const ROUTES = {
   guides: { fr: 'guides', en: 'guides' },
   faq: { fr: 'faq', en: 'faq' },
   demo: { fr: 'demo', en: 'demo' },
-  trial: { fr: 'trial', en: 'trial' },
 } as const;
 
 export type RouteKey = keyof typeof ROUTES;

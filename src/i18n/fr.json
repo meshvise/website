@@ -8,12 +8,10 @@
     "faq": "FAQ",
     "about": "À propos",
     "demo": "Voir la démo",
-    "trial": "Essai sur vos équipements",
     "contact": "Contact"
   },
   "common": {
     "cta_demo": "Voir la démo",
-    "cta_trial": "Demander un essai",
     "cta_contact": "Prendre contact",
     "cta_request_demo": "Demander une démonstration",
     "learn_more": "En savoir plus",
@@ -268,7 +266,6 @@
     "install": "Votre installation, en une ligne",
     "install_ph": "Type de site, équipements, ce que vous aimeriez voir",
     "submit": "Demander une démonstration",
-    "submit_trial": "Demander un essai",
     "submit_contact": "Envoyer"
   },
   "product": {
@@ -942,7 +939,7 @@
     },
     "trial_how": {
       "q": "Comment se passe l'essai ?",
-      "a": "Vous décrivez votre site dans le formulaire de demande d'essai. Nous vous proposons un devis qui fixe la durée, le périmètre et l'accompagnement. L'essai tourne ensuite sur votre infrastructure, avec vos équipements."
+      "a": "Vous décrivez votre site dans le formulaire de contact, en choisissant « Essai sur vos équipements ». Nous vous proposons un devis qui fixe la durée, le périmètre et l'accompagnement. L'essai tourne ensuite sur votre infrastructure, avec vos équipements."
     },
     "demo_vs_trial": {
       "q": "Quelle différence entre la démo et l'essai ?",
@@ -975,31 +972,6 @@
   },
   "meta": {
     "og_image_alt": "Meshvise · Tous vos équipements. Une seule supervision."
-  },
-  "trial": {
-    "meta": {
-      "title": "Essai sur vos équipements · Meshvise",
-      "description": "Essayez Meshvise sur votre infrastructure, branché à vos automates, en conditions réelles. Durée, périmètre et accompagnement de l'essai sur devis."
-    },
-    "title": "Meshvise sur vos équipements, avant de décider.",
-    "subtitle": "L'essai tourne sur votre infrastructure, branché à vos automates. Sa durée, son périmètre et l'accompagnement se fixent sur devis, selon votre site.",
-    "steps_title": "Comment se passe l'essai",
-    "steps": [
-      {
-        "k": "Vous décrivez votre site",
-        "v": "Vos équipements, leurs protocoles, ce que vous voulez voir. Quelques lignes suffisent pour commencer."
-      },
-      {
-        "k": "Nous vous proposons un devis",
-        "v": "La durée de l'essai, son périmètre et l'accompagnement, chiffrés pour votre site. Réponse sous deux jours ouvrés."
-      },
-      {
-        "k": "Meshvise tourne chez vous",
-        "v": "Installé sur votre serveur, relié à vos automates. Vous jugez en conditions réelles, sur vos propres mesures."
-      }
-    ],
-    "form_title": "Demander un essai",
-    "form_body": "Décrivez votre site en quelques mots : type d'installation, nombre d'équipements, protocoles. Nous revenons vers vous avec une proposition d'essai."
   },
   "contact": {
     "meta": {

@@ -8,12 +8,10 @@
     "faq": "FAQ",
     "about": "About",
     "demo": "See the demo",
-    "trial": "Trial on your equipment",
     "contact": "Contact"
   },
   "common": {
     "cta_demo": "See the demo",
-    "cta_trial": "Request a trial",
     "cta_contact": "Get in touch",
     "cta_request_demo": "Request a demonstration",
     "learn_more": "Learn more",
@@ -268,7 +266,6 @@
     "install": "Your installation, in one line",
     "install_ph": "Type of site, equipment, what you would like to see",
     "submit": "Request a demonstration",
-    "submit_trial": "Request a trial",
     "submit_contact": "Send"
   },
   "product": {
@@ -942,7 +939,7 @@
     },
     "trial_how": {
       "q": "How does the trial work?",
-      "a": "You describe your site in the trial request form. We send you a quote that sets the duration, the scope and the support. The trial then runs on your infrastructure, with your equipment."
+      "a": "You describe your site in the contact form, choosing \"Trial on your equipment\". We send you a quote that sets the duration, the scope and the support. The trial then runs on your infrastructure, with your equipment."
     },
     "demo_vs_trial": {
       "q": "What is the difference between the demo and the trial?",
@@ -975,31 +972,6 @@
   },
   "meta": {
     "og_image_alt": "Meshvise · All your equipment. One supervision system."
-  },
-  "trial": {
-    "meta": {
-      "title": "Trial on your equipment · Meshvise",
-      "description": "Try Meshvise on your own infrastructure, connected to your PLCs, in real conditions. Trial duration, scope and support on quote."
-    },
-    "title": "Meshvise on your equipment, before you decide.",
-    "subtitle": "The trial runs on your infrastructure, connected to your PLCs. Its duration, scope and support are set on quote, to fit your site.",
-    "steps_title": "How the trial works",
-    "steps": [
-      {
-        "k": "You describe your site",
-        "v": "Your equipment, its protocols, what you want to see. A few lines are enough to start."
-      },
-      {
-        "k": "We send you a quote",
-        "v": "The trial duration, its scope and the support, priced for your site. Reply within two working days."
-      },
-      {
-        "k": "Meshvise runs on your premises",
-        "v": "Installed on your server, connected to your PLCs. You judge in real conditions, on your own measurements."
-      }
-    ],
-    "form_title": "Request a trial",
-    "form_body": "Describe your site in a few words: type of installation, number of devices, protocols. We come back to you with a trial proposal."
   },
   "contact": {
     "meta": {

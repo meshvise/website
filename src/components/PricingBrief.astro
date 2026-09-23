@@ -28,7 +28,7 @@ interface Props {
 const { lang } = Astro.props;
 const cards = [
   { key: 'demo', to: href(lang, 'demo') },
-  { key: 'trial', to: href(lang, 'trial') },
+  { key: 'trial', to: `${href(lang, 'contact')}?sujet=essai` },
   { key: 'onprem', to: href(lang, 'pricing') },
   { key: 'managed', to: href(lang, 'pricing', 'exploitation-deleguee') },
 ] as const;

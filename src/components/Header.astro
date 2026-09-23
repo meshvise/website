@@ -48,7 +48,7 @@ const isCurrent = (key: RouteKey) => current === href(lang, key);
   </div>
 
   <nav id="mobile-menu" class="hidden lg:hidden border-t border-line px-6 py-5 flex-col gap-4 text-[15px] bg-surface" aria-label="Mobile primary">
-    {(Object.keys(ROUTES) as RouteKey[]).filter((k) => k !== 'home' && k !== 'demo' && k !== 'trial').map((key) => (
+    {(Object.keys(ROUTES) as RouteKey[]).filter((k) => k !== 'home' && k !== 'demo').map((key) => (
       <a href={href(lang, key)} class="nav-link">{t(lang, `nav.${key}`)}</a>
     ))}
     <a href={alternateUrl} hreflang={alternateLang} lang={alternateLang} aria-label={switchLanguageLabel} class="text-[13px] text-muted">{alternateLangLabel}</a>
