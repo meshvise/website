@@ -284,29 +284,29 @@
   "product": {
     "meta": {
       "title": "Produit · Ce que fait Meshvise · Supervision industrielle",
-      "description": "Acquisition, historisation, alarmes, indicateurs calculés, tableaux de bord, synoptiques, vues en direct, logique visuelle, rapports planifiés, traçabilité des changements, accès et exploitation. Le détail de ce que le produit sait faire."
+      "description": "Acquisition, historique, alarmes, indicateurs, tableaux de bord : ce que Meshvise fait de vos données, de la machine au rapport du lundi."
     },
     "hero": {
       "lead": "Acquérir, historiser,",
       "accent": "alerter, montrer.",
-      "subtitle": "Ce que Meshvise fait de vos données, de la lecture d'un capteur jusqu'au rapport envoyé par courriel le lundi matin.",
+      "subtitle": "Ce que Meshvise fait de vos données, de la machine jusqu'au rapport du lundi matin.",
       "nav": "Les quatre chapitres"
     },
     "doors": [
       {
         "key": "acquerir",
         "title": "Acquérir",
-        "short": "Treize protocoles, sans module par marque."
+        "short": "Toutes vos machines, quelle que soit la marque."
       },
       {
         "key": "historiser",
         "title": "Historiser",
-        "short": "Chaque point à son rythme, dans votre base."
+        "short": "Tout l'historique, conservé chez vous."
       },
       {
         "key": "alerter",
         "title": "Alerter",
-        "short": "Des alarmes réglées, acquittées, journalisées."
+        "short": "Prévenir la bonne personne, au bon moment."
       },
       {
         "key": "montrer",
@@ -315,10 +315,10 @@
       }
     ],
     "acq": {
-      "title": "Les treize protocoles",
-      "intro": "Aucun module à acheter par marque. Chaque protocole est un driver du même moteur.",
-      "link": "Voir le détail de chaque protocole",
-      "after": "Découverte automatique des équipements. Mémoire tampon persistante en cas de coupure réseau : rien n'est perdu, tout est rejoué dans l'ordre. Qualité de donnée portée par chaque valeur.",
+      "title": "Toutes vos machines, quelle que soit la marque",
+      "intro": "Treize protocoles inclus, sans module à acheter par marque.",
+      "link": "Le détail de chaque protocole",
+      "after": "Meshvise trouve les équipements du réseau et les lit chacun à son rythme. Si le réseau coupe, rien n'est perdu : tout reprend là où ça s'était arrêté.",
       "protocols": [
         {
           "name": "Modbus TCP",
@@ -388,71 +388,67 @@
       ]
     },
     "hist": {
-      "title": "L'historique",
-      "body": "Chaque point est enregistré selon sa propre politique : à chaque changement, au-delà d'un seuil de variation, ou à intervalle fixe. La base est un Postgres avec TimescaleDB, avec une rétention que vous fixez. Rien n'est enfermé : Excel, Power BI et Grafana s'y connectent en lecture directe, sans connecteur propriétaire ni export intermédiaire."
+      "title": "Tout l'historique, chez vous",
+      "body": "Chaque valeur est enregistrée et conservée aussi longtemps que vous le décidez, sur votre serveur. Vos données restent à vous."
     },
     "alarms": {
-      "title": "Les alarmes",
-      "body": "Seuils haut et bas, écarts, changements d'état, avec temporisation et hystérésis pour éviter le clignotement. Trois niveaux de criticité, acquittement par un opérateur identifié, mise en veille d'une alarme connue pendant une intervention. Notification par courriel ou par webhook vers l'outil de votre choix. Chaque transition est journalisée, y compris qui a acquitté et quand."
+      "title": "Des alarmes qui comptent",
+      "body": "Réglées pour ne pas sonner pour rien, elles préviennent la bonne personne par courriel. Chacune garde la trace de qui l'a prise en charge, et quand."
     },
     "kpi": {
-      "title": "Les indicateurs",
-      "body": "Dites ce que mesure un point, une puissance, un compteur de pièces, un état de marche : la machine arrive avec ses indicateurs déjà calculés, micro-arrêts, disponibilité, talon de consommation nocturne. Chaque indicateur porte sa fenêtre et sa couverture, et quand les données manquent, il dit pourquoi au lieu d'afficher un chiffre faux. Pour le reste, un point se calcule à partir des autres, et s'historise et s'alarme comme n'importe quel point."
+      "title": "Les indicateurs, déjà calculés",
+      "body": "Micro-arrêts, disponibilité, consommation de nuit : chaque machine arrive avec ses indicateurs. Quand une donnée manque, l'indicateur le dit au lieu d'afficher un chiffre faux."
     },
     "dash": {
-      "title": "Les tableaux de bord",
-      "body": "Dix-sept types de composants, posés à la souris sur une grille : indicateurs chiffrés, courbes, jauges, tableaux, bandeaux d'alarmes, chronogrammes d'états. Formatage conditionnel par seuil, variables de tableau de bord pour rejouer le même écran sur une autre machine, plage de temps commune à tous les composants. Aucune ligne de code."
+      "title": "Vos tableaux de bord, sans code",
+      "body": "Courbes, jauges, chiffres clés, alarmes : chacun compose ses écrans à la souris, et un même tableau de bord se réutilise d'une machine à l'autre."
     },
     "synoptic": {
       "title": "Les synoptiques",
-      "body": "Vos installations dessinées dans le navigateur, avec une bibliothèque de symboles industriels : cuves, vannes, pompes, échangeurs, moteurs, appareillage électrique. Les symboles sont animés par les valeurs réelles, se relient automatiquement par des liaisons intelligentes, et peuvent écrire vers l'équipement quand l'opérateur en a le droit."
+      "body": "Vos installations dessinées dans le navigateur et animées par les valeurs réelles. Un opérateur autorisé agit sur l'équipement depuis le schéma."
     },
     "live": {
-      "title": "Les vues en direct",
-      "body": "Tous les points d'un site, rangés par les hiérarchies que vous définissez : site, bâtiment, ligne, fonction. Un point porte ses étiquettes une fois, et il apparaît dans toutes les vues qui les utilisent. Recherche, filtres persistants, valeurs rafraîchies en continu."
+      "title": "Tout le site en direct",
+      "body": "Tous les points, rangés comme vous l'entendez : par bâtiment, par ligne, par fonction."
     },
     "logic": {
-      "title": "La logique visuelle",
-      "body": "La logique de votre site se compose par blocs reliés : calcul, comparaison, temporisation, planification horaire, régulation, bascule, alarme. Le résultat s'exécute dans le moteur, au même titre qu'une valeur lue sur un équipement. Pour les cas qui sortent du cadre, un bloc Python prend le relais."
+      "title": "Des règles sans programmer",
+      "body": "Calculs, horaires, temporisations : la logique du site se compose en reliant des blocs."
     },
     "reports": {
       "title": "Les rapports",
-      "body": "Un rapport planifié compile les valeurs d'une période dans un classeur, et part par courriel à une liste de destinataires, chaque semaine ou chaque mois. C'est ce qui remplace l'export du vendredi soir : la personne qui attend le chiffre le reçoit sans le demander."
+      "body": "Le rapport de la semaine part tout seul par courriel. Fini l'export du vendredi soir."
     },
     "trace": {
       "title": "Qui a changé ce seuil, et quand ?",
-      "body": "Toute modification de configuration entre dans une révision datée et signée. Vous comparez deux dates, vous revenez à un état antérieur en une opération, et vous superposez les déploiements sur les courbes pour voir ce qu'un changement a produit sur le procédé. Chaque commande envoyée à un équipement est journalisée à part, dans un registre qui ne peut pas être réécrit."
+      "body": "Chaque modification est datée et signée. Si un changement a dégradé la production, vous revenez en arrière en un clic."
     },
     "sec": {
-      "title": "Accès et sécurité",
-      "body": "Trois rôles : lecture seule pour ceux qui regardent, opérateur pour ceux qui acquittent et écrivent, administrateur pour ceux qui configurent. Authentification unique OIDC avec votre annuaire, second facteur, clés d'accès révocables pour les intégrations. Côté équipements, le client OPC UA sait signer et chiffrer ses échanges et vérifier le certificat du serveur, ce qu'exigent les automates récents. Un serveur OPC UA expose à son tour vos données aux systèmes qui savent les lire."
+      "title": "Chacun à sa place",
+      "body": "Chacun voit et fait ce que son rôle permet, avec les comptes de l'entreprise. Un accès se retire en un geste."
     },
     "ops": {
-      "title": "Exploitation",
-      "body": "Page de santé qui montre l'état de chaque composant et la présence de chaque service. Métriques exposées au format Prometheus. Le moteur redémarre et reprend l'acquisition même si la base de données n'est pas encore là, sur sa configuration mise en cache. Une architecture de secours à reprise tiède est disponible. Aucune télémétrie ne sort de l'installation."
+      "title": "Une installation qui tient",
+      "body": "L'acquisition continue même si un service tombe, et l'état de chaque composant se lit d'un coup d'œil. Aucune donnée ne sort de votre site."
     },
     "assistant": {
       "title": "Brancher l'IA sur l'atelier",
-      "lede": "Les questions qu'on posait le vendredi trouvent leur réponse tout de suite, parce que l'IA de l'entreprise lit enfin le parc comme elle lit le reste.",
+      "lede": "L'IA de votre entreprise lit enfin l'atelier, et répond tout de suite aux questions qu'on se posait le vendredi.",
       "facts": [
         {
-          "k": "Dix-huit outils, tous en lecture",
-          "v": "Le parc, les points et leur qualité, l'historique, les indicateurs, les alarmes, la fiabilité, la topologie des pilotes, les révisions de configuration et leurs différences."
+          "k": "En lecture seule",
+          "v": "Elle consulte le parc, l'historique, les alarmes et les indicateurs. Elle ne peut rien modifier ni commander."
         },
         {
-          "k": "Aucun outil d'écriture",
-          "v": "Ni une valeur vers un équipement, ni une configuration, ni un acquittement. Aucun outil d'écriture n'existe, et un test fait échouer la construction si quelqu'un en ajoute un."
+          "k": "Votre IA, votre clé",
+          "v": "Vous branchez le modèle de votre choix. Meshvise n'en héberge aucun et ne parle à aucun fournisseur."
         },
         {
-          "k": "Votre modèle, votre clé",
-          "v": "Meshvise n'héberge aucun modèle, ne détient aucune clé de fournisseur et ne voit passer aucun jeton. Il n'y a pas, dans le produit, de code qui appelle un fournisseur."
-        },
-        {
-          "k": "Chaque intégration a sa propre clé",
-          "v": "Une clé par outil branché, révocable à tout moment : la couper ferme cet accès sans toucher aux autres."
+          "k": "Un accès par outil",
+          "v": "Chaque outil branché a sa propre clé, que vous retirez quand vous voulez."
         }
       ],
-      "not": "Meshvise n'a pas d'IA : il ne diagnostique rien et ne répond à aucune question. C'est une prise. L'intelligence reste celle du modèle que vous avez choisi ; ce que Meshvise apporte, c'est un parc dont les données sont nommées, qualifiées et gouvernées.",
+      "not": "Meshvise ne fait pas d'IA : il donne à la vôtre des données propres, nommées et fiables.",
       "cta": "Brancher une IA, en pratique"
     },
     "shots": {

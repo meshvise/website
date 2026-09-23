@@ -284,29 +284,29 @@
   "product": {
     "meta": {
       "title": "Product · What Meshvise does · Industrial supervision",
-      "description": "Acquisition, history, alarms, computed indicators, dashboards, synoptics, live views, visual logic, scheduled reports, change traceability, access and operations. The detail of what the product does."
+      "description": "Acquisition, history, alarms, indicators, dashboards: what Meshvise does with your data, from the machine to Monday's report."
     },
     "hero": {
       "lead": "Acquire, record,",
       "accent": "alert, show.",
-      "subtitle": "What Meshvise does with your data, from reading a sensor to the report emailed on Monday morning.",
+      "subtitle": "What Meshvise does with your data, from the machine to the Monday morning report.",
       "nav": "The four chapters"
     },
     "doors": [
       {
         "key": "acquerir",
         "title": "Acquire",
-        "short": "Thirteen protocols, no module per brand."
+        "short": "All your machines, whatever the brand."
       },
       {
         "key": "historiser",
         "title": "Record",
-        "short": "Every point at its own pace, in your database."
+        "short": "All the history, kept on your premises."
       },
       {
         "key": "alerter",
         "title": "Alert",
-        "short": "Alarms tuned, acknowledged, logged."
+        "short": "Warn the right person, at the right time."
       },
       {
         "key": "montrer",
@@ -315,10 +315,10 @@
       }
     ],
     "acq": {
-      "title": "The thirteen protocols",
-      "intro": "No module to buy per brand. Every protocol is a driver of the same engine.",
-      "link": "See the detail of each protocol",
-      "after": "Automatic equipment discovery. Persistent buffer on network loss: nothing is lost, everything is replayed in order. Data quality carried by every value.",
+      "title": "All your machines, whatever the brand",
+      "intro": "Thirteen protocols included, no module to buy per brand.",
+      "link": "Details of each protocol",
+      "after": "Meshvise finds the equipment on the network and reads each one at its own pace. If the network drops, nothing is lost: everything resumes where it stopped.",
       "protocols": [
         {
           "name": "Modbus TCP",
@@ -388,71 +388,67 @@
       ]
     },
     "hist": {
-      "title": "History",
-      "body": "Every point is recorded under its own policy: on every change, beyond a variation threshold, or at a fixed interval. The database is Postgres with TimescaleDB, with a retention you set. Nothing is locked in: Excel, Power BI and Grafana connect for direct reads, with no proprietary connector and no intermediate export."
+      "title": "All the history, on your premises",
+      "body": "Every value is recorded and kept for as long as you decide, on your server. Your data stays yours."
     },
     "alarms": {
-      "title": "Alarms",
-      "body": "High and low limits, deviations, state changes, with delay and hysteresis to stop flapping. Three severity levels, acknowledgement by a named operator, shelving of a known alarm during maintenance. Notification by email or webhook to the tool of your choice. Every transition is journaled, including who acknowledged it and when."
+      "title": "Alarms that matter",
+      "body": "Tuned not to ring for nothing, they warn the right person by email. Each one keeps track of who took it on, and when."
     },
     "kpi": {
-      "title": "Indicators",
-      "body": "Say what a point measures, a power, a part counter, a running state: the machine arrives with its indicators already calculated, micro-stops, availability, night-time baseload. Each indicator carries its window and its coverage, and when data is missing it says why instead of showing a wrong figure. For everything else, a point can be calculated from others, and is recorded and alarmed like any other point."
+      "title": "Indicators, already calculated",
+      "body": "Micro-stops, availability, night-time consumption: every machine arrives with its indicators. When data is missing, the indicator says so instead of showing a wrong figure."
     },
     "dash": {
-      "title": "Dashboards",
-      "body": "Seventeen component types, dropped onto a grid with the mouse: numeric indicators, curves, gauges, tables, alarm banners, state timelines. Conditional formatting by threshold, dashboard variables to replay the same screen on another machine, one time range shared by every component. Not a line of code."
+      "title": "Your dashboards, no code",
+      "body": "Trends, gauges, key figures, alarms: everyone builds their screens with the mouse, and one dashboard can be reused from one machine to the next."
     },
     "synoptic": {
       "title": "Synoptics",
-      "body": "Your installations drawn in the browser, with a library of industrial symbols: tanks, valves, pumps, heat exchangers, motors, electrical gear. Symbols are animated by live values, connect to each other through intelligent links, and can write back to equipment when the operator is allowed to."
+      "body": "Your installations drawn in the browser and animated by live values. An authorised operator acts on the equipment straight from the diagram."
     },
     "live": {
-      "title": "Live views",
-      "body": "Every point on a site, arranged by the hierarchies you define: site, building, line, function. A point carries its tags once, and appears in every view that uses them. Search, persistent filters, values refreshed continuously."
+      "title": "The whole site, live",
+      "body": "Every point, organised the way you want: by building, by line, by function."
     },
     "logic": {
-      "title": "Visual logic",
-      "body": "Your site's logic is composed from linked blocks: calculation, comparison, timing, scheduling, control, latch, alarm. The result runs in the engine, exactly like a value read from equipment. For cases outside the frame, a Python block takes over."
+      "title": "Rules without programming",
+      "body": "Calculations, schedules, timers: the site's logic is built by connecting blocks."
     },
     "reports": {
       "title": "Reports",
-      "body": "A scheduled report compiles a period's values into a spreadsheet and emails it to a list of recipients, weekly or monthly. It replaces the Friday-evening export: whoever waits for the figure receives it without asking."
+      "body": "The weekly report goes out by email on its own. No more Friday night exports."
     },
     "trace": {
-      "title": "Who changed that threshold, and when?",
-      "body": "Any configuration change enters a dated, signed revision. You compare two dates, revert to an earlier state in one operation, and overlay deployments on the curves to see what a change produced on the process. Every command sent to equipment is journaled separately, in a register that cannot be rewritten."
+      "title": "Who changed this threshold, and when?",
+      "body": "Every change is dated and signed. If a change hurt production, you roll back in one click."
     },
     "sec": {
-      "title": "Access and security",
-      "body": "Three roles: read-only for those who watch, operator for those who acknowledge and write, administrator for those who configure. OIDC single sign-on against your directory, second factor, revocable access keys for integrations. On the equipment side, the OPC UA client can sign and encrypt its exchanges and verify the server certificate, which recent PLCs require. An OPC UA server in turn exposes your data to systems that know how to read it."
+      "title": "Everyone in their place",
+      "body": "Everyone sees and does what their role allows, with the company's accounts. Access is withdrawn in one move."
     },
     "ops": {
-      "title": "Operations",
-      "body": "A health page showing the state of every component and the presence of every service. Metrics exposed in Prometheus format. The engine restarts and resumes acquisition even if the database is not there yet, from its cached configuration. A warm-standby architecture is available. No telemetry leaves the installation."
+      "title": "An installation that holds",
+      "body": "Acquisition carries on even if a service goes down, and the state of every component reads at a glance. No data leaves your site."
     },
     "assistant": {
       "title": "Plugging AI into the shop floor",
-      "lede": "The questions that waited until Friday get answered straight away, because the company's AI can finally read the equipment as it reads everything else.",
+      "lede": "Your company's AI finally reads the shop floor, and answers right away the questions people used to ask on Friday.",
       "facts": [
         {
-          "k": "Eighteen tools, all read-only",
-          "v": "The equipment, the points and their quality, history, derived indicators, alarms, reliability, driver topology, configuration revisions and their differences."
+          "k": "Read only",
+          "v": "It looks at the fleet, the history, the alarms and the indicators. It cannot change or command anything."
         },
         {
-          "k": "No write tool at all",
-          "v": "Not a value to a device, not a configuration, not an acknowledgement. No write tool exists, and a test fails the build if anyone adds one."
+          "k": "Your AI, your key",
+          "v": "You connect the model of your choice. Meshvise hosts none and talks to no provider."
         },
         {
-          "k": "Your model, your key",
-          "v": "Meshvise hosts no model, holds no provider key and sees no token pass through. There is no provider call anywhere in the product's code."
-        },
-        {
-          "k": "One key per integration",
-          "v": "One key per connected tool, revocable at any time: cutting it closes that access without touching the others."
+          "k": "One access per tool",
+          "v": "Each connected tool has its own key, which you withdraw whenever you want."
         }
       ],
-      "not": "Meshvise has no AI: it diagnoses nothing and answers no question. It is a socket. The intelligence stays with the model you chose; what Meshvise brings is equipment whose data is named, qualified and governed.",
+      "not": "Meshvise does not do AI: it gives yours clean, named and reliable data.",
       "cta": "Plugging in an AI, in practice"
     },
     "shots": {

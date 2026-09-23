@@ -320,7 +320,7 @@ const ANCRES: Record<string, string> = {
   /* ── L'IA, sur fond graphite ───────────────────────────────────────── */
   .faits {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 2.5rem 3.5rem;
     margin: 0;
   }
@@ -353,13 +353,13 @@ const ANCRES: Record<string, string> = {
     .ligne,
     .ligne--inverse { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
     .ligne--inverse .texte { order: 0; }
-    .colonnes--3 { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+    .colonnes--3,
+    .faits { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
     .pile { gap: 5rem; }
   }
   @media (max-width: 767px) {
     .apercu { grid-template-columns: minmax(0, 1fr); }
     .porte + .porte { border-left: 0; border-top: 1px solid var(--color-n-700); }
-    .colonnes--2,
-    .faits { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+    .colonnes--2 { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
   }
 </style>

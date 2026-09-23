@@ -1,7 +1,8 @@
 ---
 /**
- * Résumé des protocoles sur la page produit : les douze noms et leur
- * mode, sans le détail. Le détail vit sur la page Protocoles.
+ * Résumé des protocoles sur la page produit : les noms seuls, chacun
+ * menant à sa fiche. Ports, transports et modes vivent sur la page
+ * Protocoles : la page Produit ne rentre pas dans la technique.
  */
 import fr from '../i18n/fr.json';
 import en from '../i18n/en.json';
@@ -23,8 +24,8 @@ const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(
     {list.map((p, i) => (
       <li class={`px-5 py-4 border-line ${i % 3 !== 2 ? 'lg:border-r' : ''} ${i % 2 === 0 ? 'sm:border-r lg:border-r' : ''} ${i < list.length - 1 ? 'border-b' : ''}`}>
         <a href={`${href(lang, 'protocols')}#${slug(p.name)}`} class="group flex items-baseline justify-between gap-3">
-          <span class="mono text-[15px] font-medium text-ink group-hover:text-accent transition-colors">{p.name}</span>
-          <span class="t-small mono whitespace-nowrap">{p.transport}</span>
+          <span class="text-[16px] font-medium text-ink group-hover:text-accent transition-colors">{p.name}</span>
+          <span class="text-muted group-hover:text-accent transition-colors" aria-hidden="true">→</span>
         </a>
       </li>
     ))}
