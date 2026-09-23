@@ -6,21 +6,28 @@ import { href } from '../i18n/routes';
 interface Props {
   lang: Lang;
   standalone?: boolean;
+  /** Les questions à montrer, dans cet ordre ; toutes par défaut. */
+  keys?: readonly string[];
+  /** Titre de la section, à la place de « Questions fréquentes ». */
+  title?: string;
+  /** Bande blanche, pour alterner avec la section précédente. */
+  surface?: boolean;
 }
 
-const { lang, standalone = false } = Astro.props;
+const { lang, standalone = false, keys = FAQ_KEYS, title, surface = false } = Astro.props;
+const bande = standalone ? 'wrap pb-20 md:pb-28' : `section${surface ? ' bg-surface border-y border-line' : ''}`;
 ---
 
-<section id="faq" class={standalone ? 'wrap pb-20 md:pb-28' : 'section'}>
+<section id="faq" class={bande}>
   <div class={standalone ? 'max-w-3xl' : 'wrap max-w-3xl'}>
     {!standalone && (
       <div class="section-head">
-        <h2 class="t-page">{t(lang, 'faq.title')}</h2>
+        <h2 class="t-page">{title ?? t(lang, 'faq.title')}</h2>
         <p class="t-lede">{t(lang, 'faq.subtitle')}</p>
       </div>
     )}
     <div class="border-t border-line">
-      {FAQ_KEYS.map((key) => (
+      {keys.map((key) => (
         <details id={`faq-${key}`} class="group border-b border-line">
           <summary class="flex items-start gap-4 cursor-pointer list-none py-4 pr-2">
             <span class="mt-[7px] w-3 shrink-0 text-muted group-open:text-ink" aria-hidden="true">
@@ -30,7 +37,7 @@ const { lang, standalone = false } = Astro.props;
           </summary>
           <div class="pb-5 pl-7 t-body">
             <p>{t(lang, `faq.${key}.a`)}</p>
-            {key === 'disappear' && <p class="mt-3"><a href={href(lang, 'home', 'continuity')} class="link">{t(lang, 'footer.continuity')}</a></p>}
+            {key === 'disappear' && <p class="mt-3"><a href={href(lang, 'pricing', 'continuity')} class="link">{t(lang, 'footer.continuity')}</a></p>}
             {key === 'alone' && <p class="mt-3"><a href={href(lang, 'about')} class="link">{t(lang, 'nav.about')}</a></p>}
           </div>
         </details>

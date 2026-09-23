@@ -13,6 +13,8 @@ interface Props {
   /** Libellé du bouton et objet du courriel, quand la demande n'est pas une démonstration. */
   submitKey?: string;
   subjectKey?: string;
+  /** Bande graphite, comme la section IA de l'accueil. */
+  dark?: boolean;
 }
 
 const {
@@ -22,16 +24,17 @@ const {
   id = 'contact',
   submitKey = 'contact_form.submit',
   subjectKey = 'contact_form.mailto_subject',
+  dark = false,
 } = Astro.props;
 ---
 
-<section id={id} class="section border-t border-line">
+<section id={id} class={dark ? 'section dark-block relative overflow-hidden' : 'section border-t border-line'}>
   <div class="wrap grid lg:grid-cols-12 gap-10">
     <div class="lg:col-span-5">
       <h2 class="t-page">{title}</h2>
       <p class="t-lede mt-5">{body}</p>
     </div>
-    <form class="lg:col-span-7 panel p-7 md:p-9 grid sm:grid-cols-2 gap-6" data-contact-form data-subject={t(lang, subjectKey)}>
+    <form class="formulaire lg:col-span-7 panel p-7 md:p-9 grid sm:grid-cols-2 gap-6" data-contact-form data-subject={t(lang, subjectKey)}>
       <div>
         <label for={`${id}-name`} class="field-label">{t(lang, 'contact_form.name')}</label>
         <input id={`${id}-name`} name="name" type="text" required placeholder={t(lang, 'contact_form.name_ph')} class="field" />
@@ -55,6 +58,16 @@ const {
     </form>
   </div>
 </section>
+
+<style>
+  /* Sur une bande graphite, le bouton garde sa couleur sombre : il est posé
+     sur la carte blanche du formulaire, pas sur le fond. */
+  .dark-block .formulaire .btn-primary {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: #fff;
+  }
+</style>
 
 <script is:inline>
   document.querySelectorAll('form[data-contact-form]').forEach((form) => {

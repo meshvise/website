@@ -177,19 +177,6 @@
         }
       ]
     },
-    "continuity": {
-      "title": "Vos données ne dépendent pas de Meshvise",
-      "intro": "Une supervision s'exploite dix ans. Ce qui est installé chez vous ne doit dépendre de personne pour continuer à tourner, et c'est ce qui a décidé de la façon dont le produit est construit.",
-      "data": {
-        "title": "Vos données sont à vous",
-        "body": "Base Postgres standard, sur votre serveur, schéma documenté. Elles ne dépendent pas de Meshvise pour être lues."
-      },
-      "stack": {
-        "title": "La pile est standard",
-        "body": "Postgres, MQTT, Docker. N'importe quel intégrateur peut reprendre l'exploitation."
-      },
-      "outro": "Aucune télémétrie ne sort de votre installation. Elle fonctionne sans connexion internet. Le contrat est en français, sous droit français."
-    },
     "pricing_brief": {
       "title": "Par où commencer",
       "demo": {
@@ -743,44 +730,79 @@
   "pricing": {
     "meta": {
       "title": "Tarifs · Meshvise",
-      "description": "On-Premise à 2 400 € par an quel que soit le nombre de points, mise en service sur devis, exploitation déléguée sur demande. Tarifs hors taxes, France, facturation annuelle."
+      "description": "Meshvise On-Premise : 2 400 € par an, quel que soit le nombre de points. Mise en service sur devis. Tarifs hors taxes, facturation annuelle."
     },
     "hero": {
-      "eyebrow": "Tarifs",
-      "title": "Le tarif de la licence ne dépend pas du nombre de points.",
-      "subtitle": "Tarif catalogue hors taxes, France, facturation annuelle. La mise en service est chiffrée sur devis, selon le nombre d'équipements à raccorder."
+      "lead": "Un seul tarif,",
+      "accent": "quel que soit le nombre de points.",
+      "subtitle": "Toutes les fonctions, sans limite de machines ni d'écrans. Hors taxes, facturation annuelle."
     },
     "onprem": {
       "name": "On-Premise",
       "price": "2 400 €",
-      "period": "par an",
+      "period": "par an, hors taxes",
       "setup": "Mise en service sur devis",
       "tagline": "La licence complète, hébergée chez vous.",
       "items": [
-        "Acquisition, historisation, alarmes, tableaux de bord, synoptiques, logique, traçabilité",
-        "Points, machines et écrans sans limite",
-        "Authentification unique OIDC",
+        "Toutes les fonctions, sans option",
+        "Machines, points et écrans sans limite",
+        "Installée sur votre serveur",
+        "Connexion avec les comptes de l'entreprise",
         "Mises à jour pendant douze mois",
-        "Support par courriel, réponse sous deux jours ouvrés"
+        "Support par courriel sous deux jours ouvrés"
       ]
     },
     "managed": {
       "name": "Exploitation déléguée",
       "price": "Sur demande",
-      "tagline": "Pour les sites sans équipe technique.",
-      "body": "Cette offre n'est pas encore livrable. Écrivez pour en discuter."
+      "tagline": "Pour les sites sans équipe technique : Meshvise est exploité pour vous.",
+      "body": "L'offre n'est pas encore ouverte. Écrivez pour en discuter."
     },
-    "setup_note_title": "Ce que couvre la mise en service",
-    "setup_note": "L'installation à distance sur votre serveur, la connexion de vos équipements et une session de prise en main. Le montant est chiffré sur devis : il dépend du nombre d'équipements, de leurs protocoles et de la segmentation de votre réseau.",
-    "continuity_link": "Vos données restent lisibles",
     "cta_quote": "Demander un devis",
+    "setup": {
+      "title": "La mise en service",
+      "intro": "Chiffrée sur devis, selon le nombre d'équipements à raccorder.",
+      "steps": [
+        {
+          "title": "Installation",
+          "body": "Meshvise est installé à distance sur votre serveur."
+        },
+        {
+          "title": "Raccordement",
+          "body": "Vos équipements sont connectés et leurs mesures nommées."
+        },
+        {
+          "title": "Prise en main",
+          "body": "Une session avec vos équipes pour bien démarrer."
+        }
+      ]
+    },
+    "continuity": {
+      "title": "Vos données ne dépendent pas de Meshvise",
+      "intro": "Une supervision tourne dix ans. Ce qui est installé chez vous ne doit dépendre de personne.",
+      "items": [
+        {
+          "title": "Vos données sont chez vous",
+          "body": "Sur votre serveur, dans une base standard, lisibles sans Meshvise."
+        },
+        {
+          "title": "Rien ne sort de votre site",
+          "body": "Aucune donnée n'est envoyée ailleurs, et tout fonctionne sans internet."
+        },
+        {
+          "title": "Reprise possible par un intégrateur",
+          "body": "Le produit repose sur des briques standards : l'exploitation ne dépend pas de nous."
+        },
+        {
+          "title": "Un contrat français",
+          "body": "Rédigé en français, sous droit français."
+        }
+      ]
+    },
+    "faq_title": "Vos questions avant de commander",
     "quote": {
       "title": "Demander un devis",
-      "body": "Décrivez votre site : nombre d'équipements, protocoles, ce que vous voulez mesurer. Le devis reprend la licence au tarif catalogue et chiffre la mise en service. Réponse sous deux jours ouvrés."
-    },
-    "trial": {
-      "name": "Essai sur vos équipements",
-      "tagline": "L'application complète sur votre infrastructure, avec vos équipements. Durée et périmètre sur devis."
+      "body": "Décrivez votre site en quelques mots : le nombre de machines et ce que vous voulez suivre. Réponse sous deux jours ouvrés."
     }
   },
   "integrators": {
@@ -937,7 +959,7 @@
     },
     "disappear": {
       "q": "Et si vous fermez demain ?",
-      "a": "Vos données sont dans une base Postgres standard, sur votre serveur, avec un schéma documenté. La pile est standard, Postgres, MQTT, Docker, et n'importe quel intégrateur peut reprendre l'exploitation."
+      "a": "Vos données restent sur votre serveur, dans une base standard, lisibles sans Meshvise. N'importe quel intégrateur peut reprendre l'exploitation."
     },
     "alone": {
       "q": "Vous êtes seul ?",

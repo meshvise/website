@@ -1,20 +1,114 @@
 ---
+/**
+ * Tarifs. Direct : le prix est dans le premier écran.
+ *
+ * Construite le 2026-09-23 sur la grammaire de l'accueil, de « Pourquoi
+ * superviser » et de la page Produit : une accroche en deux temps dont la
+ * fin est à la couleur d'accent, et sous elle le bloc graphite, qui porte
+ * ici l'offre elle-même, prix, contenu et demande de devis. Puis la mise en
+ * service en trois étapes, la continuité (ce qui reste au client si
+ * Meshvise disparaît), les questions d'un acheteur, et la demande de devis
+ * sur fond graphite.
+ *
+ * La démonstration et l'essai ne sont pas des tarifs : ils vivent dans la
+ * navigation et dans « Par où commencer ». L'exploitation déléguée a sa
+ * colonne mais rien n'y est promis, parce qu'elle n'est pas livrable ; elle
+ * garde l'ancre `exploitation-deleguee`, où mène la carte de l'accueil. La
+ * continuité garde l'ancre `continuity`, où mènent le pied de page et la
+ * FAQ.
+ */
 import Base from '../../layouts/Base.astro';
-import PageHero from '../PageHero.astro';
-import PricingTable from '../PricingTable.astro';
-import Continuity from '../Continuity.astro';
 import FAQ from '../FAQ.astro';
 import ContactForm from '../ContactForm.astro';
+import fr from '../../i18n/fr.json';
+import en from '../../i18n/en.json';
 import { t, type Lang } from '../../i18n';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
+
+const d = (lang === 'fr' ? fr : en).pricing;
+const etapes = d.setup.steps as { title: string; body: string }[];
+const garanties = d.continuity.items as { title: string; body: string }[];
+
+// Les questions d'un acheteur ; les autres vivent sur la page FAQ.
+const QUESTIONS = ['trial_how', 'demo_vs_trial', 'hardware', 'support', 'disappear', 'notfor'] as const;
 ---
 
 <Base lang={lang} title={t(lang, 'pricing.meta.title')} description={t(lang, 'pricing.meta.description')}>
-  <PageHero title={t(lang, 'pricing.hero.title')} subtitle={t(lang, 'pricing.hero.subtitle')} />
-  <PricingTable lang={lang} />
-  <Continuity lang={lang} />
+  <section class="border-b border-line">
+    <div class="wrap pt-12 pb-12 md:pt-16 md:pb-16">
+      <h1 class="t-hero accroche">
+        <span class="block">{d.hero.lead}</span>
+        <span class="block accent">{d.hero.accent}</span>
+      </h1>
+      <p class="sous-titre">{d.hero.subtitle}</p>
+
+      <div class="offre dark-block relative">
+        <div class="licence">
+          <p class="nom">{d.onprem.name}</p>
+          <p class="prix"><span class="montant">{d.onprem.price}</span> <span class="periode">{d.onprem.period}</span></p>
+          <p class="mise">{d.onprem.setup}</p>
+          <ul class="inclus">
+            {d.onprem.items.map((it) => (
+              <li>
+                <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5 L8.5 14.5 L15.5 6" /></svg>
+                <span>{it}</span>
+              </li>
+            ))}
+          </ul>
+          <a href="#devis" class="btn btn-primary btn-lg devis">{d.cta_quote}</a>
+        </div>
+        <div id="exploitation-deleguee" class="deleguee">
+          <p class="nom">{d.managed.name}</p>
+          <p class="prix-doux">{d.managed.price}</p>
+          <p class="t-body mt-4">{d.managed.tagline}</p>
+          <p class="t-body mt-3">{d.managed.body}</p>
+          <a href="#devis" class="ecrire">{t(lang, 'common.cta_contact')} <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- La mise en service : trois étapes, chiffrées sur devis. -->
+  <section id="mise-en-service" class="section bg-surface border-b border-line">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="t-page">{d.setup.title}</h2>
+        <p class="t-lede">{d.setup.intro}</p>
+      </div>
+      <ol class="etapes">
+        {etapes.map((e, i) => (
+          <li class="etape">
+            <span class="numero" aria-hidden="true">{i + 1}</span>
+            <h3 class="t-section">{e.title}</h3>
+            <p class="t-body mt-2">{e.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Ce qui reste au client, quoi qu'il arrive à Meshvise. -->
+  <section id="continuity" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="t-page">{d.continuity.title}</h2>
+        <p class="t-lede">{d.continuity.intro}</p>
+      </div>
+      <dl class="garanties">
+        {garanties.map((g) => (
+          <div class="garantie">
+            <dt class="t-section">{g.title}</dt>
+            <dd class="t-body mt-2">{g.body}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <FAQ lang={lang} keys={QUESTIONS} title={d.faq_title} surface />
+
   <ContactForm
     lang={lang}
     id="devis"
@@ -22,6 +116,131 @@ const { lang } = Astro.props;
     body={t(lang, 'pricing.quote.body')}
     submitKey="contact_form.submit_quote"
     subjectKey="contact_form.mailto_subject_quote"
+    dark
   />
-  <FAQ lang={lang} />
 </Base>
+
+<style>
+  .accroche { max-width: 46rem; margin: 0; }
+  .accent { color: var(--color-accent); }
+  .sous-titre {
+    margin-top: 0.9rem;
+    font-size: 1.125rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--color-ink-2);
+    max-width: 52ch;
+  }
+
+  /* L'offre, dans le bloc graphite des accroches : la licence à gauche,
+     l'exploitation déléguée à droite, plus discrète parce qu'elle n'est
+     pas livrable. */
+  .offre {
+    margin-top: 2.75rem;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgb(22 27 35 / 0.10), 0 18px 40px -20px rgb(22 27 35 / 0.45);
+  }
+  .licence,
+  .deleguee { display: flex; flex-direction: column; padding: 2rem; }
+  @media (min-width: 768px) { .licence, .deleguee { padding: 2.5rem; } }
+  .deleguee { border-left: 1px solid var(--color-n-700); background: rgb(255 255 255 / 0.03); }
+  .nom {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--color-n-0);
+  }
+  .prix { margin: 1.25rem 0 0; display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
+  .montant {
+    font-size: clamp(3rem, 6vw, 4.25rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-n-0);
+    font-variant-numeric: tabular-nums;
+  }
+  .periode { font-size: 1.125rem; color: var(--color-n-300); }
+  .mise { margin: 0.75rem 0 0; font-size: 1rem; color: var(--color-accent-soft); }
+  .inclus {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 1.75rem 0 0;
+    border-top: 1px solid rgb(255 255 255 / 0.14);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.875rem 2rem;
+  }
+  .inclus li { display: flex; gap: 0.75rem; font-size: 1rem; line-height: 1.5; color: var(--color-n-100); }
+  .inclus svg {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.1rem;
+    fill: none;
+    stroke: var(--color-normal);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .devis { margin-top: 2.25rem; align-self: flex-start; }
+  .prix-doux {
+    margin: 1.25rem 0 0;
+    font-size: 1.75rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-n-0);
+  }
+  .ecrire {
+    margin-top: auto;
+    padding-top: 2rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-accent-soft);
+    text-decoration: none;
+  }
+  .ecrire:hover { color: var(--color-n-0); }
+
+  /* ── Mise en service ───────────────────────────────────────────────── */
+  .etapes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.5rem;
+  }
+  .etape { padding-top: 1.5rem; border-top: 2px solid var(--color-line); }
+  .numero {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-accent);
+  }
+
+  /* ── Continuité ────────────────────────────────────────────────────── */
+  .garanties {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 4rem;
+  }
+  .garantie { padding-top: 1.5rem; border-top: 2px solid var(--color-line); }
+  .garantie dd { margin-left: 0; }
+
+  @media (max-width: 1023px) {
+    .offre { grid-template-columns: minmax(0, 1fr); }
+    .deleguee { border-left: 0; border-top: 1px solid var(--color-n-700); }
+  }
+  @media (max-width: 767px) {
+    .inclus,
+    .etapes,
+    .garanties { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
+    .inclus { gap: 0.875rem; }
+  }
+</style>

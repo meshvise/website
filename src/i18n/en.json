@@ -177,19 +177,6 @@
         }
       ]
     },
-    "continuity": {
-      "title": "Your data does not depend on Meshvise",
-      "intro": "A supervision system runs for ten years. What is installed on your premises must not depend on anyone to keep running, and that decided how the product is built.",
-      "data": {
-        "title": "Your data is yours",
-        "body": "Standard Postgres database, on your server, documented schema. It does not need Meshvise to be read."
-      },
-      "stack": {
-        "title": "The stack is standard",
-        "body": "Postgres, MQTT, Docker. Any integrator can take over operations."
-      },
-      "outro": "No telemetry leaves your installation. It works without an internet connection. The contract is in French, under French law."
-    },
     "pricing_brief": {
       "title": "Where to start",
       "demo": {
@@ -742,45 +729,80 @@
   },
   "pricing": {
     "meta": {
-      "title": "Rates · Meshvise",
-      "description": "On-Premise at €2,400 per year whatever the number of points, commissioning quoted separately, managed operation on request. Rates excluding VAT, France, annual billing."
+      "title": "Pricing · Meshvise",
+      "description": "Meshvise On-Premise: €2,400 per year, whatever the number of points. Commissioning quoted separately. Prices excluding VAT, annual billing."
     },
     "hero": {
-      "eyebrow": "Pricing",
-      "title": "The licence rate does not depend on the number of points.",
-      "subtitle": "List rate excluding VAT, France, annual billing. Commissioning is quoted separately, based on the number of devices to connect."
+      "lead": "One price,",
+      "accent": "whatever the number of points.",
+      "subtitle": "Every feature, with no limit on machines or screens. Excluding VAT, annual billing."
     },
     "onprem": {
       "name": "On-Premise",
       "price": "€2,400",
-      "period": "per year",
+      "period": "per year, excl. VAT",
       "setup": "Commissioning quoted separately",
       "tagline": "The full licence, hosted on your premises.",
       "items": [
-        "Acquisition, history, alarms, dashboards, synoptics, logic, traceability",
-        "Unlimited points, machines and screens",
-        "OIDC single sign-on",
+        "Every feature, no options",
+        "Unlimited machines, points and screens",
+        "Installed on your server",
+        "Sign-in with your company accounts",
         "Updates for twelve months",
-        "Email support, reply within two business days"
+        "Email support within two business days"
       ]
     },
     "managed": {
       "name": "Managed operations",
       "price": "On request",
-      "tagline": "For sites without a technical team.",
-      "body": "This offer is not deliverable yet. Write to discuss it."
+      "tagline": "For sites without a technical team: Meshvise is run for you.",
+      "body": "The offer is not open yet. Write to discuss it."
     },
-    "setup_note_title": "What setup covers",
-    "setup_note": "Remote installation on your server, connection of your devices and a hands-on session. The amount is quoted case by case: it depends on the number of devices, their protocols and how your network is segmented.",
-    "continuity_link": "Your data stays readable",
     "cta_quote": "Request a quote",
+    "setup": {
+      "title": "Commissioning",
+      "intro": "Quoted case by case, based on the number of devices to connect.",
+      "steps": [
+        {
+          "title": "Installation",
+          "body": "Meshvise is installed remotely on your server."
+        },
+        {
+          "title": "Connection",
+          "body": "Your equipment is connected and its measurements named."
+        },
+        {
+          "title": "Getting started",
+          "body": "A session with your teams to get off to a good start."
+        }
+      ]
+    },
+    "continuity": {
+      "title": "Your data does not depend on Meshvise",
+      "intro": "A supervision system runs for ten years. What is installed on your premises must not depend on anyone.",
+      "items": [
+        {
+          "title": "Your data stays with you",
+          "body": "On your server, in a standard database, readable without Meshvise."
+        },
+        {
+          "title": "Nothing leaves your site",
+          "body": "No data is sent anywhere else, and everything works without internet."
+        },
+        {
+          "title": "An integrator can take over",
+          "body": "The product is built on standard components: operations do not depend on us."
+        },
+        {
+          "title": "A French contract",
+          "body": "Written in French, under French law."
+        }
+      ]
+    },
+    "faq_title": "Your questions before ordering",
     "quote": {
       "title": "Request a quote",
-      "body": "Describe your site: number of devices, protocols, what you want to measure. The quote states the licence at list rate and prices the commissioning. Answer within two business days."
-    },
-    "trial": {
-      "name": "Trial on your equipment",
-      "tagline": "The full application on your own infrastructure, with your equipment. Duration and scope on quote."
+      "body": "Describe your site in a few words: the number of machines and what you want to track. Reply within two business days."
     }
   },
   "integrators": {
@@ -937,7 +959,7 @@
     },
     "disappear": {
       "q": "What if you close tomorrow?",
-      "a": "Your data is in a standard Postgres database, on your server, with a documented schema. The stack is standard, Postgres, MQTT, Docker, and any integrator can take over operations."
+      "a": "Your data stays on your server, in a standard database, readable without Meshvise. Any integrator can take over operations."
     },
     "alone": {
       "q": "Are you on your own?",
