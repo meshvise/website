@@ -1,29 +1,28 @@
+# Tout le site est ouvert, aux moteurs de recherche comme aux IA : c'est
+# ainsi qu'elles citent Meshvise. Seul le point d'entrée du Worker est fermé.
 User-agent: *
 Allow: /
 Disallow: /api/
 
-# Encourage AI crawlers explicitly. Both Google's AI overviews and the
-# indexing crawlers used by Perplexity / ChatGPT / Claude pick up from
-# llms.txt + the rendered HTML.
+# Nommés explicitement : moteurs, robots d'entraînement et robots de
+# recherche des assistants.
 User-agent: Googlebot
-Allow: /
-Disallow: /api/
-
-User-agent: GPTBot
-Allow: /
-Disallow: /api/
-
-User-agent: ClaudeBot
-Allow: /
-Disallow: /api/
-
-User-agent: PerplexityBot
-Allow: /
-Disallow: /api/
-
 User-agent: Google-Extended
+User-agent: Bingbot
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: CCBot
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
 Allow: /
 Disallow: /api/
 
 Sitemap: https://meshvise.com/sitemap-index.xml
-

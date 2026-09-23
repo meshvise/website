@@ -14,7 +14,7 @@
   "home": {
     "meta": {
       "title": "Meshvise · Industrial supervision, hosted on your premises",
-      "description": "All your equipment in one supervision system. Thirteen industrial protocols included, one licence per site independent of point count, your data in a Postgres database you can read with Excel."
+      "description": "All your equipment in one supervision system, hosted on your premises. Thirteen industrial protocols included, one licence per site whatever the number of points, support and updates included."
     },
     "hero": {
       "title": "With Meshvise, you gain",

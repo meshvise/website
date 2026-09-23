@@ -1,63 +1,47 @@
 # Meshvise
 
-> Industrial supervision (SCADA) platform, hosted on the customer's premises. Thirteen industrial protocols included, a published price independent of point count, data in a standard PostgreSQL database readable with Excel, Power BI or Grafana. Designed and built by one person, an industrial digitalisation engineer.
+> Industrial supervision (SCADA/IIoT) software, installed on the customer's own server. Thirteen industrial protocols included, one licence per site whatever the number of points, support and every update included. French company, French and English interface.
 
-Meshvise connects PLCs, sensors and meters, records everything in a database the customer owns, and alerts when something drifts. Built for small-to-mid industrial and commercial sites where legacy per-point-priced SCADA platforms are too expensive, and for sites that have no transverse supervision at all and still run on notebooks and spreadsheets.
+Meshvise reads PLCs, machine tools, sensors and meters, records every value, raises alarms, calculates performance indicators and shows them in dashboards. It is built for small and mid-size industrial sites: sites with no supervision that still run on notebooks and spreadsheets, and sites whose existing supervision no longer keeps up (AI, performance indicators, business intelligence, equipment of other brands).
 
-## What Meshvise is
+The full content of the site, in English and French, is at https://meshvise.com/llms-full.txt
 
-- A web-based industrial supervision (SCADA) platform, self-hosted via Docker Compose.
-- Acquisition engine with thirteen protocols: Modbus TCP, Modbus RTU, OPC UA, BACnet/IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B, MTConnect. All included, no module per brand.
-- Backend in Python (FastAPI, asyncpg, SQLAlchemy 2); database PostgreSQL 16 + TimescaleDB; internal MQTT bus (Mosquitto); frontend Vue 3.
-- Closed-source commercial product, distributed as compiled Docker images. Licence enforced by offline-verified Ed25519 JWT, no phone-home.
+## What Meshvise does
+
+- Acquisition: thirteen protocols in one engine, no module to buy per brand: Modbus TCP, Modbus RTU, OPC UA, BACnet/IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B, MTConnect. Nothing is lost when the network drops: acquisition resumes where it stopped.
+- History: every value recorded and kept as long as the customer decides, on the customer's server.
+- Alarms: thresholds and delays tuned not to ring for nothing, email notification, a trace of who took each alarm on and when.
+- Indicators: micro-stoppages, availability and night-time consumption calculated from the machines; an indicator says when data is missing.
+- Dashboards built with the mouse, synoptics drawn in the browser, live views by building, line or function, rules built by connecting blocks.
+- Traceability: every configuration change dated and signed, with rollback.
+- AI: the company's own assistant (Copilot, Claude, ChatGPT or any other) connects to Meshvise through MCP, read only. Meshvise hosts no model.
 
 ## What Meshvise is not
 
-- Not a functional-safety / SIL system. Safety stays in the certified PLC. Meshvise supervises, records and alerts.
-- Not a predictive-maintenance or machine-learning tool. It does not predict failures.
-- Not a CMMS, not an MES, not a standalone BI tool. It exposes its data to those tools through standard SQL.
+- Not a functional-safety system: safety stays in the certified PLC.
+- Not a predictive-maintenance or machine-learning product.
+- Not an MES, a CMMS or a standalone BI tool.
 
-## Capabilities shipped
+## Pricing (excluding VAT, annual billing)
 
-- Automatic equipment discovery; persistent store-and-forward buffer on network loss; data quality on every value.
-- History in PostgreSQL + TimescaleDB, per-point policy, configurable retention, direct read access for Excel, Power BI, Grafana.
-- Alarms: conditions, severities, delays, hysteresis, acknowledgement, shelving, email and webhook notification, full journal.
-- Composable dashboards (seventeen component types), browser-drawn synoptics animated by live values, live views by hierarchy.
-- Visual logic by linked blocks (calculation, comparison, timing, scheduling, control, alarm), or Python.
-- Traceability: every configuration change versioned and signed, diff between dates, revert, deployment overlays on curves, immutable journal of every command sent to equipment.
-- Access: read-only / operator / administrator roles, OIDC single sign-on, second factor, API keys, OPC UA server for exposing data to other systems.
-- Operations: component health page, Prometheus metrics, restart without the database available, no outbound telemetry, works without internet.
-
-## Continuity ("what if Meshvise disappears?")
-
-- Data is in a standard PostgreSQL database on the customer's server, documented schema. It does not need Meshvise to be read.
-- The stack is standard (PostgreSQL, MQTT, Docker); any integrator can take over operations.
-- Source code escrow offered in the contract, triggered on cessation of business.
-- Source-code audit under NDA available on request.
-
-## Pricing (excl. VAT, France, annual billing)
-
-- Online demo: €0, public, no sign-up (coming).
-- 7-day trial: €0, full application on the customer's infrastructure, limits 5 drivers / 15 machines / 500 points, all protocols. Read-only on expiry, data kept.
-- On-Premise: €2,400 per year, whatever the number of points, machines or screens. Commissioning quoted separately, based on the number of devices to connect. OIDC included, updates for twelve months, email support within two business days.
+- On-Premise licence: €2,400 per year per site, whatever the number of machines, points or screens. Includes every feature, support by email within two business days, and every update released during the subscription, major versions included.
+- Commissioning (installation, connection of the equipment, getting started): quoted according to the number of devices to connect.
+- Trial on the customer's own equipment: on quote.
 - Managed operations: on request, not yet available.
 
-## Who it is for
+## Continuity
 
-Managing directors of small and mid-size industrial companies, maintenance managers, production and methods managers, quality managers preparing audits, and system integrators / engineering firms who want a supervision they can price before the quote.
+- The data stays on the customer's server, in a standard database, readable without Meshvise.
+- No data leaves the site; Meshvise works without internet.
+- The product is built on standard components: an integrator can take over operations.
+- Contract in French, under French law.
 
-## Who it is not for
+## Links
 
-Very large multi-country groups with twelve-month buying cycles, projects under fifty points, functional safety.
-
-## Contact
-
-contact@meshvise.com · reply within two business days, from the person who wrote the code.
-
-## Useful links
-
-- Site: https://meshvise.com
-- Why supervise (what supervision gains): https://meshvise.com/fr/pourquoi-superviser/ · https://meshvise.com/en/why-supervise/
+- Home: https://meshvise.com/fr/ · https://meshvise.com/en/
+- Why supervise: https://meshvise.com/fr/pourquoi-superviser/ · https://meshvise.com/en/why-supervise/
 - Product: https://meshvise.com/fr/produit/ · https://meshvise.com/en/product/
+- Protocols: https://meshvise.com/fr/protocoles/ · https://meshvise.com/en/protocols/
 - Pricing: https://meshvise.com/fr/tarifs/ · https://meshvise.com/en/pricing/
-- Contact (licence, managed operations, trial on your equipment, demonstration): https://meshvise.com/fr/contact/ · https://meshvise.com/en/contact/
+- Contact (licence, managed operations, trial, demonstration): https://meshvise.com/fr/contact/ · https://meshvise.com/en/contact/
+- Email: contact@meshvise.com

@@ -270,3 +270,41 @@ describe('Footer', () => {
     });
   }
 });
+
+// Ce que lisent les moteurs et les IA : le résumé écrit à la main ne doit
+// plus reprendre de promesse retirée, le fichier complet est généré depuis
+// les textes du site, et chaque page porte ses données structurées.
+describe('Files for search engines and AI', () => {
+  const lire = (f: string) => readFileSync(resolve(dist, f), 'utf-8');
+
+  it('llms.txt makes no withdrawn promise', () => {
+    const t = lire('llms.txt');
+    expect(t).not.toMatch(/7-day|seven-day|free trial|€0|PostgreSQL|Power BI|direct read/i);
+    expect(t).toContain('https://meshvise.com/llms-full.txt');
+  });
+
+  it('llms-full.txt carries every page in both languages', () => {
+    const t = lire('llms-full.txt');
+    for (const s of ['/en/why-supervise/', '/en/product/', '/en/protocols/', '/en/pricing/', '/en/contact/',
+                     '/fr/pourquoi-superviser/', '/fr/produit/', '/fr/protocoles/', '/fr/tarifs/', '/fr/contact/']) {
+      expect(t).toContain(`https://meshvise.com${s}`);
+    }
+    expect(t).not.toContain('undefined');
+    expect(t).not.toContain('—');
+  });
+
+  it('robots.txt opens the site and points to the sitemap', () => {
+    const t = lire('robots.txt');
+    expect(t).toMatch(/User-agent: \*\s+Allow: \//);
+    expect(t).toContain('Sitemap: https://meshvise.com/sitemap-index.xml');
+  });
+
+  for (const lang of ['fr', 'en'] as const) {
+    it(`${lang} home has Organization, WebSite and SoftwareApplication data, and a PNG share image`, () => {
+      for (const type of ['Organization', 'WebSite', 'SoftwareApplication']) {
+        expect(html[lang]).toContain(`"@type":"${type}"`);
+      }
+      expect(html[lang]).toContain('property="og:image" content="https://meshvise.com/og-image.png"');
+    });
+  }
+});

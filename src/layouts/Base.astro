@@ -19,7 +19,7 @@ interface Props {
   ogImage?: string;
 }
 
-const { title, description, lang, ogImage = '/og-image.svg', ogType = 'website', extraLd = null, faq = false } = Astro.props;
+const { title, description, lang, ogImage = '/og-image.png', ogType = 'website', extraLd = null, faq = false } = Astro.props;
 
 const SITE_ORIGIN = 'https://meshvise.com';
 const alternateLang: Lang = lang === 'fr' ? 'en' : 'fr';
@@ -33,14 +33,28 @@ const ogLocaleAlternate = alternateLang === 'fr' ? 'fr_FR' : 'en_US';
 
 // Données structurées : tout ce qui est affirmé ici est livré et
 // vérifiable (spec docs/00-vision/vitrine.md, règle « rien qui ne soit livré »).
+// Le logo en PNG carré : Google n'affiche pas un logo SVG dans ses résultats.
 const organizationLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': `${SITE_ORIGIN}/#organization`,
   name: 'Meshvise',
   url: SITE_ORIGIN,
-  logo: `${SITE_ORIGIN}/favicon.svg`,
+  logo: `${SITE_ORIGIN}/icon-512.png`,
   description: t(lang, 'footer.tagline'),
   email: 'contact@meshvise.com',
+  areaServed: 'FR',
+  sameAs: ['https://github.com/meshvise'],
+};
+
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE_ORIGIN}/#website`,
+  name: 'Meshvise',
+  url: SITE_ORIGIN,
+  inLanguage: lang === 'fr' ? 'fr-FR' : 'en-US',
+  publisher: { '@id': `${SITE_ORIGIN}/#organization` },
 };
 
 const softwareLd = {
@@ -50,7 +64,8 @@ const softwareLd = {
   applicationCategory: 'BusinessApplication',
   applicationSubCategory: lang === 'fr' ? 'Supervision industrielle (SCADA)' : 'Industrial supervision (SCADA)',
   operatingSystem: 'Linux, Windows, macOS (Docker)',
-  description,
+  description: t(lang, 'home.meta.description'),
+  publisher: { '@id': `${SITE_ORIGIN}/#organization` },
   url: SITE_ORIGIN,
   inLanguage: ['fr', 'en'],
   offers: [
@@ -68,7 +83,7 @@ const softwareLd = {
       },
       availability: 'https://schema.org/InStock',
       url: `${SITE_ORIGIN}${href(lang, 'pricing')}`,
-      description: t(lang, 'pricing.onprem.tagline'),
+      description: `${t(lang, 'pricing.onprem.tagline')} ${t(lang, 'pricing.hero.subtitle')}`,
     },
   ],
 };
@@ -130,6 +145,7 @@ const faqLd = {
     <meta name="robots" content="index, follow, max-image-preview:large" />
 
     <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(softwareLd)} />
     {faq && <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />}
     {extraLd && <script type="application/ld+json" set:html={JSON.stringify(extraLd)} />}
