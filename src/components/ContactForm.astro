@@ -51,9 +51,8 @@ const {
         <label for={`${id}-install`} class="field-label">{t(lang, 'contact_form.install')}</label>
         <textarea id={`${id}-install`} name="install" rows="3" placeholder={t(lang, 'contact_form.install_ph')} class="field resize-y"></textarea>
       </div>
-      <div class="sm:col-span-2 flex flex-col sm:flex-row sm:items-center gap-4 pt-1">
+      <div class="sm:col-span-2 pt-1">
         <button type="submit" class="btn btn-primary btn-lg">{t(lang, submitKey)}</button>
-        <p class="t-small">{t(lang, 'contact_form.note')}</p>
       </div>
     </form>
   </div>
@@ -67,7 +66,6 @@ const {
     border-color: var(--color-brand);
     color: #fff;
   }
-  .dark-block .formulaire .t-small { color: var(--color-ink-2); }
 </style>
 
 <script is:inline>
