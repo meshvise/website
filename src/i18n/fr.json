@@ -415,10 +415,6 @@
       "title": "Des règles sans programmer",
       "body": "Calculs, horaires, temporisations : la logique du site se compose en reliant des blocs."
     },
-    "reports": {
-      "title": "Les rapports",
-      "body": "Le rapport de la semaine part tout seul par courriel. Fini l'export du vendredi soir."
-    },
     "trace": {
       "title": "Qui a changé ce seuil, et quand ?",
       "body": "Chaque modification est datée et signée. Si un changement a dégradé la production, vous revenez en arrière en un clic."

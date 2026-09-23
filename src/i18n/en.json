@@ -415,10 +415,6 @@
       "title": "Rules without programming",
       "body": "Calculations, schedules, timers: the site's logic is built by connecting blocks."
     },
-    "reports": {
-      "title": "Reports",
-      "body": "The weekly report goes out by email on its own. No more Friday night exports."
-    },
     "trace": {
       "title": "Who changed this threshold, and when?",
       "body": "Every change is dated and signed. If a change hurt production, you roll back in one click."

@@ -12,7 +12,7 @@
  *
  * La page suit la chaîne de la donnée : on la lit, on la garde, on la
  * surveille, on la calcule et on la montre, puis on trace qui a changé
- * quoi. Les capacités sans capture (vues en direct, logique, rapports ;
+ * quoi. Les capacités sans capture (vues en direct, logique ;
  * accès, exploitation) se lisent en colonnes sous leur chapitre, sans
  * image : une capture n'a de sens que si elle montre quelque chose.
  *
@@ -160,8 +160,8 @@ const ANCRES: Record<string, string> = {
         </div>
         <ProductShot alt={t(lang, 'product.shots.synoptic')} pending={t(lang, 'product.pending')} />
       </div>
-      <div class="colonnes colonnes--3">
-        {['live', 'logic', 'reports'].map((k) => (
+      <div class="colonnes colonnes--2">
+        {['live', 'logic'].map((k) => (
           <div id={k} class="colonne">
             <h3 class="t-section">{t(lang, `product.${k}.title`)}</h3>
             <p class="t-body mt-3">{t(lang, `product.${k}.body`)}</p>
@@ -314,7 +314,6 @@ const ANCRES: Record<string, string> = {
     padding-top: 3.5rem;
     border-top: 1px solid var(--color-line);
   }
-  .colonnes--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .colonnes--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   /* ── L'IA, sur fond graphite ───────────────────────────────────────── */
@@ -353,7 +352,6 @@ const ANCRES: Record<string, string> = {
     .ligne,
     .ligne--inverse { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
     .ligne--inverse .texte { order: 0; }
-    .colonnes--3,
     .faits { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
     .pile { gap: 5rem; }
   }
