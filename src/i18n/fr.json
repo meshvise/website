@@ -429,7 +429,7 @@
     },
     "assistant": {
       "title": "Brancher l'IA sur l'atelier",
-      "lede": "L'IA de votre entreprise lit enfin l'atelier, et répond tout de suite aux questions qu'on se posait le vendredi.",
+      "lede": "L'IA de votre entreprise lit enfin l'atelier, et répond simplement aux questions, sans avoir besoin de faire des analyses manuelles.",
       "facts": [
         {
           "k": "En lecture seule",
