@@ -9,12 +9,7 @@
     "contact": "Contact"
   },
   "common": {
-    "cta_demo": "See the demo",
-    "cta_contact": "Get in touch",
-    "cta_request_demo": "Request a demonstration",
-    "learn_more": "Learn more",
-    "the_problem": "The problem",
-    "with_meshvise": "With Meshvise"
+    "cta_contact": "Get in touch"
   },
   "home": {
     "meta": {
@@ -22,7 +17,6 @@
       "description": "All your equipment in one supervision system. Thirteen industrial protocols included, one licence per site independent of point count, your data in a Postgres database you can read with Excel."
     },
     "hero": {
-      "eyebrow": "Industrial supervision, hosted on your premises",
       "title": "With Meshvise, you gain",
       "gains": [
         {
@@ -81,29 +75,6 @@
         "title": "You have one, and it no longer keeps up.",
         "body": "Connecting an AI, tracking your performance indicators, feeding your BI tool, adding a machine from another brand: today's requirements, and Meshvise is built for them.",
         "cta": "Product and pricing"
-      }
-    },
-    "facts": {
-      "aria": "Four verifiable facts",
-      "protocols": {
-        "metric": "12",
-        "label": "Protocols included",
-        "detail": "Modbus TCP and RTU, OPC UA, BACnet, S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. No module to buy per brand."
-      },
-      "price": {
-        "metric": "No limit",
-        "label": "Points, machines, screens",
-        "detail": "One licence per site, whatever the number of connected devices."
-      },
-      "data": {
-        "metric": "Postgres",
-        "label": "Your data, readable",
-        "detail": "Standard database, documented schema. Excel, Power BI and Grafana connect directly."
-      },
-      "onprem": {
-        "metric": "100%",
-        "label": "On your premises",
-        "detail": "No outbound telemetry. Works without internet."
       }
     },
     "personas": {
@@ -830,7 +801,6 @@
       "title": "Demo · Meshvise",
       "description": "The public Meshvise demo is coming. Meanwhile, request a video demonstration on your equipment."
     },
-    "eyebrow": "Online demo",
     "title": "The public demo is not online yet",
     "body": "It will run on a simulated industrial site, with direct access. Meanwhile, a thirty-minute video demonstration on a case close to yours is available now."
   },

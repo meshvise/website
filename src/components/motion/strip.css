@@ -35,23 +35,6 @@
   height: auto;
 }
 
-/* Sous cette largeur, une bande de sept cent vingt unités rend sa mono de
-   onze pixels à moins de six. Une figure qui garde du texte dans son dessin
-   se parcourt donc latéralement (`mvs--defile`) plutôt que de devenir
-   illisible. Depuis le 2026-09-22 les figures de l'accueil n'en ont plus :
-   elles se réduisent à la largeur de l'écran, et c'est la phrase du dessus,
-   en HTML, qui porte le texte. */
-@media (max-width: 720px) {
-  .mvs--defile {
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scrollbar-width: thin;
-  }
-  .mvs--defile .mvs-svg {
-    min-width: 520px;
-  }
-}
-
 /* ── Le mouvement ─────────────────────────────────────────────────────── */
 
 /*

@@ -1,11 +1,11 @@
 {
   "name": "Meshvise",
   "short_name": "Meshvise",
-  "description": "French industrial supervision platform. Flat fee, data on your premises, all points included.",
+  "description": "Industrial supervision, hosted on your premises. One licence per site, every feature included.",
   "start_url": "/",
   "display": "browser",
-  "background_color": "#0F172A",
-  "theme_color": "#06B6D4",
+  "background_color": "#f8f7fb",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "/favicon.svg",

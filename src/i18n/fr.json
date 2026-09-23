@@ -9,12 +9,7 @@
     "contact": "Contact"
   },
   "common": {
-    "cta_demo": "Voir la démo",
-    "cta_contact": "Prendre contact",
-    "cta_request_demo": "Demander une démonstration",
-    "learn_more": "En savoir plus",
-    "the_problem": "Le problème",
-    "with_meshvise": "Avec Meshvise"
+    "cta_contact": "Prendre contact"
   },
   "home": {
     "meta": {
@@ -22,7 +17,6 @@
       "description": "Tous vos équipements dans une seule supervision. Treize protocoles industriels inclus, une licence par site indépendante du nombre de points, données dans une base Postgres que vous lisez avec Excel."
     },
     "hero": {
-      "eyebrow": "Supervision industrielle, hébergée chez vous",
       "title": "Avec Meshvise, vous gagnez",
       "gains": [
         {
@@ -81,29 +75,6 @@
         "title": "Vous en avez une, et elle ne suit plus.",
         "body": "Brancher une IA, suivre vos indicateurs de performance, alimenter votre outil décisionnel, raccorder une machine d'une autre marque : les exigences d'aujourd'hui, et Meshvise est construit pour elles.",
         "cta": "Produit et tarifs"
-      }
-    },
-    "facts": {
-      "aria": "Quatre faits vérifiables",
-      "protocols": {
-        "metric": "12",
-        "label": "Protocoles inclus",
-        "detail": "Modbus TCP et RTU, OPC UA, BACnet, S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. Aucun module à acheter par marque."
-      },
-      "price": {
-        "metric": "Sans limite",
-        "label": "Points, machines, écrans",
-        "detail": "Une licence par site, quel que soit le nombre d'équipements raccordés."
-      },
-      "data": {
-        "metric": "Postgres",
-        "label": "Vos données, lisibles",
-        "detail": "Base standard, schéma documenté. Excel, Power BI, Grafana s'y connectent directement."
-      },
-      "onprem": {
-        "metric": "100 %",
-        "label": "Chez vous",
-        "detail": "Aucune télémétrie sortante. Fonctionne sans internet."
       }
     },
     "personas": {
@@ -830,7 +801,6 @@
       "title": "Démo · Meshvise",
       "description": "La démonstration publique de Meshvise arrive. En attendant, demandez une démonstration en visio sur vos équipements."
     },
-    "eyebrow": "Démo en ligne",
     "title": "La démo publique n'est pas encore en ligne",
     "body": "Elle tournera sur un site industriel simulé, en accès direct. En attendant, une démonstration de trente minutes en visio, sur un cas proche du vôtre, est possible dès maintenant."
   },

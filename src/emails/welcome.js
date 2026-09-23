@@ -54,16 +54,16 @@ export function renderWelcomeEmail({ lang, name, jwt, docsUrl = 'https://meshvis
   const limitsHtml = c.limits.map((s) => `<li>${s}</li>`).join('');
 
   const html = `<!doctype html>
-<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#0F172A;max-width:600px;margin:0 auto;padding:24px;line-height:1.55;">
+<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#161b23;max-width:600px;margin:0 auto;padding:24px;line-height:1.55;">
   <p>${escapeHtml(greeting)}</p>
   <p>${c.intro}</p>
 
-  <h2 style="font-size:18px;margin-top:28px;color:#0F172A;">${c.steps_title}</h2>
+  <h2 style="font-size:18px;margin-top:28px;color:#161b23;">${c.steps_title}</h2>
   <ol style="padding-left:20px;">${stepsHtml}</ol>
 
-  <p><a href="${escapeAttr(docsUrl)}" style="color:#06B6D4;">${c.docs_link_text}</a></p>
+  <p><a href="${escapeAttr(docsUrl)}" style="color:#5b4a94;">${c.docs_link_text}</a></p>
 
-  <h2 style="font-size:18px;margin-top:28px;color:#0F172A;">${c.limits_title}</h2>
+  <h2 style="font-size:18px;margin-top:28px;color:#161b23;">${c.limits_title}</h2>
   <ul style="padding-left:20px;">${limitsHtml}</ul>
 
   <p style="margin-top:28px;">${c.next}</p>

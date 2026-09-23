@@ -29,12 +29,12 @@ export function renderReminderEmail({ lang, name, calendlyUrl }) {
   const greeting = c.greeting(name);
 
   const html = `<!doctype html>
-<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#0F172A;max-width:600px;margin:0 auto;padding:24px;line-height:1.55;">
+<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#161b23;max-width:600px;margin:0 auto;padding:24px;line-height:1.55;">
   <p>${escapeHtml(greeting)}</p>
   <p>${c.intro}</p>
   <p>${c.body}</p>
   <p style="margin:24px 0;">
-    <a href="${escapeAttr(calendlyUrl)}" style="display:inline-block;background:#0F172A;color:#FAFAF7;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:500;">${c.cta}</a>
+    <a href="${escapeAttr(calendlyUrl)}" style="display:inline-block;background:#1f2937;color:#ffffff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:500;">${c.cta}</a>
   </p>
   <p style="color:#475569;">${c.fallback}</p>
   <p style="color:#475569;font-size:14px;margin-top:24px;">${c.after}</p>

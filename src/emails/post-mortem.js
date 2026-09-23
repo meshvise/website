@@ -40,16 +40,16 @@ export function renderPostMortemEmail({ lang, name, calendlyUrl }) {
   const stepsHtml = c.next_steps.map((s) => `<li>${s}</li>`).join('');
 
   const html = `<!doctype html>
-<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#0F172A;max-width:600px;margin:0 auto;padding:24px;line-height:1.55;">
+<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#161b23;max-width:600px;margin:0 auto;padding:24px;line-height:1.55;">
   <p>${escapeHtml(greeting)}</p>
   <p>${c.intro}</p>
   <p>${c.body}</p>
   <p style="margin:24px 0;">
-    <a href="${escapeAttr(calendlyUrl)}" style="display:inline-block;background:#0F172A;color:#FAFAF7;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:500;">${c.cta_book}</a>
+    <a href="${escapeAttr(calendlyUrl)}" style="display:inline-block;background:#1f2937;color:#ffffff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:500;">${c.cta_book}</a>
   </p>
   <p style="color:#475569;">${c.cta_email}</p>
 
-  <h2 style="font-size:16px;margin-top:28px;color:#0F172A;">${c.next_steps_title}</h2>
+  <h2 style="font-size:16px;margin-top:28px;color:#161b23;">${c.next_steps_title}</h2>
   <ul style="padding-left:20px;color:#475569;">${stepsHtml}</ul>
 
   <p style="margin-top:24px;color:#475569;">${c.signoff}</p>
