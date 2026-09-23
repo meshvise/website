@@ -251,7 +251,7 @@
   "contact_form": {
     "topic": "Your request",
     "topics": {
-      "licence": "On-Premise licence",
+      "licence": "On‑Premise licence",
       "exploitation": "Managed operations",
       "essai": "Trial on your equipment",
       "demo": "Demonstration",
@@ -980,13 +980,6 @@
     },
     "lead": "Let's talk about",
     "accent": "your site.",
-    "subtitle": "Tell us what you are looking for. Reply within two business days.",
-    "topics": {
-      "licence": "The full licence, on your premises",
-      "exploitation": "Meshvise run for you",
-      "essai": "On your infrastructure",
-      "demo": "Thirty minutes by video call",
-      "autre": "Anything else"
-    }
+    "subtitle": "Tell us what you are looking for. Reply within two business days."
   }
 }

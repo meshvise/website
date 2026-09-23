@@ -251,7 +251,7 @@
   "contact_form": {
     "topic": "Votre demande",
     "topics": {
-      "licence": "Licence On-Premise",
+      "licence": "Licence On‑Premise",
       "exploitation": "Exploitation déléguée",
       "essai": "Essai sur vos équipements",
       "demo": "Démonstration",
@@ -980,13 +980,6 @@
     },
     "lead": "Parlons de",
     "accent": "votre site.",
-    "subtitle": "Dites-nous ce que vous cherchez. Réponse sous deux jours ouvrés.",
-    "topics": {
-      "licence": "La licence complète, chez vous",
-      "exploitation": "Meshvise exploité pour vous",
-      "essai": "Sur votre infrastructure",
-      "demo": "Trente minutes en visio",
-      "autre": "Tout le reste"
-    }
+    "subtitle": "Dites-nous ce que vous cherchez. Réponse sous deux jours ouvrés."
   }
 }
