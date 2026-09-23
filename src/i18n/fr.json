@@ -52,6 +52,11 @@
         }
       ]
     },
+    "screen": {
+      "label": "Aperçu du produit",
+      "alt": "Meshvise en fonctionnement sur l'atelier de démonstration",
+      "placeholder": "Capture du produit à venir"
+    },
     "live": {
       "caption": "Ce que montre Meshvise : les points d'un site, en direct",
       "site": "Usine Nord",

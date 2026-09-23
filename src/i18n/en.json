@@ -52,6 +52,11 @@
         }
       ]
     },
+    "screen": {
+      "label": "Product preview",
+      "alt": "Meshvise running on the demonstration shop floor",
+      "placeholder": "Product screenshot coming soon"
+    },
     "live": {
       "caption": "What Meshvise shows: one site's points, live",
       "site": "North Plant",
