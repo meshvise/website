@@ -6,9 +6,9 @@
  * superviser » et de la page Produit : une accroche en deux temps dont la
  * fin est à la couleur d'accent, et sous elle le bloc graphite, qui porte
  * ici l'offre elle-même, prix, contenu et demande de devis. Puis la mise en
- * service en trois étapes, la continuité (ce qui reste au client si
- * Meshvise disparaît), les questions d'un acheteur, et la demande de devis
- * sur fond graphite.
+ * service en trois étapes, la demande de devis sur fond graphite, juste
+ * après ce qu'elle chiffre, la continuité (ce qui reste au client si
+ * Meshvise disparaît) et les questions d'un acheteur.
  *
  * La démonstration et l'essai ne sont pas des tarifs : ils vivent dans la
  * navigation et dans « Par où commencer ». L'exploitation déléguée a sa
@@ -32,7 +32,7 @@ const etapes = d.setup.steps as { title: string; body: string }[];
 const garanties = d.continuity.items as { title: string; body: string }[];
 
 // Les questions d'un acheteur ; les autres vivent sur la page FAQ.
-const QUESTIONS = ['trial_how', 'demo_vs_trial', 'hardware', 'support', 'disappear', 'notfor'] as const;
+const QUESTIONS = ['trial_how', 'demo_vs_trial', 'hardware', 'support', 'updates', 'disappear', 'notfor'] as const;
 ---
 
 <Base lang={lang} title={t(lang, 'pricing.meta.title')} description={t(lang, 'pricing.meta.description')}>
@@ -89,6 +89,18 @@ const QUESTIONS = ['trial_how', 'demo_vs_trial', 'hardware', 'support', 'disappe
     </div>
   </section>
 
+  <!-- La demande de devis, juste après ce qu'elle chiffre : le visiteur
+       qui a vu le prix et la mise en service n'a pas à descendre plus bas. -->
+  <ContactForm
+    lang={lang}
+    id="devis"
+    title={t(lang, 'pricing.quote.title')}
+    body={t(lang, 'pricing.quote.body')}
+    submitKey="contact_form.submit_quote"
+    subjectKey="contact_form.mailto_subject_quote"
+    dark
+  />
+
   <!-- Ce qui reste au client, quoi qu'il arrive à Meshvise. -->
   <section id="continuity" class="section">
     <div class="wrap">
@@ -109,15 +121,6 @@ const QUESTIONS = ['trial_how', 'demo_vs_trial', 'hardware', 'support', 'disappe
 
   <FAQ lang={lang} keys={QUESTIONS} title={d.faq_title} surface />
 
-  <ContactForm
-    lang={lang}
-    id="devis"
-    title={t(lang, 'pricing.quote.title')}
-    body={t(lang, 'pricing.quote.body')}
-    submitKey="contact_form.submit_quote"
-    subjectKey="contact_form.mailto_subject_quote"
-    dark
-  />
 </Base>
 
 <style>

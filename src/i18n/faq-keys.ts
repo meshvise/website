@@ -18,6 +18,7 @@ export const FAQ_KEYS = [
   'multisite',
   'logic',
   'support',
+  'updates',
   'trial_how',
   'demo_vs_trial',
 ] as const;

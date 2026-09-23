@@ -748,7 +748,7 @@
         "Unlimited machines, points and screens",
         "Installed on your server",
         "Sign-in with your company accounts",
-        "Updates for twelve months",
+        "Every update, major versions included",
         "Email support within two business days"
       ]
     },
@@ -980,6 +980,10 @@
     "support": {
       "q": "What does support look like?",
       "a": "By email, reply within two business days, from the person who wrote the code."
+    },
+    "updates": {
+      "q": "Are updates included?",
+      "a": "Yes, every one released during the subscription, fixes and major versions alike. No separate maintenance contract, no upgrade fee. Only help with a migration is billed, as time spent."
     },
     "trial_how": {
       "q": "How does the trial work?",

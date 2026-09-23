@@ -748,7 +748,7 @@
         "Machines, points et écrans sans limite",
         "Installée sur votre serveur",
         "Connexion avec les comptes de l'entreprise",
-        "Mises à jour pendant douze mois",
+        "Toutes les mises à jour, majeures comprises",
         "Support par courriel sous deux jours ouvrés"
       ]
     },
@@ -980,6 +980,10 @@
     "support": {
       "q": "À quoi ressemble le support ?",
       "a": "Par courriel, réponse sous deux jours ouvrés, par la personne qui a écrit le code."
+    },
+    "updates": {
+      "q": "Les mises à jour sont-elles comprises ?",
+      "a": "Oui, toutes celles publiées pendant l'abonnement, les correctifs comme les versions majeures. Pas de contrat de maintenance à côté, pas de supplément pour changer de version. Seul un accompagnement à la migration se facture, au temps passé."
     },
     "trial_how": {
       "q": "Comment se passe l'essai ?",
