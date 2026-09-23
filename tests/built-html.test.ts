@@ -18,8 +18,6 @@ const pages = {
   en: resolve(dist, 'en', 'index.html'),
   fr_contact: resolve(dist, 'fr', 'contact', 'index.html'),
   en_contact: resolve(dist, 'en', 'contact', 'index.html'),
-  fr_about: resolve(dist, 'fr', 'a-propos', 'index.html'),
-  en_about: resolve(dist, 'en', 'about', 'index.html'),
 };
 
 let html: Record<keyof typeof pages, string>;
@@ -38,8 +36,6 @@ beforeAll(() => {
     en: readFileSync(pages.en, 'utf-8'),
     fr_contact: readFileSync(pages.fr_contact, 'utf-8'),
     en_contact: readFileSync(pages.en_contact, 'utf-8'),
-    fr_about: readFileSync(pages.fr_about, 'utf-8'),
-    en_about: readFileSync(pages.en_about, 'utf-8'),
   };
 });
 
@@ -50,10 +46,6 @@ describe('Built pages exist and have a <title>', () => {
     });
     it(`${lang}/contact/index.html has a <title>`, () => {
       const key = `${lang}_contact` as keyof typeof html;
-      expect(html[key]).toMatch(/<title>[^<]+<\/title>/);
-    });
-    it(`${lang}/about/index.html has a <title>`, () => {
-      const key = `${lang}_about` as keyof typeof html;
       expect(html[key]).toMatch(/<title>[^<]+<\/title>/);
     });
   }
@@ -246,29 +238,6 @@ describe('FAQ has the four B2B-compliance entries from 2026-05-02 brief § 5', (
   }
 });
 
-describe('About page has the founder + mission + coords sections', () => {
-  for (const lang of ['fr', 'en'] as const) {
-    const key = `${lang}_about` as keyof typeof html;
-
-    it(`${lang} about page renders the five top-level sections`, () => {
-      // Five <h2> headings: founder, mission, values, timeline, coords.
-      const h2 = html[key].match(/<h2\b/g) ?? [];
-      expect(h2.length).toBeGreaterThanOrEqual(5);
-    });
-
-    it(`${lang} about page links back to home`, () => {
-      expect(html[key]).toMatch(new RegExp(`href="/${lang}/"`));
-    });
-
-    it(`${lang} about page exposes Bruno placeholders for company / address / SIREN`, () => {
-      // Anti-regression: ensure the placeholders are visible enough
-      // that a casual review catches them before merge to master.
-      const marker = lang === 'fr' ? 'À COMPLÉTER PAR BRUNO' : 'TO BE FILLED BY BRUNO';
-      expect(html[key]).toContain(marker);
-    });
-  }
-});
-
 describe('Footer carries the French-company attribution and continuity link', () => {
   for (const lang of ['fr', 'en'] as const) {
     function footer(): string {
@@ -322,8 +291,6 @@ describe('Hard-rule lint on built HTML', () => {
     'en',
     'fr_contact',
     'en_contact',
-    'fr_about',
-    'en_about',
   ] as const) {
     it(`${key} contains no em-dash`, () => {
       expect(html[key]).not.toContain(EM_DASH);

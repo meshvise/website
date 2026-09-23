@@ -1,12 +1,10 @@
 {
   "nav": {
+    "home": "Accueil",
     "why": "Pourquoi superviser",
     "product": "Produit",
     "protocols": "Protocoles",
     "pricing": "Tarifs",
-    "guides": "Guides",
-    "faq": "FAQ",
-    "about": "À propos",
     "demo": "Voir la démo",
     "contact": "Contact"
   },
@@ -200,10 +198,6 @@
         "note": "Pour les sites sans équipe technique",
         "cta": "Voir l'offre"
       }
-    },
-    "final": {
-      "title": "Voir Meshvise fonctionner",
-      "body": "Un site industriel simulé : vingt-deux machines, treize protocoles, trente jours d'historique. Les alarmes, l'historique et les tableaux de bord sont ceux de l'application."
     },
     "ai": {
       "title": "Grâce à l'IA, répondez enfin à vos questions."
@@ -424,8 +418,7 @@
         "Ou tout autre assistant"
       ],
       "connect": "Votre entreprise y branche l'assistant qu'elle utilise déjà, par MCP, le standard ouvert qui relie les IA aux logiciels.",
-      "made": "Meshvise est fait pour être utilisé par les IA : chaque machine, chaque mesure et chaque indicateur porte un nom clair et une qualité connue, ce dont une IA a besoin pour répondre juste.",
-      "cta": "Brancher une IA, en pratique"
+      "made": "Meshvise est fait pour être utilisé par les IA : chaque machine, chaque mesure et chaque indicateur porte un nom clair et une qualité connue, ce dont une IA a besoin pour répondre juste."
     },
     "shots": {
       "acq": "Liste des pilotes de Meshvise : OPC UA, Modbus, BACnet, S7, MQTT et les autres protocoles d'un atelier, chacun avec son adresse et sa cadence.",
@@ -800,134 +793,20 @@
     },
     "faq_title": "Vos questions avant de commander"
   },
-  "about": {
-    "meta": {
-      "title": "À propos · Meshvise",
-      "description": "Meshvise est une supervision industrielle conçue et développée par une personne, ingénieur en digitalisation industrielle. Données chez vous, dans une base standard, aucune télémétrie."
-    },
-    "eyebrow": "À propos",
-    "title": "Une supervision industrielle construite par quelqu'un qui en avait besoin.",
-    "founder": {
-      "heading": "Le fondateur",
-      "p1": "Meshvise est conçu et développé par Bruno Crespo, ingénieur en digitalisation industrielle, en poste dans l'industrie. Le produit est né d'un constat de terrain : la supervision est trop chère au point, trop fermée, et trop souvent une console d'opérateur sombre qu'on ne peut pas montrer en réunion.",
-      "p2": "Meshvise est une entreprise d'une personne. Ce n'est pas caché, et c'est pour cela que le produit est construit sur une base standard, avec vos données chez vous, dans un format que vous lisez sans lui."
-    },
-    "commitments": {
-      "heading": "Ce à quoi Meshvise s'engage",
-      "data": {
-        "title": "Les données sont à vous.",
-        "body": "Base standard, schéma documenté, export à tout moment."
-      },
-      "price": {
-        "title": "Pas de facturation au point.",
-        "body": "Une licence par site, quel que soit le nombre d'équipements raccordés."
-      },
-      "honest": {
-        "title": "Ce qui n'est pas livré est dit.",
-        "body": "La page Produit décrit ce qui existe. Le reste n'est pas daté publiquement."
-      },
-      "telemetry": {
-        "title": "Aucune télémétrie.",
-        "body": "Rien ne sort de votre installation."
-      }
-    },
-    "coords": {
-      "heading": "Coordonnées",
-      "company": "Raison sociale",
-      "company_v": "À compléter",
-      "address": "Adresse",
-      "address_v": "À compléter",
-      "id": "Numéro d'identification",
-      "id_v": "À compléter",
-      "email": "Contact"
-    }
-  },
-  "guides": {
-    "meta": {
-      "title": "Guides · Mise en œuvre concrète · Meshvise",
-      "description": "Guides techniques de supervision industrielle : connexion d'automates, calcul de TRS, Power BI sur historique industriel, coût réel d'une supervision, énergie, audits."
-    },
-    "eyebrow": "Guides",
-    "title": "Guides de mise en œuvre",
-    "subtitle": "Des cas concrets traités en entier : le protocole, la configuration, le résultat.",
-    "coming": "À paraître",
-    "list": [
-      "Lire un automate Siemens S7 et historiser les valeurs en vingt minutes",
-      "Calculer un taux de rendement synthétique depuis des compteurs Modbus",
-      "Connecter Power BI à un historique industriel sans intermédiaire",
-      "Ce que coûte réellement une supervision à cinq mille points sur cinq ans",
-      "Détecter une fuite d'air comprimé avec trois compteurs",
-      "Sortir d'une supervision en fin de support sans perdre l'historique",
-      "Superviser un bâtiment tertiaire en BACnet",
-      "Alarmes industrielles : sévérités, hystérésis et acquittement",
-      "Préparer un audit qualité avec un historique de paramètres",
-      "Exposer ses données industrielles en OPC UA à un autre système"
-    ],
-    "back": "Tous les guides",
-    "for_whom": "Pour qui",
-    "reading": "Lecture",
-    "minutes": "min",
-    "published": "Publié le"
-  },
   "faq": {
-    "meta": {
-      "title": "FAQ · Meshvise",
-      "description": "Compatibilité automates, format des données, Power BI, matériel minimum, sécurité, audit du code, continuité, support, essai : les réponses."
-    },
-    "eyebrow": "FAQ",
     "title": "Questions fréquentes",
     "subtitle": "Si la vôtre n'y est pas, écrivez à contact@meshvise.com.",
-    "compatible": {
-      "q": "Compatible avec mon automate ?",
-      "a": "Oui s'il parle l'un des treize protocoles : Modbus TCP et RTU, OPC UA, BACnet, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. Pour Modbus RTU sur liaison série, prévoir un convertisseur série vers TCP."
-    },
-    "format": {
-      "q": "Dans quel format sont stockées les données ?",
-      "a": "Tables Postgres standard pour la configuration, TimescaleDB pour l'historique, avec un schéma documenté. Rien de propriétaire."
-    },
-    "bi": {
-      "q": "Comment je connecte Power BI, Excel ou Grafana ?",
-      "a": "Par une connexion Postgres directe avec un compte en lecture seule. Vous voyez les tables, vous interrogez. Pas de connecteur propriétaire, pas d'export intermédiaire."
-    },
-    "france": {
-      "q": "Mes données restent-elles en France ?",
-      "a": "Elles restent où vous installez Meshvise. Rien ne sort de votre installation, aucune télémétrie, aucune dépendance à un service externe."
-    },
     "hardware": {
       "q": "Quel matériel minimum ?",
       "a": "Deux cœurs, quatre giga de mémoire, vingt giga de disque pour cinq cents points et trente jours d'historique. Un mini-PC d'atelier ou un serveur existant suffit."
-    },
-    "security": {
-      "q": "Comment c'est sécurisé ?",
-      "a": "Authentification par jeton pour l'interface, clés d'accès pour les intégrations, base de données et cache jamais exposés sur le réseau. Authentification unique OIDC et second facteur disponibles."
-    },
-    "audit": {
-      "q": "Puis-je auditer le code source ?",
-      "a": "Sur demande, en lecture, sous accord de confidentialité."
-    },
-    "sil": {
-      "q": "Je peux faire de la sécurité fonctionnelle avec ?",
-      "a": "Non, et ce ne sera jamais le cas. Les sécurités restent dans l'automate certifié. Meshvise supervise, il ne protège pas."
     },
     "disappear": {
       "q": "Et si vous fermez demain ?",
       "a": "Vos données restent sur votre serveur, dans une base standard, lisibles sans Meshvise. N'importe quel intégrateur peut reprendre l'exploitation."
     },
-    "alone": {
-      "q": "Vous êtes seul ?",
-      "a": "Oui. Meshvise est une entreprise d'une personne, et c'est précisément pour cela que le produit est construit sur une base standard, avec vos données chez vous et lisibles sans lui. Voir la page À propos."
-    },
     "notfor": {
       "q": "Pour qui Meshvise n'est pas fait ?",
       "a": "Les très grands groupes multi-pays avec des cycles d'achat de douze mois, les projets de moins de cinquante points, et tout ce qui relève de la sécurité fonctionnelle."
-    },
-    "multisite": {
-      "q": "Et la supervision de plusieurs sites distants ?",
-      "a": "Aujourd'hui, plusieurs projets sur une même instance, ce qui couvre plusieurs bâtiments d'un même réseau. Le multi-site distant n'est pas livré et n'est pas daté."
-    },
-    "logic": {
-      "q": "La logique visuelle, ça fait quoi ?",
-      "a": "Composer la logique de votre site par blocs reliés : calcul, comparaison, temporisation, planification, régulation, alarme. Ou en Python pour les cas avancés."
     },
     "support": {
       "q": "À quoi ressemble le support ?",
@@ -958,7 +837,6 @@
   "footer": {
     "tagline": "Supervision industrielle, hébergée chez vous. Treize protocoles inclus, données dans une base que vous possédez.",
     "product": "Produit",
-    "resources": "Ressources",
     "contact": "Contact",
     "continuity": "Vos données restent lisibles",
     "rights": "Tous droits réservés.",

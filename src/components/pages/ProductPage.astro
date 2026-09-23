@@ -49,7 +49,6 @@ import kpiEn from '../../assets/screens/en/indicateurs.png';
 import dashEn from '../../assets/screens/en/tableaux.png';
 import traceEn from '../../assets/screens/en/revisions.png';
 import { t, type Lang } from '../../i18n';
-import { href } from '../../i18n/routes';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -214,9 +213,6 @@ const ANCRES: Record<string, string> = {
         <p>{t(lang, 'product.assistant.connect')}</p>
         <p>{t(lang, 'product.assistant.made')}</p>
       </div>
-      <a href={`${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`} class="suite suite--sombre">
-        {t(lang, 'product.assistant.cta')} <span aria-hidden="true">→</span>
-      </a>
     </div>
   </section>
 
@@ -293,17 +289,6 @@ const ANCRES: Record<string, string> = {
     max-width: 34rem;
   }
   .texte > .corps:first-child { margin-top: 0; }
-  .suite {
-    display: inline-block;
-    margin-top: 1.5rem;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--color-accent);
-    text-decoration: none;
-  }
-  .suite:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .suite--sombre { color: var(--color-accent-soft); margin-top: 2rem; }
-  .suite--sombre:hover { color: var(--color-n-0); }
 
   /* Les capacités sans capture, en colonnes sous leur chapitre, séparées
      par un filet comme les portes de l'accroche. */

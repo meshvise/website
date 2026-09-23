@@ -20,7 +20,6 @@ const year = new Date().getFullYear();
           <span class="font-medium tracking-tight">Meshvise</span>
         </a>
         <p class="mt-4 t-body max-w-sm">{t(lang, 'footer.tagline')}</p>
-        <p class="mt-4 text-[14px]"><a href={href(lang, 'pricing', 'continuity')} class="link">{t(lang, 'footer.continuity')}</a></p>
       </div>
 
       <div class="col-span-1 md:col-span-2 md:col-start-7">
@@ -34,16 +33,7 @@ const year = new Date().getFullYear();
         </ul>
       </div>
 
-      <div class="col-span-1 md:col-span-2">
-        <h4 class="text-[13px] font-medium text-ink mb-3">{t(lang, 'footer.resources')}</h4>
-        <ul class="space-y-2.5 text-[14px]">
-          <li><a href={href(lang, 'guides')} class="text-ink-2 hover:text-ink">{t(lang, 'nav.guides')}</a></li>
-          <li><a href={href(lang, 'faq')} class="text-ink-2 hover:text-ink">{t(lang, 'nav.faq')}</a></li>
-          <li><a href={href(lang, 'about')} class="text-ink-2 hover:text-ink">{t(lang, 'nav.about')}</a></li>
-        </ul>
-      </div>
-
-      <div class="col-span-2 md:col-span-3">
+      <div class="col-span-1 md:col-span-3 md:col-start-10">
         <h4 class="text-[13px] font-medium text-ink mb-3">{t(lang, 'footer.contact')}</h4>
         <ul class="space-y-2.5 text-[14px]">
           <li><a href={href(lang, 'contact')} class="text-ink-2 hover:text-ink">{t(lang, 'common.cta_contact')}</a></li>

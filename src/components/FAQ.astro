@@ -38,7 +38,6 @@ const bande = standalone ? 'wrap pb-20 md:pb-28' : `section${surface ? ' bg-surf
           <div class="pb-5 pl-7 t-body">
             <p>{t(lang, `faq.${key}.a`)}</p>
             {key === 'disappear' && <p class="mt-3"><a href={href(lang, 'pricing', 'continuity')} class="link">{t(lang, 'footer.continuity')}</a></p>}
-            {key === 'alone' && <p class="mt-3"><a href={href(lang, 'about')} class="link">{t(lang, 'nav.about')}</a></p>}
           </div>
         </details>
       ))}

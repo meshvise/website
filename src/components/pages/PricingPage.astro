@@ -34,11 +34,9 @@ const d = (lang === 'fr' ? fr : en).pricing;
 const etapes = d.setup.steps as { title: string; body: string }[];
 const garanties = d.continuity.items as { title: string; body: string }[];
 
-// Les questions d'un acheteur ; les autres vivent sur la page FAQ.
-const QUESTIONS = ['trial_how', 'demo_vs_trial', 'hardware', 'support', 'updates', 'disappear', 'notfor'] as const;
 ---
 
-<Base lang={lang} title={t(lang, 'pricing.meta.title')} description={t(lang, 'pricing.meta.description')}>
+<Base lang={lang} title={t(lang, 'pricing.meta.title')} description={t(lang, 'pricing.meta.description')} faq>
   <section class="border-b border-line">
     <div class="wrap pt-12 pb-12 md:pt-16 md:pb-16">
       <h1 class="t-hero accroche">
@@ -110,7 +108,7 @@ const QUESTIONS = ['trial_how', 'demo_vs_trial', 'hardware', 'support', 'updates
     </div>
   </section>
 
-  <FAQ lang={lang} keys={QUESTIONS} title={d.faq_title} surface />
+  <FAQ lang={lang} title={d.faq_title} surface />
 
 </Base>
 

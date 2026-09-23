@@ -12,9 +12,6 @@ export const ROUTES = {
   protocols: { fr: 'protocoles', en: 'protocols' },
   contact: { fr: 'contact', en: 'contact' },
   pricing: { fr: 'tarifs', en: 'pricing' },
-  about: { fr: 'a-propos', en: 'about' },
-  guides: { fr: 'guides', en: 'guides' },
-  faq: { fr: 'faq', en: 'faq' },
   demo: { fr: 'demo', en: 'demo' },
 } as const;
 

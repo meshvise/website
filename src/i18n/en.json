@@ -1,12 +1,10 @@
 {
   "nav": {
+    "home": "Home",
     "why": "Why supervise",
     "product": "Product",
     "protocols": "Protocols",
     "pricing": "Pricing",
-    "guides": "Guides",
-    "faq": "FAQ",
-    "about": "About",
     "demo": "See the demo",
     "contact": "Contact"
   },
@@ -200,10 +198,6 @@
         "note": "For sites without a technical team",
         "cta": "See the offer"
       }
-    },
-    "final": {
-      "title": "See Meshvise running",
-      "body": "A simulated industrial site: twenty-two machines, thirteen protocols, thirty days of history. The alarms, history and dashboards are the ones in the application."
     },
     "ai": {
       "title": "With AI, finally answer your questions."
@@ -424,8 +418,7 @@
         "Or any other assistant"
       ],
       "connect": "Your company connects the assistant it already uses, through MCP, the open standard that links AI to software.",
-      "made": "Meshvise is built to be used by AI: every machine, measurement and indicator carries a clear name and a known quality, which is what an AI needs to answer correctly.",
-      "cta": "Plugging in an AI, in practice"
+      "made": "Meshvise is built to be used by AI: every machine, measurement and indicator carries a clear name and a known quality, which is what an AI needs to answer correctly."
     },
     "shots": {
       "acq": "Meshvise driver list: OPC UA, Modbus, BACnet, S7, MQTT and the other protocols of a machine shop, each with its address and polling rate.",
@@ -800,134 +793,20 @@
     },
     "faq_title": "Your questions before ordering"
   },
-  "about": {
-    "meta": {
-      "title": "About · Meshvise",
-      "description": "Meshvise is an industrial supervision system designed and built by one person, an industrial digitalisation engineer. Data on your premises, in a standard database, no telemetry."
-    },
-    "eyebrow": "About",
-    "title": "An industrial supervision system built by someone who needed one.",
-    "founder": {
-      "heading": "The founder",
-      "p1": "Meshvise is designed and developed by Bruno Crespo, an industrial digitalisation engineer working in industry. The product was born from a field observation: supervision is too expensive per point, too closed, and too often a dark operator console you cannot show in a meeting.",
-      "p2": "Meshvise is a one-person company. That is not hidden, and it is why the product is built on a standard base, with your data on your premises, in a format you can read without it."
-    },
-    "commitments": {
-      "heading": "What Meshvise commits to",
-      "data": {
-        "title": "The data is yours.",
-        "body": "Standard database, documented schema, export at any time."
-      },
-      "price": {
-        "title": "No per-point billing.",
-        "body": "One licence per site, whatever the number of connected devices."
-      },
-      "honest": {
-        "title": "What is not delivered is said.",
-        "body": "The Product page describes what exists. The rest is not publicly dated."
-      },
-      "telemetry": {
-        "title": "No telemetry.",
-        "body": "Nothing leaves your installation."
-      }
-    },
-    "coords": {
-      "heading": "Contact details",
-      "company": "Legal name",
-      "company_v": "To be completed",
-      "address": "Address",
-      "address_v": "To be completed",
-      "id": "Registration number",
-      "id_v": "To be completed",
-      "email": "Contact"
-    }
-  },
-  "guides": {
-    "meta": {
-      "title": "Guides · Hands-on implementation · Meshvise",
-      "description": "Industrial supervision technical guides: PLC connection, OEE computation, Power BI on industrial history, real cost of supervision, energy, audits."
-    },
-    "eyebrow": "Guides",
-    "title": "Implementation guides",
-    "subtitle": "Concrete cases covered end to end: the protocol, the configuration, the result.",
-    "coming": "Coming",
-    "list": [
-      "Read a Siemens S7 PLC and record its values in twenty minutes",
-      "Compute OEE from Modbus counters",
-      "Connect Power BI to an industrial history without middleware",
-      "What a 5,000-point supervision system really costs over five years",
-      "Detect a compressed-air leak with three meters",
-      "Leave an end-of-support supervision system without losing history",
-      "Supervise a commercial building over BACnet",
-      "Industrial alarms: severities, hysteresis and acknowledgement",
-      "Prepare a quality audit with a parameter history",
-      "Expose industrial data over OPC UA to another system"
-    ],
-    "back": "All guides",
-    "for_whom": "Who it is for",
-    "reading": "Reading",
-    "minutes": "min",
-    "published": "Published"
-  },
   "faq": {
-    "meta": {
-      "title": "FAQ · Meshvise",
-      "description": "PLC compatibility, data format, Power BI, minimum hardware, security, code audit, continuity, support, trial: the answers."
-    },
-    "eyebrow": "FAQ",
     "title": "Frequently asked questions",
     "subtitle": "If yours is not here, write to contact@meshvise.com.",
-    "compatible": {
-      "q": "Compatible with my PLC?",
-      "a": "Yes if it speaks one of the thirteen protocols: Modbus TCP and RTU, OPC UA, BACnet, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B. For Modbus RTU over serial, plan a serial-to-TCP converter."
-    },
-    "format": {
-      "q": "In what format is the data stored?",
-      "a": "Standard Postgres tables for configuration, TimescaleDB for history, with a documented schema. Nothing proprietary."
-    },
-    "bi": {
-      "q": "How do I connect Power BI, Excel or Grafana?",
-      "a": "Through a direct Postgres connection with a read-only account. You see the tables, you query. No proprietary connector, no intermediate export."
-    },
-    "france": {
-      "q": "Does my data stay in France?",
-      "a": "It stays wherever you install Meshvise. Nothing leaves your installation, no telemetry, no dependency on an external service."
-    },
     "hardware": {
       "q": "Minimum hardware?",
       "a": "Two cores, four gigabytes of memory, twenty gigabytes of disk for five hundred points and thirty days of history. A shop-floor mini-PC or an existing server is enough."
-    },
-    "security": {
-      "q": "How is it secured?",
-      "a": "Token authentication for the interface, access keys for integrations, database and cache never exposed on the network. OIDC single sign-on and second factor available."
-    },
-    "audit": {
-      "q": "Can I audit the source code?",
-      "a": "On request, read access, under a non-disclosure agreement."
-    },
-    "sil": {
-      "q": "Can I do functional safety with it?",
-      "a": "No, and it never will. Safety stays in the certified PLC. Meshvise supervises, it does not protect."
     },
     "disappear": {
       "q": "What if you close tomorrow?",
       "a": "Your data stays on your server, in a standard database, readable without Meshvise. Any integrator can take over operations."
     },
-    "alone": {
-      "q": "Are you on your own?",
-      "a": "Yes. Meshvise is a one-person company, and that is precisely why the product is built on a standard base, with your data on your premises and readable without it. See the About page."
-    },
     "notfor": {
       "q": "Who is Meshvise not for?",
       "a": "Very large multi-country groups with twelve-month buying cycles, projects under fifty points, and anything that falls under functional safety."
-    },
-    "multisite": {
-      "q": "What about supervising several remote sites?",
-      "a": "Today, several projects on one instance, which covers several buildings on the same network. Remote multi-site is not delivered and not dated."
-    },
-    "logic": {
-      "q": "What does visual logic do?",
-      "a": "Compose your site's logic with linked blocks: calculation, comparison, timing, scheduling, control, alarm. Or in Python for advanced cases."
     },
     "support": {
       "q": "What does support look like?",
@@ -958,7 +837,6 @@
   "footer": {
     "tagline": "Industrial supervision, hosted on your premises. Thirteen protocols included, data in a database you own.",
     "product": "Product",
-    "resources": "Resources",
     "contact": "Contact",
     "continuity": "Your data stays readable",
     "rights": "All rights reserved.",
