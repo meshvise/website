@@ -733,9 +733,9 @@
       "description": "Meshvise On-Premise : 2 400 € par an, quel que soit le nombre de points. Mise en service sur devis. Tarifs hors taxes, facturation annuelle."
     },
     "hero": {
-      "lead": "Un seul tarif,",
-      "accent": "quel que soit le nombre de points.",
-      "subtitle": "Toutes les fonctions, sans limite de machines ni d'écrans. Hors taxes, facturation annuelle."
+      "lead": "Une licence par site,",
+      "accent": "tout compris.",
+      "subtitle": "Toutes les fonctions et autant de machines que vous voulez, pour un prix annuel fixe."
     },
     "onprem": {
       "name": "On-Premise",

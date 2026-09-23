@@ -733,9 +733,9 @@
       "description": "Meshvise On-Premise: €2,400 per year, whatever the number of points. Commissioning quoted separately. Prices excluding VAT, annual billing."
     },
     "hero": {
-      "lead": "One price,",
-      "accent": "whatever the number of points.",
-      "subtitle": "Every feature, with no limit on machines or screens. Excluding VAT, annual billing."
+      "lead": "One licence per site,",
+      "accent": "everything included.",
+      "subtitle": "Every feature and as many machines as you want, for a fixed yearly price."
     },
     "onprem": {
       "name": "On-Premise",
