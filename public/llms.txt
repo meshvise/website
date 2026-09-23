@@ -60,7 +60,6 @@ contact@meshvise.com · reply within two business days, from the person who wrot
 - Why supervise (cost-of-inaction calculator): https://meshvise.com/fr/pourquoi-superviser/ · https://meshvise.com/en/why-supervise/
 - Product: https://meshvise.com/fr/produit/ · https://meshvise.com/en/product/
 - Pricing: https://meshvise.com/fr/tarifs/ · https://meshvise.com/en/pricing/
-- Integrators: https://meshvise.com/fr/integrateurs/ · https://meshvise.com/en/integrators/
 - FAQ: https://meshvise.com/fr/faq/ · https://meshvise.com/en/faq/
 - About: https://meshvise.com/fr/a-propos/ · https://meshvise.com/en/about/
 - 7-day trial: https://meshvise.com/fr/trial/ · https://meshvise.com/en/trial/

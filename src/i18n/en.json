@@ -4,7 +4,6 @@
     "product": "Product",
     "protocols": "Protocols",
     "pricing": "Pricing",
-    "integrators": "Integrators",
     "guides": "Guides",
     "faq": "FAQ",
     "about": "About",
@@ -802,49 +801,6 @@
     "quote": {
       "title": "Request a quote",
       "body": "Describe your site in a few words: the number of machines and what you want to track. Reply within two business days."
-    }
-  },
-  "integrators": {
-    "meta": {
-      "title": "Integrators · A supervision system you can price before the quote · Meshvise",
-      "description": "Thirteen protocols in one engine, one licence per site, independent of point count. Your margin is on engineering, not on the licence."
-    },
-    "hero": {
-      "eyebrow": "Integrators, engineering firms",
-      "title": "A supervision system you can price before the quote.",
-      "subtitle": "Thirteen protocols in one engine, one licence per site, independent of point count. Your margin is on engineering, not on the licence."
-    },
-    "why": {
-      "title": "On a project",
-      "repro": {
-        "title": "A reproducible platform",
-        "body": "From one project to the next, the same base, instead of an assembly of connectors to maintain for ten years."
-      },
-      "points": {
-        "title": "No negotiation over points",
-        "body": "The licence does not depend on the number of points. The most painful topic of your negotiations disappears."
-      },
-      "license": {
-        "title": "No copyleft constraint",
-        "body": "Integrable into your offer, under your brand, by contract."
-      },
-      "ui": {
-        "title": "Presentable in a meeting",
-        "body": "A clear interface, readable in a boardroom, not only in a control room."
-      }
-    },
-    "conditions": {
-      "title": "Terms",
-      "items": [
-        "Reseller discount",
-        "Commitment not to approach the customers you bring directly",
-        "Full technical documentation",
-        "Training session"
-      ]
-    },
-    "cta": {
-      "title": "See Meshvise on one of your projects",
-      "body": "Thirty minutes to see the product on a case you know, and set your terms."
     }
   },
   "about": {

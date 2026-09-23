@@ -4,7 +4,6 @@
     "product": "Produit",
     "protocols": "Protocoles",
     "pricing": "Tarifs",
-    "integrators": "Intégrateurs",
     "guides": "Guides",
     "faq": "FAQ",
     "about": "À propos",
@@ -802,49 +801,6 @@
     "quote": {
       "title": "Demander un devis",
       "body": "Décrivez votre site en quelques mots : le nombre de machines et ce que vous voulez suivre. Réponse sous deux jours ouvrés."
-    }
-  },
-  "integrators": {
-    "meta": {
-      "title": "Intégrateurs · Une supervision à chiffrer avant le devis · Meshvise",
-      "description": "Treize protocoles dans un moteur unique, une licence par site, indépendante du nombre de points. Votre marge se fait sur l'ingénierie, pas sur la licence."
-    },
-    "hero": {
-      "eyebrow": "Intégrateurs, bureaux d'études",
-      "title": "Une supervision que vous pouvez chiffrer avant le devis.",
-      "subtitle": "Treize protocoles dans un moteur unique, une licence par site, indépendante du nombre de points. Votre marge se fait sur l'ingénierie, pas sur la licence."
-    },
-    "why": {
-      "title": "Sur un chantier",
-      "repro": {
-        "title": "Une plateforme reproductible",
-        "body": "D'un chantier à l'autre, la même base, à la place d'un assemblage de connecteurs à maintenir dix ans."
-      },
-      "points": {
-        "title": "Aucune négociation sur les points",
-        "body": "La licence ne dépend pas du nombre de points. Le sujet le plus pénible de vos négociations disparaît."
-      },
-      "license": {
-        "title": "Pas de contrainte copyleft",
-        "body": "Intégrable dans votre offre, sous votre marque, par contrat."
-      },
-      "ui": {
-        "title": "Présentable en réunion",
-        "body": "Une interface claire, lisible en salle de direction, pas seulement en salle de contrôle."
-      }
-    },
-    "conditions": {
-      "title": "Conditions",
-      "items": [
-        "Remise revendeur",
-        "Engagement de ne pas démarcher en direct les clients apportés",
-        "Documentation technique complète",
-        "Session de formation"
-      ]
-    },
-    "cta": {
-      "title": "Voir Meshvise sur un de vos chantiers",
-      "body": "Trente minutes pour voir le produit sur un cas que vous connaissez, et poser vos conditions."
     }
   },
   "about": {
