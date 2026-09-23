@@ -19,5 +19,5 @@ const { lang } = Astro.props;
     <p class="t-small mb-3">{t(lang, 'home.live.caption')}</p>
     <LiveTable lang={lang} />
   </section>
-  <ContactForm lang={lang} title={t(lang, 'why.cta.title')} body={t(lang, 'why.cta.body')} />
+  <ContactForm lang={lang} title={t(lang, 'why.cta.title')} body={t(lang, 'why.cta.body')} topic="demo" />
 </Base>

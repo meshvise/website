@@ -10,6 +10,7 @@ export const ROUTES = {
   why: { fr: 'pourquoi-superviser', en: 'why-supervise' },
   product: { fr: 'produit', en: 'product' },
   protocols: { fr: 'protocoles', en: 'protocols' },
+  contact: { fr: 'contact', en: 'contact' },
   pricing: { fr: 'tarifs', en: 'pricing' },
   about: { fr: 'a-propos', en: 'about' },
   guides: { fr: 'guides', en: 'guides' },

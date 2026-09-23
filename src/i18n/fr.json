@@ -251,6 +251,14 @@
     ]
   },
   "contact_form": {
+    "topic": "Votre demande",
+    "topics": {
+      "licence": "Licence On-Premise",
+      "exploitation": "Exploitation déléguée",
+      "essai": "Essai sur vos équipements",
+      "demo": "Démonstration",
+      "autre": "Autre question"
+    },
     "name": "Nom",
     "name_ph": "Votre nom",
     "company": "Entreprise",
@@ -260,11 +268,8 @@
     "install": "Votre installation, en une ligne",
     "install_ph": "Type de site, équipements, ce que vous aimeriez voir",
     "submit": "Demander une démonstration",
-    "mailto_subject": "Demande de démonstration Meshvise",
-    "submit_quote": "Demander un devis",
-    "mailto_subject_quote": "Demande de devis Meshvise",
     "submit_trial": "Demander un essai",
-    "mailto_subject_trial": "Demande d'essai Meshvise"
+    "submit_contact": "Envoyer"
   },
   "product": {
     "meta": {
@@ -756,7 +761,6 @@
       "tagline": "Pour les sites sans équipe technique : Meshvise est exploité pour vous.",
       "body": "L'offre n'est pas encore ouverte. Écrivez pour en discuter."
     },
-    "cta_quote": "Demander un devis",
     "setup": {
       "title": "La mise en service",
       "intro": "Chiffrée sur devis, selon le nombre d'équipements à raccorder.",
@@ -797,11 +801,7 @@
         }
       ]
     },
-    "faq_title": "Vos questions avant de commander",
-    "quote": {
-      "title": "Demander un devis",
-      "body": "Décrivez votre site en quelques mots : le nombre de machines et ce que vous voulez suivre. Réponse sous deux jours ouvrés."
-    }
+    "faq_title": "Vos questions avant de commander"
   },
   "about": {
     "meta": {
@@ -1000,5 +1000,13 @@
     ],
     "form_title": "Demander un essai",
     "form_body": "Décrivez votre site en quelques mots : type d'installation, nombre d'équipements, protocoles. Nous revenons vers vous avec une proposition d'essai."
+  },
+  "contact": {
+    "meta": {
+      "title": "Contact · Meshvise",
+      "description": "Licence, exploitation déléguée, essai ou démonstration : écrivez-nous, réponse sous deux jours ouvrés."
+    },
+    "title": "Prendre contact",
+    "body": "Licence, exploitation déléguée, essai ou simple question : dites-nous ce que vous cherchez. Réponse sous deux jours ouvrés."
   }
 }

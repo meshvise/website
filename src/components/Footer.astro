@@ -46,6 +46,7 @@ const year = new Date().getFullYear();
       <div class="col-span-2 md:col-span-3">
         <h4 class="text-[13px] font-medium text-ink mb-3">{t(lang, 'footer.contact')}</h4>
         <ul class="space-y-2.5 text-[14px]">
+          <li><a href={href(lang, 'contact')} class="text-ink-2 hover:text-ink">{t(lang, 'common.cta_contact')}</a></li>
           <li><a href="mailto:contact@meshvise.com" class="mono text-ink-2 hover:text-ink">contact@meshvise.com</a></li>
           <li><a href={href(lang, 'trial')} class="text-ink-2 hover:text-ink">{t(lang, 'nav.trial')}</a></li>
         </ul>

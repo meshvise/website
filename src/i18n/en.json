@@ -251,6 +251,14 @@
     ]
   },
   "contact_form": {
+    "topic": "Your request",
+    "topics": {
+      "licence": "On-Premise licence",
+      "exploitation": "Managed operations",
+      "essai": "Trial on your equipment",
+      "demo": "Demonstration",
+      "autre": "Other question"
+    },
     "name": "Name",
     "name_ph": "Your name",
     "company": "Company",
@@ -260,11 +268,8 @@
     "install": "Your installation, in one line",
     "install_ph": "Type of site, equipment, what you would like to see",
     "submit": "Request a demonstration",
-    "mailto_subject": "Meshvise demonstration request",
-    "submit_quote": "Request a quote",
-    "mailto_subject_quote": "Meshvise quote request",
     "submit_trial": "Request a trial",
-    "mailto_subject_trial": "Meshvise trial request"
+    "submit_contact": "Send"
   },
   "product": {
     "meta": {
@@ -756,7 +761,6 @@
       "tagline": "For sites without a technical team: Meshvise is run for you.",
       "body": "The offer is not open yet. Write to discuss it."
     },
-    "cta_quote": "Request a quote",
     "setup": {
       "title": "Commissioning",
       "intro": "Quoted case by case, based on the number of devices to connect.",
@@ -797,11 +801,7 @@
         }
       ]
     },
-    "faq_title": "Your questions before ordering",
-    "quote": {
-      "title": "Request a quote",
-      "body": "Describe your site in a few words: the number of machines and what you want to track. Reply within two business days."
-    }
+    "faq_title": "Your questions before ordering"
   },
   "about": {
     "meta": {
@@ -1000,5 +1000,13 @@
     ],
     "form_title": "Request a trial",
     "form_body": "Describe your site in a few words: type of installation, number of devices, protocols. We come back to you with a trial proposal."
+  },
+  "contact": {
+    "meta": {
+      "title": "Contact · Meshvise",
+      "description": "Licence, managed operations, trial or demonstration: write to us, reply within two business days."
+    },
+    "title": "Get in touch",
+    "body": "Licence, managed operations, trial or a simple question: tell us what you are looking for. Reply within two business days."
   }
 }

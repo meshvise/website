@@ -1,0 +1,25 @@
+---
+/**
+ * Contact. La page où mènent tous les « Prendre contact » du site, depuis
+ * le 2026-09-23 : le formulaire y est seul, et le lien qui y mène choisit la
+ * demande d'office (`?sujet=licence`, `?sujet=exploitation`…). La page
+ * Tarifs ne porte plus de formulaire, elle y renvoie.
+ */
+import Base from '../../layouts/Base.astro';
+import ContactForm from '../ContactForm.astro';
+import { t, type Lang } from '../../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+
+<Base lang={lang} title={t(lang, 'contact.meta.title')} description={t(lang, 'contact.meta.description')}>
+  <ContactForm
+    lang={lang}
+    id="contact"
+    title={t(lang, 'contact.title')}
+    body={t(lang, 'contact.body')}
+    submitKey="contact_form.submit_contact"
+    main
+  />
+</Base>
