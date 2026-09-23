@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import HomeHero from '../HomeHero.astro';
+import HomeScreen from '../HomeScreen.astro';
+import Personas from '../Personas.astro';
+import HomeAssistant from '../HomeAssistant.astro';
+import WhatYouSee from '../WhatYouSee.astro';
+import PricingBrief from '../PricingBrief.astro';
+import { t, type Lang } from '../../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+
+<Base lang={lang} title={t(lang, 'home.meta.title')} description={t(lang, 'home.meta.description')}>
+  <HomeHero lang={lang} />
+  <HomeScreen lang={lang} />
+  <Personas lang={lang} />
+  <HomeAssistant lang={lang} />
+  <WhatYouSee lang={lang} />
+  <PricingBrief lang={lang} />
+</Base>

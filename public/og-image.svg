@@ -1,48 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Image de partage. Reprend le bloc graphite du site : trame de grille de
+     supervision, marque Signal Frame en blanc, accroche de l'accueil. Les
+     polices ne sont pas garanties chez les plateformes qui rendent ce fichier,
+     d'où la pile de repli sur chaque texte. -->
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0F172A"/>
-      <stop offset="1" stop-color="#1E293B"/>
-    </linearGradient>
-    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#06B6D4"/>
-      <stop offset="1" stop-color="#22D3EE"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  <g transform="translate(80 80)" stroke="#334155" stroke-width="1" fill="none" opacity="0.4">
-    <line x1="0" y1="0" x2="0" y2="470"/>
-    <line x1="170" y1="0" x2="170" y2="470"/>
-    <line x1="340" y1="0" x2="340" y2="470"/>
-    <line x1="510" y1="0" x2="510" y2="470"/>
-    <line x1="680" y1="0" x2="680" y2="470"/>
-    <line x1="850" y1="0" x2="850" y2="470"/>
-    <line x1="1020" y1="0" x2="1020" y2="470"/>
-    <line x1="0" y1="0" x2="1040" y2="0"/>
-    <line x1="0" y1="118" x2="1040" y2="118"/>
-    <line x1="0" y1="235" x2="1040" y2="235"/>
-    <line x1="0" y1="353" x2="1040" y2="353"/>
-    <line x1="0" y1="470" x2="1040" y2="470"/>
+  <rect width="1200" height="630" fill="#161e29"/>
+
+  <!-- Trame d'enregistreur, en négatif. -->
+  <g stroke="#2a3441" stroke-width="1" fill="none">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="150" y1="0" x2="150" y2="630"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="450" y1="0" x2="450" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="750" y1="0" x2="750" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="1050" y1="0" x2="1050" y2="630"/>
   </g>
-  <g transform="translate(80 200)">
-    <g transform="translate(0 -8)">
-      <rect x="0" y="0" width="48" height="48" rx="6" fill="url(#brand)"/>
-      <path d="M12 18 L18 30 L24 14 L30 30 L36 18" stroke="#0F172A" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    </g>
-    <text x="64" y="32" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="34" fill="#F8FAFC" letter-spacing="-0.5">meshvise</text>
+
+  <!-- Une courbe d'historique, comme sur l'accueil. -->
+  <path d="M0 470 C90 462 150 430 240 440 S390 392 480 408 S630 344 720 356 S840 394 930 382 S1050 300 1140 314 L1200 322"
+        fill="none" stroke="#8a7431" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- La marque, variante blanche pour fond sombre. -->
+  <g transform="translate(80 74) scale(0.6)" fill="none" stroke="#ffffff">
+    <path d="M35 16 H16 V84 H35" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M65 16 H84 V84 H65" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M62.3,41.4 A15,15 0 0 0 37.7,41.4 M72.1,36.2 A26,26 0 0 0 27.9,36.2" stroke-width="6.5" stroke-linecap="round"/>
+    <path d="M62.3,58.6 A15,15 0 0 1 37.7,58.6 M72.1,63.8 A26,26 0 0 1 27.9,63.8" stroke-width="6.5" stroke-linecap="round"/>
+    <circle cx="50" cy="50" r="6" fill="#ffffff" stroke="none"/>
   </g>
-  <text x="80" y="320" font-family="Inter, system-ui, sans-serif" font-weight="600" font-size="64" fill="#F8FAFC" letter-spacing="-1.5">
-    <tspan x="80" dy="0">Modern industrial</tspan>
-    <tspan x="80" dy="80">supervision.</tspan>
+  <text x="146" y="122" font-family="IBM Plex Sans, Segoe UI, system-ui, sans-serif" font-weight="500" font-size="30" fill="#ffffff" letter-spacing="-0.5">Meshvise</text>
+
+  <text x="80" y="300" font-family="IBM Plex Sans, Segoe UI, system-ui, sans-serif" font-weight="500" font-size="62" fill="#ffffff" letter-spacing="-2">
+    <tspan x="80" dy="0">Tous vos équipements.</tspan>
+    <tspan x="80" dy="76">Une seule supervision.</tspan>
   </text>
-  <text x="80" y="500" font-family="Inter, system-ui, sans-serif" font-weight="400" font-size="24" fill="#94A3B8">
-    <tspan x="80" dy="0">Flat fee. Data on your premises.</tspan>
-    <tspan x="80" dy="36">All points included. Free 7-day trial.</tspan>
+
+  <text x="80" y="468" font-family="IBM Plex Sans, Segoe UI, system-ui, sans-serif" font-weight="300" font-size="24" fill="#9aa4b3">
+    <tspan x="80" dy="0">Supervision industrielle hébergée chez vous.</tspan>
+    <tspan x="80" dy="38">Une licence par site, indépendante du nombre de points.</tspan>
   </text>
-  <g transform="translate(960 480)" font-family="JetBrains Mono, ui-monospace, monospace" font-size="16" fill="#06B6D4">
-    <text x="0" y="0">meshvise.com</text>
-  </g>
+
+  <text x="80" y="566" font-family="IBM Plex Mono, ui-monospace, Consolas, monospace" font-size="17" fill="#6d5ba6" letter-spacing="1">meshvise.com</text>
 </svg>
-
-

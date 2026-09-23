@@ -1,0 +1,61 @@
+---
+/**
+ * Le bloc de tête des figures dépouillées : un chiffre qui défile, son
+ * unité, une phrase.
+ *
+ * Le compteur est mécanique. Trente et une lignes derrière une fenêtre
+ * d'une ligne de haut, un ruban déplacé par pas, sans une ligne de script.
+ * Toutes les figures en comptent exactement trente et une, ce qui permet
+ * une seule série d'images clés partagée : `steps()` veut un entier écrit,
+ * pas une variable, et on ne va pas écrire une série par figure pour ça.
+ *
+ * Une figure qui a moins de valeurs à montrer n'en fabrique pas : la liste
+ * est rééchantillonnée au plus proche. Une suite de huit déclenchements
+ * passe donc par les mêmes trente et une images qu'une courbe de trente
+ * jours, avec des paliers au lieu de marches.
+ */
+import type { Lang } from './text';
+
+export type Ton = 'ink' | 'crit' | 'warn' | 'off';
+export type Ligne = { valeur: string; ton?: Ton };
+
+interface Props {
+  /** Les valeurs successives, dans l'ordre. La dernière est l'état final. */
+  lignes: Ligne[];
+  /** L'unité, constante, posée à côté du chiffre. */
+  unite?: string;
+  /** Ce que le chiffre veut dire. Une phrase, pas deux, ou aucune quand
+   *  l'unité suffit. */
+  phrase?: string;
+  lang?: Lang;
+}
+
+const { lignes, unite = '', phrase } = Astro.props;
+
+const IMAGES = 31;
+/** Rééchantillonnage au plus proche : la fenêtre a toujours le même nombre
+ *  d'images, quelle que soit la longueur de la suite d'origine. */
+const suite: Ligne[] = Array.from({ length: IMAGES }, (_, i) => {
+  const j = Math.round((i / (IMAGES - 1)) * (lignes.length - 1));
+  return lignes[j];
+});
+---
+
+<div class="mvs-stat" aria-hidden="true">
+  <div class="mvs-odo">
+    <div
+      class="mvs-track mvs-a mvs-lin"
+      style={`animation-name: mvs-roll; --lignes: ${IMAGES - 1}`}
+    >
+      {
+        suite.map((l) => (
+          <div class={`mvs-line${l.ton && l.ton !== 'ink' ? ` mvs-line--${l.ton}` : ''}`}>
+            <span class="mvs-v">{l.valeur}</span>
+            {unite && <span class="mvs-u">{unite}</span>}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+  {phrase && <p class="mvs-caption mvs-a" style="animation-name: mvs-caption">{phrase}</p>}
+</div>

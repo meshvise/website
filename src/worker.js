@@ -3,9 +3,10 @@
  *   POST /api/trial → handleTrialRequest (Vague 5)
  *   *               → env.ASSETS.fetch (static site from ./dist)
  *
- * Same-origin form POST, so no CORS / OPTIONS handling needed. The
- * trial form lives on https://meshvise.com/<lang>/trial/ and posts to
- * /api/trial on the same origin.
+ * Same-origin form POST, so no CORS / OPTIONS handling needed. No page
+ * posts to it today: the trial is on quote since 2026-09-22 and requested
+ * through the Contact page, and the trial page was removed on 2026-09-23.
+ * The endpoint stays, specified by ADR-0006.
  */
 
 import { handleTrialRequest } from './worker/handlers/trial.js';

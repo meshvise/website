@@ -1,31 +1,5 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Hero from '../../components/Hero.astro';
-import Personas from '../../components/Personas.astro';
-import Features from '../../components/Features.astro';
-import BIPreview from '../../components/BIPreview.astro';
-import Lifecycle from '../../components/Lifecycle.astro';
-import Sovereignty from '../../components/Sovereignty.astro';
-import Pricing from '../../components/Pricing.astro';
-import FAQ from '../../components/FAQ.astro';
-import FinalCTA from '../../components/FinalCTA.astro';
-
-const lang = 'en' as const;
+import HomePage from '../../components/pages/HomePage.astro';
 ---
 
-<Base
-  lang={lang}
-  title="Meshvise · Web SCADA, flat fee, data on your premises"
-  description="Web SCADA platform that reads your Modbus TCP, OPC-UA and BACnet/IP PLCs, historises, alerts. Data accessible via standard PostgreSQL ODBC for Power BI, Grafana or Excel. Standard licence at €990/year per site, all points included, free 7-day trial."
->
-  <Hero lang={lang} />
-  <Personas lang={lang} />
-  <Features lang={lang} />
-  <BIPreview lang={lang} />
-  <Lifecycle lang={lang} />
-  <Sovereignty lang={lang} />
-  <Pricing lang={lang} />
-  <FAQ lang={lang} />
-  <FinalCTA lang={lang} />
-</Base>
-
+<HomePage lang="en" />

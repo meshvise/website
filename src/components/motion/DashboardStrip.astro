@@ -1,0 +1,373 @@
+---
+/**
+ * V-07 · Tableaux de bord. Registre dépouillé.
+ *
+ * La seule figure de la série qui ne raconte pas un scénario, et la seule
+ * sans chiffre de tête : elle montre un tableau de bord qui se remplit. Trois
+ * cartes se posent et prennent vie : huit machines passent
+ * en marche une à une, quatre barres de puissance prennent leur valeur, une
+ * semaine de consommation se trace. Enfin, dans une case vide du tableau,
+ * un curseur glisse un nouveau widget et le dépose, sa jauge se remplit :
+ * les modèles ne sont qu'un départ, l'utilisateur compose les siens. Aucun
+ * mot dans le dessin : les titres de cartes sont des traits gris, comme sur
+ * un écran vu de loin. Le point « en
+ * direct » bat trois fois et se tait ; la figure joue une fois et tient sa
+ * dernière image, comme le reste de la série.
+ *
+ * Le nombre de modèles livrés n'est pas affiché (choix de Bruno, 2026-09-22) :
+ * le propos est qu'on compose les siens, pas combien on en reçoit.
+ *
+ * Tout ce qui est dessiné vient du produit : les modèles livrés dans le
+ * code, l'éditeur qui compose un tableau par widgets, les huit machines de
+ * production de Bellecombe, les
+ * puissances relevées sur le widget « Puissance appelée » le 2026-09-16
+ * (46,8, 37,8, 28,3 et 25,7 kW), et la forme de la semaine du modèle
+ * « Énergie et efficacité » : cinq journées de production, un week-end plat.
+ */
+import { mt as t, type Lang } from './text';
+import { toPoints } from './frame';
+import './strip.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const MACHINES = 8;
+const puissances = [46.8, 37.8, 28.3, 25.7];
+const ECHELLE = 55;
+
+// La semaine : cinq journées de production, puis le week-end au talon.
+const SW = 600;
+const SH = 96;
+const semaine = Array.from({ length: 7 * 12 + 1 }, (_, k) => {
+  const jour = Math.floor(k / 12);
+  const heure = (k % 12) * 2;
+  const production = jour < 5 && heure >= 6 && heure < 20;
+  const bruit = Math.sin(k * 1.7) * 3 + Math.sin(k * 0.61) * 2;
+  const v = production ? 78 + bruit : 22 + bruit * 0.5;
+  return [(k / (7 * 12)) * SW, SH - 6 - (v / 90) * (SH - 12)] as [number, number];
+});
+const trace = toPoints(semaine);
+const aire = `M 0 ${SH} L ${trace.replaceAll(' ', ' L ')} L ${SW} ${SH} Z`;
+---
+
+<figure class="mvf mvs" role="img" aria-label={t(lang, 'motion.dashStrip.alt')}>
+  <div class="dbs-board" aria-hidden="true">
+    <div class="dbs-head">
+      <span class="dbs-titre" />
+      <span class="dbs-dot" />
+    </div>
+
+    <div class="dbs-grid">
+      <div class="dbs-carte mvs-pop" style="--i: 2">
+        <span class="dbs-ctitre" style="width: 46%" />
+        <ul class="dbs-etats">
+          {Array.from({ length: MACHINES }, (_, i) => <li style={`--i: ${i}`} />)}
+        </ul>
+      </div>
+
+      <div class="dbs-carte mvs-pop" style="--i: 3">
+        <span class="dbs-ctitre" style="width: 58%" />
+        <ul class="dbs-barres">
+          {
+            puissances.map((kw, i) => (
+              <li>
+                <span class="dbs-fill" style={`--w: ${(kw / ECHELLE).toFixed(3)}; --i: ${i}`} />
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="dbs-carte mvs-pop" style="--i: 4">
+        <span class="dbs-ctitre" style="width: 40%" />
+        <svg viewBox={`0 0 ${SW} ${SH}`} preserveAspectRatio="none" class="dbs-courbe">
+          <path class="dbs-aire" d={aire} />
+          <polyline class="dbs-trait" pathLength="1" points={trace} />
+        </svg>
+      </div>
+
+      <!-- Composer le sien : une case vide, et un widget que le curseur y
+           glisse puis dépose. C'est le geste de l'éditeur, sans un mot. -->
+      <div class="dbs-case mvs-pop" style="--i: 5">
+        <span class="dbs-plus">
+          <svg viewBox="0 0 16 16" focusable="false"><path d="M8 3 V13 M3 8 H13" /></svg>
+        </span>
+        <div class="dbs-nouveau">
+          <span class="dbs-ctitre" style="width: 44%" />
+          <svg viewBox="0 0 100 100" class="dbs-jauge">
+            <circle class="dbs-jauge-fond" cx="50" cy="50" r="34" />
+            <circle class="dbs-jauge-arc" cx="50" cy="50" r="34" pathLength="100" />
+          </svg>
+          <svg class="dbs-curseur" viewBox="0 0 24 24" focusable="false">
+            <path d="M5 3 L5 19 L9.4 14.8 L12.6 21.6 L15.4 20.3 L12.2 13.6 L18.4 13.6 Z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<script>
+  import { observerLesFigures } from './observe';
+
+  observerLesFigures();
+</script>
+
+<style>
+  .dbs-board {
+    position: relative;
+    /* Le widget qui arrive part d'en dehors de sa case : sans cette coupe,
+       sa position de départ élargissait la page sur téléphone. */
+    overflow: clip;
+    display: grid;
+    gap: 0.85rem;
+    padding: 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-canvas);
+  }
+  .dbs-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  /* Les titres sont des traits : un écran vu de loin, pas un texte à lire. */
+  .dbs-titre,
+  .dbs-ctitre {
+    display: block;
+    height: 9px;
+    border-radius: 5px;
+    background: var(--color-n-200);
+  }
+  .dbs-titre { width: 28%; height: 11px; background: var(--color-n-300); }
+  .dbs-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-normal);
+  }
+  .dbs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  .dbs-carte {
+    display: grid;
+    gap: 0.9rem;
+    align-content: start;
+    padding: 0.9rem 1rem 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+  /* La case vide : tiretée, un « + » au centre, la hauteur d'une carte. */
+  .dbs-case {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 10.5rem;
+    border: 2px dashed var(--color-n-300);
+    border-radius: var(--radius-md);
+  }
+  .dbs-plus {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--color-accent-bg);
+    opacity: 0;
+  }
+  .dbs-plus svg,
+  .dbs-curseur { display: block; }
+  .dbs-plus svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+  }
+  /* Le widget déposé : une carte comme les autres, qui porte une jauge. */
+  .dbs-nouveau {
+    position: absolute;
+    inset: -2px;
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+    justify-items: center;
+    padding: 0.9rem 1rem 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+  .dbs-nouveau .dbs-ctitre { justify-self: start; }
+  .dbs-jauge { width: 92px; height: 92px; }
+  .dbs-jauge-fond {
+    fill: none;
+    stroke: var(--color-n-150);
+    stroke-width: 12;
+  }
+  .dbs-jauge-arc {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 12;
+    stroke-linecap: round;
+    stroke-dasharray: 72 100;
+    transform: rotate(-90deg);
+    transform-origin: 50px 50px;
+  }
+  .dbs-curseur {
+    position: absolute;
+    top: 38%;
+    left: 56%;
+    width: 24px;
+    height: 24px;
+    fill: var(--color-ink);
+    stroke: #fff;
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Huit machines : huit pastilles, qui passent du gris au vert. */
+  .dbs-etats {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    justify-items: center;
+  }
+  .dbs-etats li {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-normal);
+  }
+
+  /* Quatre barres de puissance, en laiton comme tout ce qui est mesuré. */
+  .dbs-barres {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .dbs-barres li {
+    height: 12px;
+    border-radius: 6px;
+    background: var(--color-n-150);
+    overflow: hidden;
+  }
+  .dbs-fill {
+    display: block;
+    height: 100%;
+    width: calc(var(--w) * 100%);
+    border-radius: 6px;
+    background: var(--color-brass);
+    transform-origin: left center;
+  }
+
+  .dbs-courbe {
+    display: block;
+    width: 100%;
+    height: 96px;
+  }
+  .dbs-aire { fill: var(--color-brass-bg); }
+  .dbs-trait {
+    fill: none;
+    stroke: var(--color-brass);
+    stroke-width: 2.4;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dbs-etats li {
+      animation: dbs-marche 0.35s ease-out both;
+      animation-delay: calc(0.75s + var(--i) * 0.1s);
+    }
+    .dbs-fill {
+      animation: dbs-pousse 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: calc(0.9s + var(--i) * 0.12s);
+    }
+    .dbs-trait {
+      stroke-dasharray: 1;
+      animation: dbs-trace 1.3s linear both;
+      animation-delay: 1.15s;
+    }
+    .dbs-aire {
+      animation: dbs-aire 0.6s ease-out both;
+      animation-delay: 2.2s;
+    }
+    /* La case attend : son « + » bat, puis le widget arrive tenu par le
+       curseur, se pose, et sa jauge se remplit. */
+    .dbs-plus { animation: dbs-attend 1s ease-in-out both 2.1s; }
+    .dbs-nouveau { animation: dbs-glisse 1s cubic-bezier(0.22, 1, 0.36, 1) both 2.9s; }
+    .dbs-curseur { animation: dbs-tient 1.5s ease both 2.9s; }
+    .dbs-jauge-arc { animation: dbs-jauge 0.9s cubic-bezier(0.22, 1, 0.36, 1) both 3.9s; }
+    /* Trois battements, puis le point reste allumé. */
+    .dbs-dot {
+      animation: dbs-pouls 1.3s ease-out 3 both;
+      animation-delay: 1s;
+    }
+  }
+
+  /* Sous cette largeur les deux petites cartes s'empilent. */
+  @media (max-width: 520px) {
+    .dbs-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
+
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes dbs-marche {
+      from { background: var(--color-n-200); transform: scale(0.7); }
+      to { background: var(--color-normal); transform: scale(1); }
+    }
+    @keyframes dbs-pousse {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    @keyframes dbs-trace {
+      from { stroke-dashoffset: 1; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes dbs-aire {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes dbs-attend {
+      0% { opacity: 0; transform: scale(0.6); }
+      30% { opacity: 1; transform: scale(1.1); }
+      60% { opacity: 1; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes dbs-glisse {
+      0% { opacity: 0; transform: translate(70px, 60px) rotate(5deg); box-shadow: 0 18px 30px -10px rgb(22 27 35 / 0.35); }
+      25% { opacity: 1; }
+      85% { transform: translate(0, 0) rotate(0deg); box-shadow: 0 18px 30px -10px rgb(22 27 35 / 0.35); }
+      100% { opacity: 1; transform: none; box-shadow: none; }
+    }
+    @keyframes dbs-tient {
+      0% { opacity: 0; }
+      15%, 70% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes dbs-jauge {
+      from { stroke-dasharray: 0 100; }
+      to { stroke-dasharray: 72 100; }
+    }
+    @keyframes dbs-pouls {
+      0% { box-shadow: 0 0 0 0 rgb(11 122 64 / 0.5); }
+      70% { box-shadow: 0 0 0 9px rgb(11 122 64 / 0); }
+      100% { box-shadow: 0 0 0 0 rgb(11 122 64 / 0); }
+    }
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import { t, type Lang } from '../i18n';
+import { href } from '../i18n/routes';
 
 interface Props {
   lang: Lang;
@@ -10,98 +11,40 @@ const { lang } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-border bg-surface">
-  <div class="mx-auto max-w-6xl px-6 py-16">
+<footer class="border-t border-line bg-surface">
+  <div class="wrap py-14">
     <div class="grid grid-cols-2 md:grid-cols-12 gap-10 md:gap-8">
-      <!-- Brand + tagline + legal anchor + newsletter -->
       <div class="col-span-2 md:col-span-5">
-        <a href={`/${lang}/`} class="inline-flex items-center gap-2 text-text">
-          <Logo class="w-5 h-5 text-brand" />
-          <span class="font-semibold tracking-tight">meshvise</span>
+        <a href={href(lang, 'home')} class="inline-flex items-center gap-2 text-ink">
+          <Logo class="w-[26px] h-[26px] text-ink" />
+          <span class="font-medium tracking-tight">Meshvise</span>
         </a>
-        <p class="mt-4 text-[14px] text-muted-strong leading-relaxed max-w-sm">
-          {t(lang, 'footer.tagline')}
-        </p>
-
-        <div class="mt-5 max-w-sm rounded-md border border-border bg-bg-alt/50 p-4 text-[13px] leading-relaxed">
-          <p class="text-text" set:html={t(lang, 'footer.legal_box_html')} />
-          <p class="mt-2 text-muted">
-            <a href={`/${lang}/#faq-company_disappears`} class="text-muted-strong hover:text-brand underline-offset-2 hover:underline">{t(lang, 'footer.continuity_link')}</a>
-          </p>
-        </div>
-
-        <form
-          class="mt-6 max-w-sm"
-          action="https://buttondown.com/api/emails/embed-subscribe/meshvise"
-          method="post"
-          target="_blank"
-          aria-label={t(lang, 'footer.newsletter_aria')}
-        >
-          <label for="footer-email" class="block text-[12.5px] font-medium text-text mb-2">
-            {t(lang, 'footer.newsletter_title')}
-          </label>
-          <p class="text-[13px] text-muted leading-relaxed mb-3">{t(lang, 'footer.newsletter_desc')}</p>
-          <div class="flex gap-2">
-            <input
-              id="footer-email"
-              type="email"
-              name="email"
-              placeholder={t(lang, 'footer.newsletter_placeholder')}
-              required
-              class="flex-1 min-w-0 px-3 py-2 text-[14px] rounded-md border border-border-strong bg-surface text-text placeholder:text-muted focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
-            />
-            <button type="submit" class="btn btn-primary">
-              {t(lang, 'footer.newsletter_cta')}
-            </button>
-          </div>
-        </form>
+        <p class="mt-4 t-body max-w-sm">{t(lang, 'footer.tagline')}</p>
       </div>
 
-      <!-- Product -->
       <div class="col-span-1 md:col-span-2 md:col-start-7">
-        <h4 class="text-[12px] font-semibold uppercase tracking-wider text-muted mb-4">{t(lang, 'footer.product')}</h4>
+        <h4 class="text-[13px] font-medium text-ink mb-3">{t(lang, 'footer.product')}</h4>
         <ul class="space-y-2.5 text-[14px]">
-          <li><a href={`/${lang}/#features`} class="text-muted-strong hover:text-text transition-colors">{t(lang, 'nav.features')}</a></li>
-          <li><a href={`/${lang}/#sovereignty`} class="text-muted-strong hover:text-text transition-colors">{t(lang, 'nav.sovereignty')}</a></li>
-          <li><a href={`/${lang}/#pricing`} class="text-muted-strong hover:text-text transition-colors">{t(lang, 'nav.pricing')}</a></li>
-          <li><a href="https://app.meshvise.com" target="_blank" rel="noopener" class="text-muted-strong hover:text-text transition-colors">{t(lang, 'nav.demo')}</a></li>
+          <li><a href={href(lang, 'why')} class="text-ink-2 hover:text-ink">{t(lang, 'nav.why')}</a></li>
+          <li><a href={href(lang, 'product')} class="text-ink-2 hover:text-ink">{t(lang, 'nav.product')}</a></li>
+          <li><a href={href(lang, 'protocols')} class="text-ink-2 hover:text-ink">{t(lang, 'nav.protocols')}</a></li>
+          <li><a href={href(lang, 'pricing')} class="text-ink-2 hover:text-ink">{t(lang, 'nav.pricing')}</a></li>
+          <li><a href={href(lang, 'demo')} class="text-ink-2 hover:text-ink">{t(lang, 'nav.demo')}</a></li>
         </ul>
       </div>
 
-      <!-- Resources -->
-      <div class="col-span-1 md:col-span-2">
-        <h4 class="text-[12px] font-semibold uppercase tracking-wider text-muted mb-4">{t(lang, 'footer.resources')}</h4>
+      <div class="col-span-1 md:col-span-3 md:col-start-10">
+        <h4 class="text-[13px] font-medium text-ink mb-3">{t(lang, 'footer.contact')}</h4>
         <ul class="space-y-2.5 text-[14px]">
-          <li><a href={`/${lang}/#faq`} class="text-muted-strong hover:text-text transition-colors">FAQ</a></li>
-          <li><a href={`/${lang}/about/`} class="text-muted-strong hover:text-text transition-colors">{t(lang, 'nav.about')}</a></li>
-          <li><a href={`/${lang}/trial/`} class="text-muted-strong hover:text-text transition-colors">{t(lang, 'nav.trial')}</a></li>
-          <li><a href="https://github.com/tatex74" target="_blank" rel="noopener" class="text-muted-strong hover:text-text transition-colors">GitHub</a></li>
-        </ul>
-      </div>
-
-      <!-- Contact -->
-      <div class="col-span-2 md:col-span-3">
-        <h4 class="text-[12px] font-semibold uppercase tracking-wider text-muted mb-4">{t(lang, 'footer.contact')}</h4>
-        <ul class="space-y-2.5 text-[14px]">
-          <li>
-            <a href="mailto:contact@meshvise.com" class="text-muted-strong hover:text-text transition-colors font-mono">
-              contact@meshvise.com
-            </a>
-          </li>
-          <li>
-            <a href="https://www.linkedin.com/in/bruno-crespo" target="_blank" rel="noopener" class="text-muted-strong hover:text-text transition-colors">
-              LinkedIn
-            </a>
-          </li>
+          <li><a href={href(lang, 'contact')} class="text-ink-2 hover:text-ink">{t(lang, 'common.cta_contact')}</a></li>
+          <li><a href="mailto:contact@meshvise.com" class="mono text-ink-2 hover:text-ink">contact@meshvise.com</a></li>
         </ul>
       </div>
     </div>
 
-    <div class="mt-14 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-[12.5px] text-muted">
+    <div class="mt-12 pt-6 border-t border-line flex flex-col md:flex-row justify-between gap-2 t-small">
       <p>© {year} Meshvise. {t(lang, 'footer.rights')}</p>
       <p>{t(lang, 'footer.tech_line')}</p>
     </div>
   </div>
 </footer>
-
-

@@ -1,0 +1,236 @@
+---
+/**
+ * Page dédiée aux protocoles. Deux lectures : un tableau de compatibilité
+ * pour celui qui cherche si son automate est couvert, puis le détail
+ * protocole par protocole. Les caractéristiques viennent du code des
+ * drivers, pas d'une brochure.
+ */
+import Base from '../../layouts/Base.astro';
+import PageHero from '../PageHero.astro';
+import ProtocolBackground from '../bg/ProtocolBackground.astro';
+import ContactForm from '../ContactForm.astro';
+import fr from '../../i18n/fr.json';
+import en from '../../i18n/en.json';
+import { t, type Lang } from '../../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+type Proto = { name: string; transport: string; mode: string; addressing: string; write: boolean; desc: string; equipment: string; note: string };
+type Vendor = { vendor: string; native: string; route: string; note: string };
+type Rung = { route: string; gets: string; cost: string; cost_level: string; when: string };
+const dict = (lang === 'fr' ? fr : en).protocols;
+const list = dict.list as Proto[];
+const missing = dict.missing.items as string[];
+const vendors = dict.proprietary.rows as Vendor[];
+const ladder = dict.proprietary.ladder_rows as Rung[];
+type SecRow = { item: string; value: string; note: string };
+const secRows = dict.opcua_security.rows as SecRow[];
+// Le coût est un état : vert bon marché, ambre variable, rouge le devis qui bloque.
+const costBadge: Record<string, string> = { normal: 'badge-normal', warn: 'badge-warn', crit: 'badge-crit' };
+
+// Le mode encode une vraie différence de fonctionnement, donc il porte une couleur.
+const modeBadge: Record<string, string> = { mode_poll: 'badge-off', mode_sub: 'badge-normal', mode_push: 'badge-info' };
+const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+---
+
+<Base lang={lang} title={t(lang, 'protocols.meta.title')} description={t(lang, 'protocols.meta.description')}>
+  <PageHero title={t(lang, 'protocols.hero.title')} subtitle={t(lang, 'protocols.hero.subtitle')}>
+    <ProtocolBackground slot="bg" />
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2 class="t-page">{t(lang, 'protocols.table.title')}</h2></div>
+      <div class="panel">
+        <div class="overflow-x-auto">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>{t(lang, 'protocols.table.col_protocol')}</th>
+                <th>{t(lang, 'protocols.table.col_transport')}</th>
+                <th>{t(lang, 'protocols.table.col_mode')}</th>
+                <th>{t(lang, 'protocols.table.col_addressing')}</th>
+                <th>{t(lang, 'protocols.table.col_write')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {list.map((p) => (
+                <tr>
+                  <td><a href={`#${slug(p.name)}`} class="mono text-ink font-medium whitespace-nowrap hover:text-accent">{p.name}</a></td>
+                  <td class="mono text-[13px] text-muted whitespace-nowrap">{p.transport}</td>
+                  <td><span class={`badge ${modeBadge[p.mode]}`}>{t(lang, `protocols.table.${p.mode}`)}</span></td>
+                  <td class="text-ink-2">{p.addressing}</td>
+                  <td class={p.write ? 'text-ink-2' : 'text-muted'}>
+                    {p.write ? t(lang, 'protocols.table.write_yes') : t(lang, 'protocols.table.write_no')}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-surface border-y border-line">
+    <div class="wrap">
+      <div class="section-head"><h2 class="t-page">{t(lang, 'protocols.detail.title')}</h2></div>
+      <div class="border-t border-line">
+        {list.map((p) => (
+          <article id={slug(p.name)} class="grid lg:grid-cols-12 gap-x-10 gap-y-5 py-9 border-b border-line">
+            <div class="lg:col-span-3">
+              <h3 class="mono text-[17px] font-medium text-ink">{p.name}</h3>
+              <div class="mt-2 flex flex-wrap items-center gap-2">
+                <span class={`badge ${modeBadge[p.mode]}`}>{t(lang, `protocols.table.${p.mode}`)}</span>
+                {!p.write && <span class="badge badge-off">{t(lang, 'protocols.table.write_no')}</span>}
+              </div>
+              <p class="t-small mono mt-3">{p.transport}</p>
+            </div>
+            <div class="lg:col-span-6">
+              <p class="t-body text-ink">{p.desc}</p>
+              <p class="t-small mt-4"><span class="text-ink-2">{t(lang, 'protocols.detail.note')} :</span> {p.note}</p>
+            </div>
+            <div class="lg:col-span-3">
+              <div class="text-[12px] text-muted">{t(lang, 'protocols.detail.equipment')}</div>
+              <p class="t-body mt-1.5 text-[14px]">{p.equipment}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="securite-opcua" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="t-page">{t(lang, 'protocols.opcua_security.title')}</h2>
+        <p class="t-lede">{t(lang, 'protocols.opcua_security.intro')}</p>
+      </div>
+
+      <div class="panel">
+        <div class="overflow-x-auto">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>{t(lang, 'protocols.opcua_security.col_item')}</th>
+                <th>{t(lang, 'protocols.opcua_security.col_value')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {secRows.map((r) => (
+                <tr>
+                  <td class="text-ink font-medium whitespace-nowrap align-top">{r.item}</td>
+                  <td>
+                    <p class="mono text-[14px] text-ink-2">{r.value}</p>
+                    <p class="t-small mt-2">{r.note}</p>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="t-body text-ink mt-8 max-w-3xl pl-5 border-l-2 border-normal">{t(lang, 'protocols.opcua_security.strict')}</p>
+    </div>
+  </section>
+
+  <section id="proprietaires" class="section bg-surface border-y border-line">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="t-page">{t(lang, 'protocols.proprietary.title')}</h2>
+        <p class="t-lede">{t(lang, 'protocols.proprietary.intro')}</p>
+      </div>
+
+      <p class="t-body text-ink max-w-3xl mb-12 pl-5 border-l-2 border-accent">{t(lang, 'protocols.proprietary.principle')}</p>
+
+      <h3 class="t-section">{t(lang, 'protocols.proprietary.ladder_title')}</h3>
+      <p class="t-body mt-3 max-w-3xl">{t(lang, 'protocols.proprietary.ladder_intro')}</p>
+      <p class="t-body text-ink mt-5 mb-8 max-w-3xl pl-5 border-l-2 border-normal">{t(lang, 'protocols.proprietary.ladder_key')}</p>
+
+      <div class="panel">
+        <div class="overflow-x-auto">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>{t(lang, 'protocols.proprietary.ladder_col_route')}</th>
+                <th>{t(lang, 'protocols.proprietary.ladder_col_gets')}</th>
+                <th>{t(lang, 'protocols.proprietary.ladder_col_cost')}</th>
+                <th>{t(lang, 'protocols.proprietary.ladder_col_when')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ladder.map((r, i) => (
+                <tr>
+                  <td class="align-top whitespace-nowrap">
+                    <span class="mono text-[13px] text-muted">{i + 1}</span>
+                    <span class="text-ink font-medium ml-2">{r.route}</span>
+                  </td>
+                  <td class="align-top text-ink-2">{r.gets}</td>
+                  <td class="align-top"><span class={`badge ${costBadge[r.cost_level]}`}>{r.cost}</span></td>
+                  <td class="align-top t-small">{r.when}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="t-body mt-6 max-w-3xl">{t(lang, 'protocols.proprietary.ladder_advice')}</p>
+
+      <div class="panel mt-14">
+        <div class="overflow-x-auto">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>{t(lang, 'protocols.proprietary.col_vendor')}</th>
+                <th>{t(lang, 'protocols.proprietary.col_native')}</th>
+                <th>{t(lang, 'protocols.proprietary.col_route')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {vendors.map((v) => (
+                <tr>
+                  <td class="text-ink font-medium whitespace-nowrap align-top">{v.vendor}</td>
+                  <td class="mono text-[13px] text-muted whitespace-nowrap align-top">{v.native}</td>
+                  <td>
+                    <p class="text-ink-2">{v.route}</p>
+                    <p class="t-small mt-2">{v.note}</p>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-10 mt-10">
+        <div>
+          <h3 class="t-section">{t(lang, 'protocols.proprietary.gateway_title')}</h3>
+          <p class="t-body mt-3">{t(lang, 'protocols.proprietary.gateway_body')}</p>
+        </div>
+        <p class="t-body md:self-end">{t(lang, 'protocols.proprietary.mtconnect')}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-5">
+        <h2 class="t-page">{t(lang, 'protocols.how.title')}</h2>
+        <p class="t-lede mt-5">{t(lang, 'protocols.how.body')}</p>
+      </div>
+      <div class="lg:col-span-7">
+        <h2 class="t-section">{t(lang, 'protocols.missing.title')}</h2>
+        <p class="t-body mt-3">{t(lang, 'protocols.missing.intro')}</p>
+        <ul class="mt-5 border-t border-line">
+          {missing.map((m) => <li class="py-4 border-b border-line text-[15px] text-ink-2">{m}</li>)}
+        </ul>
+        <p class="t-small mt-5">{t(lang, 'protocols.missing.ask')}</p>
+      </div>
+    </div>
+  </section>
+
+  <ContactForm lang={lang} title={t(lang, 'protocols.cta.title')} body={t(lang, 'protocols.cta.body')} />
+</Base>

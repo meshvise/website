@@ -1,0 +1,123 @@
+---
+/**
+ * Fond de la page Protocoles : l'architecture de raccordement. Un rail
+ * horizontal, le moteur d'acquisition, et des dérivations vers des
+ * équipements hétérogènes, chacun étiqueté de son protocole. Deux
+ * machines fermées passent par une passerelle, ce qui illustre la
+ * section sur les protocoles propriétaires.
+ *
+ * Le langage est celui des figures du dossier : bus en rail horizontal,
+ * consommateur au-dessus, équipements en dessous, aucun croisement.
+ */
+const ink = 'var(--color-n-400)';
+
+// Équipements : x, protocole, forme, et passage éventuel par une passerelle
+const nodes = [
+  { x: 90,   label: 'Modbus TCP',  shape: 'plc' },
+  { x: 218,  label: 'OPC UA',      shape: 'plc' },
+  { x: 346,  label: 'BACnet/IP',   shape: 'ahu' },
+  { x: 474,  label: 'S7',          shape: 'plc' },
+  { x: 602,  label: 'EtherNet/IP', shape: 'plc' },
+  { x: 730,  label: 'Modbus RTU',  shape: 'meter' },
+  { x: 858,  label: 'MQTT',        shape: 'sensor' },
+  { x: 986,  label: 'FOCAS',       shape: 'cnc', gateway: 'OPC UA' },
+  { x: 1114, label: 'SLMP',        shape: 'cnc', gateway: 'MQTT' },
+];
+
+const RAIL_Y = 62;
+const GW_Y = 150;
+const DEV_Y = 232;
+---
+
+<svg class="protocol-bg" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+  <g fill="none" stroke={ink} stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Le rail : un moteur, une seule ligne -->
+    <line x1="40" y1={RAIL_Y} x2="1160" y2={RAIL_Y} stroke-width="2.2"/>
+    <line x1="40" y1={RAIL_Y - 5} x2="40" y2={RAIL_Y + 5}/>
+    <line x1="1160" y1={RAIL_Y - 5} x2="1160" y2={RAIL_Y + 5}/>
+
+    {nodes.map((n) => (
+      <>
+        <!-- Prise sur le rail -->
+        <rect x={n.x - 3} y={RAIL_Y - 3} width="6" height="6" fill="var(--color-surface)"/>
+
+        {n.gateway ? (
+          <>
+            <!-- Machine fermée : le lien passe par une passerelle -->
+            <line x1={n.x} y1={RAIL_Y} x2={n.x} y2={GW_Y - 16}/>
+            <rect x={n.x - 34} y={GW_Y - 16} width="68" height="32" rx="4"/>
+            <line x1={n.x - 22} y1={GW_Y - 6} x2={n.x + 22} y2={GW_Y - 6}/>
+            <line x1={n.x - 22} y1={GW_Y + 2} x2={n.x + 10} y2={GW_Y + 2}/>
+            <line x1={n.x} y1={GW_Y + 16} x2={n.x} y2={DEV_Y}/>
+          </>
+        ) : (
+          <line x1={n.x} y1={RAIL_Y} x2={n.x} y2={DEV_Y}/>
+        )}
+
+        <!-- Équipement, différencié par la forme -->
+        {n.shape === 'plc' && (
+          <>
+            <rect x={n.x - 30} y={DEV_Y} width="60" height="48" rx="3"/>
+            <line x1={n.x - 30} y1={DEV_Y + 13} x2={n.x + 30} y2={DEV_Y + 13}/>
+            {[-18, -6, 6, 18].map((d) => <line x1={n.x + d} y1={DEV_Y + 48} x2={n.x + d} y2={DEV_Y + 56}/>)}
+          </>
+        )}
+        {n.shape === 'cnc' && (
+          <>
+            <rect x={n.x - 32} y={DEV_Y} width="64" height="48" rx="3"/>
+            <rect x={n.x - 22} y={DEV_Y + 8} width="44" height="22" rx="2"/>
+            <line x1={n.x - 12} y1={DEV_Y + 38} x2={n.x + 12} y2={DEV_Y + 38}/>
+          </>
+        )}
+        {n.shape === 'ahu' && (
+          <>
+            <rect x={n.x - 32} y={DEV_Y} width="64" height="48" rx="3"/>
+            <path d={`M${n.x - 20} ${DEV_Y + 24} l8 -10 l8 10 l8 -10 l8 10`}/>
+          </>
+        )}
+        {n.shape === 'meter' && (
+          <>
+            <rect x={n.x - 22} y={DEV_Y} width="44" height="48" rx="3"/>
+            <circle cx={n.x} cy={DEV_Y + 18} r="10"/>
+            <line x1={n.x} y1={DEV_Y + 18} x2={n.x + 6} y2={DEV_Y + 12}/>
+            <line x1={n.x - 12} y1={DEV_Y + 38} x2={n.x + 12} y2={DEV_Y + 38}/>
+          </>
+        )}
+        {n.shape === 'sensor' && (
+          <>
+            <circle cx={n.x} cy={DEV_Y + 22} r="18"/>
+            <line x1={n.x} y1={DEV_Y + 4} x2={n.x} y2={DEV_Y - 4}/>
+            <path d={`M${n.x - 8} ${DEV_Y + 22} a8 8 0 0 1 16 0`}/>
+          </>
+        )}
+      </>
+    ))}
+  </g>
+
+  <!-- Étiquettes de protocole, en mono comme dans le produit.
+       Sous le rail : ce que Meshvise lit. Sous la passerelle : ce que
+       parle la machine fermée. -->
+  <g font-family="var(--font-mono)" font-size="12" fill={ink} text-anchor="middle">
+    {nodes.map((n) => (
+      <>
+        <text x={n.x} y={RAIL_Y + 26}>{n.gateway ?? n.label}</text>
+        {n.gateway && <text x={n.x} y={GW_Y + 36} font-size="11">{n.label}</text>}
+      </>
+    ))}
+  </g>
+
+  <!-- Voile : dégage la colonne de texte à gauche -->
+  <defs>
+    <linearGradient id="proto-veil" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="var(--color-surface)" stop-opacity="0.97"/>
+      <stop offset="0.3" stop-color="var(--color-surface)" stop-opacity="0.9"/>
+      <stop offset="0.52" stop-color="var(--color-surface)" stop-opacity="0.25"/>
+      <stop offset="0.7" stop-color="var(--color-surface)" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1200" height="340" fill="url(#proto-veil)"/>
+</svg>
+
+<style>
+  .protocol-bg { position: absolute; left: 0; right: 0; bottom: 4%; width: 100%; height: auto; opacity: 0.42; pointer-events: none; }
+</style>

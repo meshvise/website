@@ -1,0 +1,162 @@
+---
+/**
+ * V-01 · Usure de broche. Registre dépouillé.
+ *
+ * La valeur suit le crayon : pendant que le tracé se pose, le chiffre
+ * défile jour après jour, de 2,2 à 5,3 mm/s, et passe au rouge exactement
+ * quand la courbe franchit le seuil. C'est ce que fait un enregistreur.
+ *
+ * Ni grille, ni cartouche, ni bandeau d'acte, ni caméra, ni texte dans le
+ * dessin : une courbe, un seuil, un point, une cloche, un chiffre, une
+ * phrase. L'étiquette du seuil et les deux bouts de l'axe ont été retirés
+ * le 2026-09-22 : la phrase du dessus dit déjà les deux.
+ *
+ * La série reproduit la formule du jeu de démonstration : profil `mm/s`
+ * (base 2,2), scénario `spindle-wear` (`ramp`, 3,1 mm/s sur les vingt et un
+ * derniers jours, progression puissance 1,35). Le seuil de 4,5 mm/s est
+ * franchi au vingt-sixième jour, soit quatre jours avant aujourd'hui, ce
+ * qui est bien le J-5 du seed.
+ */
+import { mt as t, type Lang } from './text';
+import Stat from './Stat.astro';
+import type { Ligne } from './Stat.astro';
+import { toPoints, polylineLength, decimal } from './frame';
+import './strip.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const dec = (v: number, n = 1) => decimal(v, n, lang);
+
+// ── La série, telle que le seed la fabrique ────────────────────────────
+const JOURS = 30;
+const BASE = 2.2; // profil `mm/s` : une broche saine tient sous 2,8
+const RAMPE = 3.1; // scénario `spindle-wear`, amount
+const DEBUT = 9; // la rampe court sur les vingt et un derniers jours
+const SEUIL = 4.5; // ISO 10816
+
+const serie = Array.from({ length: JOURS + 1 }, (_, d) => {
+  const p = d <= DEBUT ? 0 : Math.min(1, (d - DEBUT) / (JOURS - DEBUT));
+  const bruit = Math.sin(d * 2.399) * 0.055 + Math.sin(d * 0.817) * 0.035;
+  return Math.round((BASE + RAMPE * Math.pow(p, 1.35) + bruit) * 100) / 100;
+});
+const jFranchi = serie.findIndex((v) => v >= SEUIL);
+const depuis = JOURS - jFranchi;
+
+const lignes: Ligne[] = serie.map((v) => ({
+  valeur: dec(v, 1),
+  ton: v >= SEUIL ? 'crit' : 'ink',
+}));
+
+// ── La bande : l'axe est tronqué ───────────────────────────────────────
+// Une échelle partant de zéro écrase une dérive de trois millimètres par
+// seconde en un liseré. Elle est donc cadrée sur l'intervalle où la mesure
+// vit.
+const W = 720;
+const H = 200;
+const X0 = 6;
+const X1 = 714;
+const Y0 = 16;
+const Y1 = 186;
+const V_MIN = 1.9;
+const V_MAX = 5.6;
+
+const x = (d: number) => X0 + (d / JOURS) * (X1 - X0);
+const y = (v: number) => Y1 - ((v - V_MIN) / (V_MAX - V_MIN)) * (Y1 - Y0);
+
+const pts: Array<[number, number]> = serie.map((v, d) => [x(d), y(v)]);
+const trace = toPoints(pts);
+const longueur = polylineLength(pts);
+
+const ySeuil = y(SEUIL);
+const xHit = x(jFranchi);
+const yHit = y(serie[jFranchi]);
+---
+
+<figure class="mvf mvs" role="img" aria-label={t(lang, 'motion.spindleStrip.alt')}>
+  <Stat
+    lignes={lignes}
+    unite="mm/s"
+    phrase={`${t(lang, 'motion.spindleStrip.caption_a')} ${depuis} ${t(lang, 'motion.spindleStrip.days')}`}
+  />
+
+  <svg viewBox={`0 0 ${W} ${H}`} class="mvs-svg" aria-hidden="true" focusable="false">
+    <!-- Le seuil normalisé : il préexiste à la dérive, il arrive donc avant
+         que la courbe ne l'atteigne. -->
+    <g class="mvs-a" style="animation-name: sws-limit">
+      <line class="mvs-limit" x1={X0} y1={ySeuil} x2={X1} y2={ySeuil} />
+    </g>
+
+    <polyline
+      class="mvs-trace mvs-a mvs-lin"
+      style={`animation-name: mvs-draw; --len: ${longueur.toFixed(0)}; stroke-dasharray: var(--len)`}
+      points={trace}
+    />
+
+    <!-- Le franchissement. L'onde ne bat pas en boucle : elle sonne une
+         fois, au moment où le crayon passe au-dessus du trait. -->
+    <circle class="mvs-ping mvs-a" style="animation-name: sws-ping" cx={xHit} cy={yHit} r="6" />
+    <circle class="mvs-dot mvs-a" style="animation-name: sws-dot" cx={xHit} cy={yHit} r="5" />
+
+    <!-- L'alarme qui part. Une cloche, pas un mot : la phrase du dessus dit
+         déjà ce qu'elle signale. -->
+    <g transform={`translate(${xHit} ${yHit - 44})`}>
+      <g class="sws-bell mvs-a" style="animation-name: sws-bell">
+        <circle r="17" class="sws-bell-bg" />
+        <path class="sws-bell-ic" d="M-6.5 3.5 V-1 A6.5 6.5 0 0 1 6.5 -1 V3.5 L8.5 6 H-8.5 Z" />
+        <circle class="sws-bell-ic" cx="0" cy="8.6" r="2" />
+        <circle class="sws-bell-ic" cx="0" cy="-8.3" r="1.5" />
+      </g>
+    </g>
+  </svg>
+</figure>
+
+<script>
+  import { observerLesFigures } from './observe';
+
+  observerLesFigures();
+</script>
+
+<style>
+  .sws-bell-bg { fill: var(--color-crit); }
+  .sws-bell-ic { fill: #fff; }
+  .sws-bell {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+</style>
+
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    /* La cloche sonne juste après le franchissement : elle apparaît, puis
+       balance deux fois et se pose. */
+    @keyframes sws-bell {
+      0%, 36% { opacity: 0; transform: scale(0.4) rotate(0); }
+      41% { opacity: 1; transform: scale(1.12) rotate(0); }
+      45% { transform: scale(1) rotate(-16deg); }
+      49% { transform: rotate(13deg); }
+      53% { transform: rotate(-8deg); }
+      57%, 100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+    @keyframes sws-limit {
+      0%, 10% { opacity: 0; transform: translateX(26px); }
+      26%, 100% { opacity: 1; transform: translateX(0); }
+    }
+    /* Le point apparaît là où le crayon franchit réellement le trait, et
+       non à la fin de la course : le franchissement tombe à 86,2 % de la
+       longueur du tracé, donc à 32,7 % d'un cycle où le tracé court de
+       zéro à 38 %. La valeur est calculée, pas estimée à l'œil. */
+    @keyframes sws-dot {
+      0%, 32.7% { opacity: 0; transform: scale(0); }
+      38% { opacity: 1; transform: scale(1.4); }
+      44%, 100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes sws-ping {
+      0%, 32.7% { opacity: 0; r: 6; }
+      35% { opacity: 0.5; r: 6; }
+      54%, 100% { opacity: 0; r: 28; }
+    }
+  }
+</style>

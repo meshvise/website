@@ -4,51 +4,43 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { FAQ_KEYS } from '../i18n/faq-keys';
 import { t, type Lang } from '../i18n';
+import { alternateHref, href } from '../i18n/routes';
 
 interface Props {
+  /** `article` sur un guide, `website` partout ailleurs. */
+  ogType?: 'website' | 'article';
+  /** Balisage propre à la page, ajouté à celui du site. */
+  extraLd?: Record<string, unknown> | null;
+  /** La page affiche la FAQ : son balisage FAQPage n'est émis que là. */
+  faq?: boolean;
   title: string;
   description: string;
   lang: Lang;
   ogImage?: string;
 }
 
-const { title, description, lang, ogImage = '/og-image.svg' } = Astro.props;
+const { title, description, lang, ogImage = '/og-image.svg', ogType = 'website', extraLd = null, faq = false } = Astro.props;
 
 const SITE_ORIGIN = 'https://meshvise.com';
 const alternateLang: Lang = lang === 'fr' ? 'en' : 'fr';
 const currentPath = Astro.url.pathname;
-const alternatePath =
-  currentPath.replace(`/${lang}/`, `/${alternateLang}/`).replace(`/${lang}`, `/${alternateLang}`) ||
-  `/${alternateLang}/`;
+const alternatePath = alternateHref(currentPath, lang, alternateLang);
 const canonicalUrl = `${SITE_ORIGIN}${currentPath}`;
 const alternateUrl = `${SITE_ORIGIN}${alternatePath}`;
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${SITE_ORIGIN}${ogImage}`;
-
 const ogLocale = lang === 'fr' ? 'fr_FR' : 'en_US';
 const ogLocaleAlternate = alternateLang === 'fr' ? 'fr_FR' : 'en_US';
 
-// Strip HTML tags for JSON-LD plain-text answers (no markup allowed there).
-const stripHtml = (s: string) =>
-  s.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
-
-// Organization-level description is independent of the per-page meta
-// description (which changes by route). This one anchors the
-// sovereignty + flat-fee positioning consistently for AI search
-// engines that re-quote schema.org Organization data.
-const organizationDescription =
-  lang === 'fr'
-    ? 'Plateforme française de supervision industrielle SCADA. Forfait annuel fixe, données chez vous en PostgreSQL standard, support en français. Hébergement self-hosted, conforme RGPD by design, droit français, sans dépendance Cloud Act.'
-    : 'French industrial supervision (SCADA) platform. Flat annual licence, data on your premises in standard PostgreSQL, French support. Self-hosted, GDPR compliant by design, French jurisdiction, no Cloud Act exposure.';
-
+// Données structurées : tout ce qui est affirmé ici est livré et
+// vérifiable (spec docs/00-vision/vitrine.md, règle « rien qui ne soit livré »).
 const organizationLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Meshvise',
   url: SITE_ORIGIN,
   logo: `${SITE_ORIGIN}/favicon.svg`,
-  description: organizationDescription,
+  description: t(lang, 'footer.tagline'),
   email: 'contact@meshvise.com',
-  sameAs: ['https://www.linkedin.com/in/bruno-crespo'],
 };
 
 const softwareLd = {
@@ -56,55 +48,27 @@ const softwareLd = {
   '@type': 'SoftwareApplication',
   name: 'Meshvise',
   applicationCategory: 'BusinessApplication',
-  applicationSubCategory: 'SCADA / Industrial Supervision',
+  applicationSubCategory: lang === 'fr' ? 'Supervision industrielle (SCADA)' : 'Industrial supervision (SCADA)',
   operatingSystem: 'Linux, Windows, macOS (Docker)',
   description,
   url: SITE_ORIGIN,
   inLanguage: ['fr', 'en'],
-  softwareVersion: '0.1.0',
   offers: [
     {
       '@type': 'Offer',
-      name: lang === 'fr' ? 'Démo en ligne' : 'Online demo',
-      price: '0',
-      priceCurrency: 'EUR',
-      availability: 'https://schema.org/InStock',
-      url: 'https://app.meshvise.com',
-      description:
-        lang === 'fr'
-          ? 'Démo publique en ligne, données simulées, sans installation, sans inscription.'
-          : 'Public online demo, simulated data, no installation, no sign-up.',
-    },
-    {
-      '@type': 'Offer',
-      name: lang === 'fr' ? 'Essai 7 jours' : '7-day trial',
-      price: '0',
-      priceCurrency: 'EUR',
-      availability: 'https://schema.org/InStock',
-      url: `${SITE_ORIGIN}/${lang}/trial/`,
-      description:
-        lang === 'fr'
-          ? "L'app complète sur votre infrastructure pendant 7 jours, limites 5 drivers / 15 machines / 500 points, toutes fonctionnalités. Lecture seule à expiration."
-          : 'Full app on your infrastructure for 7 days, limits 5 drivers / 15 machines / 500 points, all features. Read-only on expiration.',
-    },
-    {
-      '@type': 'Offer',
-      name: 'Standard',
-      price: '990',
+      name: t(lang, 'pricing.onprem.name'),
+      price: '2400',
       priceCurrency: 'EUR',
       priceSpecification: {
         '@type': 'UnitPriceSpecification',
-        price: '990',
+        price: '2400',
         priceCurrency: 'EUR',
         billingDuration: 'P1Y',
         unitText: 'YEAR',
       },
       availability: 'https://schema.org/InStock',
-      url: `${SITE_ORIGIN}/${lang}/#pricing`,
-      description:
-        lang === 'fr'
-          ? 'Points et machines illimités en pratique, tous protocoles (Modbus + OPC-UA + BACnet), toutes fonctionnalités, mises à jour incluses, support email avec engagement 24 h ouvrées (jours fériés FR exclus), audit code sous NDA disponible sur demande. Une instance par licence, déploiement Docker en 4 h.'
-          : 'Unlimited points and machines in practice, all protocols (Modbus + OPC-UA + BACnet), all features, updates included, email support with a 1-business-day SLA (FR public holidays excluded), source-code audit under NDA on request. One instance per licence, Docker deployment in 4 h.',
+      url: `${SITE_ORIGIN}${href(lang, 'pricing')}`,
+      description: t(lang, 'pricing.onprem.tagline'),
     },
   ],
 };
@@ -115,16 +79,13 @@ const faqLd = {
   mainEntity: FAQ_KEYS.map((key) => ({
     '@type': 'Question',
     name: t(lang, `faq.${key}.q`),
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: stripHtml(t(lang, `faq.${key}.a_html`)),
-    },
+    acceptedAnswer: { '@type': 'Answer', text: t(lang, `faq.${key}.a`) },
   })),
 };
 ---
 
 <!DOCTYPE html>
-<html lang={lang} class="dark">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -132,21 +93,24 @@ const faqLd = {
     <title>{title}</title>
     <meta name="description" content={description} />
 
+    <!-- L'icône .ico d'abord, le SVG ensuite : Chrome retient la dernière
+         icône qu'il sait lire. Jusqu'au 2026-09-23, le .ico était encore
+         l'icône par défaut d'Astro, et c'est elle que l'onglet montrait. -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <meta name="theme-color" content="#0F172A" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#06B6D4" media="(prefers-color-scheme: light)" />
-    <meta name="color-scheme" content="dark" />
+    <!-- Blanc, comme l'en-tête : la barre du navigateur mobile le prolonge. -->
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light" />
 
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang={lang} href={canonicalUrl} />
     <link rel="alternate" hreflang={alternateLang} href={alternateUrl} />
     <link rel="alternate" hreflang="x-default" href={`${SITE_ORIGIN}/`} />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Meshvise" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -165,17 +129,15 @@ const faqLd = {
 
     <meta name="robots" content="index, follow, max-image-preview:large" />
 
-    <!-- Schema.org structured data: feeds Google rich results AND
-         AI search citations (Perplexity, ChatGPT, Claude). FAQPage in
-         particular gets re-quoted verbatim in answer engines. -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(softwareLd)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+    {faq && <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />}
+    {extraLd && <script type="application/ld+json" set:html={JSON.stringify(extraLd)} />}
   </head>
-  <body class="bg-bg text-text antialiased">
+  <body class="bg-canvas text-ink antialiased">
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-3 focus:py-2 focus:rounded-sm focus:bg-brand focus:text-bg focus:font-medium focus:outline-2 focus:outline-offset-2 focus:outline-brand"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-3 focus:py-2 focus:rounded-sm focus:bg-brand focus:text-white focus:font-medium"
     >
       {t(lang, 'a11y.skip_to_content')}
     </a>
@@ -186,5 +148,3 @@ const faqLd = {
     <Footer lang={lang} />
   </body>
 </html>
-
-

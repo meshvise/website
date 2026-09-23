@@ -1,0 +1,304 @@
+/*
+ * Le registre dépouillé : une courbe, deux niveaux, un écart.
+ *
+ * Le registre précédent empruntait au plan d'exécution : grille
+ * d'enregistreur, cartouche daté, cotes, bandeau d'acte, jauge de
+ * progression, mono de dix pixels partout. Cent cinquante éléments pour
+ * une idée, dix-huit secondes pour la dire, et une deuxième langue
+ * visuelle en travers de celle du site, qui est celle du produit.
+ *
+ * Ici, tout ce qui n'est pas l'argument est retiré. Pas de grille, pas de
+ * cadre, pas de cartouche, deux repères d'axe, un trait épais. Ce qui
+ * reste bouge vite : trois secondes pour poser l'idée, puis plus rien.
+ *
+ * L'animation ne boucle pas. Elle joue une fois et tient sa dernière
+ * image, qui est complète : une figure qui se vide toutes les six
+ * secondes fait perdre à un lecteur sur deux ce qu'elle voulait dire.
+ * `observe.ts` la rejoue quand elle revient à l'écran, ce qui suffit.
+ */
+
+.mvs {
+  /* Ni cadre ni fond : le dessin est posé sur la page, pas encadré. */
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  /* Quatre secondes : assez lent pour suivre le crayon du regard, assez
+     court pour que la figure soit finie avant qu'on ne se lasse. */
+  --mv-cycle: 4s;
+}
+.mvs .mvs-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ── Le mouvement ─────────────────────────────────────────────────────── */
+
+/*
+ * Une seule sortie, rapide et qui se pose : c'est ce qui distingue un
+ * mouvement qui claque d'un fondu qui s'étire. Chaque élément déclare son
+ * `animation-name` et rien d'autre.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .mvs-a {
+    animation-duration: var(--mv-cycle);
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+  }
+  /* Deux éléments qui doivent rester synchrones ne peuvent pas porter une
+     sortie rapide : elle les décalerait l'un de l'autre au milieu de la
+     course. Un crayon qui avance et un compteur qui suit sa valeur vont
+     donc à allure régulière. */
+  .mvs-a.mvs-lin {
+    animation-timing-function: linear;
+  }
+}
+
+/* ── Le bloc de tête : un chiffre qui défile, une phrase ──────────────── */
+
+/*
+ * Le compteur est mécanique : trente et une lignes derrière une fenêtre
+ * d'une ligne de haut, un ruban déplacé par pas. Toutes les figures en
+ * ont exactement trente et une, ce qui permet une seule série d'images
+ * clés partagée plutôt qu'une par figure.
+ */
+.mvs-stat {
+  display: grid;
+  gap: 0.5rem;
+}
+.mvs-odo {
+  /* Un pas plus haut que le cadratin : sinon la hampe de la ligne
+     précédente dépasse par le haut de la fenêtre. */
+  --pas: 1.16em;
+  height: var(--pas);
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1;
+  font-size: clamp(2rem, 4.4vw, 2.75rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+/* Le ruban glisse derrière la fenêtre. Au repos il montre sa dernière
+   ligne, pour que l'état immobile de la figure soit son état final. */
+.mvs-track {
+  transform: translateY(calc(var(--lignes) * var(--pas) * -1));
+}
+.mvs-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.22em;
+  height: var(--pas);
+  line-height: var(--pas);
+  color: var(--color-ink);
+}
+.mvs-line--crit { color: var(--color-crit); }
+.mvs-line--warn { color: var(--color-warn); }
+.mvs-line--off { color: var(--color-off); }
+.mvs-v { font-variant-numeric: tabular-nums; }
+.mvs-u {
+  font-size: 0.38em;
+  letter-spacing: 0.02em;
+  color: var(--color-muted);
+}
+.mvs-line--crit .mvs-u,
+.mvs-line--warn .mvs-u,
+.mvs-line--off .mvs-u { color: inherit; opacity: 0.75; }
+
+.mvs-caption {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-ink-2);
+  margin: 0;
+  max-width: 44ch;
+}
+
+/* Les deux bouts de l'axe de temps, sous la bande. */
+.mvs-axis {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  color: var(--color-n-400);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes mvs-roll {
+    0% {
+      transform: translateY(0);
+      animation-timing-function: steps(30, end);
+    }
+    38%,
+    100% {
+      transform: translateY(calc(var(--lignes) * var(--pas) * -1));
+    }
+  }
+  @keyframes mvs-caption {
+    0%, 46% { opacity: 0; transform: translateY(8px); }
+    62%, 100% { opacity: 1; transform: translateY(0); }
+  }
+  /* Le tracé se pose à la même allure que le compteur : c'est leur
+     synchronisme qui fait lire la valeur comme celle du point que la
+     courbe est en train d'atteindre. */
+  @keyframes mvs-draw {
+    0% { stroke-dashoffset: var(--len); }
+    38%, 100% { stroke-dashoffset: 0; }
+  }
+}
+
+/* ── Le dessin ────────────────────────────────────────────────────────── */
+
+.mvs-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Ce qui est mesuré : un trait épais, en laiton, jamais une couleur d'état. */
+.mvs-trace {
+  fill: none;
+  stroke: var(--color-brass);
+  stroke-width: 2.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+/* Ce qui n'est que maintenu : même géométrie, encre grise. */
+.mvs-held {
+  fill: none;
+  stroke: var(--color-off);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+/* Un seuil ou un niveau constaté : tireté, ambre, il traverse tout. */
+.mvs-limit {
+  stroke: var(--color-warn);
+  stroke-width: 1.8;
+  stroke-dasharray: 6 5;
+}
+/* Un niveau attendu : pointillé, neutre. Ce n'est pas un état, c'est une
+   référence. */
+.mvs-ref {
+  stroke: var(--color-n-400);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+}
+.mvs-limit-t,
+.mvs-ref-t {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  /* Cernée du fond : une étiquette ne se laisse pas traverser par le trait
+     qu'elle nomme. */
+  paint-order: stroke;
+  stroke: var(--color-canvas);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.mvs-limit-t { fill: var(--color-warn); }
+.mvs-ref-t { fill: var(--color-n-500); }
+
+/* L'écart entre deux niveaux, qui s'ouvre du haut vers le bas. */
+.mvs-gap {
+  fill: var(--color-warn);
+  fill-opacity: 0.1;
+  transform-box: fill-box;
+  transform-origin: top;
+}
+
+/* Le moment. Un point plein, et une onde qui sonne une fois. */
+.mvs-dot {
+  fill: var(--color-crit);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.mvs-dot--off { fill: var(--color-off); }
+.mvs-ping {
+  fill: none;
+  stroke: var(--color-crit);
+  stroke-width: 2;
+  opacity: 0;
+}
+.mvs-ping--off { stroke: var(--color-off); }
+
+/* ── Les pastilles : quand la figure n'est pas une courbe ─────────────── */
+
+/*
+ * Certaines figures n'ont pas de tracé : elles ont une liste. Une pastille
+ * porte un nom, rien d'autre, et elles entrent en cascade. Le décalage est
+ * porté par un délai propre à chaque pastille plutôt que par une image clé
+ * par élément.
+ */
+.mvs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.mvs-chip {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+  color: var(--color-ink);
+  background: var(--color-n-100);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.6rem;
+  white-space: nowrap;
+}
+.mvs-chip--strong {
+  background: var(--color-brass-bg);
+  color: var(--color-brass);
+  font-weight: 500;
+}
+.mvs-arrow {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-n-400);
+  align-self: center;
+  padding: 0 0.1rem;
+}
+.mvs-arrow--cut { color: var(--color-crit); font-weight: 500; }
+
+/* Le trait qui ramène tout à un seul point de sortie. */
+.mvs-rule {
+  height: 2px;
+  background: var(--color-brass-light);
+  transform-origin: left center;
+}
+.mvs-out {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-brass);
+  letter-spacing: 0.01em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mvs-pop {
+    animation-duration: 0.34s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    animation-name: mvs-pop;
+    animation-delay: calc(var(--i, 0) * 0.11s);
+  }
+  @keyframes mvs-pop {
+    from { opacity: 0; transform: translateY(7px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes mvs-rule {
+    0%, 40% { transform: scaleX(0); }
+    62%, 100% { transform: scaleX(1); }
+  }
+}
+
+/* Une marque d'événement dans une voie : un bâton, pas un symbole. */
+.mvs-tick {
+  fill: var(--color-crit);
+  transform-box: fill-box;
+  transform-origin: bottom;
+}

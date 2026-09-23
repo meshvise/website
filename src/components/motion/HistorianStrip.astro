@@ -1,0 +1,193 @@
+---
+/**
+ * V-08 · La base. Registre dépouillé.
+ *
+ * Trois machines envoient leurs mesures vers la base, chacune à son
+ * rythme : l'une à intervalle fixe, l'autre à chaque changement, la
+ * dernière seulement au-delà d'un écart. C'est ce que dit « chaque point
+ * selon sa propre politique », montré plutôt qu'écrit. La base se remplit
+ * pendant que le compteur additionne les mesures. Le seul mot du dessin est
+ * « base de données » : le nom du moteur ne parle qu'aux informaticiens, et
+ * l'accueil s'adresse d'abord à l'atelier (choix de Bruno, 2026-09-22).
+ *
+ * Le chiffre est celui du parc de démonstration de Bellecombe : 4 189 091
+ * lignes dans `point_history` pour trente jours d'historique scénarisé sur
+ * vingt-trois machines, mesurées après la remise à zéro du 2026-09-16.
+ * Rien sur la durée de conservation : elle se fixe par installation, et
+ * « des années d'historique » n'est pas une promesse que le produit tient
+ * sans condition (AUD-029).
+ */
+import { mt as t, type Lang } from './text';
+import Stat from './Stat.astro';
+import type { Ligne } from './Stat.astro';
+import { decimal } from './frame';
+import './strip.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const MESURES_M = 4.2; // millions, arrondi de 4 189 091
+const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
+  valeur: decimal((MESURES_M * i) / 30, 1, lang),
+  ton: 'ink',
+}));
+
+// ── Le dessin ──────────────────────────────────────────────────────────
+const W = 720;
+const H = 260;
+const MX = 22; // bord gauche des machines
+const M_L = 64;
+const M_H = 46;
+const voies = [
+  { y: 58, rythme: [0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4] }, // à intervalle fixe
+  { y: 128, rythme: [0.15, 0.3, 1.1, 1.25, 1.9, 2.55] }, // à chaque changement
+  { y: 198, rythme: [0.5, 1.7] }, // au-delà d'un écart
+];
+
+// La base : un cylindre à droite, centré sur la voie du milieu.
+const BX = 492;
+const BL = 168;
+const BH = 150;
+const BY = 128 - BH / 2;
+const RY = 16; // demi-hauteur de l'ellipse du couvercle
+
+const chemin = (y: number) =>
+  `M ${MX + M_L} ${y} C ${MX + M_L + 170} ${y}, ${BX - 150} 128, ${BX} 128`;
+---
+
+<figure class="mvf mvs" role="img" aria-label={t(lang, 'motion.historianStrip.alt')}>
+  <Stat lignes={lignes} unite={t(lang, 'motion.historianStrip.unit')} />
+
+  <svg viewBox={`0 0 ${W} ${H}`} class="mvs-svg" aria-hidden="true" focusable="false">
+    <defs>
+      <clipPath id="hst-cuve">
+        <path
+          d={`M ${BX} ${BY} V ${BY + BH} A ${BL / 2} ${RY} 0 0 0 ${BX + BL} ${BY + BH} V ${BY} Z`}
+        />
+      </clipPath>
+    </defs>
+
+    <!-- Les voies, puis les machines qui les alimentent. -->
+    {voies.map((v) => <path class="hst-voie" d={chemin(v.y)} />)}
+
+    {
+      voies.map((v) => (
+        <g>
+          <rect class="hst-machine" x={MX} y={v.y - M_H / 2} width={M_L} height={M_H} rx="9" />
+          <rect class="hst-ecran" x={MX + 38} y={v.y - 12} width="16" height="14" rx="2" />
+          <rect class="hst-porte" x={MX + 10} y={v.y - 12} width="22" height="24" rx="3" />
+        </g>
+      ))
+    }
+
+    <!-- Les mesures, chacune le long de sa voie, au rythme de son point. -->
+    {
+      voies.map((v) =>
+        v.rythme.map((d) => (
+          <circle
+            class="hst-mesure"
+            r="5"
+            style={`offset-path: path('${chemin(v.y)}'); --d: ${d}s`}
+          />
+        ))
+      )
+    }
+
+    <!-- La base. Le remplissage monte derrière la paroi, découpé par elle. -->
+    <g clip-path="url(#hst-cuve)">
+      <rect class="hst-remplissage" x={BX} y={BY} width={BL} height={BH + RY} />
+      {[0.25, 0.45, 0.65, 0.85].map((f) => (
+        <path class="hst-strate" d={`M ${BX} ${BY + BH * f} A ${BL / 2} ${RY} 0 0 0 ${BX + BL} ${BY + BH * f}`} />
+      ))}
+    </g>
+    <path
+      class="hst-paroi"
+      d={`M ${BX} ${BY} V ${BY + BH} A ${BL / 2} ${RY} 0 0 0 ${BX + BL} ${BY + BH} V ${BY}`}
+    />
+    <ellipse class="hst-couvercle" cx={BX + BL / 2} cy={BY} rx={BL / 2} ry={RY} />
+    <text class="hst-nom" x={BX + BL / 2} y={BY + BH / 2 + 12} text-anchor="middle">{t(lang, 'motion.historianStrip.db')}</text>
+  </svg>
+</figure>
+
+<script>
+  import { observerLesFigures } from './observe';
+
+  observerLesFigures();
+</script>
+
+<style>
+  .hst-voie {
+    fill: none;
+    stroke: var(--color-n-200);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+  }
+  .hst-machine { fill: var(--color-n-100); stroke: var(--color-n-300); stroke-width: 1.4; }
+  .hst-porte { fill: var(--color-surface); stroke: var(--color-n-300); }
+  .hst-ecran { fill: var(--color-ink); }
+  .hst-mesure {
+    fill: var(--color-brass);
+    offset-rotate: 0deg;
+    opacity: 0;
+  }
+  .hst-remplissage {
+    fill: var(--color-brass-bg);
+    transform-box: fill-box;
+    transform-origin: bottom;
+  }
+  .hst-strate {
+    fill: none;
+    stroke: var(--color-brass-soft);
+    stroke-width: 2;
+  }
+  .hst-paroi {
+    fill: none;
+    stroke: var(--color-ink);
+    stroke-width: 2.6;
+    stroke-linejoin: round;
+  }
+  .hst-couvercle {
+    fill: var(--color-surface);
+    stroke: var(--color-ink);
+    stroke-width: 2.6;
+  }
+  .hst-nom {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    fill: var(--color-ink);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Chaque mesure part à son heure et fait le trajet en 0,9 s. */
+    .hst-mesure {
+      animation: hst-trajet 0.9s cubic-bezier(0.45, 0, 0.55, 1) both;
+      animation-delay: calc(var(--d) + 0.3s);
+    }
+    /* La base se remplit pendant que les mesures arrivent. */
+    .hst-remplissage { animation: hst-monte 3s cubic-bezier(0.22, 1, 0.36, 1) both 0.6s; }
+    .hst-strate { animation: hst-strate 3s ease-out both 0.6s; }
+  }
+</style>
+
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes hst-trajet {
+      0% { offset-distance: 0%; opacity: 0; }
+      12% { opacity: 1; }
+      88% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    @keyframes hst-monte {
+      from { transform: scaleY(0.08); }
+      to { transform: scaleY(1); }
+    }
+    @keyframes hst-strate {
+      0%, 30% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  }
+</style>

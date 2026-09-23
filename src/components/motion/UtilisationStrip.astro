@@ -1,0 +1,159 @@
+---
+/**
+ * V-10 · Un indicateur qui progresse. Registre dépouillé.
+ *
+ * Huit semaines de taux de marche d'un centre d'usinage : une barre par
+ * semaine, qui monte de 62 à 78 %. Un trait tireté garde le niveau de
+ * départ, et le gain au-dessus de lui s'allume en vert sur la dernière
+ * semaine, avec son écart en points. Le compteur suit les barres.
+ *
+ * « Taux de marche » et non « taux d'utilisation » ni « disponibilité » :
+ * c'est ce que le produit calcule aujourd'hui (le temps de marche rapporté
+ * à la journée de production), et l'audit du 2026-09-15 a relevé que tout
+ * libellé plus ambitieux suppose des horaires d'ouverture que CH-14 n'a pas
+ * encore livrés.
+ *
+ * La série est une illustration : le parc de démonstration n'a pas de
+ * scénario de progression. Le texte ne dit donc pas « grâce à Meshvise » :
+ * il montre un indicateur qu'on suit, pas un résultat promis.
+ */
+import { mt as t, type Lang } from './text';
+import Stat from './Stat.astro';
+import type { Ligne } from './Stat.astro';
+import './strip.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const semaines = [62, 63, 66, 65, 69, 72, 75, 78];
+const DEPART = semaines[0];
+const FIN = semaines[semaines.length - 1];
+const GAIN = FIN - DEPART;
+
+// Le compteur monte au rythme des barres.
+const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => {
+  const j = Math.min(semaines.length - 1, Math.floor((i / 30) * (semaines.length - 1) + 0.0001));
+  return { valeur: String(semaines[j]), ton: 'ink' };
+});
+
+// ── Le dessin ──────────────────────────────────────────────────────────
+const W = 720;
+const H = 240;
+const X0 = 20;
+const X1 = 700;
+const Y_BAS = 226;
+const Y_HAUT = 40; // la place du badge au-dessus de la dernière barre
+const V_MIN = 40; // l'axe est tronqué : les barres vivent entre 60 et 80 %
+const V_MAX = 82;
+const PAS = (X1 - X0) / semaines.length;
+const LARGEUR = PAS * 0.58;
+
+const y = (v: number) => Y_BAS - ((v - V_MIN) / (V_MAX - V_MIN)) * (Y_BAS - Y_HAUT);
+const x = (i: number) => X0 + i * PAS + (PAS - LARGEUR) / 2;
+const yDepart = y(DEPART);
+const derniere = semaines.length - 1;
+---
+
+<figure class="mvf mvs" role="img" aria-label={t(lang, 'motion.utilStrip.alt')}>
+  <Stat lignes={lignes} unite="%" phrase={t(lang, 'motion.utilStrip.caption')} />
+
+  <svg viewBox={`0 0 ${W} ${H}`} class="mvs-svg" aria-hidden="true" focusable="false">
+    {
+      semaines.map((v, i) => (
+        <rect
+          class:list={['uts-barre', i === derniere && 'uts-barre--fin']}
+          style={`--i: ${i}`}
+          x={x(i)}
+          y={y(v)}
+          width={LARGEUR}
+          height={Y_BAS - y(v)}
+          rx="6"
+        />
+      ))
+    }
+
+    <!-- Le gain de la dernière semaine au-dessus du niveau de départ. -->
+    <rect class="uts-gain" x={x(derniere)} y={y(FIN)} width={LARGEUR} height={yDepart - y(FIN)} rx="6" />
+
+    <!-- Le niveau de départ, tenu jusqu'au bout. -->
+    <line class="uts-depart" x1={X0} y1={yDepart} x2={X1} y2={yDepart} />
+
+    <g transform={`translate(${x(derniere) + LARGEUR / 2} ${y(FIN) - 22})`}>
+      <g class="uts-badge">
+        <rect x="-40" y="-17" width="80" height="34" rx="17" />
+        <text x="0" y="1" text-anchor="middle" dominant-baseline="central">+{GAIN} pts</text>
+      </g>
+    </g>
+
+    <line class="uts-sol" x1={X0} y1={Y_BAS} x2={X1} y2={Y_BAS} />
+  </svg>
+</figure>
+
+<script>
+  import { observerLesFigures } from './observe';
+
+  observerLesFigures();
+</script>
+
+<style>
+  .uts-barre {
+    fill: var(--color-brass-soft);
+    transform-box: fill-box;
+    transform-origin: bottom;
+  }
+  .uts-barre--fin { fill: var(--color-brass); }
+  .uts-gain {
+    fill: var(--color-normal);
+    transform-box: fill-box;
+    transform-origin: bottom;
+  }
+  .uts-depart {
+    stroke: var(--color-n-500);
+    stroke-width: 1.8;
+    stroke-dasharray: 6 5;
+  }
+  .uts-sol { stroke: var(--color-n-200); stroke-width: 2; }
+  .uts-badge rect { fill: var(--color-normal); }
+  .uts-badge text {
+    fill: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .uts-badge {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Une barre par semaine, à la suite, au rythme du compteur. */
+    .uts-barre {
+      animation: uts-pousse 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: calc(var(--i) * 0.19s);
+    }
+    .uts-depart { animation: uts-apparait 0.4s ease-out both 0.1s; }
+    /* Puis le gain s'allume, et son écart s'affiche. */
+    .uts-gain { animation: uts-pousse 0.5s cubic-bezier(0.22, 1, 0.36, 1) both 1.75s; }
+    .uts-badge { animation: uts-badge 0.45s cubic-bezier(0.22, 1, 0.36, 1) both 2.15s; }
+  }
+</style>
+
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes uts-pousse {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(1); }
+    }
+    @keyframes uts-apparait {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes uts-badge {
+      from { opacity: 0; transform: translateY(8px) scale(0.8); }
+      to { opacity: 1; transform: none; }
+    }
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
-import { t, getAlternateUrl, type Lang } from '../i18n';
+import { t, type Lang } from '../i18n';
+import { href, alternateHref, type RouteKey } from '../i18n/routes';
 
 interface Props {
   lang: Lang;
@@ -9,83 +10,49 @@ interface Props {
 const { lang } = Astro.props;
 const alternateLang: Lang = lang === 'fr' ? 'en' : 'fr';
 const alternateLangLabel = alternateLang === 'fr' ? 'Français' : 'English';
-const alternateUrl = getAlternateUrl(Astro.url, alternateLang);
+const alternateUrl = alternateHref(Astro.url.pathname, lang, alternateLang);
 const switchLanguageLabel = t(lang, 'a11y.switch_language').replace('{lang}', alternateLangLabel);
+
+const NAV: RouteKey[] = ['home', 'why', 'product', 'protocols', 'pricing'];
+const current = Astro.url.pathname;
+const isCurrent = (key: RouteKey) => current === href(lang, key);
 ---
 
-<header class="sticky top-0 z-50 bg-bg/85 backdrop-blur-md border-b border-border/60">
-  <div class="mx-auto max-w-6xl flex items-center justify-between px-6 h-16">
-    <a
-      href={`/${lang}/`}
-      class="flex items-center gap-2 text-text hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand rounded-sm"
-      aria-label="Meshvise"
-    >
-      <Logo class="w-5 h-5 text-brand" />
-      <span class="font-semibold text-[16px] tracking-tight">meshvise</span>
+<header class="sticky top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-line">
+  <div class="wrap flex items-center justify-between h-[68px]">
+    <a href={href(lang, 'home')} class="flex items-center gap-2.5 text-ink" aria-label="Meshvise">
+      <Logo class="w-[26px] h-[26px]" mode="color" />
+      <span class="font-medium text-[17px] tracking-tight">Meshvise</span>
     </a>
 
-    <nav class="hidden md:flex items-center gap-8" aria-label="Primary">
-      <a href={`/${lang}/#personas`} class="nav-link">{t(lang, 'nav.personas')}</a>
-      <a href={`/${lang}/#features`} class="nav-link">{t(lang, 'nav.features')}</a>
-      <a href={`/${lang}/#comparison`} class="nav-link">{t(lang, 'nav.comparison')}</a>
-      <a href={`/${lang}/#pricing`} class="nav-link">{t(lang, 'nav.pricing')}</a>
-      <a href={`/${lang}/#faq`} class="nav-link">{t(lang, 'nav.faq')}</a>
+    <nav class="hidden lg:flex items-center gap-5 xl:gap-7" aria-label="Primary">
+      {NAV.map((key) => (
+        <a href={href(lang, key)} class="nav-link" aria-current={isCurrent(key) ? 'page' : undefined}>
+          {t(lang, `nav.${key}`)}
+        </a>
+      ))}
     </nav>
 
-    <div class="hidden md:flex items-center gap-3">
-      <a
-        href={alternateUrl}
-        hreflang={alternateLang}
-        lang={alternateLang}
-        aria-label={switchLanguageLabel}
-        class="text-muted-strong hover:text-text transition-colors uppercase font-mono text-[11px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-      >
-        {alternateLang}
+    <div class="hidden lg:flex items-center gap-5">
+      <a href={alternateUrl} hreflang={alternateLang} lang={alternateLang} aria-label={switchLanguageLabel} class="text-[13px] text-muted hover:text-ink transition-colors">
+        {alternateLangLabel}
       </a>
-      <a href="https://app.meshvise.com" target="_blank" rel="noopener" class="btn btn-primary">
-        {t(lang, 'nav.demo')}
-        <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M6 3l5 5-5 5" stroke-linecap="round"/>
-        </svg>
-      </a>
+      <a href={href(lang, 'demo')} class="btn btn-primary">{t(lang, 'nav.demo')}</a>
     </div>
 
-    <button
-      id="mobile-menu-btn"
-      type="button"
-      class="md:hidden text-muted-strong hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand rounded-sm"
-      aria-label={t(lang, 'a11y.open_menu')}
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-    >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+    <button id="mobile-menu-btn" type="button" class="lg:hidden text-ink-2 hover:text-ink" aria-label={t(lang, 'a11y.open_menu')} aria-expanded="false" aria-controls="mobile-menu">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/>
       </svg>
     </button>
   </div>
 
-  <nav
-    id="mobile-menu"
-    class="hidden md:hidden border-t border-border px-6 py-4 flex-col gap-3 text-sm bg-bg"
-    aria-label="Mobile primary"
-  >
-    <a href={`/${lang}/#personas`} class="nav-link">{t(lang, 'nav.personas')}</a>
-    <a href={`/${lang}/#features`} class="nav-link">{t(lang, 'nav.features')}</a>
-    <a href={`/${lang}/#comparison`} class="nav-link">{t(lang, 'nav.comparison')}</a>
-    <a href={`/${lang}/#pricing`} class="nav-link">{t(lang, 'nav.pricing')}</a>
-    <a href={`/${lang}/#faq`} class="nav-link">{t(lang, 'nav.faq')}</a>
-    <a
-      href={alternateUrl}
-      hreflang={alternateLang}
-      lang={alternateLang}
-      aria-label={switchLanguageLabel}
-      class="text-muted-strong hover:text-text uppercase font-mono text-xs"
-    >
-      {alternateLang}
-    </a>
-    <a href="https://app.meshvise.com" target="_blank" rel="noopener" class="btn btn-primary text-center justify-center">
-      {t(lang, 'nav.demo')}
-    </a>
+  <nav id="mobile-menu" class="hidden lg:hidden border-t border-line px-6 py-5 flex-col gap-4 text-[15px] bg-surface" aria-label="Mobile primary">
+    {NAV.map((key) => (
+      <a href={href(lang, key)} class="nav-link">{t(lang, `nav.${key}`)}</a>
+    ))}
+    <a href={alternateUrl} hreflang={alternateLang} lang={alternateLang} aria-label={switchLanguageLabel} class="text-[13px] text-muted">{alternateLangLabel}</a>
+    <a href={href(lang, 'demo')} class="btn btn-primary justify-center mt-1">{t(lang, 'nav.demo')}</a>
   </nav>
 </header>
 
@@ -100,10 +67,6 @@ const switchLanguageLabel = t(lang, 'a11y.switch_language').replace('{lang}', al
       btn.setAttribute('aria-label', open ? closeLabel : openLabel);
     };
     btn.addEventListener('click', () => setOpen(menu.classList.contains('hidden')));
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !menu.classList.contains('hidden')) setOpen(false);
-    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.classList.contains('hidden')) setOpen(false); });
   }
 </script>
-
-

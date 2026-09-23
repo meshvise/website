@@ -1,0 +1,51 @@
+{
+  "motion": {
+    "spindleStrip": {
+      "caption_a": "above the limit for",
+      "days": "days",
+      "section": "V-01 · SPINDLE WEAR",
+      "title": "What shows before the breakdown",
+      "lede": "A spindle does not fail all at once. Its vibration climbs for weeks, and nobody measures it because nobody looks at it.",
+      "p1": "Meshvise reads the RMS vibration velocity on the machining centre and keeps it day after day. It holds at 2.2 mm/s for nine days, then drifts by 3.1 mm/s over three weeks. On the twenty-sixth day it crosses the 4.5 mm/s limit of ISO 10816, and the alarm goes out by email with the history.",
+      "p2": "The bearing temperature of the same spindle has risen 17 °C in twelve days. Two independent measurements reach the same conclusion, so the spindle is pulled on a Saturday, machine cold, instead of failing mid-run.",
+      "alt": "Thirty days of spindle vibration on machining centre CU1. The value holds at 2.2 mm/s for nine days, then drifts up to 5.3 mm/s. As it crosses the ISO 10816 limit of 4.5 mm/s, the alarm goes off, and the spindle has stayed above it for four days."
+    },
+    "engineStrip": {
+      "protocols": "protocols",
+      "caption": "one acquisition engine, all of them included in the licence",
+      "section": "V-05 · THIRTEEN PROTOCOLS",
+      "title": "Thirteen protocols, one engine",
+      "lede": "Thirteen industrial protocols, thirteen ways to connect a device, and a single acquisition engine behind them.",
+      "p1": "Eight protocols are polled at the rate you choose, one is subscribed to and only receives on change, four push their values when the device decides. That is the distinction that matters when wiring, not the alphabetical list.",
+      "p2": "Whatever the source protocol, what comes out is the same message: a version, an identifier, a timestamp, a quality, a value. There is no module to buy per PLC brand.",
+      "alt": "Thirteen industrial protocols wired one by one to a single engine, Meshvise: Modbus TCP, Modbus RTU, OPC UA, BACnet over IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B and MTConnect, all included in the licence."
+    },
+    "dashStrip": {
+      "alt": "A Meshvise dashboard fills in before your eyes: eight machines switch to running, four power bars take their value, a week of consumption is drawn. Then, into an empty slot, a cursor drags and drops a new widget: everyone builds their own dashboards."
+    },
+    "historianStrip": {
+      "unit": "million measurements",
+      "alt": "Three machines send their measurements to a database, each at its own pace: at a fixed interval, on every change, beyond a deadband. The database fills up: 4.2 million measurements in thirty days on the demonstration shop floor.",
+      "db": "Database"
+    },
+    "traceStrip": {
+      "unit": "revisions",
+      "caption": "dated, signed, and reversible in one operation",
+      "tcn1": "Scrap limit on lathe TCN1",
+      "tcn1_v": "6 parts",
+      "oil": "Cutting oil high limit",
+      "air": "Network pressure alert",
+      "air_v": "6.0 bar",
+      "d12": "12 Sept",
+      "d31": "31 Aug",
+      "d26": "26 Aug",
+      "rollback": "Undoes M. Martin's change",
+      "button": "Roll back",
+      "alt": "Configuration revision log: who changed what and when. M. Martin tightened the cutting oil limit from 24.0 to 22.5 °C. A Roll back button is pressed on that revision: a new revision by J. Dupont sets the limit back to 24.0 °C, in one operation."
+    },
+    "utilStrip": {
+      "caption": "run rate on a machining centre, up from 62% eight weeks earlier",
+      "alt": "Eight weeks of run rate on a machining centre, one bar per week: from 62% to 78%. The 16-point gain above the starting level lights up in green."
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "motion": {
+    "spindleStrip": {
+      "caption_a": "au-dessus du seuil depuis",
+      "days": "jours",
+      "section": "V-01 · USURE DE BROCHE",
+      "title": "Ce qui se voit avant la panne",
+      "lede": "Une broche ne casse pas d'un coup. Sa vibration monte pendant des semaines, et personne ne la mesure parce que personne ne la regarde.",
+      "p1": "Meshvise lit la valeur efficace de vibration sur le centre d'usinage et la garde jour après jour. Elle tient à 2,2 mm/s pendant neuf jours, puis dérive de 3,1 mm/s en trois semaines. Au vingt-sixième jour elle franchit le seuil de 4,5 mm/s de la norme ISO 10816, et l'alarme part par courriel avec l'historique.",
+      "p2": "La température de roulement de la même broche a pris 17 °C en douze jours. Deux mesures indépendantes concluent pareil, donc la dépose se programme un samedi, machine froide, au lieu de subir un arrêt en pleine série.",
+      "alt": "Trente jours de vibration de broche sur le centre d'usinage CU1. La valeur tient à 2,2 mm/s pendant neuf jours, puis dérive jusqu'à 5,3 mm/s. Au passage du seuil ISO 10816 de 4,5 mm/s, l'alarme part, et la broche reste au-dessus depuis quatre jours."
+    },
+    "engineStrip": {
+      "protocols": "protocoles",
+      "caption": "un seul moteur d'acquisition, tous inclus dans la licence",
+      "section": "V-05 · TREIZE PROTOCOLES",
+      "title": "Treize protocoles, un seul moteur",
+      "lede": "Treize protocoles industriels, treize manières de brancher un équipement, et un seul moteur d'acquisition derrière.",
+      "p1": "Huit protocoles s'interrogent à la cadence que vous choisissez, un s'abonne et ne reçoit qu'à la variation, quatre poussent leurs valeurs quand l'équipement le décide. C'est cette distinction qui compte au moment de câbler, pas la liste alphabétique.",
+      "p2": "Quel que soit le protocole d'origine, ce qui sort est le même message : une version, un identifiant, un horodatage, une qualité, une valeur. Il n'y a pas de module à acheter par marque d'automate.",
+      "alt": "Treize protocoles industriels reliés un à un à un seul moteur, Meshvise : Modbus TCP, Modbus RTU, OPC UA, BACnet sur IP, Siemens S7, MQTT, EtherNet/IP, Beckhoff ADS, REST, WebSocket, Webhook, Sparkplug B et MTConnect, tous inclus dans la licence."
+    },
+    "dashStrip": {
+      "alt": "Un tableau de bord Meshvise se remplit sous les yeux : huit machines passent en marche, quatre barres de puissance prennent leur valeur, une semaine de consommation se trace. Puis, dans une case vide, un curseur glisse un nouveau widget et le dépose : chacun compose ses propres tableaux de bord."
+    },
+    "historianStrip": {
+      "unit": "millions de mesures",
+      "alt": "Trois machines envoient leurs mesures vers une base de données, chacune à son rythme : à intervalle fixe, à chaque changement, au-delà d'un écart. La base se remplit : 4,2 millions de mesures en trente jours sur l'atelier de démonstration.",
+      "db": "Base de données"
+    },
+    "traceStrip": {
+      "unit": "révisions",
+      "caption": "datées, signées, et réversibles en une opération",
+      "tcn1": "Seuil de rebut du tour TCN1",
+      "tcn1_v": "6 pièces",
+      "oil": "Seuil haut de l'huile de coupe",
+      "air": "Alerte de pression réseau",
+      "air_v": "6,0 bar",
+      "d12": "12 sept.",
+      "d31": "31 août",
+      "d26": "26 août",
+      "rollback": "Annule le changement de M. Martin",
+      "button": "Revenir en arrière",
+      "alt": "Journal des révisions de configuration : qui a changé quoi et quand. M. Martin a resserré le seuil de l'huile de coupe de 24,0 à 22,5 °C. Un bouton Revenir en arrière est pressé sur cette révision : une nouvelle révision de J. Dupont remet le seuil à 24,0 °C, en une opération."
+    },
+    "utilStrip": {
+      "caption": "de taux de marche sur un centre d'usinage, contre 62 % huit semaines plus tôt",
+      "alt": "Huit semaines de taux de marche d'un centre d'usinage, une barre par semaine : de 62 % à 78 %. Le gain de 16 points au-dessus du niveau de départ s'allume en vert."
+    }
+  }
+}

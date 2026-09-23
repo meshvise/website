@@ -1,0 +1,275 @@
+---
+/**
+ * V-09 · Les révisions. Registre dépouillé.
+ *
+ * Trois révisions, telles que l'écran Révisions les montre : qui, quoi,
+ * quand. Sur la révision du milieu, celle qui a resserré le seuil de l'huile
+ * de coupe, un bouton « Revenir en arrière » apparaît et se presse ; une
+ * nouvelle ligne arrive en tête, le seuil remis à sa valeur, cochée verte,
+ * et le changement annulé se barre. La traçabilité se lit comme un journal
+ * et se corrige en une opération, ce que la courbe de V-04 ne faisait
+ * comprendre qu'à ceux qui connaissaient déjà l'histoire.
+ *
+ * Les lignes viennent du récit de révisions du parc de démonstration
+ * (`seed_demo_revisions.py`) : #12 seuil de rebut de TCN1 abaissé à 6
+ * (C. Lefèvre), #7 seuil haut de l'huile de coupe resserré de 24,0 à
+ * 22,5 °C (M. Martin), #5 alerte de pression réseau abaissée à 6,0 bar
+ * (P. Dubois), et le retour arrière sur #7 (J. Dupont). Le compteur est
+ * le nombre de révisions du parc, quatorze. Les dates suivent la remise à
+ * zéro du 2026-09-16 ; le retour arrière est placé aujourd'hui pour que la
+ * frise se lise de haut en bas sans retour dans le temps.
+ */
+import { mt as t, type Lang } from './text';
+import Stat from './Stat.astro';
+import type { Ligne } from './Stat.astro';
+import { decimal } from './frame';
+import './strip.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const k = (cle: string) => t(lang, `motion.traceStrip.${cle}`);
+const dec = (v: number) => decimal(v, 1, lang);
+/** Le seuil de l'huile de coupe, avant et après le resserrage. */
+const LARGE = 24.0;
+const SERRE = 22.5;
+
+const REVISIONS = 14;
+const lignes: Ligne[] = Array.from({ length: 31 }, (_, i) => ({
+  valeur: String(Math.round((i / 30) * REVISIONS)),
+  ton: 'ink',
+}));
+
+const journal = [
+  { initiales: 'CL', teinte: 'a', qui: 'C. Lefèvre', quoi: k('tcn1'), valeur: k('tcn1_v'), quand: k('d12') },
+  { initiales: 'MM', teinte: 'b', qui: 'M. Martin', quoi: k('oil'), valeur: `${dec(LARGE)} → ${dec(SERRE)} °C`, quand: k('d31'), cible: true },
+  { initiales: 'PD', teinte: 'c', qui: 'P. Dubois', quoi: k('air'), valeur: k('air_v'), quand: k('d26') },
+];
+---
+
+<figure class="mvf mvs" role="img" aria-label={k('alt')}>
+  <Stat lignes={lignes} unite={k('unit')} phrase={k('caption')} />
+
+  <ol class="trs-journal" aria-hidden="true">
+    <!-- Le retour arrière : réservé en tête, il s'ouvre quand le bouton est
+         pressé et pousse les autres lignes vers le bas. -->
+    <li class="trs-ligne trs-retour">
+      <span class="trs-avatar trs-avatar--d">JD</span>
+      <span class="trs-texte">
+        <span class="trs-qui">J. Dupont</span>
+        <span class="trs-quoi">{k('rollback')}</span>
+      </span>
+      <span class="trs-valeur trs-valeur--ok">{`${dec(SERRE)} → ${dec(LARGE)} °C`}</span>
+      <span class="trs-quand">
+        <svg class="trs-coche" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="10" /><path d="M5.5 10.2 L8.6 13.2 L14.6 7" /></svg>
+      </span>
+    </li>
+
+    {
+      journal.map((r, i) => (
+        <li class:list={['trs-ligne', 'trs-entree', r.cible && 'trs-cible']} style={`--i: ${i}`}>
+          <span class={`trs-avatar trs-avatar--${r.teinte}`}>{r.initiales}</span>
+          <span class="trs-texte">
+            <span class="trs-qui">{r.qui}</span>
+            <span class="trs-quoi">{r.quoi}</span>
+          </span>
+          <span class="trs-valeur">{r.valeur}</span>
+          <span class="trs-quand">
+            <span class="trs-date">{r.quand}</span>
+            <!-- Rendu sur chaque ligne et affiché sur la seule ligne visée :
+                 Astro ne porte pas les styles sur un élément rendu dans une
+                 expression conditionnelle. -->
+            <span class="trs-bouton">
+              <svg viewBox="0 0 20 20" focusable="false"><path d="M6 7.5 A5.5 5.5 0 1 1 5.2 12.5" /><path d="M3 5.2 L6.4 7.8 L7.4 3.6" /></svg>
+              {k('button')}
+            </span>
+          </span>
+        </li>
+      ))
+    }
+  </ol>
+</figure>
+
+<script>
+  import { observerLesFigures } from './observe';
+
+  observerLesFigures();
+</script>
+
+<style>
+  .trs-journal {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    overflow: hidden;
+  }
+  .trs-ligne {
+    display: grid;
+    grid-template-columns: 2.4rem minmax(0, 1fr) auto 10rem;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.8rem 1rem;
+    border-top: 1px solid var(--color-line);
+  }
+  .trs-ligne:first-child { border-top: 0; }
+  .trs-retour { overflow: hidden; }
+
+  .trs-avatar {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #fff;
+  }
+  .trs-avatar--a { background: #3d7ea6; }
+  .trs-avatar--b { background: var(--color-accent); }
+  .trs-avatar--c { background: #a0632e; }
+  .trs-avatar--d { background: var(--color-normal); }
+
+  .trs-texte { display: grid; min-width: 0; }
+  .trs-qui {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+  .trs-quoi {
+    font-size: 0.875rem;
+    color: var(--color-ink-2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .trs-valeur {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-ink);
+    background: var(--color-n-100);
+    border-radius: var(--radius-sm);
+    padding: 0.25rem 0.5rem;
+    white-space: nowrap;
+  }
+  .trs-valeur--ok {
+    color: var(--color-normal);
+    background: color-mix(in srgb, var(--color-normal) 10%, transparent);
+  }
+  .trs-quand {
+    display: grid;
+    justify-items: end;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+  .trs-quand > * { grid-area: 1 / 1; }
+
+  .trs-bouton { display: none; }
+  .trs-cible .trs-bouton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--radius-md);
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+  }
+  .trs-bouton svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .trs-coche { width: 22px; height: 22px; }
+  .trs-coche circle { fill: var(--color-normal); }
+  .trs-coche path { fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* État final, sans mouvement : le retour arrière est en tête et le
+     changement annulé est barré. */
+  .trs-cible .trs-valeur {
+    text-decoration: line-through;
+    color: var(--color-muted);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .trs-entree {
+      animation: trs-entree 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: calc(0.15s + var(--i) * 0.14s);
+    }
+    /* La ligne visée s'éclaire, son bouton apparaît puis se presse. */
+    .trs-cible { animation: trs-entree 0.4s cubic-bezier(0.22, 1, 0.36, 1) both 0.29s, trs-vise 2.6s ease both 1.2s; }
+    .trs-cible .trs-date { animation: trs-cache 1.45s ease both 1.45s; }
+    .trs-bouton { animation: trs-bouton 1.3s ease both 1.5s; }
+    .trs-cible .trs-valeur { animation: trs-barre 0.4s ease both 2.75s; }
+    /* Le retour arrière s'ouvre en tête. */
+    .trs-retour { animation: trs-ouvre 0.55s cubic-bezier(0.22, 1, 0.36, 1) both 2.55s; }
+    .trs-coche { animation: trs-coche 0.45s cubic-bezier(0.22, 1, 0.36, 1) both 3s; }
+  }
+
+  /* Sous cette largeur, la date passe sous le texte et la valeur reste à
+     droite. */
+  @media (max-width: 560px) {
+    .trs-ligne {
+      grid-template-columns: 2.2rem minmax(0, 1fr) auto;
+      gap: 0.3rem 0.75rem;
+    }
+    .trs-avatar { width: 2.2rem; height: 2.2rem; }
+    .trs-quoi { white-space: normal; }
+    .trs-quand {
+      grid-column: 2 / -1;
+      justify-items: start;
+    }
+  }
+</style>
+
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes trs-entree {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes trs-vise {
+      0% { background: transparent; }
+      12%, 70% { background: var(--color-accent-bg); }
+      100% { background: transparent; }
+    }
+    /* La date cède la place au bouton le temps du geste, puis revient. */
+    @keyframes trs-cache {
+      0% { opacity: 1; }
+      12%, 88% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes trs-bouton {
+      0% { opacity: 0; transform: scale(0.8); }
+      20% { opacity: 1; transform: scale(1); }
+      62% { opacity: 1; transform: scale(1); }
+      70% { opacity: 1; transform: scale(0.9); }
+      78% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1); }
+    }
+    @keyframes trs-barre {
+      from { text-decoration-color: transparent; color: var(--color-ink); }
+      to { text-decoration-color: currentColor; color: var(--color-muted); }
+    }
+    @keyframes trs-ouvre {
+      from { max-height: 0; padding-block: 0; opacity: 0; border-width: 0; }
+      to { max-height: 5rem; opacity: 1; }
+    }
+    @keyframes trs-coche {
+      from { opacity: 0; transform: scale(0.3); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  }
+</style>

@@ -1,0 +1,345 @@
+---
+/**
+ * Ce que vous gérez avec Meshvise.
+ *
+ * Six fonctionnalités, chacune illustrée par une figure animée. Les
+ * captures d'écran du produit sont sur la page Produit : l'accueil donne
+ * envie, la page Produit montre l'outil. Une capture de formulaire d'alarme
+ * prouve que le formulaire existe ; une broche qui dérive pendant trente
+ * jours puis franchit son seuil dit pourquoi on en a besoin.
+ *
+ * Deux figures viennent de la série préparée sur `/preview-motion/`, quatre
+ * ont été faites pour cette section :
+ *
+ *   acquisition    V-05  treize protocoles, un seul moteur
+ *   historisation  V-08  les mesures qui remplissent la base, chacune à son rythme
+ *   alarmes        V-01  la broche qui franchit le seuil ISO 10816
+ *   tableaux       V-07  un tableau de bord livré qui se remplit
+ *   indicateurs    V-10  un taux de marche qui progresse, semaine après semaine
+ *   traçabilité    V-09  le journal des révisions et le retour arrière
+ *
+ * V-03, la valeur figée, est écartée : elle promet que le produit repère une
+ * source qui se tait, ce que l'audit du 2026-09-15 contredit encore. V-04
+ * (le seuil trop serré) et V-06 (rien ne se perd pendant une coupure) ont
+ * servi ici avant d'être remplacées le 2026-09-22 : la première ne se
+ * comprenait pas comme de la traçabilité, la seconde parlait de la coupure
+ * quand l'historisation doit parler de la base. V-02 (le talon d'air
+ * comprimé en euros) a cédé la place à un indicateur de performance.
+ *
+ * Ce qui n'est pas écrit ici l'est volontairement, d'après le même registre :
+ * aucune commande vers le procédé (AUD-001), aucune garantie sur la qualité
+ * des mesures, ni TRS, ni « disponibilité » (sans horaires d'ouverture c'est
+ * un taux de marche), ni années d'historique.
+ *
+ * La forme : la liste à gauche, la figure à droite, et la section défile
+ * seule (demande de Bruno, 2026-09-22). Chaque fonctionnalité reste le temps
+ * que sa figure se joue et se lise, pendant que le trait de gauche se remplit
+ * pour dire que ça avance ; c'est la fin de ce remplissage qui passe à la
+ * suivante, si bien que la pause et la reprise restent synchrones sans
+ * minuteur à part. Le survol et le focus clavier mettent en pause, la
+ * sortie de l'écran aussi ; un clic choisit, et le défilement reprend depuis
+ * le choix. Choisir une fonctionnalité rejoue sa figure depuis le début :
+ * une figure jouée pendant qu'elle était cachée arriverait sinon déjà finie.
+ *
+ * Sous 1024 px, chaque figure suit sa phrase, rien ne défile, et
+ * `observe.ts` rejoue chaque figure quand elle entre dans l'écran. Sous
+ * `prefers-reduced-motion`, rien ne défile non plus.
+ */
+import fr from '../i18n/fr.json';
+import en from '../i18n/en.json';
+import { t, type Lang } from '../i18n';
+
+import ProtocolEngineStrip from './motion/ProtocolEngineStrip.astro';
+import HistorianStrip from './motion/HistorianStrip.astro';
+import SpindleWearStrip from './motion/SpindleWearStrip.astro';
+import DashboardStrip from './motion/DashboardStrip.astro';
+import UtilisationStrip from './motion/UtilisationStrip.astro';
+import TraceStrip from './motion/TraceStrip.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+/** Indexées par identifiant : réordonner le dictionnaire ne décale pas les figures. */
+const FIGURES = {
+  acquisition: ProtocolEngineStrip,
+  historisation: HistorianStrip,
+  alarmes: SpindleWearStrip,
+  tableaux: DashboardStrip,
+  indicateurs: UtilisationStrip,
+  revisions: TraceStrip,
+} as const;
+
+/**
+ * Durée d'affichage d'une fonctionnalité quand la section défile seule, en
+ * millisecondes. Les figures se jouent en quatre à cinq secondes : il reste
+ * de quoi lire leur dernière image avant de passer à la suivante.
+ */
+const DUREE = 6500;
+
+const { lang } = Astro.props;
+const dict = (lang === 'fr' ? fr : en).home.see;
+const features = dict.features as {
+  id: keyof typeof FIGURES;
+  title: string;
+  body: string;
+}[];
+---
+
+<section id="fonctionnalites" class="section bg-surface border-y border-line">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="t-page">{t(lang, 'home.see.title')}</h2>
+    </div>
+
+    <div class="feat" data-feat data-duree={DUREE} style={`--duree: ${DUREE}ms`} aria-label={dict.aria} role="group">
+      {features.map((f, i) => {
+        const Figure = FIGURES[f.id];
+        return (
+          <div class="item" style={`--row: ${i + 1}`}>
+            <div class:list={['text', i === 0 && 'is-on']}>
+              <h3 class="name">
+                <button
+                  type="button"
+                  class="pick"
+                  aria-pressed={i === 0 ? 'true' : 'false'}
+                  aria-controls={`feat-fig-${i}`}
+                >
+                  {f.title}
+                </button>
+              </h3>
+              <p class="body">{f.body}</p>
+            </div>
+            <div id={`feat-fig-${i}`} class:list={['shot', i === 0 && 'is-on']}>
+              <Figure lang={lang} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<script>
+  /**
+   * Le HTML arrive dans son état de départ, la première fonctionnalité
+   * sélectionnée : le script déplace la sélection, rejoue la figure qu'il
+   * découvre, et fait défiler la section quand l'écran s'y prête.
+   */
+  const calme = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const large = window.matchMedia('(min-width: 1024px)');
+
+  function rejouer(el: HTMLElement) {
+    if (calme.matches || typeof el.getAnimations !== 'function') return;
+    for (const animation of el.getAnimations({ subtree: true })) {
+      animation.currentTime = 0;
+      animation.play();
+    }
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-feat]').forEach((feat) => {
+    const boutons = Array.from(feat.querySelectorAll<HTMLButtonElement>('.pick'));
+    const textes = Array.from(feat.querySelectorAll<HTMLElement>('.text'));
+    const figures = Array.from(feat.querySelectorAll<HTMLElement>('.shot'));
+    let actif = 0;
+    let visible = false;
+    let survol = false;
+    let clavier = false;
+
+    function montrer(i: number) {
+      const avant = actif;
+      actif = (i + boutons.length) % boutons.length;
+      if (avant !== actif && !calme.matches) {
+        const sortante = figures[avant];
+        sortante.classList.add('sortante');
+        window.setTimeout(() => sortante.classList.remove('sortante'), 280);
+      }
+      boutons.forEach((b, n) => b.setAttribute('aria-pressed', n === actif ? 'true' : 'false'));
+      textes.forEach((el, n) => el.classList.toggle('is-on', n === actif));
+      figures.forEach((el, n) => el.classList.toggle('is-on', n === actif));
+      rejouer(figures[actif]);
+    }
+
+    /** Le défilement tourne quand l'écran est large, que le visiteur n'a pas
+     *  demandé moins de mouvement, et que la section est à l'écran. */
+    function mettreAJour() {
+      const defile = large.matches && !calme.matches;
+      feat.classList.toggle('defile', defile);
+      feat.classList.toggle('en-pause', !visible || survol || clavier);
+    }
+
+    boutons.forEach((b, i) =>
+      b.addEventListener('click', () => {
+        montrer(i);
+        mettreAJour();
+      })
+    );
+
+    // La fin du remplissage du trait actif passe à la fonctionnalité suivante.
+    feat.addEventListener('animationend', (e) => {
+      if (e.animationName !== 'feat-progres') return;
+      if (!feat.classList.contains('defile') || feat.classList.contains('en-pause')) return;
+      montrer(actif + 1);
+    });
+
+    feat.addEventListener('pointerenter', () => { survol = true; mettreAJour(); });
+    feat.addEventListener('pointerleave', () => { survol = false; mettreAJour(); });
+    // Le focus ne met en pause que s'il vient du clavier : un clic laisse le
+    // focus sur le bouton, et figerait sinon le défilement pour de bon.
+    feat.addEventListener('focusin', (e) => {
+      clavier = !!(e.target as Element | null)?.matches?.(':focus-visible');
+      mettreAJour();
+    });
+    feat.addEventListener('focusout', () => { clavier = false; mettreAJour(); });
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(
+        (entrees) => {
+          visible = entrees[0].isIntersecting;
+          mettreAJour();
+        },
+        { threshold: 0.3 }
+      ).observe(feat);
+    }
+    large.addEventListener('change', mettreAJour);
+    calme.addEventListener('change', mettreAJour);
+    mettreAJour();
+  });
+</script>
+
+<style>
+  .feat { margin-top: 0.5rem; }
+
+  .name {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--color-ink);
+  }
+  .pick {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+  }
+  .body {
+    margin: 0.3rem 0 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-ink-2);
+  }
+
+  /* Sous 1024 px : chaque figure suit sa phrase, rien à choisir. */
+  @media (max-width: 1023px) {
+    .item + .item { margin-top: 3rem; }
+    .shot { margin-top: 1.5rem; }
+    .pick { cursor: default; }
+  }
+
+  /* À partir de 1024 px : la liste à gauche, la figure à droite. Les items
+     s'effacent de la grille pour que textes et figures en soient enfants
+     directs : chaque texte prend sa ligne, les six figures s'empilent dans
+     la même zone de la seconde colonne, et la scène prend la hauteur de la
+     plus haute sans jamais sauter. */
+  @media (min-width: 1024px) {
+    .feat {
+      display: grid;
+      grid-template-columns: minmax(0, 4.5fr) minmax(0, 7.5fr);
+      grid-template-rows: repeat(6, auto) 1fr;
+      column-gap: 4.5rem;
+    }
+    .item { display: contents; }
+
+    .text {
+      grid-column: 1;
+      grid-row: var(--row);
+      position: relative;
+      padding: 0.8rem 0 0.8rem 1.25rem;
+      border-left: 2px solid var(--color-line);
+      transition: border-color 180ms ease;
+    }
+    .text:hover { border-left-color: var(--color-line-strong); }
+    .text.is-on { border-left-color: var(--color-accent); }
+
+    /* Quand la section défile, le trait de l'élément actif se remplit du
+       haut vers le bas pendant sa durée d'affichage ; sa fin passe au
+       suivant. En pause, il s'arrête où il en est. */
+    .feat.defile .text.is-on { border-left-color: var(--color-line); }
+    .feat.defile .text.is-on::before {
+      content: '';
+      position: absolute;
+      left: -2px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--color-accent);
+      transform-origin: top;
+      animation: feat-progres var(--duree) linear both;
+    }
+    .feat.defile.en-pause .text.is-on::before { animation-play-state: paused; }
+
+    /* Toute la ligne est cliquable, le bouton reste la cible du clavier et
+       des lecteurs d'écran. */
+    .pick { cursor: pointer; }
+    .pick::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+    .pick:focus-visible { outline: none; }
+    .text:has(.pick:focus-visible) {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    .text:not(.is-on) .name { color: var(--color-ink-2); }
+    .text:not(.is-on) .body { color: var(--color-muted); }
+
+    .shot {
+      grid-column: 2;
+      grid-row: 1 / -1;
+      /* Les figures n'ont pas la même hauteur : chacune se centre sur la
+         liste, l'écart se partage au lieu de s'accumuler sous elle. */
+      align-self: center;
+      opacity: 0;
+      visibility: hidden;
+    }
+    .shot.is-on {
+      opacity: 1;
+      visibility: visible;
+    }
+    .name,
+    .body { transition: color 300ms ease; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .text { transition: none; }
+  }
+  /* Fondu enchaîné, comme les métiers plus haut : la sortante s'efface par
+     une animation posée par le script, l'entrante monte juste après. */
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .shot.is-on { animation: feat-entree 600ms cubic-bezier(0.22, 1, 0.36, 1) both 180ms; }
+    .shot.sortante {
+      visibility: visible;
+      animation: feat-sortie 260ms ease both;
+    }
+  }
+  @keyframes feat-sortie {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  @keyframes feat-entree {
+    from { opacity: 0; transform: translateY(0.625rem); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes feat-progres {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+</style>

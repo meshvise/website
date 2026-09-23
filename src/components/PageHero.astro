@@ -1,0 +1,24 @@
+---
+/**
+ * Accroche des pages secondaires. Un titre, éventuellement une lede, un
+ * slot pour les actions et un slot `bg` pour un fond dessiné. Pas de
+ * surtitre : le titre nomme la page.
+ */
+interface Props {
+  title: string;
+  subtitle?: string;
+}
+
+const { title, subtitle } = Astro.props;
+const hasBg = Astro.slots.has('bg');
+---
+
+<section class={`border-b border-line ${hasBg ? 'relative overflow-hidden isolate' : ''}`}>
+  {/* Pleine largeur : chaque fond se positionne lui-même et gère son propre voile. */}
+  {hasBg && <div class="absolute inset-0 -z-10 hidden lg:block"><slot name="bg" /></div>}
+  <div class="wrap relative py-16 md:py-24">
+    <h1 class="t-page max-w-3xl">{title}</h1>
+    {subtitle && <p class="t-lede mt-5">{subtitle}</p>}
+    <slot />
+  </div>
+</section>

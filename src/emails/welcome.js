@@ -6,10 +6,10 @@ import { buildDockerComposeYml } from './docker-compose.js';
 
 const COPY = {
   fr: {
-    subject: 'Votre essai Meshvise 7 jours · licence + install',
+    subject: 'Votre licence d\'essai Meshvise, valide sept jours',
     greeting: (name) => (name ? `Bonjour ${name},` : 'Bonjour,'),
-    intro: 'Voici votre licence d\'essai Meshvise, valide 7 jours. Tout ce dont vous avez besoin pour démarrer est en pièce jointe de cet email.',
-    steps_title: 'Démarrer en 3 minutes',
+    intro: 'Voici votre licence d\'essai Meshvise, valide sept jours. La licence et le fichier de déploiement sont en pièce jointe.',
+    steps_title: 'L\'installation',
     steps: [
       'Téléchargez les deux pièces jointes (<strong>license.jwt</strong> et <strong>docker-compose.yml</strong>) dans un même dossier.',
       'Dans ce dossier, lancez <code>docker compose up -d</code> depuis votre terminal.',
@@ -19,17 +19,17 @@ const COPY = {
     limits_title: 'Limites de cet essai',
     limits: [
       '5 drivers · 15 machines · 500 points',
-      'Toutes les fonctionnalités : acquisition, historian, alarmes, wiresheet, accès SQL',
-      'Durée : 7 jours. À l\'expiration, l\'app passe en lecture seule, vos données restent vôtres.',
+      'Toutes les fonctions : acquisition, historisation, alarmes, logique visuelle, accès SQL',
+      'Durée : sept jours. À l\'expiration, l\'application passe en lecture seule, vos données restent vôtres.',
     ],
-    next: 'On vous écrira dans 6 jours pour faire le point. Si vous avez la moindre question d\'ici là, répondez à cet email.',
+    next: 'Je vous écrirai dans six jours pour faire le point. D\'ici là, toute question se répond directement à ce courriel.',
     signoff: 'Bruno · Meshvise',
   },
   en: {
-    subject: 'Your Meshvise 7-day trial · licence + install',
-    greeting: (name) => (name ? `Hi ${name},` : 'Hi,'),
-    intro: 'Here is your Meshvise trial licence, valid for 7 days. Everything you need to get started is attached to this email.',
-    steps_title: 'Up and running in 3 minutes',
+    subject: 'Your Meshvise trial licence, valid for seven days',
+    greeting: (name) => (name ? `Hello ${name},` : 'Hello,'),
+    intro: 'Here is your Meshvise trial licence, valid for seven days. The licence and the deployment file are attached.',
+    steps_title: 'Installation',
     steps: [
       'Download the two attachments (<strong>license.jwt</strong> and <strong>docker-compose.yml</strong>) into a single folder.',
       'In that folder, run <code>docker compose up -d</code> from your terminal.',
@@ -39,10 +39,10 @@ const COPY = {
     limits_title: 'Trial limits',
     limits: [
       '5 drivers · 15 machines · 500 points',
-      'Full feature set: acquisition, historian, alarms, wiresheet, SQL access',
-      'Duration: 7 days. On expiration, the app switches to read-only and your data stays yours.',
+      'All features: acquisition, history, alarms, visual logic, SQL access',
+      'Duration: seven days. On expiry, the application switches to read-only and your data stays yours.',
     ],
-    next: 'We\'ll write again in 6 days to check in. If you have any question before that, just reply to this email.',
+    next: 'I will write in six days to review it with you. Until then, any question can be answered by replying to this email.',
     signoff: 'Bruno · Meshvise',
   },
 };
@@ -54,16 +54,16 @@ export function renderWelcomeEmail({ lang, name, jwt, docsUrl = 'https://meshvis
   const limitsHtml = c.limits.map((s) => `<li>${s}</li>`).join('');
 
   const html = `<!doctype html>
-<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#0F172A;max-width:600px;margin:0 auto;padding:24px;line-height:1.55;">
+<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#161b23;max-width:600px;margin:0 auto;padding:24px;line-height:1.55;">
   <p>${escapeHtml(greeting)}</p>
   <p>${c.intro}</p>
 
-  <h2 style="font-size:18px;margin-top:28px;color:#0F172A;">${c.steps_title}</h2>
+  <h2 style="font-size:18px;margin-top:28px;color:#161b23;">${c.steps_title}</h2>
   <ol style="padding-left:20px;">${stepsHtml}</ol>
 
-  <p><a href="${escapeAttr(docsUrl)}" style="color:#06B6D4;">${c.docs_link_text}</a></p>
+  <p><a href="${escapeAttr(docsUrl)}" style="color:#5b4a94;">${c.docs_link_text}</a></p>
 
-  <h2 style="font-size:18px;margin-top:28px;color:#0F172A;">${c.limits_title}</h2>
+  <h2 style="font-size:18px;margin-top:28px;color:#161b23;">${c.limits_title}</h2>
   <ul style="padding-left:20px;">${limitsHtml}</ul>
 
   <p style="margin-top:28px;">${c.next}</p>

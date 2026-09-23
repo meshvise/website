@@ -26,3 +26,6 @@ pnpm-debug.log*
 .wrangler
 .dev.vars*
 !.dev.vars.example
+
+# worktrees des agents (travail parallèle, jamais versionné)
+.claude/worktrees/
