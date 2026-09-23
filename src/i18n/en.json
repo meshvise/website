@@ -430,21 +430,14 @@
     "assistant": {
       "title": "Plugging AI into the shop floor",
       "lede": "Your company's AI finally reads the shop floor, and answers questions simply, without any need for manual analysis.",
-      "facts": [
-        {
-          "k": "Read only",
-          "v": "It looks at the fleet, the history, the alarms and the indicators. It cannot change or command anything."
-        },
-        {
-          "k": "Your AI, your key",
-          "v": "You connect the model of your choice. Meshvise hosts none and talks to no provider."
-        },
-        {
-          "k": "One access per tool",
-          "v": "Each connected tool has its own key, which you withdraw whenever you want."
-        }
+      "ias": [
+        "Copilot",
+        "Claude",
+        "ChatGPT",
+        "Or any other assistant"
       ],
-      "not": "Meshvise does not do AI: it gives yours clean, named and reliable data.",
+      "connect": "Your company connects the assistant it already uses, through MCP, the open standard that links AI to software.",
+      "made": "Meshvise is built to be used by AI: every machine, measurement and indicator carries a clear name and a known quality, which is what an AI needs to answer correctly.",
       "cta": "Plugging in an AI, in practice"
     },
     "shots": {

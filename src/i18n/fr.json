@@ -430,21 +430,14 @@
     "assistant": {
       "title": "Brancher l'IA sur l'atelier",
       "lede": "L'IA de votre entreprise lit enfin l'atelier, et répond simplement aux questions, sans avoir besoin de faire des analyses manuelles.",
-      "facts": [
-        {
-          "k": "En lecture seule",
-          "v": "Elle consulte le parc, l'historique, les alarmes et les indicateurs. Elle ne peut rien modifier ni commander."
-        },
-        {
-          "k": "Votre IA, votre clé",
-          "v": "Vous branchez le modèle de votre choix. Meshvise n'en héberge aucun et ne parle à aucun fournisseur."
-        },
-        {
-          "k": "Un accès par outil",
-          "v": "Chaque outil branché a sa propre clé, que vous retirez quand vous voulez."
-        }
+      "ias": [
+        "Copilot",
+        "Claude",
+        "ChatGPT",
+        "Ou tout autre assistant"
       ],
-      "not": "Meshvise ne fait pas d'IA : il donne à la vôtre des données propres, nommées et fiables.",
+      "connect": "Votre entreprise y branche l'assistant qu'elle utilise déjà, par MCP, le standard ouvert qui relie les IA aux logiciels.",
+      "made": "Meshvise est fait pour être utilisé par les IA : chaque machine, chaque mesure et chaque indicateur porte un nom clair et une qualité connue, ce dont une IA a besoin pour répondre juste.",
       "cta": "Brancher une IA, en pratique"
     },
     "shots": {

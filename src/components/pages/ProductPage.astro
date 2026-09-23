@@ -62,7 +62,7 @@ const captures = CAPTURES[lang];
 
 const p = (lang === 'fr' ? fr : en).product;
 const portes = p.doors as { key: string; title: string; short: string }[];
-const faits = p.assistant.facts as { k: string; v: string }[];
+const ias = p.assistant.ias as string[];
 
 // Les quatre chapitres du titre, et la bande où chacun mène.
 const ANCRES: Record<string, string> = {
@@ -194,27 +194,26 @@ const ANCRES: Record<string, string> = {
 
   <!-- La prise pour une IA. Graphite, comme la section IA de l'accueil :
        c'est la seule capacité du produit sans équivalent chez les
-       supervisions établies, et elle appelle autant de garde-fous que de
-       promesses. Tout ce qui est écrit ici est vérifiable dans le code, et
-       rien n'anticipe : l'assistant de diagnostic et la question en langue
-       naturelle n'existent pas, donc ils ne sont pas mentionnés. -->
+       supervisions établies. La section nomme les assistants qu'une
+       entreprise utilise déjà : le visiteur reconnaît le sien, et comprend
+       qu'il n'a rien de nouveau à adopter. Rien n'anticipe : l'assistant de
+       diagnostic et la question en langue naturelle intégrés n'existent
+       pas, donc ils ne sont pas mentionnés. -->
   <section id="assistant" class="section dark-block relative overflow-hidden">
     <div class="wrap">
       <div class="section-head">
         <h2 class="t-page">{t(lang, 'product.assistant.title')}</h2>
         <p class="t-lede">{t(lang, 'product.assistant.lede')}</p>
       </div>
-      <dl class="faits">
-        {faits.map((f) => (
-          <div class="fait">
-            <dt>{f.k}</dt>
-            <dd>{f.v}</dd>
-          </div>
+      <ul class="ias">
+        {ias.map((n, i) => (
+          <li class={`ia ${i === ias.length - 1 ? 'ia--autre' : ''}`}>{n}</li>
         ))}
-      </dl>
-      <!-- Dire ce que ce n'est pas vaut mieux que de laisser le visiteur
-           l'imaginer, puis être déçu devant la démonstration. -->
-      <p class="nope">{t(lang, 'product.assistant.not')}</p>
+      </ul>
+      <div class="duo">
+        <p>{t(lang, 'product.assistant.connect')}</p>
+        <p>{t(lang, 'product.assistant.made')}</p>
+      </div>
       <a href={`${href(lang, 'guides')}brancher-une-ia-sur-sa-supervision/`} class="suite suite--sombre">
         {t(lang, 'product.assistant.cta')} <span aria-hidden="true">→</span>
       </a>
@@ -317,32 +316,43 @@ const ANCRES: Record<string, string> = {
   .colonnes--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   /* ── L'IA, sur fond graphite ───────────────────────────────────────── */
-  .faits {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2.5rem 3.5rem;
+  /* Les assistants qu'une entreprise utilise déjà : de grandes pastilles,
+     lisibles d'un regard, la dernière ouverte à tous les autres. */
+  .ias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.875rem;
     margin: 0;
+    padding: 0;
+    list-style: none;
   }
-  .fait { padding-top: 1.25rem; border-top: 1px solid rgb(255 255 255 / 0.16); }
-  .fait dt {
-    font-size: 1.125rem;
+  .ia {
+    padding: 0.875rem 1.5rem;
+    border-radius: 999px;
+    border: 2px solid rgb(255 255 255 / 0.28);
+    background: rgb(255 255 255 / 0.06);
+    font-size: 1.25rem;
     font-weight: 500;
     color: var(--color-n-0);
   }
-  .fait dd {
-    margin: 0.625rem 0 0;
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--color-n-300);
+  .ia--autre {
+    border-style: dashed;
+    background: transparent;
+    color: var(--color-accent-soft);
   }
-  .nope {
-    margin: 3rem 0 0;
-    padding-left: 1.25rem;
-    border-left: 3px solid var(--color-accent-soft);
-    max-width: 68ch;
-    font-size: 1.0625rem;
-    line-height: 1.7;
-    color: var(--color-n-0);
+  .duo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3.5rem;
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgb(255 255 255 / 0.16);
+  }
+  .duo p {
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.65;
+    color: var(--color-n-300);
   }
 
   @media (max-width: 1023px) {
@@ -352,7 +362,7 @@ const ANCRES: Record<string, string> = {
     .ligne,
     .ligne--inverse { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
     .ligne--inverse .texte { order: 0; }
-    .faits { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+    .duo { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
     .pile { gap: 5rem; }
   }
   @media (max-width: 767px) {
