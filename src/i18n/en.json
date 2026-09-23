@@ -978,7 +978,33 @@
       "title": "Contact · Meshvise",
       "description": "Licence, managed operations, trial or demonstration: write to us, reply within two business days."
     },
-    "title": "Get in touch",
-    "body": "Licence, managed operations, trial or a simple question: tell us what you are looking for. Reply within two business days."
+    "lead": "Let's talk about",
+    "accent": "your site.",
+    "subtitle": "Tell us what you are looking for. Reply within two business days.",
+    "topics": {
+      "licence": "The full licence, on your premises",
+      "exploitation": "Meshvise run for you",
+      "essai": "On your infrastructure",
+      "demo": "Thirty minutes by video call",
+      "autre": "Anything else"
+    },
+    "next": {
+      "title": "What happens next",
+      "steps": [
+        {
+          "title": "A reply within two business days",
+          "body": "By email, with the questions that help prepare the next step."
+        },
+        {
+          "title": "A thirty-minute call",
+          "body": "By video, to understand your site and your equipment."
+        },
+        {
+          "title": "A written proposal",
+          "body": "Priced and with no commitment."
+        }
+      ]
+    },
+    "direct": "Or directly by email"
   }
 }

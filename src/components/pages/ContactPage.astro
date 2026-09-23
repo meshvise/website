@@ -1,25 +1,292 @@
 ---
 /**
- * Contact. La page où mènent tous les « Prendre contact » du site, depuis
- * le 2026-09-23 : le formulaire y est seul, et le lien qui y mène choisit la
- * demande d'office (`?sujet=licence`, `?sujet=exploitation`…). La page
- * Tarifs ne porte plus de formulaire, elle y renvoie.
+ * Contact. La page où mènent tous les « Prendre contact » du site depuis le
+ * 2026-09-23, et le seul formulaire de demande : licence, exploitation
+ * déléguée, essai, démonstration ou autre question.
+ *
+ * Même grammaire que les autres pages : une accroche en deux temps dont la
+ * fin est à la couleur d'accent, puis le formulaire sur sa carte blanche et,
+ * à côté, un bloc graphite qui dit ce qui se passe après l'envoi. La demande
+ * se choisit par de grandes tuiles plutôt que par une liste déroulante :
+ * on voit d'un regard ce qu'on peut demander. Le lien qui mène ici la choisit
+ * d'office (`?sujet=licence`, `?sujet=exploitation`, `?sujet=essai`…).
+ *
+ * Sans backend pour l'instant : l'envoi compose un courriel (mailto), dont
+ * l'objet porte la demande choisie.
  */
 import Base from '../../layouts/Base.astro';
-import ContactForm from '../ContactForm.astro';
+import fr from '../../i18n/fr.json';
+import en from '../../i18n/en.json';
 import { t, type Lang } from '../../i18n';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
+
+const c = (lang === 'fr' ? fr : en).contact;
+const libelles = (lang === 'fr' ? fr : en).contact_form.topics as Record<string, string>;
+const details = c.topics as Record<string, string>;
+const etapes = c.next.steps as { title: string; body: string }[];
+
+// Les demandes, dans l'ordre d'engagement ; « autre » est choisie d'office.
+const SUJETS = ['licence', 'exploitation', 'essai', 'demo', 'autre'] as const;
 ---
 
 <Base lang={lang} title={t(lang, 'contact.meta.title')} description={t(lang, 'contact.meta.description')}>
-  <ContactForm
-    lang={lang}
-    id="contact"
-    title={t(lang, 'contact.title')}
-    body={t(lang, 'contact.body')}
-    submitKey="contact_form.submit_contact"
-    main
-  />
+  <section class="border-b border-line">
+    <div class="wrap pt-12 pb-16 md:pt-16 md:pb-20">
+      <h1 class="t-hero accroche">
+        <span class="block">{c.lead}</span>
+        <span class="block accent">{c.accent}</span>
+      </h1>
+      <p class="sous-titre">{c.subtitle}</p>
+
+      <div class="corps-page">
+        <form class="carte" data-contact-form>
+          <fieldset class="sujets">
+            <legend class="field-label legende">{t(lang, 'contact_form.topic')}</legend>
+            <div class="tuiles">
+              {SUJETS.map((k) => (
+                <label class={`tuile tuile--${k}`}>
+                  <input type="radio" name="topic" value={k} checked={k === 'autre'} data-libelle={libelles[k]} />
+                  <span class="icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      {k === 'licence' && <g><circle cx="8" cy="12" r="4" /><path d="M12 12 H21 M18 12 V15 M21 12 V14" /></g>}
+                      {k === 'exploitation' && <g><path d="M5 14 V12 A7 7 0 0 1 19 12 V14" /><rect x="3.5" y="13" width="4" height="6" rx="1.5" /><rect x="16.5" y="13" width="4" height="6" rx="1.5" /></g>}
+                      {k === 'essai' && <g><rect x="3" y="6" width="10" height="12" rx="2" /><path d="M13 12 H17" /><rect x="17" y="9" width="4" height="6" rx="1" /></g>}
+                      {k === 'demo' && <g><rect x="3" y="4.5" width="18" height="12" rx="2" /><path d="M10 8 L14.5 10.5 L10 13 Z M8 20 H16" /></g>}
+                      {k === 'autre' && <g><path d="M4 5 H20 V16 H11 L7 20 V16 H4 Z" /><path d="M10 9 A2 2 0 1 1 12 11 V12.5 M12 14.5 V14.6" /></g>}
+                    </svg>
+                  </span>
+                  <span class="nom-sujet">{libelles[k]}</span>
+                  <span class="detail">{details[k]}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <div class="champs">
+            <div>
+              <label for="contact-name" class="field-label">{t(lang, 'contact_form.name')}</label>
+              <input id="contact-name" name="name" type="text" required placeholder={t(lang, 'contact_form.name_ph')} class="field" />
+            </div>
+            <div>
+              <label for="contact-company" class="field-label">{t(lang, 'contact_form.company')}</label>
+              <input id="contact-company" name="company" type="text" required placeholder={t(lang, 'contact_form.company_ph')} class="field" />
+            </div>
+            <div class="large">
+              <label for="contact-email" class="field-label">{t(lang, 'contact_form.email')}</label>
+              <input id="contact-email" name="email" type="email" required placeholder={t(lang, 'contact_form.email_ph')} class="field" />
+            </div>
+            <div class="large">
+              <label for="contact-install" class="field-label">{t(lang, 'contact_form.install')}</label>
+              <textarea id="contact-install" name="install" rows="4" placeholder={t(lang, 'contact_form.install_ph')} class="field resize-y"></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg envoyer">{t(lang, 'contact_form.submit_contact')}</button>
+        </form>
+
+        <aside class="ensuite dark-block relative">
+          <h2 class="t-section titre-ensuite">{c.next.title}</h2>
+          <ol class="etapes">
+            {etapes.map((e, i) => (
+              <li>
+                <span class="numero" aria-hidden="true">{i + 1}</span>
+                <div>
+                  <p class="nom-etape">{e.title}</p>
+                  <p class="texte-etape">{e.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <div class="direct">
+            <p>{c.direct}</p>
+            <a href="mailto:contact@meshvise.com">contact@meshvise.com</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
 </Base>
+
+<script is:inline>
+  (function () {
+    var form = document.querySelector('form[data-contact-form]');
+    if (!form) return;
+    // La demande annoncée par le lien (?sujet=licence) est cochée d'office.
+    var sujet = new URLSearchParams(window.location.search).get('sujet');
+    if (sujet) {
+      var choix = form.querySelector('input[name="topic"][value="' + CSS.escape(sujet) + '"]');
+      if (choix) choix.checked = true;
+    }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var fd = new FormData(form);
+      var coche = form.querySelector('input[name="topic"]:checked');
+      var demande = coche ? coche.dataset.libelle : '';
+      var body = [
+        'Demande / Request: ' + demande,
+        'Nom / Name: ' + (fd.get('name') || ''),
+        'Entreprise / Company: ' + (fd.get('company') || ''),
+        'Email: ' + (fd.get('email') || ''),
+        '',
+        String(fd.get('install') || ''),
+      ].join('\n');
+      window.location.href = 'mailto:contact@meshvise.com?subject=' + encodeURIComponent('Meshvise · ' + demande) + '&body=' + encodeURIComponent(body);
+    });
+  })();
+</script>
+
+<style>
+  .accroche { max-width: 46rem; margin: 0; }
+  .accent { color: var(--color-accent); }
+  .sous-titre {
+    margin-top: 0.9rem;
+    font-size: 1.125rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--color-ink-2);
+    max-width: 52ch;
+  }
+
+  .corps-page {
+    margin-top: 2.75rem;
+    display: grid;
+    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  /* ── Le formulaire ─────────────────────────────────────────────────── */
+  .carte {
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    box-shadow: 0 2px 4px rgb(22 27 35 / 0.06), 0 30px 60px -30px rgb(22 27 35 / 0.3);
+  }
+  @media (min-width: 768px) { .carte { padding: 2.5rem; } }
+
+  .sujets { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .legende { padding: 0; margin-bottom: 0.875rem; }
+  /* Trois tuiles en haut, les deux dernières plus larges en dessous : une
+     grille de six colonnes, pour qu'aucune ligne ne laisse de trou. */
+  .tuiles {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  .tuile { grid-column: span 2; }
+  .tuile--demo,
+  .tuile--autre { grid-column: span 3; }
+  .tuile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 2px solid var(--color-line);
+    background: var(--color-canvas);
+    cursor: pointer;
+    transition: border-color 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
+  }
+  .tuile:hover { border-color: var(--color-n-300); }
+  .tuile input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+  .tuile:has(input:checked) {
+    border-color: var(--color-accent);
+    background: var(--color-accent-bg);
+  }
+  .tuile:has(input:focus-visible) { box-shadow: 0 0 0 3px var(--color-accent-bg); border-color: var(--color-accent); }
+  .icone {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    background: var(--color-n-100);
+    color: var(--color-ink-2);
+    transition: background-color 140ms ease, color 140ms ease;
+  }
+  .tuile:has(input:checked) .icone { background: var(--color-accent); color: #fff; }
+  .icone svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .nom-sujet { font-size: 0.9375rem; font-weight: 600; line-height: 1.3; color: var(--color-ink); }
+  .detail { font-size: 0.8125rem; line-height: 1.4; color: var(--color-ink-2); }
+
+  .champs {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-line);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 1.5rem;
+  }
+  .large { grid-column: 1 / -1; }
+  .envoyer { margin-top: 2rem; }
+
+  /* ── Ce qui se passe ensuite ───────────────────────────────────────── */
+  .ensuite {
+    padding: 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgb(22 27 35 / 0.10), 0 18px 40px -20px rgb(22 27 35 / 0.45);
+  }
+  .titre-ensuite { color: var(--color-n-0); }
+  .etapes { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; gap: 1.5rem; }
+  .etapes li { display: flex; gap: 1rem; }
+  .numero {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  .nom-etape { margin: 0.2rem 0 0; font-size: 1rem; font-weight: 500; color: var(--color-n-0); }
+  .texte-etape { margin: 0.375rem 0 0; font-size: 0.9375rem; line-height: 1.55; color: var(--color-n-300); }
+  .direct {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(255 255 255 / 0.14);
+  }
+  .direct p { margin: 0; font-size: 0.9375rem; color: var(--color-n-300); }
+  .direct a {
+    display: inline-block;
+    margin-top: 0.375rem;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--color-accent-soft);
+    text-decoration: none;
+  }
+  .direct a:hover { color: var(--color-n-0); }
+
+  @media (max-width: 1023px) {
+    .corps-page { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .carte { padding: 1.5rem; }
+    .champs { grid-template-columns: minmax(0, 1fr); }
+    .tuiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tuile,
+    .tuile--demo { grid-column: span 1; }
+    .tuile--autre { grid-column: 1 / -1; }
+  }
+</style>

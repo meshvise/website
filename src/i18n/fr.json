@@ -978,7 +978,33 @@
       "title": "Contact · Meshvise",
       "description": "Licence, exploitation déléguée, essai ou démonstration : écrivez-nous, réponse sous deux jours ouvrés."
     },
-    "title": "Prendre contact",
-    "body": "Licence, exploitation déléguée, essai ou simple question : dites-nous ce que vous cherchez. Réponse sous deux jours ouvrés."
+    "lead": "Parlons de",
+    "accent": "votre site.",
+    "subtitle": "Dites-nous ce que vous cherchez. Réponse sous deux jours ouvrés.",
+    "topics": {
+      "licence": "La licence complète, chez vous",
+      "exploitation": "Meshvise exploité pour vous",
+      "essai": "Sur votre infrastructure",
+      "demo": "Trente minutes en visio",
+      "autre": "Tout le reste"
+    },
+    "next": {
+      "title": "Ce qui se passe ensuite",
+      "steps": [
+        {
+          "title": "Une réponse sous deux jours ouvrés",
+          "body": "Par courriel, avec les questions utiles pour préparer la suite."
+        },
+        {
+          "title": "Un échange de trente minutes",
+          "body": "En visio, pour comprendre votre site et vos équipements."
+        },
+        {
+          "title": "Une proposition écrite",
+          "body": "Chiffrée et sans engagement."
+        }
+      ]
+    },
+    "direct": "Ou directement par courriel"
   }
 }
