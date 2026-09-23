@@ -828,6 +828,15 @@
     },
     "lead": "Parlons de",
     "accent": "votre site.",
-    "subtitle": "Dites-nous ce que vous cherchez. Réponse sous deux jours ouvrés."
+    "subtitle": "Dites-nous ce que vous cherchez. Réponse sous deux jours ouvrés.",
+    "form": {
+      "sending": "Envoi en cours…",
+      "sent_title": "Merci, votre demande est partie.",
+      "sent_body": "Réponse sous deux jours ouvrés, à l'adresse que vous avez indiquée.",
+      "error": "L'envoi n'a pas abouti.",
+      "error_rate": "Trop de demandes en peu de temps, réessayez dans une minute.",
+      "error_email": "Vérifiez l'adresse courriel.",
+      "fallback": "Envoyer par courriel"
+    }
   }
 }

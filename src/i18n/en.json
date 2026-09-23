@@ -828,6 +828,15 @@
     },
     "lead": "Let's talk about",
     "accent": "your site.",
-    "subtitle": "Tell us what you are looking for. Reply within two business days."
+    "subtitle": "Tell us what you are looking for. Reply within two business days.",
+    "form": {
+      "sending": "Sending…",
+      "sent_title": "Thank you, your request is on its way.",
+      "sent_body": "Reply within two business days, to the address you gave.",
+      "error": "The message could not be sent.",
+      "error_rate": "Too many requests in a short time, try again in a minute.",
+      "error_email": "Please check the email address.",
+      "fallback": "Send by email"
+    }
   }
 }

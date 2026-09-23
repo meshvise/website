@@ -11,8 +11,12 @@
  * on voit d'un regard ce qu'on peut demander. Le lien qui mène ici la choisit
  * d'office (`?sujet=licence`, `?sujet=exploitation`, `?sujet=essai`…).
  *
- * Sans backend pour l'instant : l'envoi compose un courriel (mailto), dont
- * l'objet porte la demande choisie.
+ * Depuis le 2026-09-23, l'envoi part directement : le formulaire poste sur
+ * `/api/contact`, et le Worker transmet la demande par courriel à
+ * contact@meshvise.com. Le visiteur voit une confirmation sur la page. Si
+ * l'envoi échoue (réseau, limite de débit, ou serveur de développement
+ * Astro qui n'a pas de Worker), la page le dit et propose le courriel
+ * prérempli en secours : une demande n'est jamais perdue en silence.
  */
 import Base from '../../layouts/Base.astro';
 import fr from '../../i18n/fr.json';
@@ -30,6 +34,12 @@ const SUJETS = ['licence', 'exploitation', 'essai', 'demo', 'autre'] as const;
 ---
 
 <Base lang={lang} title={t(lang, 'contact.meta.title')} description={t(lang, 'contact.meta.description')}>
+  <div hidden data-textes
+    data-sending={c.form.sending}
+    data-error={c.form.error}
+    data-error-rate={c.form.error_rate}
+    data-error-email={c.form.error_email}
+    data-fallback={c.form.fallback}></div>
   <section class="border-b border-line">
     <div class="wrap pt-8 pb-10 md:pt-10 md:pb-12">
       <h1 class="t-hero accroche">
@@ -38,7 +48,16 @@ const SUJETS = ['licence', 'exploitation', 'essai', 'demo', 'autre'] as const;
       <p class="sous-titre">{c.subtitle}</p>
 
       <div class="corps-page">
-        <form class="carte" data-contact-form>
+        <!-- La confirmation, à la place du formulaire une fois la demande partie. -->
+        <div class="carte envoye" data-envoye hidden tabindex="-1">
+          <span class="coche" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5 L10 17.5 L19 7" /></svg>
+          </span>
+          <h2 class="t-section">{c.form.sent_title}</h2>
+          <p class="t-body mt-2">{c.form.sent_body}</p>
+        </div>
+
+        <form class="carte" data-contact-form data-lang={lang}>
           <fieldset class="sujets">
             <legend class="field-label legende">{t(lang, 'contact_form.topic')}</legend>
             <div class="tuiles">
@@ -79,7 +98,17 @@ const SUJETS = ['licence', 'exploitation', 'essai', 'demo', 'autre'] as const;
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-lg envoyer">{t(lang, 'contact_form.submit_contact')}</button>
+          <!-- Piège à robots : invisible et hors du parcours clavier, un
+               humain le laisse vide. -->
+          <div class="piege" aria-hidden="true">
+            <label for="contact-website">Website</label>
+            <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="pied">
+            <button type="submit" class="btn btn-primary btn-lg envoyer">{t(lang, 'contact_form.submit_contact')}</button>
+            <p class="statut" data-statut role="status" aria-live="polite"></p>
+          </div>
         </form>
 
       </div>
@@ -91,17 +120,20 @@ const SUJETS = ['licence', 'exploitation', 'essai', 'demo', 'autre'] as const;
   (function () {
     var form = document.querySelector('form[data-contact-form]');
     if (!form) return;
+    var textes = document.querySelector('[data-textes]').dataset;
+    var statut = form.querySelector('[data-statut]');
+    var bouton = form.querySelector('button[type="submit"]');
+    var envoye = document.querySelector('[data-envoye]');
+
     // La demande annoncée par le lien (?sujet=licence) est cochée d'office.
     var sujet = new URLSearchParams(window.location.search).get('sujet');
     if (sujet) {
       var choix = form.querySelector('input[name="topic"][value="' + CSS.escape(sujet) + '"]');
       if (choix) choix.checked = true;
     }
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var fd = new FormData(form);
-      var coche = form.querySelector('input[name="topic"]:checked');
-      var demande = coche ? coche.dataset.libelle : '';
+
+    // Le courriel prérempli, proposé seulement si l'envoi direct échoue.
+    function lienSecours(fd, demande) {
       var body = [
         'Demande / Request: ' + demande,
         'Nom / Name: ' + (fd.get('name') || ''),
@@ -110,7 +142,53 @@ const SUJETS = ['licence', 'exploitation', 'essai', 'demo', 'autre'] as const;
         '',
         String(fd.get('install') || ''),
       ].join('\n');
-      window.location.href = 'mailto:contact@meshvise.com?subject=' + encodeURIComponent('Meshvise · ' + demande) + '&body=' + encodeURIComponent(body);
+      return 'mailto:contact@meshvise.com?subject=' + encodeURIComponent('Meshvise · ' + demande) + '&body=' + encodeURIComponent(body);
+    }
+
+    function erreur(message, fd, demande) {
+      statut.textContent = message + ' ';
+      var a = document.createElement('a');
+      a.href = lienSecours(fd, demande);
+      a.textContent = textes.fallback;
+      statut.appendChild(a);
+      statut.classList.add('statut--erreur');
+      bouton.disabled = false;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var fd = new FormData(form);
+      var coche = form.querySelector('input[name="topic"]:checked');
+      var demande = coche ? coche.dataset.libelle : '';
+      bouton.disabled = true;
+      statut.classList.remove('statut--erreur');
+      statut.textContent = textes.sending;
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          topic: coche ? coche.value : 'autre',
+          name: fd.get('name'),
+          company: fd.get('company'),
+          email: fd.get('email'),
+          install: fd.get('install'),
+          website: fd.get('website'),
+          lang: form.dataset.lang,
+        }),
+      })
+        .then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (data) {
+            if (res.ok && data.ok) {
+              form.hidden = true;
+              envoye.hidden = false;
+              envoye.focus();
+              return;
+            }
+            var message = res.status === 429 ? textes.errorRate : data.code === 'bad-email' ? textes.errorEmail : textes.error;
+            erreur(message, fd, demande);
+          });
+        })
+        .catch(function () { erreur(textes.error, fd, demande); });
     });
   })();
 </script>
@@ -211,7 +289,41 @@ const SUJETS = ['licence', 'exploitation', 'essai', 'demo', 'autre'] as const;
     gap: 1rem 1.25rem;
   }
   .large { grid-column: 1 / -1; }
-  .envoyer { margin-top: 1.25rem; }
+  .pied {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+  }
+  .envoyer:disabled { opacity: 0.6; cursor: progress; }
+  .statut { margin: 0; font-size: 0.9375rem; color: var(--color-ink-2); }
+  .statut:empty { display: none; }
+  .statut--erreur { color: var(--color-crit); }
+  .statut :global(a) { color: var(--color-accent); font-weight: 500; }
+  .piege { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .envoye { text-align: center; padding-block: 3rem; }
+  .envoye:focus { outline: none; }
+  .coche {
+    display: inline-grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    background: var(--color-normal);
+    color: #fff;
+  }
+  .coche svg {
+    width: 1.75rem;
+    height: 1.75rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 
   @media (max-width: 1023px) {
     .champs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
