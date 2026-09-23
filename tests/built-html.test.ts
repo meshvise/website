@@ -16,11 +16,23 @@ const pages = {
   apex: resolve(dist, 'index.html'),
   fr: resolve(dist, 'fr', 'index.html'),
   en: resolve(dist, 'en', 'index.html'),
+  fr_why: resolve(dist, 'fr', 'pourquoi-superviser', 'index.html'),
+  en_why: resolve(dist, 'en', 'why-supervise', 'index.html'),
+  fr_product: resolve(dist, 'fr', 'produit', 'index.html'),
+  en_product: resolve(dist, 'en', 'product', 'index.html'),
+  fr_protocols: resolve(dist, 'fr', 'protocoles', 'index.html'),
+  en_protocols: resolve(dist, 'en', 'protocols', 'index.html'),
+  fr_pricing: resolve(dist, 'fr', 'tarifs', 'index.html'),
+  en_pricing: resolve(dist, 'en', 'pricing', 'index.html'),
+  fr_demo: resolve(dist, 'fr', 'demo', 'index.html'),
+  en_demo: resolve(dist, 'en', 'demo', 'index.html'),
   fr_contact: resolve(dist, 'fr', 'contact', 'index.html'),
   en_contact: resolve(dist, 'en', 'contact', 'index.html'),
 };
+type Page = keyof typeof pages;
+const SITE = Object.keys(pages).filter((k) => k !== 'apex') as Page[];
 
-let html: Record<keyof typeof pages, string>;
+let html: Record<Page, string>;
 
 beforeAll(() => {
   for (const [name, path] of Object.entries(pages)) {
@@ -30,13 +42,9 @@ beforeAll(() => {
       );
     }
   }
-  html = {
-    apex: readFileSync(pages.apex, 'utf-8'),
-    fr: readFileSync(pages.fr, 'utf-8'),
-    en: readFileSync(pages.en, 'utf-8'),
-    fr_contact: readFileSync(pages.fr_contact, 'utf-8'),
-    en_contact: readFileSync(pages.en_contact, 'utf-8'),
-  };
+  html = Object.fromEntries(
+    Object.entries(pages).map(([name, path]) => [name, readFileSync(path, 'utf-8')]),
+  ) as Record<Page, string>;
 });
 
 describe('Built pages exist and have a <title>', () => {
@@ -68,15 +76,6 @@ describe('No prod-breaking hardcoded URLs', () => {
       // Strip valid anchors like href="#features" before checking
       const withoutValidAnchors = html[lang].replace(/href="#[a-z][a-z0-9-]*"/gi, '');
       expect(withoutValidAnchors).not.toMatch(/href="#"/);
-    });
-  }
-});
-
-describe('Demo CTAs point to the live app', () => {
-  for (const lang of ['fr', 'en'] as const) {
-    it(`${lang} contains at least one https://app.meshvise.com link`, () => {
-      const matches = html[lang].match(/https:\/\/app\.meshvise\.com/g) ?? [];
-      expect(matches.length).toBeGreaterThanOrEqual(1);
     });
   }
 });
@@ -145,134 +144,6 @@ describe('Landing pages send the trial request to the Contact page', () => {
   }
 });
 
-describe('Personas section renders 4 profiles (tabbed UI refonte v2 2026-05-13)', () => {
-  for (const lang of ['fr', 'en'] as const) {
-    function personasSection(): string {
-      const m = html[lang].match(/<section id="personas"[\s\S]*?<\/section>/);
-      if (!m) throw new Error(`personas section not found in ${lang}`);
-      return m[0];
-    }
-
-    it(`${lang} personas section renders exactly 4 tab buttons`, () => {
-      const section = personasSection();
-      const tabs = section.match(/data-persona-tab="[a-z_]+"/g) ?? [];
-      expect(tabs).toHaveLength(4);
-    });
-
-    it(`${lang} personas section renders exactly 4 tab panels`, () => {
-      const section = personasSection();
-      const panels = section.match(/data-persona-panel="[a-z_]+"/g) ?? [];
-      expect(panels).toHaveLength(4);
-    });
-
-    it(`${lang} personas section names the technical-director / DSI role`, () => {
-      const section = personasSection();
-      if (lang === 'fr') {
-        expect(section).toMatch(/DSI industriel|Direction technique/);
-      } else {
-        expect(section).toMatch(/Technical director|Industrial CIO/);
-      }
-    });
-  }
-});
-
-describe('Sovereignty section renders the four pillars (2026-05-02 brief axe 3)', () => {
-  for (const lang of ['fr', 'en'] as const) {
-    function sovereigntySection(): string {
-      const m = html[lang].match(/<section id="sovereignty"[\s\S]*?<\/section>/);
-      if (!m) throw new Error(`sovereignty section not found in ${lang}`);
-      return m[0];
-    }
-
-    it(`${lang} sovereignty section is rendered`, () => {
-      // Throws if the section is missing.
-      const section = sovereigntySection();
-      expect(section.length).toBeGreaterThan(0);
-    });
-
-    it(`${lang} sovereignty section has exactly 4 cards`, () => {
-      const section = sovereigntySection();
-      const articles = section.match(/<article\b/g) ?? [];
-      expect(articles).toHaveLength(4);
-    });
-
-    it(`${lang} sovereignty section mentions GDPR + air-gap + French law`, () => {
-      const section = sovereigntySection();
-      expect(section).toMatch(/RGPD|GDPR/);
-      expect(section).toMatch(/air-gap/i);
-      if (lang === 'fr') {
-        expect(section).toMatch(/droit français|juridiction Paris/i);
-      } else {
-        expect(section).toMatch(/French law|courts in Paris/i);
-      }
-    });
-
-    it(`${lang} sovereignty section flags the Bruno placeholder for the registered city`, () => {
-      // The attribution line is the only entry in the section that
-      // depends on Bruno-side data. If this test fails AFTER Bruno
-      // fills in the city, drop the assertion.
-      const section = sovereigntySection();
-      expect(section).toMatch(/À COMPLÉTER PAR BRUNO|TO BE FILLED BY BRUNO/);
-    });
-  }
-});
-
-describe('FAQ has the four B2B-compliance entries from 2026-05-02 brief § 5', () => {
-  for (const lang of ['fr', 'en'] as const) {
-    it(`${lang} FAQ exposes the sovereignty + GDPR + support-language + code-audit questions`, () => {
-      // FAQ entries land both in JSON-LD (re-quoted by AI search) and
-      // in the visible <details> list. Search for canonical terms
-      // pulled straight from the entry copy.
-      if (lang === 'fr') {
-        expect(html[lang]).toMatch(/Mes données restent-elles en France/);
-        expect(html[lang]).toMatch(/Meshvise est-il conforme RGPD/);
-        expect(html[lang]).toMatch(/Le support est-il en français/);
-        expect(html[lang]).toMatch(/Puis-je auditer le code source/);
-      } else {
-        expect(html[lang]).toMatch(/Does my data stay in France/);
-        expect(html[lang]).toMatch(/Is Meshvise GDPR compliant/);
-        expect(html[lang]).toMatch(/Is support in French/);
-        expect(html[lang]).toMatch(/Can I audit the source code/);
-      }
-    });
-  }
-});
-
-describe('Footer carries the French-company attribution and continuity link', () => {
-  for (const lang of ['fr', 'en'] as const) {
-    function footer(): string {
-      return html[lang].match(/<footer[\s\S]*?<\/footer>/)?.[0] ?? '';
-    }
-
-    it(`${lang} footer surfaces a legal box (company + city + SIREN) above the bottom row`, () => {
-      const f = footer();
-      // The legal box lives in col-1 of the footer (Brand + tagline +
-      // legal anchor) and carries Bruno placeholders until filled.
-      expect(f).toMatch(/société française enregistrée|French company registered/);
-      expect(f).toMatch(/SIREN/);
-    });
-
-    it(`${lang} footer carries the 'what if you shut down' continuity link to faq.company_disappears`, () => {
-      const f = footer();
-      expect(f).toContain(`href="/${lang}/#faq-company_disappears"`);
-      if (lang === 'fr') {
-        expect(f).toMatch(/Et si vous fermez demain/);
-      } else {
-        expect(f).toMatch(/What if you shut down tomorrow/);
-      }
-    });
-
-    it(`${lang} footer bottom row keeps a French-tech tagline`, () => {
-      const f = footer();
-      if (lang === 'fr') {
-        expect(f).toMatch(/Données françaises\. Tech française\./);
-      } else {
-        expect(f).toMatch(/French data\. French tech\./);
-      }
-    });
-  }
-});
-
 describe('Hard-rule lint on built HTML', () => {
   const EM_DASH = '—';
   const FORBIDDEN_NAMES = [
@@ -286,12 +157,7 @@ describe('Hard-rule lint on built HTML', () => {
   ];
   const OPEN_SOURCE_PATTERNS = [/open[- ]source/i, /source[- ]available/i];
 
-  for (const key of [
-    'fr',
-    'en',
-    'fr_contact',
-    'en_contact',
-  ] as const) {
+  for (const key of SITE) {
     it(`${key} contains no em-dash`, () => {
       expect(html[key]).not.toContain(EM_DASH);
     });
@@ -312,52 +178,95 @@ describe('Hard-rule lint on built HTML', () => {
   }
 });
 
-describe('Pricing section renders 2 free + 3 commercial tiers (grille 2026-05-11)', () => {
+// La structure du site depuis le 2026-09-23 : cinq entrées dans la barre,
+// les pages supprimées ne sont plus liées nulle part.
+describe('Navigation', () => {
   for (const lang of ['fr', 'en'] as const) {
-    function pricingSection(): string {
-      const m = html[lang].match(/<section id="pricing"[\s\S]*?<\/section>/);
-      if (!m) throw new Error(`pricing section not found in ${lang}`);
-      return m[0];
-    }
+    const nav = () => {
+      const m = html[lang].match(/<nav class="hidden lg:flex[^"]*" aria-label="Primary">([\s\S]*?)<\/nav>/);
+      if (!m) throw new Error(`primary nav not found in ${lang}`);
+      return m[1];
+    };
 
-    it(`${lang} pricing has exactly 5 tier cards`, () => {
-      const section = pricingSection();
-      const cardHeads = section.match(/<h3 class="text-xl/g) ?? [];
-      expect(cardHeads).toHaveLength(5);
+    it(`${lang} top bar lists home, why, product, protocols, pricing`, () => {
+      const liens = [...nav().matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
+      expect(liens).toEqual(
+        lang === 'fr'
+          ? ['/fr/', '/fr/pourquoi-superviser/', '/fr/produit/', '/fr/protocoles/', '/fr/tarifs/']
+          : ['/en/', '/en/why-supervise/', '/en/product/', '/en/protocols/', '/en/pricing/'],
+      );
     });
 
-    it(`${lang} pricing wires the 2 free entry CTAs (demo + trial)`, () => {
-      const section = pricingSection();
-      expect(section).toContain('href="https://app.meshvise.com"');
-      expect(section).toContain(`href="/${lang}/contact/?sujet=essai"`);
+    it(`${lang} header demo button leads to the demo page`, () => {
+      expect(html[lang]).toContain(`href="/${lang}/demo/" class="btn btn-primary"`);
     });
+  }
 
-    it(`${lang} pricing wires the 3 paid mailto CTAs (On-Premise / Managed Standard / Managed Premium)`, () => {
-      const section = pricingSection();
-      expect(section).toContain('href="mailto:contact@meshvise.com?subject=Meshvise%20On-Premise"');
-      expect(section).toContain('href="mailto:contact@meshvise.com?subject=Meshvise%20Managed%20Standard"');
-      expect(section).toContain('href="mailto:contact@meshvise.com?subject=Meshvise%20Managed%20Premium"');
-    });
-
-    it(`${lang} pricing Managed Standard tier carries the legal anchor + continuity link`, () => {
-      const section = pricingSection();
-      if (lang === 'fr') {
-        expect(section).toMatch(/Société française enregistrée\. Données et support sous droit français\./);
-        expect(section).toMatch(/Et si vous fermez demain/);
-      } else {
-        expect(section).toMatch(/French registered company\. Data and support under French law\./);
-        expect(section).toMatch(/What if you shut down tomorrow/);
-      }
-      expect(section).toContain(`href="/${lang}/#faq-company_disappears"`);
-    });
-
-    it(`${lang} pricing no longer references the obsolete free-forever 50-points tier`, () => {
-      const section = pricingSection();
-      expect(section).not.toMatch(/Discovery|Découverte/);
-      expect(section).not.toMatch(/50 points/);
-      expect(section).not.toMatch(/forever|pour toujours/);
+  for (const key of SITE) {
+    it(`${key} links to no removed page`, () => {
+      expect(html[key]).not.toMatch(/href="\/(fr|en)\/(guides|faq|a-propos|about|integrateurs|integrators|trial|preview-motion)\//);
     });
   }
 });
 
+describe('Personas section', () => {
+  for (const lang of ['fr', 'en'] as const) {
+    it(`${lang} home renders four persona tabs and panels`, () => {
+      const m = html[lang].match(/<section id="personas"[\s\S]*?<\/section>/);
+      expect(m).not.toBeNull();
+      expect(m![0].match(/role="tab"/g) ?? []).toHaveLength(4);
+      expect(m![0].match(/role="tabpanel"/g) ?? []).toHaveLength(4);
+    });
+  }
+});
 
+// La FAQ vit sur la page Tarifs, réduite aux questions d'un acheteur, et son
+// balisage FAQPage n'est émis que là.
+describe('FAQ on the pricing page', () => {
+  const QUESTIONS = ['trial_how', 'demo_vs_trial', 'hardware', 'support', 'updates', 'disappear', 'notfor'];
+  for (const lang of ['fr', 'en'] as const) {
+    const key = `${lang}_pricing` as Page;
+
+    it(`${lang} pricing page shows the seven buyer questions`, () => {
+      for (const q of QUESTIONS) expect(html[key]).toContain(`id="faq-${q}"`);
+    });
+
+    it(`${lang} FAQPage structured data only on the pricing page`, () => {
+      expect(html[key]).toContain('"@type":"FAQPage"');
+      expect(html[lang]).not.toContain('"@type":"FAQPage"');
+    });
+  }
+});
+
+describe('Pricing page', () => {
+  for (const lang of ['fr', 'en'] as const) {
+    const key = `${lang}_pricing` as Page;
+
+    it(`${lang} shows the licence price`, () => {
+      expect(html[key]).toContain(lang === 'fr' ? '2 400 €' : '€2,400');
+    });
+
+    it(`${lang} contact buttons pre-select the licence and managed operations`, () => {
+      expect(html[key]).toContain(`href="/${lang}/contact/?sujet=licence"`);
+      expect(html[key]).toContain(`href="/${lang}/contact/?sujet=exploitation"`);
+    });
+
+    it(`${lang} keeps the anchors other pages link to`, () => {
+      expect(html[key]).toContain('id="exploitation-deleguee"');
+      expect(html[key]).toContain('id="continuity"');
+    });
+
+    it(`${lang} announces every update, major versions included`, () => {
+      expect(html[key]).toMatch(lang === 'fr' ? /majeures comprises/ : /major versions included/);
+    });
+  }
+});
+
+describe('Footer', () => {
+  for (const lang of ['fr', 'en'] as const) {
+    it(`${lang} footer links to the contact page`, () => {
+      const f = html[lang].match(/<footer[\s\S]*<\/footer>/)![0];
+      expect(f).toContain(`href="/${lang}/contact/"`);
+    });
+  }
+});
