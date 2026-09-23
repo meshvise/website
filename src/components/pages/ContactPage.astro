@@ -5,9 +5,9 @@
  * déléguée, essai, démonstration ou autre question.
  *
  * Même grammaire que les autres pages : une accroche en deux temps dont la
- * fin est à la couleur d'accent, puis le formulaire sur sa carte blanche et,
- * à côté, un bloc graphite qui dit ce qui se passe après l'envoi. La demande
- * se choisit par de grandes tuiles plutôt que par une liste déroulante :
+ * fin est à la couleur d'accent, puis le formulaire sur sa carte blanche,
+ * seul sur la page. La demande se choisit par de grandes tuiles plutôt que
+ * par une liste déroulante :
  * on voit d'un regard ce qu'on peut demander. Le lien qui mène ici la choisit
  * d'office (`?sujet=licence`, `?sujet=exploitation`, `?sujet=essai`…).
  *
@@ -25,7 +25,6 @@ const { lang } = Astro.props;
 const c = (lang === 'fr' ? fr : en).contact;
 const libelles = (lang === 'fr' ? fr : en).contact_form.topics as Record<string, string>;
 const details = c.topics as Record<string, string>;
-const etapes = c.next.steps as { title: string; body: string }[];
 
 // Les demandes, dans l'ordre d'engagement ; « autre » est choisie d'office.
 const SUJETS = ['licence', 'exploitation', 'essai', 'demo', 'autre'] as const;
@@ -86,24 +85,6 @@ const SUJETS = ['licence', 'exploitation', 'essai', 'demo', 'autre'] as const;
           <button type="submit" class="btn btn-primary btn-lg envoyer">{t(lang, 'contact_form.submit_contact')}</button>
         </form>
 
-        <aside class="ensuite dark-block relative">
-          <h2 class="t-section titre-ensuite">{c.next.title}</h2>
-          <ol class="etapes">
-            {etapes.map((e, i) => (
-              <li>
-                <span class="numero" aria-hidden="true">{i + 1}</span>
-                <div>
-                  <p class="nom-etape">{e.title}</p>
-                  <p class="texte-etape">{e.body}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          <div class="direct">
-            <p>{c.direct}</p>
-            <a href="mailto:contact@meshvise.com">contact@meshvise.com</a>
-          </div>
-        </aside>
       </div>
     </div>
   </section>
@@ -152,9 +133,6 @@ const SUJETS = ['licence', 'exploitation', 'essai', 'demo', 'autre'] as const;
   .corps-page {
     margin-top: 2.75rem;
     display: grid;
-    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-    gap: 1.5rem;
-    align-items: start;
   }
 
   /* ── Le formulaire ─────────────────────────────────────────────────── */
@@ -169,16 +147,14 @@ const SUJETS = ['licence', 'exploitation', 'essai', 'demo', 'autre'] as const;
 
   .sujets { border: 0; margin: 0; padding: 0; min-width: 0; }
   .legende { padding: 0; margin-bottom: 0.875rem; }
-  /* Trois tuiles en haut, les deux dernières plus larges en dessous : une
-     grille de six colonnes, pour qu'aucune ligne ne laisse de trou. */
+  /* Les cinq demandes sur une ligne ; sur écran moyen, trois en haut et les
+     deux dernières plus larges en dessous (six colonnes, aucune ligne ne
+     laisse de trou). */
   .tuiles {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 0.75rem;
   }
-  .tuile { grid-column: span 2; }
-  .tuile--demo,
-  .tuile--autre { grid-column: span 3; }
   .tuile {
     position: relative;
     display: flex;
@@ -238,48 +214,11 @@ const SUJETS = ['licence', 'exploitation', 'essai', 'demo', 'autre'] as const;
   .large { grid-column: 1 / -1; }
   .envoyer { margin-top: 2rem; }
 
-  /* ── Ce qui se passe ensuite ───────────────────────────────────────── */
-  .ensuite {
-    padding: 2rem;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgb(22 27 35 / 0.10), 0 18px 40px -20px rgb(22 27 35 / 0.45);
-  }
-  .titre-ensuite { color: var(--color-n-0); }
-  .etapes { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; gap: 1.5rem; }
-  .etapes li { display: flex; gap: 1rem; }
-  .numero {
-    flex: none;
-    display: grid;
-    place-items: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background: var(--color-accent);
-    color: #fff;
-    font-size: 0.9375rem;
-    font-weight: 600;
-  }
-  .nom-etape { margin: 0.2rem 0 0; font-size: 1rem; font-weight: 500; color: var(--color-n-0); }
-  .texte-etape { margin: 0.375rem 0 0; font-size: 0.9375rem; line-height: 1.55; color: var(--color-n-300); }
-  .direct {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgb(255 255 255 / 0.14);
-  }
-  .direct p { margin: 0; font-size: 0.9375rem; color: var(--color-n-300); }
-  .direct a {
-    display: inline-block;
-    margin-top: 0.375rem;
-    font-size: 1.0625rem;
-    font-weight: 500;
-    color: var(--color-accent-soft);
-    text-decoration: none;
-  }
-  .direct a:hover { color: var(--color-n-0); }
-
   @media (max-width: 1023px) {
-    .corps-page { grid-template-columns: minmax(0, 1fr); }
+    .tuiles { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .tuile { grid-column: span 2; }
+    .tuile--demo,
+    .tuile--autre { grid-column: span 3; }
   }
   @media (max-width: 640px) {
     .carte { padding: 1.5rem; }

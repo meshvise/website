@@ -987,24 +987,6 @@
       "essai": "Sur votre infrastructure",
       "demo": "Trente minutes en visio",
       "autre": "Tout le reste"
-    },
-    "next": {
-      "title": "Ce qui se passe ensuite",
-      "steps": [
-        {
-          "title": "Une réponse sous deux jours ouvrés",
-          "body": "Par courriel, avec les questions utiles pour préparer la suite."
-        },
-        {
-          "title": "Un échange de trente minutes",
-          "body": "En visio, pour comprendre votre site et vos équipements."
-        },
-        {
-          "title": "Une proposition écrite",
-          "body": "Chiffrée et sans engagement."
-        }
-      ]
-    },
-    "direct": "Ou directement par courriel"
+    }
   }
 }

@@ -987,24 +987,6 @@
       "essai": "On your infrastructure",
       "demo": "Thirty minutes by video call",
       "autre": "Anything else"
-    },
-    "next": {
-      "title": "What happens next",
-      "steps": [
-        {
-          "title": "A reply within two business days",
-          "body": "By email, with the questions that help prepare the next step."
-        },
-        {
-          "title": "A thirty-minute call",
-          "body": "By video, to understand your site and your equipment."
-        },
-        {
-          "title": "A written proposal",
-          "body": "Priced and with no commitment."
-        }
-      ]
-    },
-    "direct": "Or directly by email"
+    }
   }
 }
