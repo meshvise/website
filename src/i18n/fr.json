@@ -175,8 +175,7 @@
           "title": "Traçabilité",
           "body": "Qui a changé quoi et quand, et le retour arrière en une opération."
         }
-      ],
-      "placeholder": "Capture de la démonstration"
+      ]
     },
     "continuity": {
       "title": "Vos données ne dépendent pas de Meshvise",
@@ -288,10 +287,33 @@
       "description": "Acquisition, historisation, alarmes, indicateurs calculés, tableaux de bord, synoptiques, vues en direct, logique visuelle, rapports planifiés, traçabilité des changements, accès et exploitation. Le détail de ce que le produit sait faire."
     },
     "hero": {
-      "eyebrow": "Produit",
-      "title": "Acquérir, historiser, alerter, montrer",
-      "subtitle": "Ce que Meshvise fait de vos données, de la lecture d'un capteur jusqu'au rapport envoyé par courriel le lundi matin."
+      "lead": "Acquérir, historiser,",
+      "accent": "alerter, montrer.",
+      "subtitle": "Ce que Meshvise fait de vos données, de la lecture d'un capteur jusqu'au rapport envoyé par courriel le lundi matin.",
+      "nav": "Les quatre chapitres"
     },
+    "doors": [
+      {
+        "key": "acquerir",
+        "title": "Acquérir",
+        "short": "Treize protocoles, sans module par marque."
+      },
+      {
+        "key": "historiser",
+        "title": "Historiser",
+        "short": "Chaque point à son rythme, dans votre base."
+      },
+      {
+        "key": "alerter",
+        "title": "Alerter",
+        "short": "Des alarmes réglées, acquittées, journalisées."
+      },
+      {
+        "key": "montrer",
+        "title": "Montrer",
+        "short": "Indicateurs, tableaux de bord, synoptiques."
+      }
+    ],
     "acq": {
       "title": "Les treize protocoles",
       "intro": "Aucun module à acheter par marque. Chaque protocole est un driver du même moteur.",
@@ -375,8 +397,7 @@
     },
     "kpi": {
       "title": "Les indicateurs",
-      "body": "Un point peut être calculé à partir des autres : un cumul, un écart, un rendement, une moyenne glissante. Ces points calculés vivent comme les autres, ils sont historisés, alarmables et affichables. Aujourd'hui vous les composez vous-même, dans la logique visuelle ou directement dans un tableau de bord.",
-      "wip": "En cours : des indicateurs proposés automatiquement selon la nature de l'équipement, pour qu'un compteur d'énergie ou une ligne de production arrive avec son taux de rendement, ses micro-arrêts et son talon de consommation déjà calculés."
+      "body": "Dites ce que mesure un point, une puissance, un compteur de pièces, un état de marche : la machine arrive avec ses indicateurs déjà calculés, micro-arrêts, disponibilité, talon de consommation nocturne. Chaque indicateur porte sa fenêtre et sa couverture, et quand les données manquent, il dit pourquoi au lieu d'afficher un chiffre faux. Pour le reste, un point se calcule à partir des autres, et s'historise et s'alarme comme n'importe quel point."
     },
     "dash": {
       "title": "Les tableaux de bord",
@@ -440,8 +461,10 @@
       "alarms": "Réglage d'une alarme de vibration de broche dans Meshvise : sévérité, seuil, bande morte, délai, groupe de notification et webhook.",
       "kpi": "Écran Indicateurs de Meshvise : le talon de consommation nocturne de chaque compteur, et pour chaque indicateur sa fenêtre, sa couverture ou la raison de son absence.",
       "dash": "Tableau de bord « En ce moment » de Meshvise : alarmes, état des machines et puissance appelée, en direct.",
-      "trace": "Historique des révisions de configuration dans Meshvise : message, auteur et date de chaque changement, et le retour arrière sur chaque ligne."
-    }
+      "trace": "Historique des révisions de configuration dans Meshvise : message, auteur et date de chaque changement, et le retour arrière sur chaque ligne.",
+      "synoptic": "Synoptique d'une installation dans Meshvise, animé par les valeurs réelles."
+    },
+    "pending": "Capture du synoptique à venir"
   },
   "protocols": {
     "meta": {

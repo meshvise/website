@@ -175,8 +175,7 @@
           "title": "Traceability",
           "body": "Who changed what and when, and a rollback in one operation."
         }
-      ],
-      "placeholder": "Demo screenshot"
+      ]
     },
     "continuity": {
       "title": "Your data does not depend on Meshvise",
@@ -288,10 +287,33 @@
       "description": "Acquisition, history, alarms, computed indicators, dashboards, synoptics, live views, visual logic, scheduled reports, change traceability, access and operations. The detail of what the product does."
     },
     "hero": {
-      "eyebrow": "Product",
-      "title": "Acquire, record, alert, show",
-      "subtitle": "What Meshvise does with your data, from reading a sensor to the report emailed on Monday morning."
+      "lead": "Acquire, record,",
+      "accent": "alert, show.",
+      "subtitle": "What Meshvise does with your data, from reading a sensor to the report emailed on Monday morning.",
+      "nav": "The four chapters"
     },
+    "doors": [
+      {
+        "key": "acquerir",
+        "title": "Acquire",
+        "short": "Thirteen protocols, no module per brand."
+      },
+      {
+        "key": "historiser",
+        "title": "Record",
+        "short": "Every point at its own pace, in your database."
+      },
+      {
+        "key": "alerter",
+        "title": "Alert",
+        "short": "Alarms tuned, acknowledged, logged."
+      },
+      {
+        "key": "montrer",
+        "title": "Show",
+        "short": "Indicators, dashboards, synoptics."
+      }
+    ],
     "acq": {
       "title": "The thirteen protocols",
       "intro": "No module to buy per brand. Every protocol is a driver of the same engine.",
@@ -375,8 +397,7 @@
     },
     "kpi": {
       "title": "Indicators",
-      "body": "A point can be computed from others: a total, a deviation, an efficiency, a rolling average. Those computed points live like any other, they are recorded, alarmable and displayable. Today you compose them yourself, in the visual logic or directly on a dashboard.",
-      "wip": "In progress: indicators proposed automatically from the nature of the equipment, so that an energy meter or a production line arrives with its OEE, its micro-stops and its baseload already computed."
+      "body": "Say what a point measures, a power, a part counter, a running state: the machine arrives with its indicators already calculated, micro-stops, availability, night-time baseload. Each indicator carries its window and its coverage, and when data is missing it says why instead of showing a wrong figure. For everything else, a point can be calculated from others, and is recorded and alarmed like any other point."
     },
     "dash": {
       "title": "Dashboards",
@@ -440,8 +461,10 @@
       "alarms": "Spindle vibration alarm settings in Meshvise: severity, threshold, deadband, delay, notification group and webhook.",
       "kpi": "Meshvise Indicators screen: the night-time baseload of each meter, and for each indicator its window, its coverage or the reason it is missing.",
       "dash": "Meshvise \"Right now\" dashboard: alarms, machine states and power draw, live.",
-      "trace": "Configuration revision history in Meshvise: message, author and date of each change, with a rollback on every line."
-    }
+      "trace": "Configuration revision history in Meshvise: message, author and date of each change, with a rollback on every line.",
+      "synoptic": "Synoptic of an installation in Meshvise, animated by live values."
+    },
+    "pending": "Synoptic screenshot coming soon"
   },
   "protocols": {
     "meta": {
